@@ -1,13 +1,8 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-
 <meta charset="UTF-8">
-
-<meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
->
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
 <title>Mes accès</title>
 
@@ -106,16 +101,6 @@ button{
 
 .danger{
     background:#ff3b30;
-    color:white;
-}
-
-.green{
-    background:#34c759;
-    color:white;
-}
-
-.orange{
-    background:#ff9500;
     color:white;
 }
 
@@ -359,20 +344,11 @@ hr{
 }
 
 </style>
-
 </head>
 
 <body>
 
-
-<!-- =========================
-     CONNEXION
-========================= -->
-
-<div
-    class="login"
-    id="loginScreen"
->
+<div class="login" id="loginScreen">
 
     <div class="loginBox">
 
@@ -408,10 +384,6 @@ hr{
 </div>
 
 
-<!-- =========================
-     HEADER
-========================= -->
-
 <header>
 
     <h1>🔐 Mes accès</h1>
@@ -428,10 +400,6 @@ hr{
 
 <div class="container">
 
-
-    <!-- =========================
-         BOUTONS
-    ========================= -->
 
     <div class="topButtons">
 
@@ -467,20 +435,12 @@ hr{
     </div>
 
 
-    <!-- =========================
-         RECHERCHE
-    ========================= -->
-
     <input
         id="searchInput"
         placeholder="🔎 Rechercher un utilisateur..."
         oninput="renderAccounts()"
     >
 
-
-    <!-- =========================
-         FORMULAIRE
-    ========================= -->
 
     <div
         class="card hidden"
@@ -492,8 +452,6 @@ hr{
         </h2>
 
 
-        <!-- NOM -->
-
         <label>
             Nom / Prénom
         </label>
@@ -503,8 +461,6 @@ hr{
             placeholder="Exemple : Jean Dupont"
         >
 
-
-        <!-- UTILISATEUR -->
 
         <label>
             Utilisateur
@@ -526,8 +482,6 @@ hr{
 
         </div>
 
-
-        <!-- MOT DE PASSE -->
 
         <label>
             Mot de passe
@@ -558,8 +512,6 @@ hr{
         </div>
 
 
-        <!-- URL 1 -->
-
         <label>
             URL 1
         </label>
@@ -580,8 +532,6 @@ hr{
 
         </div>
 
-
-        <!-- URL 2 -->
 
         <label>
             URL 2
@@ -604,8 +554,6 @@ hr{
         </div>
 
 
-        <!-- REMARQUE -->
-
         <label>
             Remarque
         </label>
@@ -619,15 +567,12 @@ hr{
         <hr>
 
 
-        <!-- =========================
-             DURÉE
-        ========================= -->
-
         <div class="durationBox">
 
             <div class="durationBoxTitle">
                 ⏳ Durée de l'accès
             </div>
+
 
             <div class="durationRow">
 
@@ -646,12 +591,14 @@ hr{
 
             </div>
 
+
             <div
                 class="dateInfo"
                 id="startDateInfo"
             >
                 📅 La date de début sera enregistrée à l'ajout.
             </div>
+
 
             <div
                 class="dateInfo"
@@ -662,8 +609,6 @@ hr{
 
         </div>
 
-
-        <!-- APPLICATION -->
 
         <div class="checkRow">
 
@@ -756,13 +701,10 @@ hr{
         <hr>
 
 
-        <!-- =========================
-             PHOTO
-        ========================= -->
-
         <label>
             📷 Photo
         </label>
+
 
         <div class="photoButtons">
 
@@ -773,6 +715,7 @@ hr{
             >
                 🖼️ Choisir dans les Photos
             </button>
+
 
             <button
                 type="button"
@@ -819,6 +762,7 @@ hr{
                 class="photoPreview"
             >
 
+
             <button
                 class="danger"
                 style="width:100%;margin-top:8px;"
@@ -829,8 +773,6 @@ hr{
 
         </div>
 
-
-        <!-- ENREGISTRER -->
 
         <button
             class="primary"
@@ -851,15 +793,12 @@ hr{
     </div>
 
 
-    <!-- LISTE -->
-
     <div id="accountsList"></div>
 
 </div>
 
 
 <script>
-
 
 const PIN = "1157";
 
@@ -870,7 +809,6 @@ let accounts = [];
 let editIndex = -1;
 
 let currentPhoto = "";
-
 
 
 /* =========================
@@ -911,13 +849,11 @@ function loadData(){
 
     }
 
-
     updateUserCount();
 
     renderAccounts();
 
 }
-
 
 
 /* =========================
@@ -947,7 +883,6 @@ function saveData(){
 }
 
 
-
 /* =========================
    CONNEXION
 ========================= */
@@ -959,7 +894,6 @@ function login(){
             .getElementById("pinInput")
             .value;
 
-
     if(pin === PIN){
 
         document
@@ -967,12 +901,10 @@ function login(){
             .classList
             .add("hidden");
 
-
         document
             .getElementById("loginError")
             .classList
             .add("hidden");
-
 
         loadData();
 
@@ -983,11 +915,9 @@ function login(){
             .classList
             .remove("hidden");
 
-
         document
             .getElementById("pinInput")
             .value = "";
-
 
         document
             .getElementById("pinInput")
@@ -1014,7 +944,6 @@ document
     );
 
 
-
 /* =========================
    COMPTEUR
 ========================= */
@@ -1023,7 +952,6 @@ function updateUserCount(){
 
     const count =
         accounts.length;
-
 
     document
         .getElementById("userCount")
@@ -1040,7 +968,6 @@ function updateUserCount(){
 }
 
 
-
 /* =========================
    FORMULAIRE
 ========================= */
@@ -1049,24 +976,19 @@ function showAddForm(){
 
     editIndex = -1;
 
-
     document
         .getElementById("formTitle")
         .textContent =
             "➕ Nouvel accès";
 
-
     clearForm();
-
 
     document
         .getElementById("formCard")
         .classList
         .remove("hidden");
 
-
     updateDatePreview();
-
 
     window.scrollTo({
         top:0,
@@ -1076,42 +998,21 @@ function showAddForm(){
 }
 
 
-
 function clearForm(){
 
-    document
-        .getElementById("name")
-        .value = "";
+    document.getElementById("name").value = "";
 
+    document.getElementById("username").value = "";
 
-    document
-        .getElementById("username")
-        .value = "";
+    document.getElementById("password").value = "";
 
+    document.getElementById("url1").value = "";
 
-    document
-        .getElementById("password")
-        .value = "";
+    document.getElementById("url2").value = "";
 
+    document.getElementById("remark").value = "";
 
-    document
-        .getElementById("url1")
-        .value = "";
-
-
-    document
-        .getElementById("url2")
-        .value = "";
-
-
-    document
-        .getElementById("remark")
-        .value = "";
-
-
-    document
-        .getElementById("duration")
-        .value = "";
+    document.getElementById("duration").value = "";
 
 
     document
@@ -1119,19 +1020,11 @@ function clearForm(){
         .checked = false;
 
 
-    document
-        .getElementById("appUrl1")
-        .value = "";
+    document.getElementById("appUrl1").value = "";
 
+    document.getElementById("mac").value = "";
 
-    document
-        .getElementById("mac")
-        .value = "";
-
-
-    document
-        .getElementById("appKey")
-        .value = "";
+    document.getElementById("appKey").value = "";
 
 
     document
@@ -1146,7 +1039,6 @@ function clearForm(){
     document
         .getElementById("photoLibraryInput")
         .value = "";
-
 
     document
         .getElementById("cameraInput")
@@ -1178,14 +1070,12 @@ function clearForm(){
 }
 
 
-
 function cancelForm(){
 
     document
         .getElementById("formCard")
         .classList
         .add("hidden");
-
 
     editIndex = -1;
 
@@ -1194,14 +1084,12 @@ function cancelForm(){
 }
 
 
-
 function toggleApplicationFields(){
 
     const checked =
         document
             .getElementById("isApplication")
             .checked;
-
 
     document
         .getElementById("applicationFields")
@@ -1214,7 +1102,6 @@ function toggleApplicationFields(){
 }
 
 
-
 /* =========================
    MOT DE PASSE
 ========================= */
@@ -1222,10 +1109,8 @@ function toggleApplicationFields(){
 function togglePassword(){
 
     const field =
-        document.getElementById(
-            "password"
-        );
-
+        document
+            .getElementById("password");
 
     if(field.type === "password"){
 
@@ -1240,7 +1125,6 @@ function togglePassword(){
 }
 
 
-
 /* =========================
    COPIER
 ========================= */
@@ -1249,9 +1133,7 @@ async function copyText(text){
 
     if(!text){
 
-        alert(
-            "Rien à copier."
-        );
+        alert("Rien à copier.");
 
         return;
 
@@ -1262,13 +1144,9 @@ async function copyText(text){
 
         if(navigator.clipboard){
 
-            await navigator.clipboard.writeText(
-                text
-            );
+            await navigator.clipboard.writeText(text);
 
-            alert(
-                "Copié !"
-            );
+            alert("Copié !");
 
             return;
 
@@ -1278,27 +1156,17 @@ async function copyText(text){
 
 
     const textarea =
-        document.createElement(
-            "textarea"
-        );
+        document.createElement("textarea");
 
+    textarea.value = text;
 
-    textarea.value =
-        text;
+    textarea.style.position = "fixed";
 
-
-    textarea.style.position =
-        "fixed";
-
-
-    textarea.style.opacity =
-        "0";
-
+    textarea.style.opacity = "0";
 
     document.body.appendChild(
         textarea
     );
-
 
     textarea.focus();
 
@@ -1307,19 +1175,13 @@ async function copyText(text){
 
     try{
 
-        document.execCommand(
-            "copy"
-        );
+        document.execCommand("copy");
 
-        alert(
-            "Copié !"
-        );
+        alert("Copié !");
 
     }catch(error){
 
-        alert(
-            "Impossible de copier."
-        );
+        alert("Impossible de copier.");
 
     }
 
@@ -1331,14 +1193,10 @@ async function copyText(text){
 }
 
 
-
 function copyField(id){
 
     const field =
-        document.getElementById(
-            id
-        );
-
+        document.getElementById(id);
 
     if(field){
 
@@ -1351,7 +1209,6 @@ function copyField(id){
 }
 
 
-
 /* =========================
    PHOTO
 ========================= */
@@ -1359,32 +1216,25 @@ function copyField(id){
 function choosePhoto(){
 
     document
-        .getElementById(
-            "photoLibraryInput"
-        )
+        .getElementById("photoLibraryInput")
         .click();
 
 }
-
 
 
 function takePhoto(){
 
     document
-        .getElementById(
-            "cameraInput"
-        )
+        .getElementById("cameraInput")
         .click();
 
 }
-
 
 
 function handlePhoto(event){
 
     const file =
         event.target.files[0];
-
 
     if(!file){
 
@@ -1418,17 +1268,13 @@ function handlePhoto(event){
 
 
             document
-                .getElementById(
-                    "photoPreview"
-                )
+                .getElementById("photoPreview")
                 .src =
                     currentPhoto;
 
 
             document
-                .getElementById(
-                    "photoContainer"
-                )
+                .getElementById("photoContainer")
                 .classList
                 .remove("hidden");
 
@@ -1445,12 +1291,9 @@ function handlePhoto(event){
         };
 
 
-    reader.readAsDataURL(
-        file
-    );
+    reader.readAsDataURL(file);
 
 }
-
 
 
 function removePhoto(){
@@ -1459,35 +1302,26 @@ function removePhoto(){
 
 
     document
-        .getElementById(
-            "photoLibraryInput"
-        )
+        .getElementById("photoLibraryInput")
         .value = "";
 
 
     document
-        .getElementById(
-            "cameraInput"
-        )
+        .getElementById("cameraInput")
         .value = "";
 
 
     document
-        .getElementById(
-            "photoPreview"
-        )
+        .getElementById("photoPreview")
         .removeAttribute("src");
 
 
     document
-        .getElementById(
-            "photoContainer"
-        )
+        .getElementById("photoContainer")
         .classList
         .add("hidden");
 
 }
-
 
 
 /* =========================
@@ -1499,7 +1333,10 @@ function calculateExpiryDate(
     duration
 ){
 
-    if(!startDate || !duration){
+    if(
+        !startDate ||
+        !duration
+    ){
 
         return null;
 
@@ -1507,12 +1344,14 @@ function calculateExpiryDate(
 
 
     const start =
-        new Date(
-            startDate
-        );
+        new Date(startDate);
 
 
-    if(isNaN(start.getTime())){
+    if(
+        isNaN(
+            start.getTime()
+        )
+    ){
 
         return null;
 
@@ -1528,9 +1367,7 @@ function calculateExpiryDate(
 
 
     const expiry =
-        new Date(
-            start
-        );
+        new Date(start);
 
 
     expiry.setDate(
@@ -1542,43 +1379,6 @@ function calculateExpiryDate(
     return expiry;
 
 }
-
-
-
-function calculateReminderDate(
-    startDate,
-    duration
-){
-
-    const expiry =
-        calculateExpiryDate(
-            startDate,
-            duration
-        );
-
-
-    if(!expiry){
-
-        return null;
-
-    }
-
-
-    const reminder =
-        new Date(
-            expiry
-        );
-
-
-    reminder.setDate(
-        reminder.getDate() - 2
-    );
-
-
-    return reminder;
-
-}
-
 
 
 function formatDate(date){
@@ -1595,7 +1395,6 @@ function formatDate(date){
     );
 
 }
-
 
 
 /* =========================
@@ -1619,15 +1418,13 @@ function updateDatePreview(){
 
 
     const startInfo =
-        document.getElementById(
-            "startDateInfo"
-        );
+        document
+            .getElementById("startDateInfo");
 
 
     const expiryInfo =
-        document.getElementById(
-            "expiryPreview"
-        );
+        document
+            .getElementById("expiryPreview");
 
 
     if(
@@ -1659,7 +1456,6 @@ function updateDatePreview(){
         startDate =
             new Date();
 
-
         startInfo.textContent =
             "📅 Début : aujourd'hui";
 
@@ -1684,18 +1480,14 @@ function updateDatePreview(){
                     account.startDate
                 );
 
-
             startInfo.textContent =
                 "📅 Début conservé : " +
-                formatDate(
-                    startDate
-                );
+                formatDate(startDate);
 
         }else{
 
             startDate =
                 new Date();
-
 
             startInfo.textContent =
                 "📅 Début : aujourd'hui";
@@ -1714,12 +1506,9 @@ function updateDatePreview(){
 
     expiryInfo.textContent =
         "📅 Expiration : " +
-        formatDate(
-            expiry
-        );
+        formatDate(expiry);
 
 }
-
 
 
 document
@@ -1728,7 +1517,6 @@ document
         "input",
         updateDatePreview
     );
-
 
 
 /* =========================
@@ -1873,13 +1661,17 @@ function saveAccount(){
             isApplication:
                 isApplication,
 
-            appUrl1:appUrl1,
+            appUrl1:
+                appUrl1,
 
-            mac:mac,
+            mac:
+                mac,
 
-            appKey:appKey,
+            appKey:
+                appKey,
 
-            photo:currentPhoto
+            photo:
+                currentPhoto
 
         });
 
@@ -1892,26 +1684,20 @@ function saveAccount(){
         account.name =
             name;
 
-
         account.username =
             username;
-
 
         account.password =
             password;
 
-
         account.url1 =
             url1;
-
 
         account.url2 =
             url2;
 
-
         account.remark =
             remark;
-
 
         account.duration =
             duration;
@@ -1935,18 +1721,14 @@ function saveAccount(){
         account.isApplication =
             isApplication;
 
-
         account.appUrl1 =
             appUrl1;
-
 
         account.mac =
             mac;
 
-
         account.appKey =
             appKey;
-
 
         account.photo =
             currentPhoto;
@@ -1963,7 +1745,6 @@ function saveAccount(){
     cancelForm();
 
 }
-
 
 
 /* =========================
@@ -2113,7 +1894,6 @@ function editAccount(index){
 }
 
 
-
 /* =========================
    SUPPRIMER
 ========================= */
@@ -2162,7 +1942,6 @@ function deleteAccount(index){
 }
 
 
-
 /* =========================
    COMPTE À REBOURS
 ========================= */
@@ -2196,7 +1975,11 @@ function getCountdown(account){
         );
 
 
-    if(isNaN(start.getTime())){
+    if(
+        isNaN(
+            start.getTime()
+        )
+    ){
 
         return {
 
@@ -2223,9 +2006,7 @@ function getCountdown(account){
 
 
     const expiry =
-        new Date(
-            start
-        );
+        new Date(start);
 
 
     expiry.setDate(
@@ -2384,9 +2165,8 @@ function getCountdown(account){
 }
 
 
-
 /* =========================
-   EXPIRATION
+   DATE EXPIRATION
 ========================= */
 
 function getExpirationDate(account){
@@ -2412,51 +2192,29 @@ function getExpirationDate(account){
 }
 
 
-
 /* =========================
-   RAPPEL J-2
+   GOOGLE CALENDAR
 ========================= */
 
-function getReminderDate(account){
-
-    const reminder =
-        calculateReminderDate(
-            account.startDate,
-            account.duration
-        );
-
-
-    if(!reminder){
-
-        return null;
-
-    }
-
-
-    return reminder;
-
-}
-
-
-
-/* =========================
-   CALENDRIER GOOGLE
-========================= */
-
-function formatGoogleDate(date){
+function googleDate(date){
 
     return (
         date.getFullYear() +
         String(
             date.getMonth() + 1
-        ).padStart(2,"0") +
+        ).padStart(
+            2,
+            "0"
+        ) +
         String(
             date.getDate()
-        ).padStart(2,"0")
+        ).padStart(
+            2,
+            "0"
+        )
     );
 
 }
-
 
 
 function addToGoogleCalendar(index){
@@ -2472,12 +2230,6 @@ function addToGoogleCalendar(index){
     }
 
 
-    const reminder =
-        getReminderDate(
-            account
-        );
-
-
     const expiry =
         calculateExpiryDate(
             account.startDate,
@@ -2485,7 +2237,7 @@ function addToGoogleCalendar(index){
         );
 
 
-    if(!reminder || !expiry){
+    if(!expiry){
 
         alert(
             "Il faut d'abord définir une durée."
@@ -2496,16 +2248,23 @@ function addToGoogleCalendar(index){
     }
 
 
+    const reminder =
+        new Date(expiry);
+
+
+    reminder.setDate(
+        reminder.getDate() - 2
+    );
+
+
     const start =
-        formatGoogleDate(
+        googleDate(
             reminder
         );
 
 
     const endDate =
-        new Date(
-            reminder
-        );
+        new Date(reminder);
 
 
     endDate.setDate(
@@ -2514,13 +2273,13 @@ function addToGoogleCalendar(index){
 
 
     const end =
-        formatGoogleDate(
+        googleDate(
             endDate
         );
 
 
     const title =
-        "Rappel accès - " +
+        "📧 Rappel accès - " +
         (
             account.name ||
             "Utilisateur"
@@ -2528,13 +2287,16 @@ function addToGoogleCalendar(index){
 
 
     const details =
-        "Rappel 2 jours avant l'expiration." +
+        "Rappel concernant l'accès." +
+        "\nDate du rappel : " +
+        formatDate(reminder) +
         "\nDate d'expiration : " +
         formatDate(expiry);
 
 
-    const googleUrl =
-        "https://calendar.google.com/calendar/render?action=TEMPLATE" +
+    const url =
+        "https://calendar.google.com/calendar/render" +
+        "?action=TEMPLATE" +
         "&text=" +
         encodeURIComponent(title) +
         "&dates=" +
@@ -2546,10 +2308,9 @@ function addToGoogleCalendar(index){
 
 
     window.location.href =
-        googleUrl;
+        url;
 
 }
-
 
 
 /* =========================
@@ -2584,7 +2345,6 @@ function normalizeUrl(url){
 }
 
 
-
 function createUrlLink(url){
 
     if(!url){
@@ -2595,15 +2355,11 @@ function createUrlLink(url){
 
 
     const normalized =
-        normalizeUrl(
-            url
-        );
+        normalizeUrl(url);
 
 
     const a =
-        document.createElement(
-            "a"
-        );
+        document.createElement("a");
 
 
     a.className =
@@ -2631,7 +2387,6 @@ function createUrlLink(url){
 }
 
 
-
 /* =========================
    AFFICHAGE
 ========================= */
@@ -2639,9 +2394,10 @@ function createUrlLink(url){
 function renderAccounts(){
 
     const list =
-        document.getElementById(
-            "accountsList"
-        );
+        document
+            .getElementById(
+                "accountsList"
+            );
 
 
     const search =
@@ -2663,8 +2419,13 @@ function renderAccounts(){
                 function(account,index){
 
                     return {
-                        account:account,
-                        index:index
+
+                        account:
+                            account,
+
+                        index:
+                            index
+
                     };
 
                 }
@@ -2686,11 +2447,17 @@ function renderAccounts(){
                     const text = [
 
                         a.name,
+
                         a.username,
+
                         a.url1,
+
                         a.url2,
+
                         a.remark,
+
                         a.mac,
+
                         a.appKey
 
                     ]
@@ -2748,8 +2515,6 @@ function renderAccounts(){
             let html = "";
 
 
-            /* NOM */
-
             html +=
                 "<h2>👤 " +
                 escapeHtml(
@@ -2758,8 +2523,6 @@ function renderAccounts(){
                 ) +
                 "</h2>";
 
-
-            /* COMPTE À REBOURS */
 
             html +=
                 '<div class="countdown ' +
@@ -2770,8 +2533,6 @@ function renderAccounts(){
                 ) +
                 "</div>";
 
-
-            /* DURÉE */
 
             if(account.duration){
 
@@ -2793,8 +2554,6 @@ function renderAccounts(){
 
             }
 
-
-            /* EXPIRATION + GOOGLE */
 
             if(
                 account.duration &&
@@ -2822,7 +2581,9 @@ function renderAccounts(){
                 html +=
                     '<div class="calendarBox">' +
 
-                    "<strong>📆 Calendrier</strong>" +
+                    "<strong>" +
+                    "📆 Rappel calendrier" +
+                    "</strong>" +
 
                     '<button ' +
                     'class="calendarButton" ' +
@@ -2839,8 +2600,6 @@ function renderAccounts(){
             }
 
 
-            /* UTILISATEUR */
-
             if(account.username){
 
                 html +=
@@ -2856,12 +2615,17 @@ function renderAccounts(){
                         account.username
                     ) +
 
-                    ' <button class="copyBtn" ' +
+                    ' <button ' +
+                    'class="copyBtn" ' +
                     'onclick="copyText(' +
                     jsString(
                         account.username
                     ) +
-                    ')">Copier</button>' +
+                    ')">' +
+
+                    "Copier" +
+
+                    "</button>" +
 
                     "</div>" +
 
@@ -2869,8 +2633,6 @@ function renderAccounts(){
 
             }
 
-
-            /* MOT DE PASSE */
 
             if(account.password){
 
@@ -2885,19 +2647,31 @@ function renderAccounts(){
 
                     '<span id="pass-' +
                     index +
-                    '">••••••••</span>' +
+                    '">' +
+                    "••••••••" +
+                    "</span>" +
 
-                    ' <button class="copyBtn" ' +
+                    ' <button ' +
+                    'class="copyBtn" ' +
                     'onclick="toggleDisplayedPassword(' +
                     index +
-                    ')">👁️</button>' +
+                    ')">' +
 
-                    ' <button class="copyBtn" ' +
+                    "👁️" +
+
+                    "</button>" +
+
+                    ' <button ' +
+                    'class="copyBtn" ' +
                     'onclick="copyText(' +
                     jsString(
                         account.password
                     ) +
-                    ')">Copier</button>' +
+                    ')">' +
+
+                    "Copier" +
+
+                    "</button>" +
 
                     "</div>" +
 
@@ -2905,8 +2679,6 @@ function renderAccounts(){
 
             }
 
-
-            /* URL 1 */
 
             if(account.url1){
 
@@ -2921,19 +2693,22 @@ function renderAccounts(){
                         account.url1
                     ) +
 
-                    '<button class="copyBtn" ' +
+                    '<button ' +
+                    'class="copyBtn" ' +
                     'onclick="copyText(' +
                     jsString(
                         account.url1
                     ) +
-                    ')">Copier</button>' +
+                    ')">' +
+
+                    "Copier" +
+
+                    "</button>" +
 
                     "</div>";
 
             }
 
-
-            /* URL 2 */
 
             if(account.url2){
 
@@ -2948,19 +2723,22 @@ function renderAccounts(){
                         account.url2
                     ) +
 
-                    '<button class="copyBtn" ' +
+                    '<button ' +
+                    'class="copyBtn" ' +
                     'onclick="copyText(' +
                     jsString(
                         account.url2
                     ) +
-                    ')">Copier</button>' +
+                    ')">' +
+
+                    "Copier" +
+
+                    "</button>" +
 
                     "</div>";
 
             }
 
-
-            /* REMARQUE */
 
             if(account.remark){
 
@@ -2983,8 +2761,6 @@ function renderAccounts(){
 
             }
 
-
-            /* APPLICATION */
 
             if(account.isApplication){
 
@@ -3009,12 +2785,17 @@ function renderAccounts(){
                             account.appUrl1
                         ) +
 
-                        '<button class="copyBtn" ' +
+                        '<button ' +
+                        'class="copyBtn" ' +
                         'onclick="copyText(' +
                         jsString(
                             account.appUrl1
                         ) +
-                        ')">Copier</button>' +
+                        ')">' +
+
+                        "Copier" +
+
+                        "</button>" +
 
                         "</div>";
 
@@ -3036,12 +2817,17 @@ function renderAccounts(){
                             account.mac
                         ) +
 
-                        ' <button class="copyBtn" ' +
+                        ' <button ' +
+                        'class="copyBtn" ' +
                         'onclick="copyText(' +
                         jsString(
                             account.mac
                         ) +
-                        ')">Copier</button>' +
+                        ')">' +
+
+                        "Copier" +
+
+                        "</button>" +
 
                         "</div>" +
 
@@ -3065,12 +2851,17 @@ function renderAccounts(){
                             account.appKey
                         ) +
 
-                        ' <button class="copyBtn" ' +
+                        ' <button ' +
+                        'class="copyBtn" ' +
                         'onclick="copyText(' +
                         jsString(
                             account.appKey
                         ) +
-                        ')">Copier</button>' +
+                        ')">' +
+
+                        "Copier" +
+
+                        "</button>" +
 
                         "</div>" +
 
@@ -3080,8 +2871,6 @@ function renderAccounts(){
 
             }
 
-
-            /* PHOTO */
 
             if(account.photo){
 
@@ -3096,8 +2885,6 @@ function renderAccounts(){
 
             }
 
-
-            /* BOUTONS */
 
             html +=
                 '<div class="actions">' +
@@ -3139,16 +2926,16 @@ function renderAccounts(){
 }
 
 
-
 /* =========================
-   MOT DE PASSE AFFICHÉ
+   AFFICHER MOT DE PASSE
 ========================= */
 
 function toggleDisplayedPassword(index){
 
     const element =
         document.getElementById(
-            "pass-" + index
+            "pass-" +
+            index
         );
 
 
@@ -3176,7 +2963,6 @@ function toggleDisplayedPassword(index){
     }
 
 }
-
 
 
 /* =========================
@@ -3215,22 +3001,23 @@ function escapeHtml(value){
 }
 
 
-
 function jsString(value){
 
     return JSON
+
         .stringify(
             String(
-                value || ""
+                value ||
+                ""
             )
         )
+
         .replace(
             /</g,
             "\\u003c"
         );
 
 }
-
 
 
 /* =========================
@@ -3295,7 +3082,6 @@ function exportData(){
     );
 
 }
-
 
 
 /* =========================
@@ -3388,10 +3174,10 @@ function importData(event){
     );
 
 
-    event.target.value = "";
+    event.target.value =
+        "";
 
 }
-
 
 
 /* =========================
@@ -3423,7 +3209,6 @@ setInterval(
     },
     60000
 );
-
 
 
 /* =========================
