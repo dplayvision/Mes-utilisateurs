@@ -1,1 +1,1156 @@
-# Mes comptes 
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width,
+initial-scale=1.0,
+maximum-scale=1.0,
+user-scalable=no">
+
+<title>Mes accès</title>
+
+<style>
+
+*{
+box-sizing:border-box;
+}
+
+body{
+margin:0;
+font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+background:#f2f2f7;
+color:#111;
+}
+
+header{
+background:#0a84ff;
+color:white;
+padding:18px;
+text-align:center;
+font-size:22px;
+font-weight:700;
+}
+
+main{
+max-width:700px;
+margin:auto;
+padding:16px;
+}
+
+.card{
+background:white;
+border-radius:16px;
+padding:16px;
+margin-bottom:14px;
+box-shadow:0 2px 8px #00000012;
+}
+
+input,
+textarea{
+width:100%;
+padding:13px;
+border:1px solid #d1d1d6;
+border-radius:10px;
+margin:6px 0 10px;
+font-size:16px;
+}
+
+textarea{
+min-height:90px;
+resize:vertical;
+}
+
+button{
+border:0;
+border-radius:10px;
+padding:12px 15px;
+font-size:15px;
+font-weight:600;
+margin:4px;
+cursor:pointer;
+}
+
+.primary{
+background:#0a84ff;
+color:white;
+}
+
+.danger{
+background:#ff3b30;
+color:white;
+}
+
+.gray{
+background:#e5e5ea;
+color:#111;
+}
+
+.row{
+display:flex;
+gap:6px;
+flex-wrap:wrap;
+}
+
+.hidden{
+display:none;
+}
+
+.login{
+max-width:400px;
+margin:80px auto;
+padding:20px;
+}
+
+.person-title{
+font-size:19px;
+font-weight:700;
+margin-bottom:10px;
+}
+
+.label{
+font-size:13px;
+color:#666;
+font-weight:600;
+margin-top:8px;
+}
+
+.photo{
+max-width:100%;
+max-height:250px;
+border-radius:12px;
+margin-top:10px;
+}
+
+.small{
+font-size:12px;
+color:#666;
+}
+
+a{
+color:#0a84ff;
+word-break:break-all;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<header>
+🔐 Mes accès
+</header>
+
+
+<!-- CONNEXION -->
+
+<div id="login" class="login card">
+
+<h2>Code d'entrée</h2>
+
+<p>
+Entrez votre code pour accéder à vos informations.
+</p>
+
+<input
+id="pin"
+type="password"
+inputmode="numeric"
+maxlength="4"
+placeholder="Code d'entrée">
+
+<button
+class="primary"
+style="width:100%"
+onclick="login()">
+
+Entrer
+
+</button>
+
+<p
+id="loginMsg"
+style="color:#ff3b30">
+</p>
+
+</div>
+
+
+<!-- APPLICATION -->
+
+<main id="app" class="hidden">
+
+
+<!-- AJOUT -->
+
+<div class="card">
+
+<h2>➕ Ajouter une personne</h2>
+
+
+<input
+id="name"
+placeholder="Nom / prénom">
+
+
+<input
+id="username"
+placeholder="Nom d'utilisateur">
+
+
+<input
+id="password"
+type="password"
+placeholder="Mot de passe">
+
+
+<input
+id="url1"
+placeholder="URL 1 - https://...">
+
+
+<input
+id="url2"
+placeholder="URL 2 - https://...">
+
+
+<textarea
+id="note"
+placeholder="Remarque">
+</textarea>
+
+
+<div class="label">
+📸 Photo
+</div>
+
+<input
+id="photo"
+type="file"
+accept="image/*"
+capture="environment">
+
+
+<button
+class="primary"
+onclick="addPerson()">
+
+➕ Ajouter
+
+</button>
+
+
+<button
+class="gray"
+onclick="exportBackup()">
+
+💾 Sauvegarder
+
+</button>
+
+
+<button
+class="gray"
+onclick="document.getElementById('importFile').click()">
+
+📥 Restaurer
+
+</button>
+
+
+<input
+id="importFile"
+class="hidden"
+type="file"
+accept=".json"
+onchange="importBackup(event)">
+
+
+<p class="small">
+
+Les informations sont chiffrées avant d'être enregistrées
+dans le stockage local du navigateur.
+
+</p>
+
+</div>
+
+
+<!-- LISTE -->
+
+<div id="list"></div>
+
+
+</main>
+
+
+<script>
+
+
+/* =========================
+   CODE D'ENTRÉE
+========================= */
+
+const PIN = "1157";
+
+
+/* =========================
+   STOCKAGE
+========================= */
+
+const STORAGE = "mesAccesSecureV1";
+
+let people = [];
+
+
+/* =========================
+   CHIFFREMENT
+========================= */
+
+async function keyFromPin(pin){
+
+const data =
+new TextEncoder().encode(pin);
+
+const hash =
+await crypto.subtle.digest(
+"SHA-256",
+data
+);
+
+return crypto.subtle.importKey(
+"raw",
+hash,
+{
+name:"AES-GCM"
+},
+false,
+[
+"encrypt",
+"decrypt"
+]
+);
+
+}
+
+
+function b64(buffer){
+
+return btoa(
+String.fromCharCode(
+...new Uint8Array(buffer)
+)
+);
+
+}
+
+
+function unb64(string){
+
+return Uint8Array.from(
+atob(string),
+c => c.charCodeAt(0)
+);
+
+}
+
+
+async function encrypt(data){
+
+const key =
+await keyFromPin(PIN);
+
+const iv =
+crypto.getRandomValues(
+new Uint8Array(12)
+);
+
+const text =
+new TextEncoder().encode(
+JSON.stringify(data)
+);
+
+const encrypted =
+await crypto.subtle.encrypt(
+{
+name:"AES-GCM",
+iv:iv
+},
+key,
+text
+);
+
+return JSON.stringify({
+
+iv:b64(iv),
+
+data:b64(encrypted)
+
+});
+
+}
+
+
+async function decrypt(text){
+
+const key =
+await keyFromPin(PIN);
+
+const object =
+JSON.parse(text);
+
+const decrypted =
+await crypto.subtle.decrypt(
+{
+name:"AES-GCM",
+iv:unb64(object.iv)
+},
+key,
+unb64(object.data)
+);
+
+return JSON.parse(
+new TextDecoder().decode(
+decrypted
+)
+);
+
+}
+
+
+/* =========================
+   SAUVEGARDE
+========================= */
+
+async function save(){
+
+const encrypted =
+await encrypt(people);
+
+localStorage.setItem(
+STORAGE,
+encrypted
+);
+
+}
+
+
+/* =========================
+   CHARGEMENT
+========================= */
+
+async function load(){
+
+const saved =
+localStorage.getItem(
+STORAGE
+);
+
+if(!saved){
+
+people=[];
+
+return;
+
+}
+
+try{
+
+people =
+await decrypt(saved);
+
+}
+
+catch(error){
+
+people=[];
+
+}
+
+}
+
+
+/* =========================
+   CONNEXION
+========================= */
+
+function login(){
+
+const value =
+document.getElementById(
+"pin"
+).value;
+
+if(value === PIN){
+
+document
+.getElementById("login")
+.classList.add("hidden");
+
+document
+.getElementById("app")
+.classList.remove("hidden");
+
+load().then(render);
+
+}
+
+else{
+
+document
+.getElementById("loginMsg")
+.textContent =
+"❌ Code incorrect.";
+
+}
+
+}
+
+
+/* =========================
+   PHOTO
+========================= */
+
+async function photoToData(file){
+
+if(!file){
+
+return "";
+
+}
+
+return new Promise(
+resolve => {
+
+const reader =
+new FileReader();
+
+reader.onload =
+() => {
+
+resolve(
+reader.result
+);
+
+};
+
+reader.readAsDataURL(file);
+
+});
+
+}
+
+
+/* =========================
+   AJOUT PERSONNE
+========================= */
+
+async function addPerson(){
+
+const name =
+document
+.getElementById("name")
+.value
+.trim();
+
+if(!name){
+
+alert(
+"Veuillez indiquer un nom."
+);
+
+return;
+
+}
+
+
+const photo =
+await photoToData(
+document
+.getElementById("photo")
+.files[0]
+);
+
+
+const person = {
+
+id:Date.now(),
+
+name:name,
+
+username:
+document
+.getElementById("username")
+.value,
+
+password:
+document
+.getElementById("password")
+.value,
+
+url1:
+document
+.getElementById("url1")
+.value,
+
+url2:
+document
+.getElementById("url2")
+.value,
+
+note:
+document
+.getElementById("note")
+.value,
+
+photo:photo
+
+};
+
+
+people.push(person);
+
+await save();
+
+clearForm();
+
+render();
+
+}
+
+
+/* =========================
+   VIDER FORMULAIRE
+========================= */
+
+function clearForm(){
+
+document
+.getElementById("name")
+.value="";
+
+document
+.getElementById("username")
+.value="";
+
+document
+.getElementById("password")
+.value="";
+
+document
+.getElementById("url1")
+.value="";
+
+document
+.getElementById("url2")
+.value="";
+
+document
+.getElementById("note")
+.value="";
+
+document
+.getElementById("photo")
+.value="";
+
+}
+
+
+/* =========================
+   PROTECTION HTML
+========================= */
+
+function esc(value){
+
+return String(
+value ?? ""
+)
+.replace(
+/[&<>"']/g,
+function(match){
+
+return {
+
+"&":"&amp;",
+
+"<":"&lt;",
+
+">":"&gt;",
+
+'"':"&quot;",
+
+"'":"&#039;"
+
+}[match];
+
+}
+);
+
+}
+
+
+/* =========================
+   AFFICHAGE
+========================= */
+
+function render(){
+
+const list =
+document.getElementById(
+"list"
+);
+
+
+if(people.length === 0){
+
+list.innerHTML = `
+
+<div class="card">
+
+Aucune personne enregistrée.
+
+</div>
+
+`;
+
+return;
+
+}
+
+
+list.innerHTML =
+people.map(
+person => `
+
+<div class="card">
+
+
+<div class="person-title">
+
+👤 ${esc(person.name)}
+
+</div>
+
+
+<div class="label">
+
+Nom d'utilisateur
+
+</div>
+
+<div>
+
+${esc(person.username) || "—"}
+
+</div>
+
+
+<div class="label">
+
+Mot de passe
+
+</div>
+
+<input
+id="pw${person.id}"
+type="password"
+value="${esc(person.password)}"
+readonly>
+
+
+<button
+class="gray"
+onclick="togglePassword(${person.id})">
+
+👁 Afficher
+
+</button>
+
+
+<div class="label">
+
+🌐 URL 1
+
+</div>
+
+${
+person.url1
+?
+`
+
+<a
+href="${esc(person.url1)}"
+target="_blank"
+rel="noopener">
+
+${esc(person.url1)}
+
+</a>
+
+`
+:
+"—"
+}
+
+
+<div class="label">
+
+🌐 URL 2
+
+</div>
+
+${
+person.url2
+?
+`
+
+<a
+href="${esc(person.url2)}"
+target="_blank"
+rel="noopener">
+
+${esc(person.url2)}
+
+</a>
+
+`
+:
+"—"
+}
+
+
+<div class="label">
+
+📝 Remarque
+
+</div>
+
+<div
+style="
+white-space:pre-wrap;
+margin-top:4px;
+">
+
+${esc(person.note) || "—"}
+
+</div>
+
+
+${
+person.photo
+?
+`
+
+<img
+class="photo"
+src="${person.photo}"
+alt="Photo">
+
+`
+:
+""
+}
+
+
+<div class="row">
+
+<button
+class="primary"
+onclick="editPerson(${person.id})">
+
+✏️ Modifier
+
+</button>
+
+
+<button
+class="danger"
+onclick="deletePerson(${person.id})">
+
+🗑️ Supprimer
+
+</button>
+
+</div>
+
+
+</div>
+
+`
+).join("");
+
+}
+
+
+/* =========================
+   AFFICHER MOT DE PASSE
+========================= */
+
+function togglePassword(id){
+
+const input =
+document.getElementById(
+"pw"+id
+);
+
+if(
+input.type === "password"
+){
+
+input.type="text";
+
+}
+
+else{
+
+input.type="password";
+
+}
+
+}
+
+
+/* =========================
+   SUPPRIMER
+========================= */
+
+async function deletePerson(id){
+
+if(
+confirm(
+"Voulez-vous vraiment supprimer cette personne ?"
+)
+){
+
+people =
+people.filter(
+person =>
+person.id !== id
+);
+
+await save();
+
+render();
+
+}
+
+}
+
+
+/* =========================
+   MODIFIER
+========================= */
+
+async function editPerson(id){
+
+const person =
+people.find(
+p => p.id === id
+);
+
+if(!person){
+
+return;
+
+}
+
+
+const name =
+prompt(
+"Nom / prénom :",
+person.name
+);
+
+if(name === null){
+
+return;
+
+}
+
+person.name = name;
+
+
+const username =
+prompt(
+"Nom d'utilisateur :",
+person.username
+);
+
+if(username !== null){
+
+person.username =
+username;
+
+}
+
+
+const password =
+prompt(
+"Mot de passe :",
+person.password
+);
+
+if(password !== null){
+
+person.password =
+password;
+
+}
+
+
+const url1 =
+prompt(
+"URL 1 :",
+person.url1
+);
+
+if(url1 !== null){
+
+person.url1 =
+url1;
+
+}
+
+
+const url2 =
+prompt(
+"URL 2 :",
+person.url2
+);
+
+if(url2 !== null){
+
+person.url2 =
+url2;
+
+}
+
+
+const note =
+prompt(
+"Remarque :",
+person.note
+);
+
+if(note !== null){
+
+person.note =
+note;
+
+}
+
+
+await save();
+
+render();
+
+}
+
+
+/* =========================
+   EXPORT
+========================= */
+
+async function exportBackup(){
+
+const encrypted =
+await encrypt(people);
+
+
+const blob =
+new Blob(
+[
+encrypted
+],
+{
+type:
+"application/json"
+}
+);
+
+
+const link =
+document.createElement(
+"a"
+);
+
+
+link.href =
+URL.createObjectURL(
+blob
+);
+
+
+link.download =
+"mes-acces-sauvegarde.json";
+
+
+link.click();
+
+
+setTimeout(
+() =>
+URL.revokeObjectURL(
+link.href
+),
+1000
+);
+
+}
+
+
+/* =========================
+   IMPORT
+========================= */
+
+async function importBackup(event){
+
+const file =
+event.target.files[0];
+
+if(!file){
+
+return;
+
+}
+
+
+try{
+
+const text =
+await file.text();
+
+people =
+await decrypt(text);
+
+await save();
+
+render();
+
+alert(
+"✅ Sauvegarde restaurée."
+);
+
+}
+
+catch(error){
+
+alert(
+"❌ Sauvegarde invalide ou impossible à déchiffrer."
+);
+
+}
+
+
+event.target.value="";
+
+}
+
+
+</script>
+
+</body>
+</html>
