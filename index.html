@@ -122,6 +122,22 @@ button{
     min-width:48px;
 }
 
+/* BOUTON URL */
+
+.openUrl{
+    background:#007aff;
+    color:white;
+    white-space:nowrap;
+    text-decoration:none;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    padding:11px 13px;
+    border-radius:9px;
+    font-size:14px;
+    font-weight:600;
+}
+
 /* APPLICATION */
 
 .applicationBox{
@@ -237,6 +253,12 @@ button{
     overflow:hidden;
     word-break:break-all;
     min-height:42px;
+}
+
+.urlValue{
+    color:#007aff;
+    text-decoration:underline;
+    cursor:pointer;
 }
 
 .actions{
@@ -405,10 +427,25 @@ button{
 }
 
 @media(max-width:500px){
+
     .actions,
     .backupButtons,
     .photoButtons{
         flex-direction:column;
+    }
+
+    .urlRow{
+        flex-wrap:wrap;
+    }
+
+    .urlRow .value{
+        width:100%;
+        flex-basis:100%;
+    }
+
+    .urlRow .openUrl,
+    .urlRow .copyBtn{
+        flex:1;
     }
 }
 </style>
@@ -1055,11 +1092,6 @@ function copyText(value){
 
     value = String(value);
 
-    /*
-       Première méthode :
-       presse-papiers moderne
-    */
-
     if(
         navigator.clipboard &&
         window.isSecureContext
@@ -1079,10 +1111,6 @@ function copyText(value){
 
         return;
     }
-
-    /*
-       Méthode compatible iPhone
-    */
 
     copyTextFallback(value);
 }
@@ -1133,12 +1161,6 @@ function copyTextFallback(value){
 
     }else{
 
-        /*
-           Dernier recours sur iPhone :
-           le texte est sélectionné pour permettre
-           de faire Copier manuellement.
-        */
-
         const manual =
             document.createElement("textarea");
 
@@ -1177,6 +1199,64 @@ function copyTextFallback(value){
         }, 5000);
 
     }
+}
+
+
+/* ========================= */
+/* OUVRIR URL */
+/* ========================= */
+
+function openUrl(value){
+
+    if(!value){
+
+        showToast("Aucune URL");
+        return;
+
+    }
+
+    let url = String(value).trim();
+
+    /*
+       Si l'utilisateur a écrit :
+       www.exemple.com
+       ou
+       exemple.com
+       on ajoute https://
+    */
+
+    if(!/^https?:\/\//i.test(url)){
+
+        url = "https://" + url;
+
+    }
+
+    try{
+
+        const parsed =
+            new URL(url);
+
+        if(
+            parsed.protocol !== "http:" &&
+            parsed.protocol !== "https:"
+        ){
+
+            throw new Error("URL invalide");
+
+        }
+
+        window.open(
+            parsed.href,
+            "_blank",
+            "noopener,noreferrer"
+        );
+
+    }catch(error){
+
+        showToast("URL invalide");
+
+    }
+
 }
 
 
@@ -1239,8 +1319,6 @@ function saveAccount(){
 
     }
 
-
-    /* MODIFICATION */
 
     if(editingId !== null){
 
@@ -1488,11 +1566,23 @@ function renderAccounts(){
                     🌐 URL 1
                 </div>
 
-                <div class="valueRow">
+                <div class="valueRow urlRow">
 
-                    <div class="value">
+                    <div
+                        class="value urlValue"
+                        onclick="openUrl(${JSON.stringify(account.url1 || "")})"
+                        title="Ouvrir l'URL"
+                    >
                         ${escapeHtml(account.url1 || "")}
                     </div>
+
+                    <button
+                        class="openUrl"
+                        type="button"
+                        onclick="openUrl(${JSON.stringify(account.url1 || "")})"
+                    >
+                        🔗 Ouvrir
+                    </button>
 
                     <button
                         class="copyBtn accountCopy"
@@ -1553,11 +1643,23 @@ function renderAccounts(){
                         🌐 URL 1
                     </div>
 
-                    <div class="valueRow">
+                    <div class="valueRow urlRow">
 
-                        <div class="value">
+                        <div
+                            class="value urlValue"
+                            onclick="openUrl(${JSON.stringify(account.appUrl1 || "")})"
+                            title="Ouvrir l'URL"
+                        >
                             ${escapeHtml(account.appUrl1 || "")}
                         </div>
+
+                        <button
+                            class="openUrl"
+                            type="button"
+                            onclick="openUrl(${JSON.stringify(account.appUrl1 || "")})"
+                        >
+                            🔗 Ouvrir
+                        </button>
 
                         <button
                             class="copyBtn accountCopy"
