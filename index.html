@@ -7,6 +7,7 @@
 <title>Mes accès</title>
 
 <style>
+
 *{
     box-sizing:border-box;
     -webkit-tap-highlight-color:transparent;
@@ -18,6 +19,8 @@ body{
     background:#f2f2f7;
     color:#111;
 }
+
+/* HEADER */
 
 header{
     background:#007aff;
@@ -32,13 +35,18 @@ header{
     z-index:20;
 }
 
+/* CONTAINER */
+
 .container{
     padding:15px;
     max-width:700px;
     margin:auto;
 }
 
-.card{
+/* CARTES */
+
+.card,
+.account{
     background:white;
     border-radius:16px;
     padding:16px;
@@ -51,11 +59,15 @@ h2{
     font-size:20px;
 }
 
+/* LABELS */
+
 label{
     display:block;
     font-weight:600;
     margin:12px 0 6px;
 }
+
+/* INPUTS */
 
 input[type="text"],
 input[type="password"]{
@@ -74,7 +86,10 @@ input[type="password"]{
 
 .inputRow input{
     flex:1;
+    min-width:0;
 }
+
+/* BOUTONS */
 
 button{
     border:0;
@@ -120,6 +135,8 @@ button{
     min-width:48px;
 }
 
+/* APPLICATION */
+
 .applicationBox{
     display:flex;
     align-items:center;
@@ -139,13 +156,15 @@ button{
     margin-top:8px;
 }
 
-.account{
-    background:white;
-    border-radius:16px;
-    padding:16px;
-    margin-bottom:15px;
-    box-shadow:0 2px 10px rgba(0,0,0,.08);
+.sectionTitle{
+    margin-top:18px;
+    padding-top:12px;
+    border-top:1px solid #e5e5ea;
+    font-size:16px;
+    font-weight:700;
 }
+
+/* AFFICHAGE ACCES */
 
 .accountTitle{
     margin-bottom:15px;
@@ -203,6 +222,8 @@ button{
     flex:1;
 }
 
+/* RECHERCHE */
+
 .search{
     margin-bottom:15px;
 }
@@ -227,9 +248,13 @@ button{
     padding:30px 10px;
 }
 
+/* HIDDEN */
+
 .hidden{
     display:none !important;
 }
+
+/* TOAST */
 
 .toast{
     position:fixed;
@@ -251,9 +276,7 @@ button{
     opacity:1;
 }
 
-/* =========================
-   PIN
-========================= */
+/* PIN */
 
 .pinScreen{
     position:fixed;
@@ -316,9 +339,7 @@ button{
     font-weight:600;
 }
 
-/* =========================
-   SAUVEGARDE
-========================= */
+/* SAUVEGARDE */
 
 .backupButtons{
     display:flex;
@@ -343,50 +364,36 @@ button{
     display:none;
 }
 
+/* MOBILE */
+
 @media(max-width:500px){
 
-    .actions{
-        flex-direction:column;
-    }
-
+    .actions,
     .backupButtons{
         flex-direction:column;
     }
 
-    .inputRow{
-        flex-direction:row;
-    }
-
-    .copyBtn{
-        padding-left:10px;
-        padding-right:10px;
-    }
 }
+
 </style>
 </head>
 
 <body>
 
 
-<!-- =========================
-     ECRAN PIN
-========================= -->
+<!-- ========================= -->
+<!-- ECRAN PIN -->
+<!-- ========================= -->
 
 <div class="pinScreen" id="pinScreen">
 
     <div class="pinBox">
 
-        <div class="pinLogo">
-            🔐
-        </div>
+        <div class="pinLogo">🔐</div>
 
-        <h1>
-            Mes accès
-        </h1>
+        <h1>Mes accès</h1>
 
-        <p>
-            Entrez votre code pour continuer
-        </p>
+        <p>Entrez votre code pour continuer</p>
 
         <input
             type="password"
@@ -414,9 +421,9 @@ button{
 </div>
 
 
-<!-- =========================
-     APPLICATION
-========================= -->
+<!-- ========================= -->
+<!-- APPLICATION -->
+<!-- ========================= -->
 
 <div id="app" class="hidden">
 
@@ -428,265 +435,345 @@ button{
 <div class="container">
 
 
-    <!-- =========================
-         AJOUT
-    ========================= -->
+<!-- ========================= -->
+<!-- AJOUT / MODIFICATION -->
+<!-- ========================= -->
 
-    <div class="card">
+<div class="card">
 
-        <h2 id="formTitle">
-            ➕ Ajouter un accès
-        </h2>
-
-
-        <label>
-            👤 Nom / Prénom
-        </label>
-
-        <div class="inputRow">
-
-            <input
-                type="text"
-                id="personName"
-                autocomplete="off"
-                placeholder="Nom et prénom"
-            >
-
-            <button
-                class="copyBtn"
-                type="button"
-                onclick="copyInput('personName')"
-            >
-                📋
-            </button>
-
-        </div>
+<h2 id="formTitle">
+    ➕ Ajouter un accès
+</h2>
 
 
-        <label>
-            👤 Utilisateur
-        </label>
+<!-- URL PRINCIPALE -->
 
-        <div class="inputRow">
+<label>
+    🌐 URL 1
+</label>
 
-            <input
-                type="text"
-                id="username"
-                autocomplete="off"
-                placeholder="Utilisateur"
-            >
+<div class="inputRow">
 
-            <button
-                class="copyBtn"
-                type="button"
-                onclick="copyInput('username')"
-            >
-                📋
-            </button>
+    <input
+        type="text"
+        id="url1"
+        autocomplete="off"
+        placeholder="https://..."
+    >
 
-        </div>
+    <button
+        class="copyBtn"
+        type="button"
+        onclick="copyInput('url1')"
+    >
+        📋
+    </button>
 
-
-        <label>
-            🔑 Mot de passe
-        </label>
-
-        <div class="inputRow">
-
-            <input
-                type="password"
-                id="password"
-                autocomplete="off"
-                placeholder="Mot de passe"
-            >
-
-            <button
-                class="show"
-                type="button"
-                onclick="togglePasswordInput(this)"
-            >
-                👁️
-            </button>
-
-            <button
-                class="copyBtn"
-                type="button"
-                onclick="copyInput('password')"
-            >
-                📋
-            </button>
-
-        </div>
+</div>
 
 
-        <!-- APPLICATION -->
+<!-- NOM PRENOM -->
 
-        <div class="applicationBox">
+<label>
+    👤 Nom / Prénom
+</label>
 
-            <input
-                type="checkbox"
-                id="application"
-                onchange="toggleApplicationFields()"
-            >
+<div class="inputRow">
 
-            <span>
-                📱 Application
-            </span>
+    <input
+        type="text"
+        id="personName"
+        autocomplete="off"
+        placeholder="Nom et prénom"
+    >
 
-        </div>
+    <button
+        class="copyBtn"
+        type="button"
+        onclick="copyInput('personName')"
+    >
+        📋
+    </button>
 
-
-        <!-- MAC + CLE -->
-
-        <div
-            id="appFields"
-            class="appFields"
-        >
-
-            <label>
-                MAC :
-            </label>
-
-            <div class="inputRow">
-
-                <input
-                    type="text"
-                    id="mac"
-                    autocomplete="off"
-                    placeholder="Adresse MAC"
-                >
-
-                <button
-                    class="copyBtn"
-                    type="button"
-                    onclick="copyInput('mac')"
-                >
-                    📋
-                </button>
-
-            </div>
+</div>
 
 
-            <label>
-                Clé :
-            </label>
+<!-- UTILISATEUR -->
 
-            <div class="inputRow">
+<label>
+    👤 Utilisateur
+</label>
 
-                <input
-                    type="text"
-                    id="key"
-                    autocomplete="off"
-                    placeholder="Clé"
-                >
+<div class="inputRow">
 
-                <button
-                    class="copyBtn"
-                    type="button"
-                    onclick="copyInput('key')"
-                >
-                    📋
-                </button>
+    <input
+        type="text"
+        id="username"
+        autocomplete="off"
+        placeholder="Utilisateur"
+    >
 
-            </div>
+    <button
+        class="copyBtn"
+        type="button"
+        onclick="copyInput('username')"
+    >
+        📋
+    </button>
 
-        </div>
-
-
-        <button
-            class="primary"
-            id="saveButton"
-            type="button"
-            onclick="saveAccount()"
-        >
-            💾 Enregistrer
-        </button>
+</div>
 
 
-        <button
-            class="cancel hidden"
-            id="cancelButton"
-            type="button"
-            onclick="cancelEdit()"
-        >
-            Annuler
-        </button>
+<!-- MOT DE PASSE -->
 
+<label>
+    🔑 Mot de passe
+</label>
+
+<div class="inputRow">
+
+    <input
+        type="password"
+        id="password"
+        autocomplete="off"
+        placeholder="Mot de passe"
+    >
+
+    <button
+        class="show"
+        type="button"
+        onclick="togglePasswordInput(this)"
+    >
+        👁️
+    </button>
+
+    <button
+        class="copyBtn"
+        type="button"
+        onclick="copyInput('password')"
+    >
+        📋
+    </button>
+
+</div>
+
+
+<!-- APPLICATION -->
+
+<div class="applicationBox">
+
+    <input
+        type="checkbox"
+        id="application"
+        onchange="toggleApplicationFields()"
+    >
+
+    <span>
+        📱 Application
+    </span>
+
+</div>
+
+
+<!-- ========================= -->
+<!-- CHAMPS APPLICATION -->
+<!-- ========================= -->
+
+<div
+    id="appFields"
+    class="appFields"
+>
+
+    <div class="sectionTitle">
+        📱 Informations application
     </div>
 
 
-    <!-- =========================
-         SAUVEGARDE
-    ========================= -->
+    <!-- URL APPLICATION -->
 
-    <div class="card">
+    <label>
+        🌐 URL 1
+    </label>
 
-        <h2>
-            💾 Sauvegarde
-        </h2>
-
-        <p style="color:#666;font-size:14px;">
-            Télécharge une copie de tes accès pour pouvoir les restaurer
-            en cas de problème ou de changement d'iPhone.
-        </p>
-
-        <div class="backupButtons">
-
-            <button
-                class="backup"
-                onclick="downloadBackup()"
-            >
-                💾 Télécharger
-            </button>
-
-            <button
-                class="restore"
-                onclick="document.getElementById('restoreFile').click()"
-            >
-                📥 Restaurer
-            </button>
-
-        </div>
-
-        <input
-            type="file"
-            id="restoreFile"
-            accept=".json,application/json"
-            onchange="restoreBackup(event)"
-        >
-
-    </div>
-
-
-    <!-- =========================
-         RECHERCHE
-    ========================= -->
-
-    <div class="search">
+    <div class="inputRow">
 
         <input
             type="text"
-            id="search"
-            placeholder="🔎 Rechercher un nom, utilisateur, MAC..."
-            oninput="renderAccounts()"
+            id="appUrl1"
+            autocomplete="off"
+            placeholder="https://..."
         >
+
+        <button
+            class="copyBtn"
+            type="button"
+            onclick="copyInput('appUrl1')"
+        >
+            📋
+        </button>
 
     </div>
 
 
-    <div
-        class="counter"
-        id="counter"
-    ></div>
+    <!-- MAC -->
+
+    <label>
+        📱 MAC
+    </label>
+
+    <div class="inputRow">
+
+        <input
+            type="text"
+            id="mac"
+            autocomplete="off"
+            placeholder="Adresse MAC"
+        >
+
+        <button
+            class="copyBtn"
+            type="button"
+            onclick="copyInput('mac')"
+        >
+            📋
+        </button>
+
+    </div>
 
 
-    <div id="accounts"></div>
+    <!-- CLE -->
+
+    <label>
+        🔑 Clé
+    </label>
+
+    <div class="inputRow">
+
+        <input
+            type="text"
+            id="key"
+            autocomplete="off"
+            placeholder="Clé"
+        >
+
+        <button
+            class="copyBtn"
+            type="button"
+            onclick="copyInput('key')"
+        >
+            📋
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- ENREGISTRER -->
+
+<button
+    class="primary"
+    id="saveButton"
+    type="button"
+    onclick="saveAccount()"
+>
+    💾 Enregistrer
+</button>
+
+
+<!-- ANNULER -->
+
+<button
+    class="cancel hidden"
+    id="cancelButton"
+    type="button"
+    onclick="cancelEdit()"
+>
+    Annuler
+</button>
+
+
+</div>
+
+
+<!-- ========================= -->
+<!-- SAUVEGARDE -->
+<!-- ========================= -->
+
+<div class="card">
+
+<h2>
+    💾 Sauvegarde
+</h2>
+
+<p style="color:#666;font-size:14px;">
+
+    Télécharge une copie de tes accès pour pouvoir les restaurer
+    en cas de problème ou de changement d'iPhone.
+
+</p>
+
+<div class="backupButtons">
+
+    <button
+        class="backup"
+        onclick="downloadBackup()"
+    >
+        💾 Télécharger
+    </button>
+
+    <button
+        class="restore"
+        onclick="document.getElementById('restoreFile').click()"
+    >
+        📥 Restaurer
+    </button>
+
+</div>
+
+<input
+    type="file"
+    id="restoreFile"
+    accept=".json,application/json"
+    onchange="restoreBackup(event)"
+>
+
+</div>
+
+
+<!-- ========================= -->
+<!-- RECHERCHE -->
+<!-- ========================= -->
+
+<div class="search">
+
+<input
+    type="text"
+    id="search"
+    placeholder="🔎 Rechercher..."
+    oninput="renderAccounts()"
+>
+
+</div>
+
+
+<div
+    class="counter"
+    id="counter"
+></div>
+
+
+<!-- LISTE -->
+
+<div id="accounts"></div>
 
 
 </div>
 
 </div>
 
+
+<!-- TOAST -->
 
 <div
     class="toast"
@@ -694,11 +781,12 @@ button{
 ></div>
 
 
+
 <script>
 
-/* =========================
-   CONFIGURATION
-========================= */
+/* ========================= */
+/* CONFIGURATION */
+/* ========================= */
 
 const PIN = "1157";
 
@@ -709,9 +797,9 @@ let accounts = [];
 let editingId = null;
 
 
-/* =========================
-   PIN
-========================= */
+/* ========================= */
+/* PIN */
+/* ========================= */
 
 function checkPin(){
 
@@ -724,11 +812,15 @@ function checkPin(){
 
     if(value === PIN){
 
-        document.getElementById("pinScreen")
-            .classList.add("hidden");
+        document
+            .getElementById("pinScreen")
+            .classList
+            .add("hidden");
 
-        document.getElementById("app")
-            .classList.remove("hidden");
+        document
+            .getElementById("app")
+            .classList
+            .remove("hidden");
 
         error.textContent = "";
 
@@ -739,32 +831,40 @@ function checkPin(){
         error.textContent =
             "Code incorrect";
 
-        document.getElementById("pinInput").value = "";
+        document
+            .getElementById("pinInput")
+            .value = "";
 
-        document.getElementById("pinInput").focus();
+        document
+            .getElementById("pinInput")
+            .focus();
 
     }
 
 }
 
 
-/* Entrée clavier */
+/* ENTER SUR PIN */
 
-document.getElementById("pinInput")
-    .addEventListener("keydown", function(event){
+document
+    .getElementById("pinInput")
+    .addEventListener(
+        "keydown",
+        function(event){
 
-        if(event.key === "Enter"){
+            if(event.key === "Enter"){
 
-            checkPin();
+                checkPin();
+
+            }
 
         }
+    );
 
-    });
 
-
-/* =========================
-   CHARGEMENT
-========================= */
+/* ========================= */
+/* CHARGEMENT */
+/* ========================= */
 
 function loadAccounts(){
 
@@ -775,7 +875,8 @@ function loadAccounts(){
 
         if(saved){
 
-            accounts = JSON.parse(saved);
+            accounts =
+                JSON.parse(saved);
 
             if(!Array.isArray(accounts)){
 
@@ -791,14 +892,15 @@ function loadAccounts(){
 
     }
 
+
     renderAccounts();
 
 }
 
 
-/* =========================
-   SAUVEGARDE LOCALE
-========================= */
+/* ========================= */
+/* SAUVEGARDE AUTOMATIQUE */
+/* ========================= */
 
 function saveData(){
 
@@ -810,9 +912,9 @@ function saveData(){
 }
 
 
-/* =========================
-   APPLICATION
-========================= */
+/* ========================= */
+/* APPLICATION */
+/* ========================= */
 
 function toggleApplicationFields(){
 
@@ -836,9 +938,9 @@ function toggleApplicationFields(){
 }
 
 
-/* =========================
-   MOT DE PASSE
-========================= */
+/* ========================= */
+/* MOT DE PASSE */
+/* ========================= */
 
 function togglePasswordInput(button){
 
@@ -863,20 +965,17 @@ function togglePasswordInput(button){
 }
 
 
-/* =========================
-   COPIER INPUT
-========================= */
+/* ========================= */
+/* COPIER INPUT */
+/* ========================= */
 
 async function copyInput(id){
 
     const input =
         document.getElementById(id);
 
-    const value =
-        input.value;
 
-
-    if(!value){
+    if(!input.value){
 
         showToast("Rien à copier");
 
@@ -885,14 +984,14 @@ async function copyInput(id){
     }
 
 
-    await copyText(value);
+    await copyText(input.value);
 
 }
 
 
-/* =========================
-   COPIER VALEUR
-========================= */
+/* ========================= */
+/* COPIER VALEUR */
+/* ========================= */
 
 async function copyValue(value){
 
@@ -910,15 +1009,17 @@ async function copyValue(value){
 }
 
 
-/* =========================
-   COPIE
-========================= */
+/* ========================= */
+/* COPIE */
+/* ========================= */
 
 async function copyText(value){
 
     try{
 
-        await navigator.clipboard.writeText(value);
+        await navigator
+            .clipboard
+            .writeText(value);
 
         showToast("Copié 📋");
 
@@ -950,44 +1051,75 @@ async function copyText(value){
 }
 
 
-/* =========================
-   ENREGISTRER
-========================= */
+/* ========================= */
+/* ENREGISTRER */
+/* ========================= */
 
 function saveAccount(){
 
+    const url1 =
+        document
+        .getElementById("url1")
+        .value
+        .trim();
+
+
     const personName =
-        document.getElementById("personName")
+        document
+        .getElementById("personName")
         .value
         .trim();
 
 
     const username =
-        document.getElementById("username")
+        document
+        .getElementById("username")
         .value
         .trim();
 
 
     const password =
-        document.getElementById("password")
+        document
+        .getElementById("password")
         .value;
 
 
     const application =
-        document.getElementById("application")
+        document
+        .getElementById("application")
         .checked;
 
 
+    const appUrl1 =
+        document
+        .getElementById("appUrl1")
+        .value
+        .trim();
+
+
     const mac =
-        document.getElementById("mac")
+        document
+        .getElementById("mac")
         .value
         .trim();
 
 
     const key =
-        document.getElementById("key")
+        document
+        .getElementById("key")
         .value
         .trim();
+
+
+    /* VERIFICATIONS */
+
+    if(!url1){
+
+        alert("Veuillez entrer l'URL.");
+
+        return;
+
+    }
 
 
     if(!personName){
@@ -1017,6 +1149,8 @@ function saveAccount(){
     }
 
 
+    /* MODIFICATION */
+
     if(editingId !== null){
 
         const account =
@@ -1026,6 +1160,9 @@ function saveAccount(){
 
 
         if(account){
+
+            account.url1 =
+                url1;
 
             account.personName =
                 personName;
@@ -1039,22 +1176,40 @@ function saveAccount(){
             account.application =
                 application;
 
+            account.appUrl1 =
+                application
+                ? appUrl1
+                : "";
+
             account.mac =
-                application ? mac : "";
+                application
+                ? mac
+                : "";
 
             account.key =
-                application ? key : "";
+                application
+                ? key
+                : "";
 
         }
 
 
-        showToast("Accès modifié ✅");
+        showToast(
+            "Accès modifié ✅"
+        );
+
 
     }else{
 
-        const newAccount = {
+        /* NOUVEL ACCES */
 
-            id: Date.now(),
+        accounts.unshift({
+
+            id:
+                Date.now(),
+
+            url1:
+                url1,
 
             personName:
                 personName,
@@ -1068,24 +1223,31 @@ function saveAccount(){
             application:
                 application,
 
+            appUrl1:
+                application
+                ? appUrl1
+                : "",
+
             mac:
-                application ? mac : "",
+                application
+                ? mac
+                : "",
 
             key:
-                application ? key : "",
+                application
+                ? key
+                : "",
 
             createdAt:
-                new Date().toISOString()
+                new Date()
+                .toISOString()
 
-        };
+        });
 
 
-        accounts.unshift(
-            newAccount
+        showToast(
+            "Accès enregistré ✅"
         );
-
-
-        showToast("Accès enregistré ✅");
 
     }
 
@@ -1099,9 +1261,9 @@ function saveAccount(){
 }
 
 
-/* =========================
-   AFFICHER LES COMPTES
-========================= */
+/* ========================= */
+/* AFFICHER LES ACCES */
+/* ========================= */
 
 function renderAccounts(){
 
@@ -1110,52 +1272,58 @@ function renderAccounts(){
 
 
     const search =
-        document.getElementById("search")
+        document
+        .getElementById("search")
         .value
         .trim()
         .toLowerCase();
 
 
     const filtered =
-        accounts.filter(account => {
+        accounts.filter(
+            account => {
 
-            return (
+                const searchable = [
 
-                (account.personName || "")
-                .toLowerCase()
-                .includes(search)
+                    account.url1,
 
-                ||
+                    account.personName,
 
-                (account.username || "")
-                .toLowerCase()
-                .includes(search)
+                    account.username,
 
-                ||
+                    account.appUrl1,
 
-                (account.mac || "")
-                .toLowerCase()
-                .includes(search)
+                    account.mac,
 
-                ||
+                    account.key
 
-                (account.key || "")
-                .toLowerCase()
-                .includes(search)
-
-            );
-
-        });
+                ]
+                .map(
+                    v =>
+                    String(
+                        v || ""
+                    ).toLowerCase()
+                );
 
 
-    document.getElementById("counter")
+                return searchable.some(
+                    v =>
+                    v.includes(search)
+                );
+
+            }
+        );
+
+
+    document
+        .getElementById("counter")
         .textContent =
-            filtered.length +
-            (
-                filtered.length > 1
-                ? " accès"
-                : " accès"
-            );
+        filtered.length +
+        (
+            filtered.length > 1
+            ? " accès"
+            : " accès"
+        );
 
 
     container.innerHTML = "";
@@ -1178,122 +1346,56 @@ function renderAccounts(){
     }
 
 
-    filtered.forEach(account => {
-
-        const card =
-            document.createElement("div");
-
-        card.className = "account";
+    filtered.forEach(
+        account => {
 
 
-        let html = `
-
-            <div class="accountTitle">
-
-                <div class="accountName">
-
-                    👤 ${escapeHtml(
-                        account.personName || ""
-                    )}
-
-                </div>
-
-                ${
-                    account.application
-                    ?
-                    `<span class="appBadge">
-                        📱 APPLICATION
-                    </span>`
-                    :
-                    ""
-                }
-
-            </div>
+            const card =
+                document.createElement("div");
 
 
-            <div class="line">
+            card.className =
+                "account";
 
-                <div class="lineTitle">
-                    Utilisateur
-                </div>
 
-                <div class="valueRow">
+            let html = `
 
-                    <div class="value">
+                <div class="accountTitle">
 
+                    <div class="accountName">
+
+                        👤
                         ${escapeHtml(
-                            account.username || ""
+                            account.personName || ""
                         )}
 
                     </div>
 
-                    <button
-                        class="copyBtn"
-                        onclick="copyValue(
-                            ${escapeJs(
-                                account.username || ""
-                            )}
-                        )"
-                    >
-                        📋
-                    </button>
+                    ${
+                        account.application
+                        ?
+                        `
+                        <span class="appBadge">
+
+                            📱 APPLICATION
+
+                        </span>
+                        `
+                        :
+                        ""
+                    }
 
                 </div>
 
-            </div>
 
-
-            <div class="line">
-
-                <div class="lineTitle">
-                    Mot de passe
-                </div>
-
-                <div class="valueRow">
-
-                    <div
-                        class="value"
-                        id="pass-${account.id}"
-                    >
-                        ••••••••••
-                    </div>
-
-                    <button
-                        class="show"
-                        onclick="showPasswordAccount(
-                            ${account.id},
-                            this
-                        )"
-                    >
-                        👁️
-                    </button>
-
-                    <button
-                        class="copyBtn"
-                        onclick="copyValue(
-                            ${escapeJs(
-                                account.password || ""
-                            )}
-                        )"
-                    >
-                        📋
-                    </button>
-
-                </div>
-
-            </div>
-
-        `;
-
-
-        if(account.application){
-
-            html += `
+                <!-- URL PRINCIPALE -->
 
                 <div class="line">
 
                     <div class="lineTitle">
-                        MAC
+
+                        🌐 URL 1
+
                     </div>
 
                     <div class="valueRow">
@@ -1301,7 +1403,7 @@ function renderAccounts(){
                         <div class="value">
 
                             ${escapeHtml(
-                                account.mac || ""
+                                account.url1 || ""
                             )}
 
                         </div>
@@ -1310,11 +1412,13 @@ function renderAccounts(){
                             class="copyBtn"
                             onclick="copyValue(
                                 ${escapeJs(
-                                    account.mac || ""
+                                    account.url1 || ""
                                 )}
                             )"
                         >
+
                             📋
+
                         </button>
 
                     </div>
@@ -1322,10 +1426,14 @@ function renderAccounts(){
                 </div>
 
 
+                <!-- UTILISATEUR -->
+
                 <div class="line">
 
                     <div class="lineTitle">
-                        Clé
+
+                        👤 Utilisateur
+
                     </div>
 
                     <div class="valueRow">
@@ -1333,7 +1441,7 @@ function renderAccounts(){
                         <div class="value">
 
                             ${escapeHtml(
-                                account.key || ""
+                                account.username || ""
                             )}
 
                         </div>
@@ -1342,11 +1450,64 @@ function renderAccounts(){
                             class="copyBtn"
                             onclick="copyValue(
                                 ${escapeJs(
-                                    account.key || ""
+                                    account.username || ""
                                 )}
                             )"
                         >
+
                             📋
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+                <!-- MOT DE PASSE -->
+
+                <div class="line">
+
+                    <div class="lineTitle">
+
+                        🔑 Mot de passe
+
+                    </div>
+
+                    <div class="valueRow">
+
+                        <div
+                            class="value"
+                            id="pass-${account.id}"
+                        >
+
+                            ••••••••••
+
+                        </div>
+
+                        <button
+                            class="show"
+                            onclick="showPasswordAccount(
+                                ${account.id},
+                                this
+                            )"
+                        >
+
+                            👁️
+
+                        </button>
+
+                        <button
+                            class="copyBtn"
+                            onclick="copyValue(
+                                ${escapeJs(
+                                    account.password || ""
+                                )}
+                            )"
+                        >
+
+                            📋
+
                         </button>
 
                     </div>
@@ -1355,48 +1516,190 @@ function renderAccounts(){
 
             `;
 
+
+            /* ========================= */
+            /* APPLICATION */
+            /* ========================= */
+
+            if(account.application){
+
+                html += `
+
+                    <div class="sectionTitle">
+
+                        📱 Informations application
+
+                    </div>
+
+
+                    <!-- URL APPLICATION -->
+
+                    <div class="line">
+
+                        <div class="lineTitle">
+
+                            🌐 URL 1
+
+                        </div>
+
+                        <div class="valueRow">
+
+                            <div class="value">
+
+                                ${escapeHtml(
+                                    account.appUrl1 || ""
+                                )}
+
+                            </div>
+
+                            <button
+                                class="copyBtn"
+                                onclick="copyValue(
+                                    ${escapeJs(
+                                        account.appUrl1 || ""
+                                    )}
+                                )"
+                            >
+
+                                📋
+
+                            </button>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- MAC -->
+
+                    <div class="line">
+
+                        <div class="lineTitle">
+
+                            📱 MAC
+
+                        </div>
+
+                        <div class="valueRow">
+
+                            <div class="value">
+
+                                ${escapeHtml(
+                                    account.mac || ""
+                                )}
+
+                            </div>
+
+                            <button
+                                class="copyBtn"
+                                onclick="copyValue(
+                                    ${escapeJs(
+                                        account.mac || ""
+                                    )}
+                                )"
+                            >
+
+                                📋
+
+                            </button>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- CLE -->
+
+                    <div class="line">
+
+                        <div class="lineTitle">
+
+                            🔑 Clé
+
+                        </div>
+
+                        <div class="valueRow">
+
+                            <div class="value">
+
+                                ${escapeHtml(
+                                    account.key || ""
+                                )}
+
+                            </div>
+
+                            <button
+                                class="copyBtn"
+                                onclick="copyValue(
+                                    ${escapeJs(
+                                        account.key || ""
+                                    )}
+                                )"
+                            >
+
+                                📋
+
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                `;
+
+            }
+
+
+            /* ACTIONS */
+
+            html += `
+
+                <div class="actions">
+
+                    <button
+                        class="edit"
+                        onclick="editAccount(
+                            ${account.id}
+                        )"
+                    >
+
+                        ✏️ Modifier
+
+                    </button>
+
+                    <button
+                        class="delete"
+                        onclick="deleteAccount(
+                            ${account.id}
+                        )"
+                    >
+
+                        🗑️ Supprimer
+
+                    </button>
+
+                </div>
+
+            `;
+
+
+            card.innerHTML =
+                html;
+
+
+            container.appendChild(
+                card
+            );
+
         }
-
-
-        html += `
-
-            <div class="actions">
-
-                <button
-                    class="edit"
-                    onclick="editAccount(
-                        ${account.id}
-                    )"
-                >
-                    ✏️ Modifier
-                </button>
-
-                <button
-                    class="delete"
-                    onclick="deleteAccount(
-                        ${account.id}
-                    )"
-                >
-                    🗑️ Supprimer
-                </button>
-
-            </div>
-
-        `;
-
-
-        card.innerHTML = html;
-
-        container.appendChild(card);
-
-    });
+    );
 
 }
 
 
-/* =========================
-   AFFICHER MOT DE PASSE
-========================= */
+/* ========================= */
+/* AFFICHER MOT DE PASSE */
+/* ========================= */
 
 function showPasswordAccount(
     id,
@@ -1448,9 +1751,9 @@ function showPasswordAccount(
 }
 
 
-/* =========================
-   MODIFIER
-========================= */
+/* ========================= */
+/* MODIFIER */
+/* ========================= */
 
 function editAccount(id){
 
@@ -1466,53 +1769,64 @@ function editAccount(id){
     editingId = id;
 
 
-    document.getElementById(
-        "personName"
-    ).value =
+    document
+        .getElementById("url1")
+        .value =
+        account.url1 || "";
+
+
+    document
+        .getElementById("personName")
+        .value =
         account.personName || "";
 
 
-    document.getElementById(
-        "username"
-    ).value =
+    document
+        .getElementById("username")
+        .value =
         account.username || "";
 
 
-    document.getElementById(
-        "password"
-    ).value =
+    document
+        .getElementById("password")
+        .value =
         account.password || "";
 
 
-    document.getElementById(
-        "application"
-    ).checked =
+    document
+        .getElementById("application")
+        .checked =
         !!account.application;
 
 
-    document.getElementById(
-        "mac"
-    ).value =
+    document
+        .getElementById("appUrl1")
+        .value =
+        account.appUrl1 || "";
+
+
+    document
+        .getElementById("mac")
+        .value =
         account.mac || "";
 
 
-    document.getElementById(
-        "key"
-    ).value =
+    document
+        .getElementById("key")
+        .value =
         account.key || "";
 
 
-    document.getElementById(
-        "saveButton"
-    ).textContent =
+    document
+        .getElementById("saveButton")
+        .textContent =
         "💾 Enregistrer les modifications";
 
 
-    document.getElementById(
-        "cancelButton"
-    ).classList.remove(
-        "hidden"
-    );
+    document
+        .getElementById("cancelButton")
+        .classList
+        .remove("hidden");
 
 
     toggleApplicationFields();
@@ -1529,9 +1843,9 @@ function editAccount(id){
 }
 
 
-/* =========================
-   ANNULER
-========================= */
+/* ========================= */
+/* ANNULER MODIFICATION */
+/* ========================= */
 
 function cancelEdit(){
 
@@ -1542,75 +1856,85 @@ function cancelEdit(){
 }
 
 
-/* =========================
-   VIDER
-========================= */
+/* ========================= */
+/* VIDER FORMULAIRE */
+/* ========================= */
 
 function clearForm(){
 
     editingId = null;
 
 
-    document.getElementById(
-        "personName"
-    ).value = "";
+    document
+        .getElementById("url1")
+        .value = "";
 
 
-    document.getElementById(
-        "username"
-    ).value = "";
+    document
+        .getElementById("personName")
+        .value = "";
 
 
-    document.getElementById(
-        "password"
-    ).value = "";
+    document
+        .getElementById("username")
+        .value = "";
 
 
-    document.getElementById(
-        "application"
-    ).checked = false;
+    document
+        .getElementById("password")
+        .value = "";
 
 
-    document.getElementById(
-        "mac"
-    ).value = "";
+    document
+        .getElementById("application")
+        .checked = false;
 
 
-    document.getElementById(
-        "key"
-    ).value = "";
+    document
+        .getElementById("appUrl1")
+        .value = "";
 
 
-    document.getElementById(
-        "password"
-    ).type =
+    document
+        .getElementById("mac")
+        .value = "";
+
+
+    document
+        .getElementById("key")
+        .value = "";
+
+
+    document
+        .getElementById("password")
+        .type =
         "password";
 
 
-    document.getElementById(
-        "saveButton"
-    ).textContent =
+    document
+        .getElementById("saveButton")
+        .textContent =
         "💾 Enregistrer";
 
 
-    document.getElementById(
-        "cancelButton"
-    ).classList.add(
-        "hidden"
-    );
+    document
+        .getElementById("cancelButton")
+        .classList
+        .add("hidden");
 
 
-    document.getElementById(
-        "appFields"
-    ).style.display =
+    document
+        .getElementById("appFields")
+        .style
+        .display =
         "none";
 
 }
 
 
-/* =========================
-   SUPPRIMER
-========================= */
+/* ========================= */
+/* SUPPRIMER */
+/* ========================= */
 
 function deleteAccount(id){
 
@@ -1623,15 +1947,17 @@ function deleteAccount(id){
     if(!account) return;
 
 
-    const confirmation =
-        confirm(
+    if(
+        !confirm(
             "Supprimer l'accès de " +
             account.personName +
             " ?"
-        );
+        )
+    ){
 
+        return;
 
-    if(!confirmation) return;
+    }
 
 
     accounts =
@@ -1651,9 +1977,9 @@ function deleteAccount(id){
 }
 
 
-/* =========================
-   TELECHARGER SAUVEGARDE
-========================= */
+/* ========================= */
+/* SAUVEGARDE JSON */
+/* ========================= */
 
 function downloadBackup(){
 
@@ -1670,12 +1996,13 @@ function downloadBackup(){
 
     const backup = {
 
-        version: 1,
+        version:3,
 
-        application: "Mes accès",
+        application:"Mes accès",
 
         date:
-            new Date().toISOString(),
+            new Date()
+            .toISOString(),
 
         accounts:
             accounts
@@ -1696,13 +2023,15 @@ function downloadBackup(){
             [json],
             {
                 type:
-                    "application/json"
+                "application/json"
             }
         );
 
 
     const url =
-        URL.createObjectURL(blob);
+        URL.createObjectURL(
+            blob
+        );
 
 
     const link =
@@ -1715,7 +2044,9 @@ function downloadBackup(){
         .slice(0,10);
 
 
-    link.href = url;
+    link.href =
+        url;
+
 
     link.download =
         "mes-acces-sauvegarde-" +
@@ -1723,14 +2054,20 @@ function downloadBackup(){
         ".json";
 
 
-    document.body.appendChild(link);
+    document.body.appendChild(
+        link
+    );
+
 
     link.click();
+
 
     link.remove();
 
 
-    URL.revokeObjectURL(url);
+    URL.revokeObjectURL(
+        url
+    );
 
 
     showToast(
@@ -1740,9 +2077,9 @@ function downloadBackup(){
 }
 
 
-/* =========================
-   RESTAURER
-========================= */
+/* ========================= */
+/* RESTAURATION */
+/* ========================= */
 
 function restoreBackup(event){
 
@@ -1750,22 +2087,15 @@ function restoreBackup(event){
         event.target.files[0];
 
 
-    if(!file){
-
-        return;
-
-    }
+    if(!file) return;
 
 
-    const confirmation =
-        confirm(
+    if(
+        !confirm(
             "⚠️ Restaurer cette sauvegarde ?\n\n" +
-            "Les accès actuellement présents " +
-            "seront remplacés par ceux de la sauvegarde."
-        );
-
-
-    if(!confirmation){
+            "Les accès actuellement présents seront remplacés par ceux de la sauvegarde."
+        )
+    ){
 
         event.target.value = "";
 
@@ -1817,47 +2147,53 @@ function restoreBackup(event){
                 }
 
 
-                restoredAccounts =
-                    restoredAccounts
-                    .map(account => ({
-
-                        id:
-                            account.id ||
-                            Date.now() +
-                            Math.random(),
-
-                        personName:
-                            account.personName ||
-                            "",
-
-                        username:
-                            account.username ||
-                            "",
-
-                        password:
-                            account.password ||
-                            "",
-
-                        application:
-                            !!account.application,
-
-                        mac:
-                            account.mac ||
-                            "",
-
-                        key:
-                            account.key ||
-                            "",
-
-                        createdAt:
-                            account.createdAt ||
-                            new Date().toISOString()
-
-                    }));
-
-
                 accounts =
-                    restoredAccounts;
+                    restoredAccounts.map(
+                        account => ({
+
+                            id:
+                                account.id ||
+                                Date.now() +
+                                Math.random(),
+
+                            url1:
+                                account.url1 ||
+                                "",
+
+                            personName:
+                                account.personName ||
+                                "",
+
+                            username:
+                                account.username ||
+                                "",
+
+                            password:
+                                account.password ||
+                                "",
+
+                            application:
+                                !!account.application,
+
+                            appUrl1:
+                                account.appUrl1 ||
+                                "",
+
+                            mac:
+                                account.mac ||
+                                "",
+
+                            key:
+                                account.key ||
+                                "",
+
+                            createdAt:
+                                account.createdAt ||
+                                new Date()
+                                .toISOString()
+
+                        })
+                    );
 
 
                 saveData();
@@ -1892,9 +2228,9 @@ function restoreBackup(event){
 }
 
 
-/* =========================
-   TOAST
-========================= */
+/* ========================= */
+/* TOAST */
+/* ========================= */
 
 function showToast(message){
 
@@ -1914,7 +2250,7 @@ function showToast(message){
 
 
     setTimeout(
-        () => {
+        function(){
 
             toast.classList.remove(
                 "show"
@@ -1927,9 +2263,9 @@ function showToast(message){
 }
 
 
-/* =========================
-   SECURITE HTML
-========================= */
+/* ========================= */
+/* SECURITE AFFICHAGE */
+/* ========================= */
 
 function escapeHtml(value){
 
@@ -1972,16 +2308,16 @@ function escapeJs(value){
 }
 
 
-/* =========================
-   PREMIER FOCUS PIN
-========================= */
+/* ========================= */
+/* FOCUS PIN */
+/* ========================= */
 
 setTimeout(
     function(){
 
-        document.getElementById(
-            "pinInput"
-        ).focus();
+        document
+            .getElementById("pinInput")
+            .focus();
 
     },
     300
