@@ -173,7 +173,6 @@ button{
 .photoPreview{
     margin-top:12px;
     display:none;
-    position:relative;
 }
 
 .photoPreview img{
@@ -234,16 +233,27 @@ button{
     background:#f2f2f7;
     padding:11px;
     border-radius:9px;
-    overflow:hidden;
-    word-break:break-all;
     min-height:42px;
+    overflow:hidden;
+    word-break:break-word;
 }
 
-.value a{
+/* URL CLIQUABLE */
+
+.urlLink{
     color:#007aff;
     text-decoration:underline;
-    cursor:pointer;
+    display:block;
+    width:100%;
+    min-height:20px;
     word-break:break-all;
+    cursor:pointer;
+    -webkit-user-select:text;
+    user-select:text;
+}
+
+.urlLink:active{
+    opacity:.5;
 }
 
 .actions{
@@ -256,7 +266,7 @@ button{
     flex:1;
 }
 
-/* PHOTO DANS LES ACCES */
+/* PHOTO SAUVEGARDEE */
 
 .savedPhoto{
     margin-top:15px;
@@ -412,18 +422,22 @@ button{
 }
 
 @media(max-width:500px){
+
     .actions,
     .backupButtons,
     .photoButtons{
         flex-direction:column;
     }
+
 }
 </style>
 </head>
 
 <body>
 
+<!-- ========================= -->
 <!-- PIN -->
+<!-- ========================= -->
 
 <div class="pinScreen" id="pinScreen">
 
@@ -462,7 +476,9 @@ button{
 </div>
 
 
+<!-- ========================= -->
 <!-- APPLICATION -->
+<!-- ========================= -->
 
 <div id="app" class="hidden">
 
@@ -472,7 +488,10 @@ button{
 
 <div class="container">
 
-<!-- FORMULAIRE -->
+
+<!-- ========================= -->
+<!-- AJOUTER / MODIFIER -->
+<!-- ========================= -->
 
 <div class="card">
 
@@ -555,7 +574,7 @@ button{
 </div>
 
 
-<!-- URL PRINCIPALE -->
+<!-- URL -->
 
 <label>
     🌐 URL 1
@@ -648,8 +667,6 @@ button{
 
 </div>
 
-
-<!-- CHAMPS APPLICATION -->
 
 <div
     id="appFields"
@@ -765,7 +782,9 @@ button{
 </div>
 
 
+<!-- ========================= -->
 <!-- SAUVEGARDE -->
+<!-- ========================= -->
 
 <div class="card">
 
@@ -774,8 +793,7 @@ button{
 </h2>
 
 <p style="color:#666;font-size:14px;">
-    Télécharge une copie de tes accès pour pouvoir les restaurer
-    en cas de problème ou de changement d'iPhone.
+    Télécharge une copie de tes accès pour pouvoir les restaurer.
 </p>
 
 <div class="backupButtons">
@@ -808,7 +826,9 @@ button{
 </div>
 
 
+<!-- ========================= -->
 <!-- RECHERCHE -->
+<!-- ========================= -->
 
 <div class="search">
 
@@ -841,11 +861,18 @@ button{
 
 <script>
 
+/* ========================= */
+/* VARIABLES */
+/* ========================= */
+
 const PIN = "1157";
+
 const STORAGE_KEY = "mesAcces";
 
 let accounts = [];
+
 let editingId = null;
+
 let currentPhoto = "";
 
 
@@ -856,10 +883,14 @@ let currentPhoto = "";
 function checkPin(){
 
     const value =
-        document.getElementById("pinInput").value;
+        document
+            .getElementById("pinInput")
+            .value;
 
     const error =
-        document.getElementById("pinError");
+        document
+            .getElementById("pinError");
+
 
     if(value === PIN){
 
@@ -891,6 +922,7 @@ function checkPin(){
             .focus();
 
     }
+
 }
 
 
@@ -901,7 +933,9 @@ document
         function(event){
 
             if(event.key === "Enter"){
+
                 checkPin();
+
             }
 
         }
@@ -909,7 +943,7 @@ document
 
 
 /* ========================= */
-/* CHARGEMENT */
+/* CHARGER LES ACCES */
 /* ========================= */
 
 function loadAccounts(){
@@ -917,7 +951,9 @@ function loadAccounts(){
     try{
 
         const saved =
-            localStorage.getItem(STORAGE_KEY);
+            localStorage.getItem(
+                STORAGE_KEY
+            );
 
         if(saved){
 
@@ -925,7 +961,9 @@ function loadAccounts(){
                 JSON.parse(saved);
 
             if(!Array.isArray(accounts)){
+
                 accounts = [];
+
             }
 
         }
@@ -937,11 +975,12 @@ function loadAccounts(){
     }
 
     renderAccounts();
+
 }
 
 
 /* ========================= */
-/* SAUVEGARDE */
+/* SAUVEGARDER */
 /* ========================= */
 
 function saveData(){
@@ -956,11 +995,11 @@ function saveData(){
     }catch(error){
 
         alert(
-            "Impossible d'enregistrer les données. " +
-            "La mémoire du navigateur est peut-être pleine."
+            "Impossible d'enregistrer les données."
         );
 
     }
+
 }
 
 
@@ -971,15 +1010,19 @@ function saveData(){
 function toggleApplicationFields(){
 
     const checkbox =
-        document.getElementById("application");
+        document
+            .getElementById("application");
 
     const fields =
-        document.getElementById("appFields");
+        document
+            .getElementById("appFields");
+
 
     fields.style.display =
         checkbox.checked
         ? "block"
         : "none";
+
 }
 
 
@@ -990,19 +1033,24 @@ function toggleApplicationFields(){
 function togglePasswordInput(button){
 
     const input =
-        document.getElementById("password");
+        document
+            .getElementById("password");
+
 
     if(input.type === "password"){
 
         input.type = "text";
+
         button.textContent = "🙈";
 
     }else{
 
         input.type = "password";
+
         button.textContent = "👁️";
 
     }
+
 }
 
 
@@ -1024,7 +1072,12 @@ function handlePhoto(event){
     const file =
         event.target.files[0];
 
-    if(!file) return;
+    if(!file){
+
+        return;
+
+    }
+
 
     if(!file.type.startsWith("image/")){
 
@@ -1036,8 +1089,10 @@ function handlePhoto(event){
 
     }
 
+
     const reader =
         new FileReader();
+
 
     reader.onload =
         function(e){
@@ -1045,17 +1100,24 @@ function handlePhoto(event){
             currentPhoto =
                 e.target.result;
 
+
             document
-                .getElementById("photoPreviewImg")
+                .getElementById(
+                    "photoPreviewImg"
+                )
                 .src =
                 currentPhoto;
 
+
             document
-                .getElementById("photoPreview")
+                .getElementById(
+                    "photoPreview"
+                )
                 .style.display =
                 "block";
 
         };
+
 
     reader.readAsDataURL(file);
 
@@ -1078,44 +1140,103 @@ function removePhoto(){
         .getElementById("photoPreview")
         .style.display =
         "none";
+
 }
 
 
 /* ========================= */
-/* OUVRIR URL */
+/* NORMALISER URL */
 /* ========================= */
 
-function openUrl(url){
+function normalizeUrl(url){
 
-    if(!url) return;
+    let value =
+        String(url || "")
+        .trim();
 
-    url =
-        String(url).trim();
 
-    if(!/^https?:\/\//i.test(url)){
+    if(!value){
 
-        url =
-            "https://" + url;
+        return "";
 
     }
 
-    window.open(
-        url,
-        "_blank"
-    );
+
+    if(
+        /^https?:\/\//i.test(value)
+    ){
+
+        return value;
+
+    }
+
+
+    return "https://" + value;
+
 }
 
 
 /* ========================= */
-/* COPIE COMPATIBLE IPHONE */
+/* CREER UN LIEN URL */
+/* ========================= */
+
+function createUrlLink(url){
+
+    const cleanUrl =
+        normalizeUrl(url);
+
+
+    if(!cleanUrl){
+
+        return "";
+
+    }
+
+
+    const link =
+        document.createElement("a");
+
+
+    link.className =
+        "urlLink";
+
+
+    link.href =
+        cleanUrl;
+
+
+    link.target =
+        "_blank";
+
+
+    link.rel =
+        "noopener noreferrer";
+
+
+    link.textContent =
+        url;
+
+
+    return link.outerHTML;
+
+}
+
+
+/* ========================= */
+/* COPIE */
 /* ========================= */
 
 function copyInput(id){
 
     const input =
-        document.getElementById(id);
+        document
+            .getElementById(id);
 
-    if(!input || !input.value){
+
+    if(
+        !input ||
+        !input.value
+    ){
 
         showToast(
             "Rien à copier"
@@ -1125,7 +1246,11 @@ function copyInput(id){
 
     }
 
-    copyText(input.value);
+
+    copyText(
+        input.value
+    );
+
 }
 
 
@@ -1141,16 +1266,15 @@ function copyValue(value){
 
     }
 
+
     copyText(
         String(value)
     );
+
 }
 
 
 function copyText(value){
-
-    value =
-        String(value);
 
     if(
         navigator.clipboard &&
@@ -1173,24 +1297,32 @@ function copyText(value){
             });
 
         return;
+
     }
 
+
     copyTextFallback(value);
+
 }
 
 
 function copyTextFallback(value){
 
     const textarea =
-        document.createElement("textarea");
+        document.createElement(
+            "textarea"
+        );
+
 
     textarea.value =
         value;
+
 
     textarea.setAttribute(
         "readonly",
         ""
     );
+
 
     textarea.style.position =
         "fixed";
@@ -1201,22 +1333,19 @@ function copyTextFallback(value){
     textarea.style.top =
         "0";
 
-    textarea.style.opacity =
-        "0";
 
     document.body.appendChild(
         textarea
     );
 
+
     textarea.focus();
+
     textarea.select();
 
-    textarea.setSelectionRange(
-        0,
-        textarea.value.length
-    );
 
     let success = false;
+
 
     try{
 
@@ -1231,7 +1360,9 @@ function copyTextFallback(value){
 
     }
 
+
     textarea.remove();
+
 
     if(success){
 
@@ -1241,83 +1372,17 @@ function copyTextFallback(value){
 
     }else{
 
-        const manual =
-            document.createElement(
-                "textarea"
-            );
-
-        manual.value =
-            value;
-
-        manual.style.position =
-            "fixed";
-
-        manual.style.left =
-            "10px";
-
-        manual.style.right =
-            "10px";
-
-        manual.style.bottom =
-            "80px";
-
-        manual.style.width =
-            "calc(100% - 20px)";
-
-        manual.style.height =
-            "90px";
-
-        manual.style.zIndex =
-            "9999";
-
-        manual.style.background =
-            "white";
-
-        manual.style.border =
-            "2px solid #007aff";
-
-        manual.style.borderRadius =
-            "12px";
-
-        manual.style.padding =
-            "12px";
-
-        manual.style.fontSize =
-            "16px";
-
-        document.body.appendChild(
-            manual
-        );
-
-        manual.focus();
-        manual.select();
-
-        manual.setSelectionRange(
-            0,
-            manual.value.length
-        );
-
         showToast(
-            "Appuie sur Copier"
-        );
-
-        setTimeout(
-            function(){
-
-                if(manual.parentNode){
-                    manual.remove();
-                }
-
-            },
-            5000
+            "Sélectionnez le texte pour le copier"
         );
 
     }
+
 }
 
 
 /* ========================= */
-/* ENREGISTRER */
+/* ENREGISTRER ACCES */
 /* ========================= */
 
 function saveAccount(){
@@ -1328,16 +1393,19 @@ function saveAccount(){
             .value
             .trim();
 
+
     const username =
         document
             .getElementById("username")
             .value
             .trim();
 
+
     const password =
         document
             .getElementById("password")
             .value;
+
 
     const url1 =
         document
@@ -1345,10 +1413,12 @@ function saveAccount(){
             .value
             .trim();
 
+
     const application =
         document
             .getElementById("application")
             .checked;
+
 
     const appUrl1 =
         document
@@ -1356,11 +1426,13 @@ function saveAccount(){
             .value
             .trim();
 
+
     const mac =
         document
             .getElementById("mac")
             .value
             .trim();
+
 
     const key =
         document
@@ -1379,6 +1451,7 @@ function saveAccount(){
 
     }
 
+
     if(!username){
 
         alert(
@@ -1389,6 +1462,7 @@ function saveAccount(){
 
     }
 
+
     if(!password){
 
         alert(
@@ -1398,6 +1472,7 @@ function saveAccount(){
         return;
 
     }
+
 
     if(!url1){
 
@@ -1410,15 +1485,15 @@ function saveAccount(){
     }
 
 
-    /* MODIFICATION */
-
     if(editingId !== null){
 
         const account =
             accounts.find(
                 a =>
-                    a.id === editingId
+                    Number(a.id) ===
+                    Number(editingId)
             );
+
 
         if(account){
 
@@ -1457,9 +1532,11 @@ function saveAccount(){
 
         }
 
+
         showToast(
             "Accès modifié ✅"
         );
+
 
     }else{
 
@@ -1507,6 +1584,7 @@ function saveAccount(){
 
         });
 
+
         showToast(
             "Accès enregistré ✅"
         );
@@ -1519,11 +1597,12 @@ function saveAccount(){
     clearForm();
 
     renderAccounts();
+
 }
 
 
 /* ========================= */
-/* AFFICHAGE */
+/* AFFICHER LES ACCES */
 /* ========================= */
 
 function renderAccounts(){
@@ -1532,6 +1611,7 @@ function renderAccounts(){
         document.getElementById(
             "accounts"
         );
+
 
     const search =
         document
@@ -1554,22 +1634,17 @@ function renderAccounts(){
                     account.mac,
                     account.key
 
-                ].map(
-                    function(v){
+                ];
 
-                        return String(
-                            v || ""
-                        ).toLowerCase();
-
-                    }
-                );
 
                 return searchable.some(
-                    function(v){
+                    function(value){
 
-                        return v.includes(
-                            search
-                        );
+                        return String(
+                            value || ""
+                        )
+                        .toLowerCase()
+                        .includes(search);
 
                     }
                 );
@@ -1613,6 +1688,7 @@ function renderAccounts(){
                     "div"
                 );
 
+
             card.className =
                 "account";
 
@@ -1622,11 +1698,9 @@ function renderAccounts(){
                 <div class="accountTitle">
 
                     <div class="accountName">
-
                         👤 ${escapeHtml(
                             account.personName || ""
                         )}
-
                     </div>
 
                     ${
@@ -1687,6 +1761,7 @@ function renderAccounts(){
                         <div
                             class="value"
                             id="pass-${account.id}"
+                            data-visible="false"
                         >
                             ••••••••••
                         </div>
@@ -1694,10 +1769,12 @@ function renderAccounts(){
                         <button
                             class="show"
                             type="button"
-                            onclick="showPasswordAccount(
-                                ${account.id},
-                                this
-                            )"
+                            onclick="
+                                showPasswordAccount(
+                                    ${account.id},
+                                    this
+                                )
+                            "
                         >
                             👁️
                         </button>
@@ -1728,19 +1805,9 @@ function renderAccounts(){
 
                         <div class="value">
 
-                            <a
-                                href="#"
-                                onclick="
-                                    event.preventDefault();
-                                    openUrl('${escapeHtml(
-                                        account.url1 || ""
-                                    )}');
-                                "
-                            >
-                                ${escapeHtml(
-                                    account.url1 || ""
-                                )}
-                            </a>
+                            ${createUrlLink(
+                                account.url1 || ""
+                            )}
 
                         </div>
 
@@ -1793,9 +1860,7 @@ function renderAccounts(){
                 html += `
 
                     <div class="sectionTitle">
-
                         📱 Informations application
-
                     </div>
 
 
@@ -1811,19 +1876,9 @@ function renderAccounts(){
 
                             <div class="value">
 
-                                <a
-                                    href="#"
-                                    onclick="
-                                        event.preventDefault();
-                                        openUrl('${escapeHtml(
-                                            account.appUrl1 || ""
-                                        )}');
-                                    "
-                                >
-                                    ${escapeHtml(
-                                        account.appUrl1 || ""
-                                    )}
-                                </a>
+                                ${createUrlLink(
+                                    account.appUrl1 || ""
+                                )}
 
                             </div>
 
@@ -1905,7 +1960,7 @@ function renderAccounts(){
             }
 
 
-            /* ACTIONS */
+            /* BOUTONS */
 
             html += `
 
@@ -1939,6 +1994,7 @@ function renderAccounts(){
             card.innerHTML =
                 html;
 
+
             container.appendChild(
                 card
             );
@@ -1950,7 +2006,7 @@ function renderAccounts(){
 
 
 /* ========================= */
-/* BOUTONS COPIER DES ACCES */
+/* COPIER DANS LES ACCES */
 /* ========================= */
 
 document.addEventListener(
@@ -1962,13 +2018,19 @@ document.addEventListener(
                 ".accountCopy"
             );
 
-        if(!button) return;
+
+        if(!button){
+
+            return;
+
+        }
 
 
         const id =
             Number(
                 button.dataset.id
             );
+
 
         const field =
             button.dataset.field;
@@ -1977,25 +2039,28 @@ document.addEventListener(
         const account =
             accounts.find(
                 a =>
-                    Number(a.id) === id
+                    Number(a.id) ===
+                    id
             );
 
 
-        if(!account) return;
+        if(!account){
+
+            return;
+
+        }
 
 
-        const value =
-            account[field];
-
-
-        copyValue(value);
+        copyValue(
+            account[field]
+        );
 
     }
 );
 
 
 /* ========================= */
-/* MOT DE PASSE AFFICHAGE */
+/* AFFICHER MOT DE PASSE */
 /* ========================= */
 
 function showPasswordAccount(
@@ -2010,15 +2075,18 @@ function showPasswordAccount(
                 Number(id)
         );
 
-    if(!account) return;
+
+    if(!account){
+
+        return;
+
+    }
 
 
     const element =
         document.getElementById(
             "pass-" + id
         );
-
-    if(!element) return;
 
 
     if(
@@ -2064,7 +2132,12 @@ function editAccount(id){
                 Number(id)
         );
 
-    if(!account) return;
+
+    if(!account){
+
+        return;
+
+    }
 
 
     editingId =
@@ -2076,35 +2149,42 @@ function editAccount(id){
         .value =
         account.personName || "";
 
+
     document
         .getElementById("username")
         .value =
         account.username || "";
+
 
     document
         .getElementById("password")
         .value =
         account.password || "";
 
+
     document
         .getElementById("url1")
         .value =
         account.url1 || "";
+
 
     document
         .getElementById("application")
         .checked =
         !!account.application;
 
+
     document
         .getElementById("appUrl1")
         .value =
         account.appUrl1 || "";
 
+
     document
         .getElementById("mac")
         .value =
         account.mac || "";
+
 
     document
         .getElementById("key")
@@ -2175,13 +2255,10 @@ function editAccount(id){
 
 
 /* ========================= */
-/* ANNULER */
+/* ANNULER MODIFICATION */
 /* ========================= */
 
 function cancelEdit(){
-
-    editingId =
-        null;
 
     clearForm();
 
@@ -2205,13 +2282,16 @@ function clearForm(){
         .getElementById("personName")
         .value = "";
 
+
     document
         .getElementById("username")
         .value = "";
 
+
     document
         .getElementById("password")
         .value = "";
+
 
     document
         .getElementById("url1")
@@ -2228,9 +2308,11 @@ function clearForm(){
         .getElementById("appUrl1")
         .value = "";
 
+
     document
         .getElementById("mac")
         .value = "";
+
 
     document
         .getElementById("key")
@@ -2304,7 +2386,12 @@ function deleteAccount(id){
                 Number(id)
         );
 
-    if(!account) return;
+
+    if(!account){
+
+        return;
+
+    }
 
 
     if(!confirm(
@@ -2329,6 +2416,7 @@ function deleteAccount(id){
     saveData();
 
     renderAccounts();
+
 
     showToast(
         "Accès supprimé"
@@ -2363,7 +2451,7 @@ function downloadBackup(){
 
         date:
             new Date()
-                .toISOString(),
+            .toISOString(),
 
         accounts:
             accounts
@@ -2371,17 +2459,15 @@ function downloadBackup(){
     };
 
 
-    const json =
-        JSON.stringify(
-            backup,
-            null,
-            2
-        );
-
-
     const blob =
         new Blob(
-            [json],
+            [
+                JSON.stringify(
+                    backup,
+                    null,
+                    2
+                )
+            ],
             {
                 type:
                     "application/json"
@@ -2403,12 +2489,13 @@ function downloadBackup(){
 
     const date =
         new Date()
-            .toISOString()
-            .slice(0,10);
+        .toISOString()
+        .slice(0,10);
 
 
     link.href =
         url;
+
 
     link.download =
         "mes-acces-sauvegarde-" +
@@ -2420,7 +2507,9 @@ function downloadBackup(){
         link
     );
 
+
     link.click();
+
 
     link.remove();
 
@@ -2446,12 +2535,17 @@ function restoreBackup(event){
     const file =
         event.target.files[0];
 
-    if(!file) return;
+
+    if(!file){
+
+        return;
+
+    }
 
 
     if(!confirm(
         "⚠️ Restaurer cette sauvegarde ?\n\n" +
-        "Les accès actuellement présents seront remplacés par ceux de la sauvegarde."
+        "Les accès actuels seront remplacés."
     )){
 
         event.target.value =
@@ -2552,7 +2646,7 @@ function restoreBackup(event){
                                 createdAt:
                                     account.createdAt ||
                                     new Date()
-                                        .toISOString()
+                                    .toISOString()
 
                             };
 
@@ -2575,8 +2669,7 @@ function restoreBackup(event){
             }catch(error){
 
                 alert(
-                    "❌ Impossible de restaurer cette sauvegarde.\n\n" +
-                    "Le fichier n'est pas valide."
+                    "❌ Impossible de restaurer cette sauvegarde."
                 );
 
             }
@@ -2629,7 +2722,7 @@ function showToast(message){
 
 
 /* ========================= */
-/* SECURITE AFFICHAGE */
+/* SECURITE HTML */
 /* ========================= */
 
 function escapeHtml(value){
@@ -2677,7 +2770,9 @@ setTimeout(
             );
 
         if(pin){
+
             pin.focus();
+
         }
 
     },
