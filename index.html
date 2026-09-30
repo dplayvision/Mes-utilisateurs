@@ -7,7 +7,6 @@
 <title>Mes accès</title>
 
 <style>
-
 *{
     box-sizing:border-box;
     -webkit-tap-highlight-color:transparent;
@@ -19,8 +18,6 @@ body{
     background:#f2f2f7;
     color:#111;
 }
-
-/* HEADER */
 
 header{
     background:#007aff;
@@ -35,15 +32,11 @@ header{
     z-index:20;
 }
 
-/* CONTAINER */
-
 .container{
     padding:15px;
     max-width:700px;
     margin:auto;
 }
-
-/* CARTES */
 
 .card,
 .account{
@@ -59,15 +52,11 @@ h2{
     font-size:20px;
 }
 
-/* LABELS */
-
 label{
     display:block;
     font-weight:600;
     margin:12px 0 6px;
 }
-
-/* INPUTS */
 
 input[type="text"],
 input[type="password"]{
@@ -88,8 +77,6 @@ input[type="password"]{
     flex:1;
     min-width:0;
 }
-
-/* BOUTONS */
 
 button{
     border:0;
@@ -164,7 +151,47 @@ button{
     font-weight:700;
 }
 
-/* AFFICHAGE ACCES */
+/* PHOTO */
+
+.photoBox{
+    margin-top:18px;
+    padding-top:14px;
+    border-top:1px solid #e5e5ea;
+}
+
+.photoButtons{
+    display:flex;
+    gap:8px;
+    margin-top:8px;
+}
+
+.photoButton{
+    flex:1;
+    background:#e5e5ea;
+}
+
+.photoPreview{
+    margin-top:12px;
+    display:none;
+    position:relative;
+}
+
+.photoPreview img{
+    width:100%;
+    max-height:300px;
+    object-fit:contain;
+    border-radius:12px;
+    background:#f2f2f7;
+}
+
+.removePhoto{
+    width:100%;
+    margin-top:8px;
+    background:#ff3b30;
+    color:white;
+}
+
+/* ACCES */
 
 .accountTitle{
     margin-bottom:15px;
@@ -222,6 +249,20 @@ button{
     flex:1;
 }
 
+/* PHOTO DANS LES ACCES */
+
+.savedPhoto{
+    margin-top:15px;
+}
+
+.savedPhoto img{
+    width:100%;
+    max-height:280px;
+    object-fit:contain;
+    border-radius:12px;
+    background:#f2f2f7;
+}
+
 /* RECHERCHE */
 
 .search{
@@ -247,8 +288,6 @@ button{
     color:#777;
     padding:30px 10px;
 }
-
-/* HIDDEN */
 
 .hidden{
     display:none !important;
@@ -360,30 +399,24 @@ button{
     color:white;
 }
 
-#restoreFile{
+#restoreFile,
+#photoInput{
     display:none;
 }
 
-/* MOBILE */
-
 @media(max-width:500px){
-
     .actions,
-    .backupButtons{
+    .backupButtons,
+    .photoButtons{
         flex-direction:column;
     }
-
 }
-
 </style>
 </head>
 
 <body>
 
-
-<!-- ========================= -->
-<!-- ECRAN PIN -->
-<!-- ========================= -->
+<!-- PIN -->
 
 <div class="pinScreen" id="pinScreen">
 
@@ -404,26 +437,18 @@ button{
             placeholder="••••"
         >
 
-        <button
-            class="pinButton"
-            onclick="checkPin()"
-        >
+        <button class="pinButton" onclick="checkPin()">
             🔓 Ouvrir
         </button>
 
-        <div
-            class="pinError"
-            id="pinError"
-        ></div>
+        <div class="pinError" id="pinError"></div>
 
     </div>
 
 </div>
 
 
-<!-- ========================= -->
 <!-- APPLICATION -->
-<!-- ========================= -->
 
 <div id="app" class="hidden">
 
@@ -431,13 +456,9 @@ button{
     🔐 Mes accès
 </header>
 
-
 <div class="container">
 
-
-<!-- ========================= -->
-<!-- AJOUT / MODIFICATION -->
-<!-- ========================= -->
+<!-- FORMULAIRE -->
 
 <div class="card">
 
@@ -446,33 +467,7 @@ button{
 </h2>
 
 
-<!-- URL PRINCIPALE -->
-
-<label>
-    🌐 URL 1
-</label>
-
-<div class="inputRow">
-
-    <input
-        type="text"
-        id="url1"
-        autocomplete="off"
-        placeholder="https://..."
-    >
-
-    <button
-        class="copyBtn"
-        type="button"
-        onclick="copyInput('url1')"
-    >
-        📋
-    </button>
-
-</div>
-
-
-<!-- NOM PRENOM -->
+<!-- NOM -->
 
 <label>
     👤 Nom / Prénom
@@ -558,6 +553,83 @@ button{
 </div>
 
 
+<!-- URL PRINCIPALE SOUS LE MOT DE PASSE -->
+
+<label>
+    🌐 URL 1
+</label>
+
+<div class="inputRow">
+
+    <input
+        type="text"
+        id="url1"
+        autocomplete="off"
+        placeholder="https://..."
+    >
+
+    <button
+        class="copyBtn"
+        type="button"
+        onclick="copyInput('url1')"
+    >
+        📋
+    </button>
+
+</div>
+
+
+<!-- PHOTO -->
+
+<div class="photoBox">
+
+    <label>
+        📷 Photo
+    </label>
+
+    <div class="photoButtons">
+
+        <button
+            type="button"
+            class="photoButton"
+            onclick="openPhotoPicker()"
+        >
+            📷 Ajouter une photo
+        </button>
+
+    </div>
+
+    <input
+        type="file"
+        id="photoInput"
+        accept="image/*"
+        onchange="handlePhoto(event)"
+    >
+
+    <div
+        class="photoPreview"
+        id="photoPreview"
+    >
+
+        <img
+            id="photoPreviewImg"
+            src=""
+            alt="Photo"
+        >
+
+        <button
+            type="button"
+            class="removePhoto"
+            onclick="removePhoto()"
+        >
+            🗑️ Supprimer la photo
+        </button>
+
+    </div>
+
+</div>
+
+
 <!-- APPLICATION -->
 
 <div class="applicationBox">
@@ -575,9 +647,7 @@ button{
 </div>
 
 
-<!-- ========================= -->
 <!-- CHAMPS APPLICATION -->
-<!-- ========================= -->
 
 <div
     id="appFields"
@@ -681,8 +751,6 @@ button{
 </button>
 
 
-<!-- ANNULER -->
-
 <button
     class="cancel hidden"
     id="cancelButton"
@@ -692,13 +760,10 @@ button{
     Annuler
 </button>
 
-
 </div>
 
 
-<!-- ========================= -->
 <!-- SAUVEGARDE -->
-<!-- ========================= -->
 
 <div class="card">
 
@@ -741,9 +806,7 @@ button{
 </div>
 
 
-<!-- ========================= -->
 <!-- RECHERCHE -->
-<!-- ========================= -->
 
 <div class="search">
 
@@ -756,37 +819,19 @@ button{
 
 </div>
 
-
-<div
-    class="counter"
-    id="counter"
-></div>
-
-
-<!-- LISTE -->
+<div class="counter" id="counter"></div>
 
 <div id="accounts"></div>
 
-
 </div>
 
 </div>
 
 
-<!-- TOAST -->
-
-<div
-    class="toast"
-    id="toast"
-></div>
-
+<div class="toast" id="toast"></div>
 
 
 <script>
-
-/* ========================= */
-/* CONFIGURATION */
-/* ========================= */
 
 const PIN = "1157";
 
@@ -795,6 +840,8 @@ const STORAGE_KEY = "mesAcces";
 let accounts = [];
 
 let editingId = null;
+
+let currentPhoto = "";
 
 
 /* ========================= */
@@ -840,11 +887,8 @@ function checkPin(){
             .focus();
 
     }
-
 }
 
-
-/* ENTER SUR PIN */
 
 document
     .getElementById("pinInput")
@@ -853,9 +897,7 @@ document
         function(event){
 
             if(event.key === "Enter"){
-
                 checkPin();
-
             }
 
         }
@@ -879,9 +921,7 @@ function loadAccounts(){
                 JSON.parse(saved);
 
             if(!Array.isArray(accounts)){
-
                 accounts = [];
-
             }
 
         }
@@ -892,23 +932,31 @@ function loadAccounts(){
 
     }
 
-
     renderAccounts();
-
 }
 
 
 /* ========================= */
-/* SAUVEGARDE AUTOMATIQUE */
+/* SAUVEGARDE */
 /* ========================= */
 
 function saveData(){
 
-    localStorage.setItem(
-        STORAGE_KEY,
-        JSON.stringify(accounts)
-    );
+    try{
 
+        localStorage.setItem(
+            STORAGE_KEY,
+            JSON.stringify(accounts)
+        );
+
+    }catch(error){
+
+        alert(
+            "Impossible d'enregistrer les données. " +
+            "La mémoire du navigateur est peut-être pleine."
+        );
+
+    }
 }
 
 
@@ -925,16 +973,10 @@ function toggleApplicationFields(){
         document.getElementById("appFields");
 
 
-    if(checkbox.checked){
-
-        fields.style.display = "block";
-
-    }else{
-
-        fields.style.display = "none";
-
-    }
-
+    fields.style.display =
+        checkbox.checked
+        ? "block"
+        : "none";
 }
 
 
@@ -961,12 +1003,94 @@ function togglePasswordInput(button){
         button.textContent = "👁️";
 
     }
+}
+
+
+/* ========================= */
+/* PHOTO */
+/* ========================= */
+
+function openPhotoPicker(){
+
+    document
+        .getElementById("photoInput")
+        .click();
+
+}
+
+
+function handlePhoto(event){
+
+    const file =
+        event.target.files[0];
+
+    if(!file) return;
+
+
+    if(!file.type.startsWith("image/")){
+
+        alert("Veuillez sélectionner une image.");
+
+        return;
+
+    }
+
+
+    const reader =
+        new FileReader();
+
+
+    reader.onload = function(e){
+
+        currentPhoto =
+            e.target.result;
+
+
+        document
+            .getElementById("photoPreviewImg")
+            .src =
+            currentPhoto;
+
+
+        document
+            .getElementById("photoPreview")
+            .style
+            .display =
+            "block";
+
+    };
+
+
+    reader.readAsDataURL(file);
+
+}
+
+
+function removePhoto(){
+
+    currentPhoto = "";
+
+    document
+        .getElementById("photoInput")
+        .value = "";
+
+
+    document
+        .getElementById("photoPreviewImg")
+        .src = "";
+
+
+    document
+        .getElementById("photoPreview")
+        .style
+        .display =
+        "none";
 
 }
 
 
 /* ========================= */
-/* COPIER INPUT */
+/* COPIE */
 /* ========================= */
 
 async function copyInput(id){
@@ -989,10 +1113,6 @@ async function copyInput(id){
 }
 
 
-/* ========================= */
-/* COPIER VALEUR */
-/* ========================= */
-
 async function copyValue(value){
 
     if(!value){
@@ -1009,10 +1129,6 @@ async function copyValue(value){
 }
 
 
-/* ========================= */
-/* COPIE */
-/* ========================= */
-
 async function copyText(value){
 
     try{
@@ -1028,13 +1144,18 @@ async function copyText(value){
         const textarea =
             document.createElement("textarea");
 
-        textarea.value = value;
+        textarea.value =
+            value;
 
-        textarea.style.position = "fixed";
+        textarea.style.position =
+            "fixed";
 
-        textarea.style.opacity = "0";
+        textarea.style.opacity =
+            "0";
 
-        document.body.appendChild(textarea);
+        document.body.appendChild(
+            textarea
+        );
 
         textarea.focus();
 
@@ -1047,7 +1168,6 @@ async function copyText(value){
         showToast("Copié 📋");
 
     }
-
 }
 
 
@@ -1056,13 +1176,6 @@ async function copyText(value){
 /* ========================= */
 
 function saveAccount(){
-
-    const url1 =
-        document
-        .getElementById("url1")
-        .value
-        .trim();
-
 
     const personName =
         document
@@ -1082,6 +1195,13 @@ function saveAccount(){
         document
         .getElementById("password")
         .value;
+
+
+    const url1 =
+        document
+        .getElementById("url1")
+        .value
+        .trim();
 
 
     const application =
@@ -1111,20 +1231,11 @@ function saveAccount(){
         .trim();
 
 
-    /* VERIFICATIONS */
-
-    if(!url1){
-
-        alert("Veuillez entrer l'URL.");
-
-        return;
-
-    }
-
-
     if(!personName){
 
-        alert("Veuillez entrer le nom / prénom.");
+        alert(
+            "Veuillez entrer le nom / prénom."
+        );
 
         return;
 
@@ -1133,7 +1244,9 @@ function saveAccount(){
 
     if(!username){
 
-        alert("Veuillez entrer un utilisateur.");
+        alert(
+            "Veuillez entrer un utilisateur."
+        );
 
         return;
 
@@ -1142,7 +1255,20 @@ function saveAccount(){
 
     if(!password){
 
-        alert("Veuillez entrer un mot de passe.");
+        alert(
+            "Veuillez entrer un mot de passe."
+        );
+
+        return;
+
+    }
+
+
+    if(!url1){
+
+        alert(
+            "Veuillez entrer l'URL."
+        );
 
         return;
 
@@ -1161,9 +1287,6 @@ function saveAccount(){
 
         if(account){
 
-            account.url1 =
-                url1;
-
             account.personName =
                 personName;
 
@@ -1172,6 +1295,9 @@ function saveAccount(){
 
             account.password =
                 password;
+
+            account.url1 =
+                url1;
 
             account.application =
                 application;
@@ -1191,6 +1317,9 @@ function saveAccount(){
                 ? key
                 : "";
 
+            account.photo =
+                currentPhoto || "";
+
         }
 
 
@@ -1201,15 +1330,10 @@ function saveAccount(){
 
     }else{
 
-        /* NOUVEL ACCES */
-
         accounts.unshift({
 
             id:
                 Date.now(),
-
-            url1:
-                url1,
 
             personName:
                 personName,
@@ -1219,6 +1343,9 @@ function saveAccount(){
 
             password:
                 password,
+
+            url1:
+                url1,
 
             application:
                 application,
@@ -1237,6 +1364,9 @@ function saveAccount(){
                 application
                 ? key
                 : "",
+
+            photo:
+                currentPhoto || "",
 
             createdAt:
                 new Date()
@@ -1262,13 +1392,15 @@ function saveAccount(){
 
 
 /* ========================= */
-/* AFFICHER LES ACCES */
+/* AFFICHAGE */
 /* ========================= */
 
 function renderAccounts(){
 
     const container =
-        document.getElementById("accounts");
+        document.getElementById(
+            "accounts"
+        );
 
 
     const search =
@@ -1285,11 +1417,11 @@ function renderAccounts(){
 
                 const searchable = [
 
-                    account.url1,
-
                     account.personName,
 
                     account.username,
+
+                    account.url1,
 
                     account.appUrl1,
 
@@ -1349,9 +1481,10 @@ function renderAccounts(){
     filtered.forEach(
         account => {
 
-
             const card =
-                document.createElement("div");
+                document.createElement(
+                    "div"
+                );
 
 
             card.className =
@@ -1376,9 +1509,7 @@ function renderAccounts(){
                         ?
                         `
                         <span class="appBadge">
-
                             📱 APPLICATION
-
                         </span>
                         `
                         :
@@ -1388,62 +1519,20 @@ function renderAccounts(){
                 </div>
 
 
-                <!-- URL PRINCIPALE -->
-
-                <div class="line">
-
-                    <div class="lineTitle">
-
-                        🌐 URL 1
-
-                    </div>
-
-                    <div class="valueRow">
-
-                        <div class="value">
-
-                            ${escapeHtml(
-                                account.url1 || ""
-                            )}
-
-                        </div>
-
-                        <button
-                            class="copyBtn"
-                            onclick="copyValue(
-                                ${escapeJs(
-                                    account.url1 || ""
-                                )}
-                            )"
-                        >
-
-                            📋
-
-                        </button>
-
-                    </div>
-
-                </div>
-
-
                 <!-- UTILISATEUR -->
 
                 <div class="line">
 
                     <div class="lineTitle">
-
                         👤 Utilisateur
-
                     </div>
 
                     <div class="valueRow">
 
                         <div class="value">
-
                             ${escapeHtml(
                                 account.username || ""
                             )}
-
                         </div>
 
                         <button
@@ -1454,9 +1543,7 @@ function renderAccounts(){
                                 )}
                             )"
                         >
-
                             📋
-
                         </button>
 
                     </div>
@@ -1469,9 +1556,7 @@ function renderAccounts(){
                 <div class="line">
 
                     <div class="lineTitle">
-
                         🔑 Mot de passe
-
                     </div>
 
                     <div class="valueRow">
@@ -1480,9 +1565,7 @@ function renderAccounts(){
                             class="value"
                             id="pass-${account.id}"
                         >
-
                             ••••••••••
-
                         </div>
 
                         <button
@@ -1492,9 +1575,7 @@ function renderAccounts(){
                                 this
                             )"
                         >
-
                             👁️
-
                         </button>
 
                         <button
@@ -1505,9 +1586,39 @@ function renderAccounts(){
                                 )}
                             )"
                         >
-
                             📋
+                        </button>
 
+                    </div>
+
+                </div>
+
+
+                <!-- URL PRINCIPALE -->
+
+                <div class="line">
+
+                    <div class="lineTitle">
+                        🌐 URL 1
+                    </div>
+
+                    <div class="valueRow">
+
+                        <div class="value">
+                            ${escapeHtml(
+                                account.url1 || ""
+                            )}
+                        </div>
+
+                        <button
+                            class="copyBtn"
+                            onclick="copyValue(
+                                ${escapeJs(
+                                    account.url1 || ""
+                                )}
+                            )"
+                        >
+                            📋
                         </button>
 
                     </div>
@@ -1517,39 +1628,53 @@ function renderAccounts(){
             `;
 
 
-            /* ========================= */
+            /* PHOTO */
+
+            if(account.photo){
+
+                html += `
+
+                    <div class="savedPhoto">
+
+                        <div class="lineTitle">
+                            📷 Photo
+                        </div>
+
+                        <img
+                            src="${account.photo}"
+                            alt="Photo"
+                        >
+
+                    </div>
+
+                `;
+
+            }
+
+
             /* APPLICATION */
-            /* ========================= */
 
             if(account.application){
 
                 html += `
 
                     <div class="sectionTitle">
-
                         📱 Informations application
-
                     </div>
 
-
-                    <!-- URL APPLICATION -->
 
                     <div class="line">
 
                         <div class="lineTitle">
-
                             🌐 URL 1
-
                         </div>
 
                         <div class="valueRow">
 
                             <div class="value">
-
                                 ${escapeHtml(
                                     account.appUrl1 || ""
                                 )}
-
                             </div>
 
                             <button
@@ -1560,9 +1685,7 @@ function renderAccounts(){
                                     )}
                                 )"
                             >
-
                                 📋
-
                             </button>
 
                         </div>
@@ -1570,24 +1693,18 @@ function renderAccounts(){
                     </div>
 
 
-                    <!-- MAC -->
-
                     <div class="line">
 
                         <div class="lineTitle">
-
                             📱 MAC
-
                         </div>
 
                         <div class="valueRow">
 
                             <div class="value">
-
                                 ${escapeHtml(
                                     account.mac || ""
                                 )}
-
                             </div>
 
                             <button
@@ -1598,9 +1715,7 @@ function renderAccounts(){
                                     )}
                                 )"
                             >
-
                                 📋
-
                             </button>
 
                         </div>
@@ -1608,24 +1723,18 @@ function renderAccounts(){
                     </div>
 
 
-                    <!-- CLE -->
-
                     <div class="line">
 
                         <div class="lineTitle">
-
                             🔑 Clé
-
                         </div>
 
                         <div class="valueRow">
 
                             <div class="value">
-
                                 ${escapeHtml(
                                     account.key || ""
                                 )}
-
                             </div>
 
                             <button
@@ -1636,9 +1745,7 @@ function renderAccounts(){
                                     )}
                                 )"
                             >
-
                                 📋
-
                             </button>
 
                         </div>
@@ -1662,9 +1769,7 @@ function renderAccounts(){
                             ${account.id}
                         )"
                     >
-
                         ✏️ Modifier
-
                     </button>
 
                     <button
@@ -1673,9 +1778,7 @@ function renderAccounts(){
                             ${account.id}
                         )"
                     >
-
                         🗑️ Supprimer
-
                     </button>
 
                 </div>
@@ -1698,7 +1801,7 @@ function renderAccounts(){
 
 
 /* ========================= */
-/* AFFICHER MOT DE PASSE */
+/* MOT DE PASSE AFFICHAGE */
 /* ========================= */
 
 function showPasswordAccount(
@@ -1770,12 +1873,6 @@ function editAccount(id){
 
 
     document
-        .getElementById("url1")
-        .value =
-        account.url1 || "";
-
-
-    document
         .getElementById("personName")
         .value =
         account.personName || "";
@@ -1791,6 +1888,12 @@ function editAccount(id){
         .getElementById("password")
         .value =
         account.password || "";
+
+
+    document
+        .getElementById("url1")
+        .value =
+        account.url1 || "";
 
 
     document
@@ -1815,6 +1918,34 @@ function editAccount(id){
         .getElementById("key")
         .value =
         account.key || "";
+
+
+    currentPhoto =
+        account.photo || "";
+
+
+    if(currentPhoto){
+
+        document
+            .getElementById("photoPreviewImg")
+            .src =
+            currentPhoto;
+
+        document
+            .getElementById("photoPreview")
+            .style
+            .display =
+            "block";
+
+    }else{
+
+        document
+            .getElementById("photoPreview")
+            .style
+            .display =
+            "none";
+
+    }
 
 
     document
@@ -1844,7 +1975,7 @@ function editAccount(id){
 
 
 /* ========================= */
-/* ANNULER MODIFICATION */
+/* ANNULER */
 /* ========================= */
 
 function cancelEdit(){
@@ -1864,10 +1995,7 @@ function clearForm(){
 
     editingId = null;
 
-
-    document
-        .getElementById("url1")
-        .value = "";
+    currentPhoto = "";
 
 
     document
@@ -1882,6 +2010,11 @@ function clearForm(){
 
     document
         .getElementById("password")
+        .value = "";
+
+
+    document
+        .getElementById("url1")
         .value = "";
 
 
@@ -1909,6 +2042,23 @@ function clearForm(){
         .getElementById("password")
         .type =
         "password";
+
+
+    document
+        .getElementById("photoInput")
+        .value = "";
+
+
+    document
+        .getElementById("photoPreviewImg")
+        .src = "";
+
+
+    document
+        .getElementById("photoPreview")
+        .style
+        .display =
+        "none";
 
 
     document
@@ -1996,7 +2146,7 @@ function downloadBackup(){
 
     const backup = {
 
-        version:3,
+        version:4,
 
         application:"Mes accès",
 
@@ -2156,10 +2306,6 @@ function restoreBackup(event){
                                 Date.now() +
                                 Math.random(),
 
-                            url1:
-                                account.url1 ||
-                                "",
-
                             personName:
                                 account.personName ||
                                 "",
@@ -2170,6 +2316,10 @@ function restoreBackup(event){
 
                             password:
                                 account.password ||
+                                "",
+
+                            url1:
+                                account.url1 ||
                                 "",
 
                             application:
@@ -2185,6 +2335,10 @@ function restoreBackup(event){
 
                             key:
                                 account.key ||
+                                "",
+
+                            photo:
+                                account.photo ||
                                 "",
 
                             createdAt:
