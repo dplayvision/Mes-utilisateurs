@@ -1,12 +1,18 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
+
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+>
 
 <title>Mes accès</title>
 
 <style>
+
 *{
     box-sizing:border-box;
     -webkit-tap-highlight-color:transparent;
@@ -103,13 +109,13 @@ button{
     color:white;
 }
 
-.orange{
-    background:#ff9500;
+.green{
+    background:#34c759;
     color:white;
 }
 
-.green{
-    background:#34c759;
+.orange{
+    background:#ff9500;
     color:white;
 }
 
@@ -253,19 +259,6 @@ hr{
     margin:18px 0;
 }
 
-small{
-    color:#666;
-}
-
-.reminderInfo{
-    margin-top:10px;
-    padding:12px;
-    border-radius:10px;
-    background:#fff3cd;
-    color:#856404;
-    font-size:14px;
-}
-
 .account h2{
     margin:0 0 12px;
     font-size:20px;
@@ -333,16 +326,6 @@ small{
     color:#555;
 }
 
-.photoButtons{
-    display:flex;
-    gap:8px;
-    margin-top:8px;
-}
-
-.photoButtons button{
-    flex:1;
-}
-
 .calendarBox{
     margin-top:10px;
     padding:12px;
@@ -358,18 +341,38 @@ small{
     margin-top:8px;
 }
 
+.photoButtons{
+    display:flex;
+    gap:8px;
+    margin-top:8px;
+}
+
+.photoButtons button{
+    flex:1;
+}
+
 .photoButtonText{
     display:block;
     margin-top:8px;
     color:#666;
     font-size:14px;
 }
+
 </style>
+
 </head>
 
 <body>
 
-<div class="login" id="loginScreen">
+
+<!-- =========================
+     CONNEXION
+========================= -->
+
+<div
+    class="login"
+    id="loginScreen"
+>
 
     <div class="loginBox">
 
@@ -386,11 +389,17 @@ small{
             autocomplete="off"
         >
 
-        <button class="primary" onclick="login()">
+        <button
+            class="primary"
+            onclick="login()"
+        >
             Se connecter
         </button>
 
-        <div id="loginError" class="loginError hidden">
+        <div
+            id="loginError"
+            class="loginError hidden"
+        >
             Code incorrect
         </div>
 
@@ -398,25 +407,45 @@ small{
 
 </div>
 
+
+<!-- =========================
+     HEADER
+========================= -->
+
 <header>
 
     <h1>🔐 Mes accès</h1>
 
-    <div class="userCount" id="userCount">
+    <div
+        class="userCount"
+        id="userCount"
+    >
         👥 0 utilisateurs
     </div>
 
 </header>
 
+
 <div class="container">
+
+
+    <!-- =========================
+         BOUTONS
+    ========================= -->
 
     <div class="topButtons">
 
-        <button class="secondary" onclick="showAddForm()">
+        <button
+            class="secondary"
+            onclick="showAddForm()"
+        >
             ➕ Ajouter
         </button>
 
-        <button class="secondary" onclick="exportData()">
+        <button
+            class="secondary"
+            onclick="exportData()"
+        >
             💾 Sauvegarder
         </button>
 
@@ -437,27 +466,49 @@ small{
 
     </div>
 
+
+    <!-- =========================
+         RECHERCHE
+    ========================= -->
+
     <input
-        class="search"
         id="searchInput"
         placeholder="🔎 Rechercher un utilisateur..."
         oninput="renderAccounts()"
     >
 
-    <div class="card hidden" id="formCard">
+
+    <!-- =========================
+         FORMULAIRE
+    ========================= -->
+
+    <div
+        class="card hidden"
+        id="formCard"
+    >
 
         <h2 id="formTitle">
             ➕ Nouvel accès
         </h2>
 
-        <label>Nom / Prénom</label>
+
+        <!-- NOM -->
+
+        <label>
+            Nom / Prénom
+        </label>
 
         <input
             id="name"
             placeholder="Exemple : Jean Dupont"
         >
 
-        <label>Utilisateur</label>
+
+        <!-- UTILISATEUR -->
+
+        <label>
+            Utilisateur
+        </label>
 
         <div class="fieldRow">
 
@@ -475,7 +526,12 @@ small{
 
         </div>
 
-        <label>Mot de passe</label>
+
+        <!-- MOT DE PASSE -->
+
+        <label>
+            Mot de passe
+        </label>
 
         <div class="fieldRow">
 
@@ -501,7 +557,12 @@ small{
 
         </div>
 
-        <label>URL 1</label>
+
+        <!-- URL 1 -->
+
+        <label>
+            URL 1
+        </label>
 
         <div class="fieldRow">
 
@@ -519,7 +580,12 @@ small{
 
         </div>
 
-        <label>URL 2</label>
+
+        <!-- URL 2 -->
+
+        <label>
+            URL 2
+        </label>
 
         <div class="fieldRow">
 
@@ -537,14 +603,25 @@ small{
 
         </div>
 
-        <label>Remarque</label>
+
+        <!-- REMARQUE -->
+
+        <label>
+            Remarque
+        </label>
 
         <textarea
             id="remark"
             placeholder="Remarque..."
         ></textarea>
 
+
         <hr>
+
+
+        <!-- =========================
+             DURÉE
+        ========================= -->
 
         <div class="durationBox">
 
@@ -583,21 +660,10 @@ small{
                 📅 La date d'expiration sera calculée automatiquement.
             </div>
 
-            <div
-                class="dateInfo"
-                id="reminderPreview"
-            >
-                🔔 Le rappel J-2 sera calculé automatiquement.
-            </div>
-
         </div>
 
-        <div class="reminderInfo">
 
-            📅 La date du rappel est automatiquement fixée à
-            <strong>2 jours avant l'expiration</strong>.
-
-        </div>
+        <!-- APPLICATION -->
 
         <div class="checkRow">
 
@@ -616,12 +682,15 @@ small{
 
         </div>
 
+
         <div
             id="applicationFields"
             class="hidden"
         >
 
-            <label>URL de l'application</label>
+            <label>
+                URL de l'application
+            </label>
 
             <div class="fieldRow">
 
@@ -639,7 +708,10 @@ small{
 
             </div>
 
-            <label>MAC</label>
+
+            <label>
+                MAC
+            </label>
 
             <div class="fieldRow">
 
@@ -657,7 +729,10 @@ small{
 
             </div>
 
-            <label>Clé</label>
+
+            <label>
+                Clé
+            </label>
 
             <div class="fieldRow">
 
@@ -677,9 +752,17 @@ small{
 
         </div>
 
+
         <hr>
 
-        <label>📷 Photo</label>
+
+        <!-- =========================
+             PHOTO
+        ========================= -->
+
+        <label>
+            📷 Photo
+        </label>
 
         <div class="photoButtons">
 
@@ -701,6 +784,7 @@ small{
 
         </div>
 
+
         <input
             type="file"
             id="photoLibraryInput"
@@ -708,6 +792,7 @@ small{
             class="hidden"
             onchange="handlePhoto(event)"
         >
+
 
         <input
             type="file"
@@ -718,10 +803,11 @@ small{
             onchange="handlePhoto(event)"
         >
 
+
         <span class="photoButtonText">
-            Tu peux choisir une photo déjà présente dans ton GSM
-            ou prendre une nouvelle photo.
+            Choisis une photo existante ou prends-en une nouvelle.
         </span>
+
 
         <div
             id="photoContainer"
@@ -743,12 +829,16 @@ small{
 
         </div>
 
+
+        <!-- ENREGISTRER -->
+
         <button
             class="primary"
             onclick="saveAccount()"
         >
             💾 Enregistrer
         </button>
+
 
         <button
             class="secondary"
@@ -760,18 +850,27 @@ small{
 
     </div>
 
+
+    <!-- LISTE -->
+
     <div id="accountsList"></div>
 
 </div>
 
+
 <script>
 
+
 const PIN = "1157";
+
 const STORAGE_KEY = "mesAcces";
 
 let accounts = [];
+
 let editIndex = -1;
+
 let currentPhoto = "";
+
 
 
 /* =========================
@@ -783,14 +882,19 @@ function loadData(){
     try{
 
         const saved =
-            localStorage.getItem(STORAGE_KEY);
+            localStorage.getItem(
+                STORAGE_KEY
+            );
 
         if(saved){
 
-            accounts = JSON.parse(saved);
+            accounts =
+                JSON.parse(saved);
 
             if(!Array.isArray(accounts)){
+
                 accounts = [];
+
             }
 
         }else{
@@ -802,14 +906,18 @@ function loadData(){
     }catch(error){
 
         console.error(error);
+
         accounts = [];
 
     }
 
+
     updateUserCount();
+
     renderAccounts();
 
 }
+
 
 
 /* =========================
@@ -839,6 +947,7 @@ function saveData(){
 }
 
 
+
 /* =========================
    CONNEXION
 ========================= */
@@ -846,17 +955,24 @@ function saveData(){
 function login(){
 
     const pin =
-        document.getElementById("pinInput").value;
+        document
+            .getElementById("pinInput")
+            .value;
+
 
     if(pin === PIN){
 
         document
             .getElementById("loginScreen")
-            .classList.add("hidden");
+            .classList
+            .add("hidden");
+
 
         document
             .getElementById("loginError")
-            .classList.add("hidden");
+            .classList
+            .add("hidden");
+
 
         loadData();
 
@@ -864,9 +980,14 @@ function login(){
 
         document
             .getElementById("loginError")
-            .classList.remove("hidden");
+            .classList
+            .remove("hidden");
 
-        document.getElementById("pinInput").value = "";
+
+        document
+            .getElementById("pinInput")
+            .value = "";
+
 
         document
             .getElementById("pinInput")
@@ -881,33 +1002,43 @@ document
     .getElementById("pinInput")
     .addEventListener(
         "keydown",
-        function(e){
+        function(event){
 
-            if(e.key === "Enter"){
+            if(event.key === "Enter"){
+
                 login();
+
             }
 
         }
     );
 
 
+
 /* =========================
-   COMPTEUR UTILISATEURS
+   COMPTEUR
 ========================= */
 
 function updateUserCount(){
 
-    const count = accounts.length;
+    const count =
+        accounts.length;
+
 
     document
         .getElementById("userCount")
         .textContent =
-        "👥 " +
-        count +
-        " utilisateur" +
-        (count > 1 ? "s" : "");
+            "👥 " +
+            count +
+            " utilisateur" +
+            (
+                count > 1
+                    ? "s"
+                    : ""
+            );
 
 }
+
 
 
 /* =========================
@@ -918,18 +1049,24 @@ function showAddForm(){
 
     editIndex = -1;
 
+
     document
         .getElementById("formTitle")
         .textContent =
-        "➕ Nouvel accès";
+            "➕ Nouvel accès";
+
 
     clearForm();
 
+
     document
         .getElementById("formCard")
-        .classList.remove("hidden");
+        .classList
+        .remove("hidden");
+
 
     updateDatePreview();
+
 
     window.scrollTo({
         top:0,
@@ -939,68 +1076,123 @@ function showAddForm(){
 }
 
 
+
 function clearForm(){
 
-    document.getElementById("name").value = "";
-    document.getElementById("username").value = "";
-    document.getElementById("password").value = "";
-    document.getElementById("url1").value = "";
-    document.getElementById("url2").value = "";
-    document.getElementById("remark").value = "";
-    document.getElementById("duration").value = "";
+    document
+        .getElementById("name")
+        .value = "";
 
-    document.getElementById("isApplication").checked = false;
 
-    document.getElementById("appUrl1").value = "";
-    document.getElementById("mac").value = "";
-    document.getElementById("appKey").value = "";
+    document
+        .getElementById("username")
+        .value = "";
+
+
+    document
+        .getElementById("password")
+        .value = "";
+
+
+    document
+        .getElementById("url1")
+        .value = "";
+
+
+    document
+        .getElementById("url2")
+        .value = "";
+
+
+    document
+        .getElementById("remark")
+        .value = "";
+
+
+    document
+        .getElementById("duration")
+        .value = "";
+
+
+    document
+        .getElementById("isApplication")
+        .checked = false;
+
+
+    document
+        .getElementById("appUrl1")
+        .value = "";
+
+
+    document
+        .getElementById("mac")
+        .value = "";
+
+
+    document
+        .getElementById("appKey")
+        .value = "";
+
 
     document
         .getElementById("applicationFields")
-        .classList.add("hidden");
+        .classList
+        .add("hidden");
+
 
     currentPhoto = "";
 
-    document.getElementById("photoLibraryInput").value = "";
-    document.getElementById("cameraInput").value = "";
+
+    document
+        .getElementById("photoLibraryInput")
+        .value = "";
+
+
+    document
+        .getElementById("cameraInput")
+        .value = "";
+
 
     document
         .getElementById("photoContainer")
-        .classList.add("hidden");
+        .classList
+        .add("hidden");
+
 
     document
         .getElementById("photoPreview")
         .removeAttribute("src");
 
+
     document
         .getElementById("startDateInfo")
         .textContent =
-        "📅 La date de début sera enregistrée à l'ajout.";
+            "📅 La date de début sera enregistrée à l'ajout.";
+
 
     document
         .getElementById("expiryPreview")
         .textContent =
-        "📅 La date d'expiration sera calculée automatiquement.";
-
-    document
-        .getElementById("reminderPreview")
-        .textContent =
-        "🔔 Le rappel J-2 sera calculé automatiquement.";
+            "📅 La date d'expiration sera calculée automatiquement.";
 
 }
+
 
 
 function cancelForm(){
 
     document
         .getElementById("formCard")
-        .classList.add("hidden");
+        .classList
+        .add("hidden");
+
 
     editIndex = -1;
 
     clearForm();
 
 }
+
 
 
 function toggleApplicationFields(){
@@ -1010,14 +1202,17 @@ function toggleApplicationFields(){
             .getElementById("isApplication")
             .checked;
 
+
     document
         .getElementById("applicationFields")
-        .classList.toggle(
+        .classList
+        .toggle(
             "hidden",
             !checked
         );
 
 }
+
 
 
 /* =========================
@@ -1027,7 +1222,10 @@ function toggleApplicationFields(){
 function togglePassword(){
 
     const field =
-        document.getElementById("password");
+        document.getElementById(
+            "password"
+        );
+
 
     if(field.type === "password"){
 
@@ -1042,6 +1240,7 @@ function togglePassword(){
 }
 
 
+
 /* =========================
    COPIER
 ========================= */
@@ -1050,64 +1249,107 @@ async function copyText(text){
 
     if(!text){
 
-        alert("Rien à copier.");
+        alert(
+            "Rien à copier."
+        );
+
         return;
 
     }
+
 
     try{
 
         if(navigator.clipboard){
 
-            await navigator.clipboard.writeText(text);
+            await navigator.clipboard.writeText(
+                text
+            );
 
-            alert("Copié !");
+            alert(
+                "Copié !"
+            );
+
             return;
 
         }
 
     }catch(error){}
 
+
     const textarea =
-        document.createElement("textarea");
+        document.createElement(
+            "textarea"
+        );
 
-    textarea.value = text;
 
-    textarea.style.position = "fixed";
-    textarea.style.opacity = "0";
+    textarea.value =
+        text;
 
-    document.body.appendChild(textarea);
+
+    textarea.style.position =
+        "fixed";
+
+
+    textarea.style.opacity =
+        "0";
+
+
+    document.body.appendChild(
+        textarea
+    );
+
 
     textarea.focus();
+
     textarea.select();
+
 
     try{
 
-        document.execCommand("copy");
+        document.execCommand(
+            "copy"
+        );
 
-        alert("Copié !");
+        alert(
+            "Copié !"
+        );
 
     }catch(error){
 
-        alert("Impossible de copier.");
+        alert(
+            "Impossible de copier."
+        );
 
     }
 
-    document.body.removeChild(textarea);
+
+    document.body.removeChild(
+        textarea
+    );
 
 }
+
 
 
 function copyField(id){
 
     const field =
-        document.getElementById(id);
+        document.getElementById(
+            id
+        );
+
 
     if(field){
-        copyText(field.value);
+
+        copyText(
+            field.value
+        );
+
     }
 
 }
+
 
 
 /* =========================
@@ -1117,19 +1359,25 @@ function copyField(id){
 function choosePhoto(){
 
     document
-        .getElementById("photoLibraryInput")
+        .getElementById(
+            "photoLibraryInput"
+        )
         .click();
 
 }
+
 
 
 function takePhoto(){
 
     document
-        .getElementById("cameraInput")
+        .getElementById(
+            "cameraInput"
+        )
         .click();
 
 }
+
 
 
 function handlePhoto(event){
@@ -1137,13 +1385,19 @@ function handlePhoto(event){
     const file =
         event.target.files[0];
 
+
     if(!file){
+
         return;
+
     }
+
 
     if(!file.type.startsWith("image/")){
 
-        alert("Veuillez sélectionner une image.");
+        alert(
+            "Veuillez sélectionner une image."
+        );
 
         event.target.value = "";
 
@@ -1151,92 +1405,150 @@ function handlePhoto(event){
 
     }
 
+
     const reader =
         new FileReader();
 
-    reader.onload = function(e){
 
-        currentPhoto =
-            e.target.result;
+    reader.onload =
+        function(e){
 
-        document
-            .getElementById("photoPreview")
-            .src =
-            currentPhoto;
+            currentPhoto =
+                e.target.result;
 
-        document
-            .getElementById("photoContainer")
-            .classList.remove("hidden");
 
-    };
+            document
+                .getElementById(
+                    "photoPreview"
+                )
+                .src =
+                    currentPhoto;
 
-    reader.onerror = function(){
 
-        alert("Impossible de lire la photo.");
+            document
+                .getElementById(
+                    "photoContainer"
+                )
+                .classList
+                .remove("hidden");
 
-    };
+        };
 
-    reader.readAsDataURL(file);
+
+    reader.onerror =
+        function(){
+
+            alert(
+                "Impossible de lire la photo."
+            );
+
+        };
+
+
+    reader.readAsDataURL(
+        file
+    );
 
 }
+
 
 
 function removePhoto(){
 
     currentPhoto = "";
 
-    document
-        .getElementById("photoLibraryInput")
-        .value = "";
 
     document
-        .getElementById("cameraInput")
+        .getElementById(
+            "photoLibraryInput"
+        )
         .value = "";
 
+
     document
-        .getElementById("photoPreview")
+        .getElementById(
+            "cameraInput"
+        )
+        .value = "";
+
+
+    document
+        .getElementById(
+            "photoPreview"
+        )
         .removeAttribute("src");
 
+
     document
-        .getElementById("photoContainer")
-        .classList.add("hidden");
+        .getElementById(
+            "photoContainer"
+        )
+        .classList
+        .add("hidden");
 
 }
+
 
 
 /* =========================
    DATES
 ========================= */
 
-function calculateExpiryDate(startDate,duration){
+function calculateExpiryDate(
+    startDate,
+    duration
+){
 
     if(!startDate || !duration){
+
         return null;
+
     }
+
 
     const start =
-        new Date(startDate);
+        new Date(
+            startDate
+        );
+
 
     if(isNaN(start.getTime())){
+
         return null;
+
     }
 
-    start.setHours(0,0,0,0);
+
+    start.setHours(
+        0,
+        0,
+        0,
+        0
+    );
+
 
     const expiry =
-        new Date(start);
+        new Date(
+            start
+        );
+
 
     expiry.setDate(
         expiry.getDate() +
         Number(duration)
     );
 
+
     return expiry;
 
 }
 
 
-function calculateReminderDate(startDate,duration){
+
+function calculateReminderDate(
+    startDate,
+    duration
+){
 
     const expiry =
         calculateExpiryDate(
@@ -1244,27 +1556,39 @@ function calculateReminderDate(startDate,duration){
             duration
         );
 
+
     if(!expiry){
+
         return null;
+
     }
 
+
     const reminder =
-        new Date(expiry);
+        new Date(
+            expiry
+        );
+
 
     reminder.setDate(
         reminder.getDate() - 2
     );
+
 
     return reminder;
 
 }
 
 
+
 function formatDate(date){
 
     if(!date){
+
         return "";
+
     }
+
 
     return date.toLocaleDateString(
         "fr-BE"
@@ -1273,8 +1597,9 @@ function formatDate(date){
 }
 
 
+
 /* =========================
-   APERÇU DATES
+   APERÇU DATE
 ========================= */
 
 function updateDatePreview(){
@@ -1285,25 +1610,23 @@ function updateDatePreview(){
             .value
             .trim();
 
+
     const duration =
         parseInt(
             durationValue,
             10
         );
 
+
     const startInfo =
         document.getElementById(
             "startDateInfo"
         );
 
+
     const expiryInfo =
         document.getElementById(
             "expiryPreview"
-        );
-
-    const reminderInfo =
-        document.getElementById(
-            "reminderPreview"
         );
 
 
@@ -1319,11 +1642,9 @@ function updateDatePreview(){
 
         }
 
+
         expiryInfo.textContent =
             "📅 La date d'expiration sera calculée automatiquement.";
-
-        reminderInfo.textContent =
-            "🔔 Le rappel J-2 sera calculé automatiquement.";
 
         return;
 
@@ -1338,6 +1659,7 @@ function updateDatePreview(){
         startDate =
             new Date();
 
+
         startInfo.textContent =
             "📅 Début : aujourd'hui";
 
@@ -1345,6 +1667,7 @@ function updateDatePreview(){
 
         const account =
             accounts[editIndex];
+
 
         if(
             account &&
@@ -1361,18 +1684,21 @@ function updateDatePreview(){
                     account.startDate
                 );
 
+
             startInfo.textContent =
                 "📅 Début conservé : " +
-                formatDate(startDate);
+                formatDate(
+                    startDate
+                );
 
         }else{
 
             startDate =
                 new Date();
 
+
             startInfo.textContent =
-                "📅 Début : aujourd'hui " +
-                "(ancien accès)";
+                "📅 Début : aujourd'hui";
 
         }
 
@@ -1386,23 +1712,14 @@ function updateDatePreview(){
         );
 
 
-    const reminder =
-        calculateReminderDate(
-            startDate,
-            duration
-        );
-
-
     expiryInfo.textContent =
         "📅 Expiration : " +
-        formatDate(expiry);
-
-
-    reminderInfo.textContent =
-        "🔔 Rappel à faire le : " +
-        formatDate(reminder);
+        formatDate(
+            expiry
+        );
 
 }
+
 
 
 document
@@ -1411,6 +1728,7 @@ document
         "input",
         updateDatePreview
     );
+
 
 
 /* =========================
@@ -1425,16 +1743,19 @@ function saveAccount(){
             .value
             .trim();
 
+
     const username =
         document
             .getElementById("username")
             .value
             .trim();
 
+
     const password =
         document
             .getElementById("password")
             .value;
+
 
     const url1 =
         document
@@ -1442,11 +1763,13 @@ function saveAccount(){
             .value
             .trim();
 
+
     const url2 =
         document
             .getElementById("url2")
             .value
             .trim();
+
 
     const remark =
         document
@@ -1454,11 +1777,13 @@ function saveAccount(){
             .value
             .trim();
 
+
     const durationValue =
         document
             .getElementById("duration")
             .value
             .trim();
+
 
     const duration =
         durationValue
@@ -1468,10 +1793,12 @@ function saveAccount(){
             )
             : 0;
 
+
     const isApplication =
         document
             .getElementById("isApplication")
             .checked;
+
 
     const appUrl1 =
         document
@@ -1479,11 +1806,13 @@ function saveAccount(){
             .value
             .trim();
 
+
     const mac =
         document
             .getElementById("mac")
             .value
             .trim();
+
 
     const appKey =
         document
@@ -1520,8 +1849,6 @@ function saveAccount(){
     }
 
 
-    /* NOUVEL ACCÈS */
-
     if(editIndex === -1){
 
         accounts.push({
@@ -1556,12 +1883,7 @@ function saveAccount(){
 
         });
 
-    }
-
-
-    /* MODIFICATION */
-
-    else{
+    }else{
 
         const account =
             accounts[editIndex];
@@ -1570,29 +1892,30 @@ function saveAccount(){
         account.name =
             name;
 
+
         account.username =
             username;
+
 
         account.password =
             password;
 
+
         account.url1 =
             url1;
+
 
         account.url2 =
             url2;
 
+
         account.remark =
             remark;
+
 
         account.duration =
             duration;
 
-
-        /*
-         La date de début
-         reste inchangée.
-        */
 
         if(
             !account.startDate ||
@@ -1612,14 +1935,18 @@ function saveAccount(){
         account.isApplication =
             isApplication;
 
+
         account.appUrl1 =
             appUrl1;
+
 
         account.mac =
             mac;
 
+
         account.appKey =
             appKey;
+
 
         account.photo =
             currentPhoto;
@@ -1638,6 +1965,7 @@ function saveAccount(){
 }
 
 
+
 /* =========================
    MODIFIER
 ========================= */
@@ -1647,9 +1975,13 @@ function editAccount(index){
     const account =
         accounts[index];
 
+
     if(!account){
+
         return;
+
     }
+
 
     editIndex =
         index;
@@ -1658,50 +1990,75 @@ function editAccount(index){
     document
         .getElementById("formTitle")
         .textContent =
-        "✏️ Modifier l'accès";
+            "✏️ Modifier l'accès";
 
 
-    document.getElementById("name").value =
-        account.name || "";
+    document
+        .getElementById("name")
+        .value =
+            account.name || "";
 
-    document.getElementById("username").value =
-        account.username || "";
 
-    document.getElementById("password").value =
-        account.password || "";
+    document
+        .getElementById("username")
+        .value =
+            account.username || "";
 
-    document.getElementById("url1").value =
-        account.url1 || "";
 
-    document.getElementById("url2").value =
-        account.url2 || "";
+    document
+        .getElementById("password")
+        .value =
+            account.password || "";
 
-    document.getElementById("remark").value =
-        account.remark || "";
+
+    document
+        .getElementById("url1")
+        .value =
+            account.url1 || "";
+
+
+    document
+        .getElementById("url2")
+        .value =
+            account.url2 || "";
+
+
+    document
+        .getElementById("remark")
+        .value =
+            account.remark || "";
 
 
     document
         .getElementById("duration")
         .value =
-        account.duration
-            ? Number(account.duration)
-            : "";
+            account.duration
+                ? Number(account.duration)
+                : "";
 
 
     document
         .getElementById("isApplication")
         .checked =
-        !!account.isApplication;
+            !!account.isApplication;
 
 
-    document.getElementById("appUrl1").value =
-        account.appUrl1 || "";
+    document
+        .getElementById("appUrl1")
+        .value =
+            account.appUrl1 || "";
 
-    document.getElementById("mac").value =
-        account.mac || "";
 
-    document.getElementById("appKey").value =
-        account.appKey || "";
+    document
+        .getElementById("mac")
+        .value =
+            account.mac || "";
+
+
+    document
+        .getElementById("appKey")
+        .value =
+            account.appKey || "";
 
 
     toggleApplicationFields();
@@ -1716,17 +2073,21 @@ function editAccount(index){
         document
             .getElementById("photoPreview")
             .src =
-            currentPhoto;
+                currentPhoto;
+
 
         document
             .getElementById("photoContainer")
-            .classList.remove("hidden");
+            .classList
+            .remove("hidden");
 
     }else{
 
         document
             .getElementById("photoContainer")
-            .classList.add("hidden");
+            .classList
+            .add("hidden");
+
 
         document
             .getElementById("photoPreview")
@@ -1737,7 +2098,8 @@ function editAccount(index){
 
     document
         .getElementById("formCard")
-        .classList.remove("hidden");
+        .classList
+        .remove("hidden");
 
 
     updateDatePreview();
@@ -1751,6 +2113,7 @@ function editAccount(index){
 }
 
 
+
 /* =========================
    SUPPRIMER
 ========================= */
@@ -1760,15 +2123,21 @@ function deleteAccount(index){
     const account =
         accounts[index];
 
+
     if(!account){
+
         return;
+
     }
 
 
     if(
         !confirm(
             "Supprimer l'accès de " +
-            (account.name || "cet utilisateur") +
+            (
+                account.name ||
+                "cet utilisateur"
+            ) +
             " ?"
         )
     ){
@@ -1783,6 +2152,7 @@ function deleteAccount(index){
         1
     );
 
+
     saveData();
 
     updateUserCount();
@@ -1790,6 +2160,7 @@ function deleteAccount(index){
     renderAccounts();
 
 }
+
 
 
 /* =========================
@@ -1805,11 +2176,14 @@ function getCountdown(account){
 
         return {
 
-            text:"⏳ Aucune durée définie",
+            text:
+                "⏳ Aucune durée définie",
 
-            className:"none",
+            className:
+                "none",
 
-            days:null
+            days:
+                null
 
         };
 
@@ -1826,11 +2200,14 @@ function getCountdown(account){
 
         return {
 
-            text:"⏳ Date de départ invalide",
+            text:
+                "⏳ Date de départ invalide",
 
-            className:"none",
+            className:
+                "none",
 
-            days:null
+            days:
+                null
 
         };
 
@@ -1846,7 +2223,9 @@ function getCountdown(account){
 
 
     const expiry =
-        new Date(start);
+        new Date(
+            start
+        );
 
 
     expiry.setDate(
@@ -1885,7 +2264,10 @@ function getCountdown(account){
     if(difference < 0){
 
         const days =
-            Math.abs(difference);
+            Math.abs(
+                difference
+            );
+
 
         return {
 
@@ -2002,8 +2384,9 @@ function getCountdown(account){
 }
 
 
+
 /* =========================
-   DATE EXPIRATION
+   EXPIRATION
 ========================= */
 
 function getExpirationDate(account){
@@ -2014,9 +2397,13 @@ function getExpirationDate(account){
             account.duration
         );
 
+
     if(!expiry){
+
         return "";
+
     }
+
 
     return formatDate(
         expiry
@@ -2025,8 +2412,9 @@ function getExpirationDate(account){
 }
 
 
+
 /* =========================
-   DATE RAPPEL J-2
+   RAPPEL J-2
 ========================= */
 
 function getReminderDate(account){
@@ -2037,72 +2425,56 @@ function getReminderDate(account){
             account.duration
         );
 
+
     if(!reminder){
-        return "";
+
+        return null;
+
     }
 
-    return formatDate(
-        reminder
-    );
+
+    return reminder;
 
 }
+
 
 
 /* =========================
-   CALENDRIER
+   CALENDRIER GOOGLE
 ========================= */
 
-function padNumber(number){
-
-    return String(number)
-        .padStart(
-            2,
-            "0"
-        );
-
-}
-
-
-function formatICSDate(date){
+function formatGoogleDate(date){
 
     return (
         date.getFullYear() +
-        padNumber(
+        String(
             date.getMonth() + 1
-        ) +
-        padNumber(
+        ).padStart(2,"0") +
+        String(
             date.getDate()
-        )
+        ).padStart(2,"0")
     );
 
 }
 
 
-function escapeICS(text){
 
-    return String(text || "")
-        .replace(/\\/g,"\\\\")
-        .replace(/\n/g,"\\n")
-        .replace(/,/g,"\\,")
-        .replace(/;/g,"\\;");
-
-}
-
-
-function addToCalendar(index){
+function addToGoogleCalendar(index){
 
     const account =
         accounts[index];
 
+
     if(!account){
+
         return;
+
     }
 
 
     const reminder =
-        calculateReminderDate(
-            account.startDate,
-            account.duration
+        getReminderDate(
+            account
         );
 
 
@@ -2116,7 +2488,7 @@ function addToCalendar(index){
     if(!reminder || !expiry){
 
         alert(
-            "Il faut d'abord définir une durée pour cet accès."
+            "Il faut d'abord définir une durée."
         );
 
         return;
@@ -2124,19 +2496,16 @@ function addToCalendar(index){
     }
 
 
-    const name =
-        account.name ||
-        "Accès";
-
-
     const start =
-        formatICSDate(
+        formatGoogleDate(
             reminder
         );
 
 
     const endDate =
-        new Date(reminder);
+        new Date(
+            reminder
+        );
 
 
     endDate.setDate(
@@ -2145,98 +2514,42 @@ function addToCalendar(index){
 
 
     const end =
-        formatICSDate(
+        formatGoogleDate(
             endDate
         );
 
 
-    const ics =
-        "BEGIN:VCALENDAR\r\n" +
-        "VERSION:2.0\r\n" +
-        "PRODID:-//Mes acces//FR\r\n" +
-        "BEGIN:VEVENT\r\n" +
-        "UID:" +
-        Date.now() +
-        "-" +
-        index +
-        "@mes-acces\r\n" +
-        "DTSTART;VALUE=DATE:" +
+    const title =
+        "Rappel accès - " +
+        (
+            account.name ||
+            "Utilisateur"
+        );
+
+
+    const details =
+        "Rappel 2 jours avant l'expiration." +
+        "\nDate d'expiration : " +
+        formatDate(expiry);
+
+
+    const googleUrl =
+        "https://calendar.google.com/calendar/render?action=TEMPLATE" +
+        "&text=" +
+        encodeURIComponent(title) +
+        "&dates=" +
         start +
-        "\r\n" +
-        "DTEND;VALUE=DATE:" +
+        "/" +
         end +
-        "\r\n" +
-        "SUMMARY:" +
-        escapeICS(
-            "Rappel accès - " +
-            name
-        ) +
-        "\r\n" +
-        "DESCRIPTION:" +
-        escapeICS(
-            "Rappel 2 jours avant expiration. " +
-            "Expiration : " +
-            formatDate(expiry)
-        ) +
-        "\r\n" +
-        "END:VEVENT\r\n" +
-        "END:VCALENDAR\r\n";
+        "&details=" +
+        encodeURIComponent(details);
 
 
-    const blob =
-        new Blob(
-            [ics],
-            {
-                type:
-                    "text/calendar;charset=utf-8"
-            }
-        );
-
-
-    const url =
-        URL.createObjectURL(
-            blob
-        );
-
-
-    const link =
-        document.createElement("a");
-
-
-    link.href =
-        url;
-
-
-    link.download =
-        "rappel-" +
-        name
-            .replace(/[^a-z0-9]/gi,"-") +
-        ".ics";
-
-
-    document.body.appendChild(
-        link
-    );
-
-    link.click();
-
-    document.body.removeChild(
-        link
-    );
-
-
-    setTimeout(
-        function(){
-
-            URL.revokeObjectURL(
-                url
-            );
-
-        },
-        1000
-    );
+    window.location.href =
+        googleUrl;
 
 }
+
 
 
 /* =========================
@@ -2246,8 +2559,11 @@ function addToCalendar(index){
 function normalizeUrl(url){
 
     if(!url){
+
         return "";
+
     }
+
 
     url =
         url.trim();
@@ -2268,10 +2584,13 @@ function normalizeUrl(url){
 }
 
 
+
 function createUrlLink(url){
 
     if(!url){
+
         return "";
+
     }
 
 
@@ -2282,20 +2601,26 @@ function createUrlLink(url){
 
 
     const a =
-        document.createElement("a");
+        document.createElement(
+            "a"
+        );
 
 
     a.className =
         "urlLink";
 
+
     a.href =
         normalized;
+
 
     a.target =
         "_blank";
 
+
     a.rel =
         "noopener noreferrer";
+
 
     a.textContent =
         url;
@@ -2304,6 +2629,7 @@ function createUrlLink(url){
     return a.outerHTML;
 
 }
+
 
 
 /* =========================
@@ -2347,7 +2673,9 @@ function renderAccounts(){
                 function(item){
 
                     if(!search){
+
                         return true;
+
                     }
 
 
@@ -2396,6 +2724,7 @@ function renderAccounts(){
             const account =
                 item.account;
 
+
             const index =
                 item.index;
 
@@ -2419,12 +2748,13 @@ function renderAccounts(){
             let html = "";
 
 
-            /* NOM / PRÉNOM */
+            /* NOM */
 
             html +=
                 "<h2>👤 " +
                 escapeHtml(
-                    account.name || ""
+                    account.name ||
+                    "Sans nom"
                 ) +
                 "</h2>";
 
@@ -2464,7 +2794,7 @@ function renderAccounts(){
             }
 
 
-            /* EXPIRATION */
+            /* EXPIRATION + GOOGLE */
 
             if(
                 account.duration &&
@@ -2489,35 +2819,18 @@ function renderAccounts(){
                     "</div>";
 
 
-                /* RAPPEL J-2 */
-
                 html +=
                     '<div class="calendarBox">' +
 
-                    "<strong>🔔 Rappel manuel</strong>" +
+                    "<strong>📆 Calendrier</strong>" +
 
-                    '<div style="margin-top:5px;">' +
-
-                    "À faire le " +
-
-                    "<strong>" +
-
-                    escapeHtml(
-                        getReminderDate(
-                            account
-                        )
-                    ) +
-
-                    "</strong>" +
-
-                    "</div>" +
-
-                    '<button class="calendarButton" ' +
-                    'onclick="addToCalendar(' +
+                    '<button ' +
+                    'class="calendarButton" ' +
+                    'onclick="addToGoogleCalendar(' +
                     index +
                     ')">' +
 
-                    "📅 Ajouter au calendrier" +
+                    "📅 Ajouter au calendrier Google" +
 
                     "</button>" +
 
@@ -2543,12 +2856,11 @@ function renderAccounts(){
                         account.username
                     ) +
 
-                    ' <button class="copyBtn" onclick="copyText(' +
-
+                    ' <button class="copyBtn" ' +
+                    'onclick="copyText(' +
                     jsString(
                         account.username
                     ) +
-
                     ')">Copier</button>' +
 
                     "</div>" +
@@ -2575,16 +2887,16 @@ function renderAccounts(){
                     index +
                     '">••••••••</span>' +
 
-                    ' <button class="copyBtn" onclick="toggleDisplayedPassword(' +
+                    ' <button class="copyBtn" ' +
+                    'onclick="toggleDisplayedPassword(' +
                     index +
                     ')">👁️</button>' +
 
-                    ' <button class="copyBtn" onclick="copyText(' +
-
+                    ' <button class="copyBtn" ' +
+                    'onclick="copyText(' +
                     jsString(
                         account.password
                     ) +
-
                     ')">Copier</button>' +
 
                     "</div>" +
@@ -2609,12 +2921,11 @@ function renderAccounts(){
                         account.url1
                     ) +
 
-                    '<button class="copyBtn" onclick="copyText(' +
-
+                    '<button class="copyBtn" ' +
+                    'onclick="copyText(' +
                     jsString(
                         account.url1
                     ) +
-
                     ')">Copier</button>' +
 
                     "</div>";
@@ -2637,12 +2948,11 @@ function renderAccounts(){
                         account.url2
                     ) +
 
-                    '<button class="copyBtn" onclick="copyText(' +
-
+                    '<button class="copyBtn" ' +
+                    'onclick="copyText(' +
                     jsString(
                         account.url2
                     ) +
-
                     ')">Copier</button>' +
 
                     "</div>";
@@ -2699,12 +3009,11 @@ function renderAccounts(){
                             account.appUrl1
                         ) +
 
-                        '<button class="copyBtn" onclick="copyText(' +
-
+                        '<button class="copyBtn" ' +
+                        'onclick="copyText(' +
                         jsString(
                             account.appUrl1
                         ) +
-
                         ')">Copier</button>' +
 
                         "</div>";
@@ -2727,12 +3036,11 @@ function renderAccounts(){
                             account.mac
                         ) +
 
-                        ' <button class="copyBtn" onclick="copyText(' +
-
+                        ' <button class="copyBtn" ' +
+                        'onclick="copyText(' +
                         jsString(
                             account.mac
                         ) +
-
                         ')">Copier</button>' +
 
                         "</div>" +
@@ -2757,12 +3065,11 @@ function renderAccounts(){
                             account.appKey
                         ) +
 
-                        ' <button class="copyBtn" onclick="copyText(' +
-
+                        ' <button class="copyBtn" ' +
+                        'onclick="copyText(' +
                         jsString(
                             account.appKey
                         ) +
-
                         ')">Copier</button>' +
 
                         "</div>" +
@@ -2795,7 +3102,9 @@ function renderAccounts(){
             html +=
                 '<div class="actions">' +
 
-                '<button class="secondary" onclick="editAccount(' +
+                '<button ' +
+                'class="secondary" ' +
+                'onclick="editAccount(' +
                 index +
                 ')">' +
 
@@ -2803,7 +3112,9 @@ function renderAccounts(){
 
                 "</button>" +
 
-                '<button class="danger" onclick="deleteAccount(' +
+                '<button ' +
+                'class="danger" ' +
+                'onclick="deleteAccount(' +
                 index +
                 ')">' +
 
@@ -2828,8 +3139,9 @@ function renderAccounts(){
 }
 
 
+
 /* =========================
-   AFFICHER MOT DE PASSE
+   MOT DE PASSE AFFICHÉ
 ========================= */
 
 function toggleDisplayedPassword(index){
@@ -2841,7 +3153,9 @@ function toggleDisplayedPassword(index){
 
 
     if(!element){
+
         return;
+
     }
 
 
@@ -2851,7 +3165,8 @@ function toggleDisplayedPassword(index){
     ){
 
         element.textContent =
-            accounts[index].password || "";
+            accounts[index].password ||
+            "";
 
     }else{
 
@@ -2863,6 +3178,7 @@ function toggleDisplayedPassword(index){
 }
 
 
+
 /* =========================
    SÉCURITÉ HTML
 ========================= */
@@ -2870,28 +3186,34 @@ function toggleDisplayedPassword(index){
 function escapeHtml(value){
 
     return String(value)
+
         .replace(
             /&/g,
             "&amp;"
         )
+
         .replace(
             /</g,
             "&lt;"
         )
+
         .replace(
             />/g,
             "&gt;"
         )
+
         .replace(
             /"/g,
             "&quot;"
         )
+
         .replace(
             /'/g,
             "&#039;"
         );
 
 }
+
 
 
 function jsString(value){
@@ -2910,8 +3232,9 @@ function jsString(value){
 }
 
 
+
 /* =========================
-   SAUVEGARDE JSON
+   EXPORT
 ========================= */
 
 function exportData(){
@@ -2974,8 +3297,9 @@ function exportData(){
 }
 
 
+
 /* =========================
-   RESTAURATION
+   IMPORT
 ========================= */
 
 function importData(event){
@@ -2985,7 +3309,9 @@ function importData(event){
 
 
     if(!file){
+
         return;
+
     }
 
 
@@ -3061,13 +3387,15 @@ function importData(event){
         file
     );
 
+
     event.target.value = "";
 
 }
 
 
+
 /* =========================
-   ACTUALISATION AUTOMATIQUE
+   ACTUALISATION
 ========================= */
 
 setInterval(
@@ -3095,6 +3423,7 @@ setInterval(
     },
     60000
 );
+
 
 
 /* =========================
