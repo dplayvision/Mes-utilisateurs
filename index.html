@@ -38,7 +38,8 @@ header{
     margin:auto;
 }
 
-.card{
+.card,
+.account{
     background:white;
     border-radius:16px;
     padding:16px;
@@ -121,6 +122,8 @@ button{
     min-width:48px;
 }
 
+/* APPLICATION */
+
 .applicationBox{
     display:flex;
     align-items:center;
@@ -140,13 +143,55 @@ button{
     margin-top:8px;
 }
 
-.account{
-    background:white;
-    border-radius:16px;
-    padding:16px;
-    margin-bottom:15px;
-    box-shadow:0 2px 10px rgba(0,0,0,.08);
+.sectionTitle{
+    margin-top:18px;
+    padding-top:12px;
+    border-top:1px solid #e5e5ea;
+    font-size:16px;
+    font-weight:700;
 }
+
+/* PHOTO */
+
+.photoBox{
+    margin-top:18px;
+    padding-top:14px;
+    border-top:1px solid #e5e5ea;
+}
+
+.photoButtons{
+    display:flex;
+    gap:8px;
+    margin-top:8px;
+}
+
+.photoButton{
+    flex:1;
+    background:#e5e5ea;
+}
+
+.photoPreview{
+    margin-top:12px;
+    display:none;
+    position:relative;
+}
+
+.photoPreview img{
+    width:100%;
+    max-height:300px;
+    object-fit:contain;
+    border-radius:12px;
+    background:#f2f2f7;
+}
+
+.removePhoto{
+    width:100%;
+    margin-top:8px;
+    background:#ff3b30;
+    color:white;
+}
+
+/* ACCES */
 
 .accountTitle{
     margin-bottom:15px;
@@ -204,6 +249,22 @@ button{
     flex:1;
 }
 
+/* PHOTO DANS LES ACCES */
+
+.savedPhoto{
+    margin-top:15px;
+}
+
+.savedPhoto img{
+    width:100%;
+    max-height:280px;
+    object-fit:contain;
+    border-radius:12px;
+    background:#f2f2f7;
+}
+
+/* RECHERCHE */
+
 .search{
     margin-bottom:15px;
 }
@@ -232,6 +293,8 @@ button{
     display:none !important;
 }
 
+/* TOAST */
+
 .toast{
     position:fixed;
     left:50%;
@@ -252,9 +315,7 @@ button{
     opacity:1;
 }
 
-/* =========================
-   PIN
-========================= */
+/* PIN */
 
 .pinScreen{
     position:fixed;
@@ -317,9 +378,7 @@ button{
     font-weight:600;
 }
 
-/* =========================
-   SAUVEGARDE
-========================= */
+/* SAUVEGARDE */
 
 .backupButtons{
     display:flex;
@@ -340,35 +399,16 @@ button{
     color:white;
 }
 
-#restoreFile{
+#restoreFile,
+#photoInput{
     display:none;
 }
 
-.sectionTitle{
-    margin-top:18px;
-    padding-top:12px;
-    border-top:1px solid #e5e5ea;
-    font-size:16px;
-    font-weight:700;
-}
-
 @media(max-width:500px){
-
-    .actions{
+    .actions,
+    .backupButtons,
+    .photoButtons{
         flex-direction:column;
-    }
-
-    .backupButtons{
-        flex-direction:column;
-    }
-
-    .inputRow{
-        flex-direction:row;
-    }
-
-    .copyBtn{
-        padding-left:10px;
-        padding-right:10px;
     }
 }
 </style>
@@ -376,9 +416,7 @@ button{
 
 <body>
 
-<!-- =========================
-     ECRAN PIN
-========================= -->
+<!-- PIN -->
 
 <div class="pinScreen" id="pinScreen">
 
@@ -399,26 +437,18 @@ button{
             placeholder="••••"
         >
 
-        <button
-            class="pinButton"
-            onclick="checkPin()"
-        >
+        <button class="pinButton" type="button" onclick="checkPin()">
             🔓 Ouvrir
         </button>
 
-        <div
-            class="pinError"
-            id="pinError"
-        ></div>
+        <div class="pinError" id="pinError"></div>
 
     </div>
 
 </div>
 
 
-<!-- =========================
-     APPLICATION
-========================= -->
+<!-- APPLICATION -->
 
 <div id="app" class="hidden">
 
@@ -428,422 +458,387 @@ button{
 
 <div class="container">
 
+<!-- FORMULAIRE -->
 
-    <!-- =========================
-         FORMULAIRE
-    ========================= -->
+<div class="card">
 
-    <div class="card">
+<h2 id="formTitle">
+    ➕ Ajouter un accès
+</h2>
 
-        <h2 id="formTitle">
-            ➕ Ajouter un accès
-        </h2>
 
+<!-- NOM / PRENOM -->
 
-        <!-- URL PRINCIPALES -->
+<label>
+    👤 Nom / Prénom
+</label>
 
-        <label>
-            🌐 URL 1
-        </label>
+<input
+    type="text"
+    id="personName"
+    autocomplete="off"
+    placeholder="Nom et prénom"
+>
 
-        <div class="inputRow">
 
-            <input
-                type="text"
-                id="url1"
-                autocomplete="off"
-                placeholder="https://..."
-            >
+<!-- UTILISATEUR -->
 
-            <button
-                class="copyBtn"
-                type="button"
-                onclick="copyInput('url1')"
-            >
-                📋
-            </button>
+<label>
+    👤 Utilisateur
+</label>
 
-        </div>
+<div class="inputRow">
 
+    <input
+        type="text"
+        id="username"
+        autocomplete="off"
+        placeholder="Utilisateur"
+    >
 
-        <label>
-            🌐 URL 2
-        </label>
+    <button
+        class="copyBtn"
+        type="button"
+        onclick="copyInput('username')"
+    >
+        📋
+    </button>
 
-        <div class="inputRow">
+</div>
 
-            <input
-                type="text"
-                id="url2"
-                autocomplete="off"
-                placeholder="https://..."
-            >
 
-            <button
-                class="copyBtn"
-                type="button"
-                onclick="copyInput('url2')"
-            >
-                📋
-            </button>
+<!-- MOT DE PASSE -->
 
-        </div>
+<label>
+    🔑 Mot de passe
+</label>
 
+<div class="inputRow">
 
-        <!-- NOM -->
+    <input
+        type="password"
+        id="password"
+        autocomplete="off"
+        placeholder="Mot de passe"
+    >
 
-        <label>
-            👤 Nom / Prénom
-        </label>
+    <button
+        class="show"
+        type="button"
+        onclick="togglePasswordInput(this)"
+    >
+        👁️
+    </button>
 
-        <div class="inputRow">
+    <button
+        class="copyBtn"
+        type="button"
+        onclick="copyInput('password')"
+    >
+        📋
+    </button>
 
-            <input
-                type="text"
-                id="personName"
-                autocomplete="off"
-                placeholder="Nom et prénom"
-            >
+</div>
 
-            <button
-                class="copyBtn"
-                type="button"
-                onclick="copyInput('personName')"
-            >
-                📋
-            </button>
 
-        </div>
+<!-- URL PRINCIPALE -->
 
+<label>
+    🌐 URL 1
+</label>
 
-        <!-- UTILISATEUR -->
+<div class="inputRow">
 
-        <label>
-            👤 Utilisateur
-        </label>
+    <input
+        type="text"
+        id="url1"
+        autocomplete="off"
+        placeholder="https://..."
+    >
 
-        <div class="inputRow">
+    <button
+        class="copyBtn"
+        type="button"
+        onclick="copyInput('url1')"
+    >
+        📋
+    </button>
 
-            <input
-                type="text"
-                id="username"
-                autocomplete="off"
-                placeholder="Utilisateur"
-            >
+</div>
 
-            <button
-                class="copyBtn"
-                type="button"
-                onclick="copyInput('username')"
-            >
-                📋
-            </button>
 
-        </div>
+<!-- PHOTO -->
 
+<div class="photoBox">
 
-        <!-- MOT DE PASSE -->
+    <label>
+        📷 Photo
+    </label>
 
-        <label>
-            🔑 Mot de passe
-        </label>
-
-        <div class="inputRow">
-
-            <input
-                type="password"
-                id="password"
-                autocomplete="off"
-                placeholder="Mot de passe"
-            >
-
-            <button
-                class="show"
-                type="button"
-                onclick="togglePasswordInput(this)"
-            >
-                👁️
-            </button>
-
-            <button
-                class="copyBtn"
-                type="button"
-                onclick="copyInput('password')"
-            >
-                📋
-            </button>
-
-        </div>
-
-
-        <!-- APPLICATION -->
-
-        <div class="applicationBox">
-
-            <input
-                type="checkbox"
-                id="application"
-                onchange="toggleApplicationFields()"
-            >
-
-            <span>
-                📱 Application
-            </span>
-
-        </div>
-
-
-        <!-- =========================
-             CHAMPS APPLICATION
-        ========================= -->
-
-        <div
-            id="appFields"
-            class="appFields"
-        >
-
-            <div class="sectionTitle">
-                📱 Informations application
-            </div>
-
-
-            <!-- URL APPLICATION 1 -->
-
-            <label>
-                🌐 URL 1
-            </label>
-
-            <div class="inputRow">
-
-                <input
-                    type="text"
-                    id="appUrl1"
-                    autocomplete="off"
-                    placeholder="URL de l'application"
-                >
-
-                <button
-                    class="copyBtn"
-                    type="button"
-                    onclick="copyInput('appUrl1')"
-                >
-                    📋
-                </button>
-
-            </div>
-
-
-            <!-- URL APPLICATION 2 -->
-
-            <label>
-                🌐 URL 2
-            </label>
-
-            <div class="inputRow">
-
-                <input
-                    type="text"
-                    id="appUrl2"
-                    autocomplete="off"
-                    placeholder="URL de l'application"
-                >
-
-                <button
-                    class="copyBtn"
-                    type="button"
-                    onclick="copyInput('appUrl2')"
-                >
-                    📋
-                </button>
-
-            </div>
-
-
-            <!-- MAC -->
-
-            <label>
-                MAC :
-            </label>
-
-            <div class="inputRow">
-
-                <input
-                    type="text"
-                    id="mac"
-                    autocomplete="off"
-                    placeholder="Adresse MAC"
-                >
-
-                <button
-                    class="copyBtn"
-                    type="button"
-                    onclick="copyInput('mac')"
-                >
-                    📋
-                </button>
-
-            </div>
-
-
-            <!-- CLE -->
-
-            <label>
-                Clé :
-            </label>
-
-            <div class="inputRow">
-
-                <input
-                    type="text"
-                    id="key"
-                    autocomplete="off"
-                    placeholder="Clé"
-                >
-
-                <button
-                    class="copyBtn"
-                    type="button"
-                    onclick="copyInput('key')"
-                >
-                    📋
-                </button>
-
-            </div>
-
-        </div>
-
+    <div class="photoButtons">
 
         <button
-            class="primary"
-            id="saveButton"
             type="button"
-            onclick="saveAccount()"
+            class="photoButton"
+            onclick="openPhotoPicker()"
         >
-            💾 Enregistrer
-        </button>
-
-
-        <button
-            class="cancel hidden"
-            id="cancelButton"
-            type="button"
-            onclick="cancelEdit()"
-        >
-            Annuler
+            📷 Ajouter une photo
         </button>
 
     </div>
 
+    <input
+        type="file"
+        id="photoInput"
+        accept="image/*"
+        onchange="handlePhoto(event)"
+    >
 
-    <!-- =========================
-         SAUVEGARDE
-    ========================= -->
+    <div
+        class="photoPreview"
+        id="photoPreview"
+    >
 
-    <div class="card">
-
-        <h2>
-            💾 Sauvegarde
-        </h2>
-
-        <p style="color:#666;font-size:14px;">
-            Télécharge une copie de tes accès pour pouvoir les restaurer
-            en cas de problème ou de changement d'iPhone.
-        </p>
-
-        <div class="backupButtons">
-
-            <button
-                class="backup"
-                onclick="downloadBackup()"
-            >
-                💾 Télécharger
-            </button>
-
-            <button
-                class="restore"
-                onclick="document.getElementById('restoreFile').click()"
-            >
-                📥 Restaurer
-            </button>
-
-        </div>
-
-        <input
-            type="file"
-            id="restoreFile"
-            accept=".json,application/json"
-            onchange="restoreBackup(event)"
+        <img
+            id="photoPreviewImg"
+            src=""
+            alt="Photo"
         >
+
+        <button
+            type="button"
+            class="removePhoto"
+            onclick="removePhoto()"
+        >
+            🗑️ Supprimer la photo
+        </button>
 
     </div>
 
+</div>
 
-    <!-- =========================
-         RECHERCHE
-    ========================= -->
 
-    <div class="search">
+<!-- APPLICATION -->
+
+<div class="applicationBox">
+
+    <input
+        type="checkbox"
+        id="application"
+        onchange="toggleApplicationFields()"
+    >
+
+    <span>
+        📱 Application
+    </span>
+
+</div>
+
+
+<!-- CHAMPS APPLICATION -->
+
+<div id="appFields" class="appFields">
+
+    <div class="sectionTitle">
+        📱 Informations application
+    </div>
+
+
+    <!-- URL APPLICATION -->
+
+    <label>
+        🌐 URL 1
+    </label>
+
+    <div class="inputRow">
 
         <input
             type="text"
-            id="search"
-            placeholder="🔎 Rechercher..."
-            oninput="renderAccounts()"
+            id="appUrl1"
+            autocomplete="off"
+            placeholder="https://..."
         >
+
+        <button
+            class="copyBtn"
+            type="button"
+            onclick="copyInput('appUrl1')"
+        >
+            📋
+        </button>
 
     </div>
 
 
-    <div
-        class="counter"
-        id="counter"
-    ></div>
+    <!-- MAC -->
+
+    <label>
+        📱 MAC
+    </label>
+
+    <div class="inputRow">
+
+        <input
+            type="text"
+            id="mac"
+            autocomplete="off"
+            placeholder="Adresse MAC"
+        >
+
+        <button
+            class="copyBtn"
+            type="button"
+            onclick="copyInput('mac')"
+        >
+            📋
+        </button>
+
+    </div>
 
 
-    <div id="accounts"></div>
+    <!-- CLE -->
+
+    <label>
+        🔑 Clé
+    </label>
+
+    <div class="inputRow">
+
+        <input
+            type="text"
+            id="key"
+            autocomplete="off"
+            placeholder="Clé"
+        >
+
+        <button
+            class="copyBtn"
+            type="button"
+            onclick="copyInput('key')"
+        >
+            📋
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- ENREGISTRER -->
+
+<button
+    class="primary"
+    id="saveButton"
+    type="button"
+    onclick="saveAccount()"
+>
+    💾 Enregistrer
+</button>
+
+
+<button
+    class="cancel hidden"
+    id="cancelButton"
+    type="button"
+    onclick="cancelEdit()"
+>
+    Annuler
+</button>
+
+</div>
+
+
+<!-- SAUVEGARDE -->
+
+<div class="card">
+
+<h2>
+    💾 Sauvegarde
+</h2>
+
+<p style="color:#666;font-size:14px;">
+    Télécharge une copie de tes accès pour pouvoir les restaurer
+    en cas de problème ou de changement d'iPhone.
+</p>
+
+<div class="backupButtons">
+
+    <button
+        class="backup"
+        type="button"
+        onclick="downloadBackup()"
+    >
+        💾 Télécharger
+    </button>
+
+    <button
+        class="restore"
+        type="button"
+        onclick="document.getElementById('restoreFile').click()"
+    >
+        📥 Restaurer
+    </button>
+
+</div>
+
+<input
+    type="file"
+    id="restoreFile"
+    accept=".json,application/json"
+    onchange="restoreBackup(event)"
+>
+
+</div>
+
+
+<!-- RECHERCHE -->
+
+<div class="search">
+
+<input
+    type="text"
+    id="search"
+    placeholder="🔎 Rechercher..."
+    oninput="renderAccounts()"
+>
+
+</div>
+
+<div class="counter" id="counter"></div>
+
+<div id="accounts"></div>
 
 </div>
 
 </div>
 
 
-<div
-    class="toast"
-    id="toast"
-></div>
+<div class="toast" id="toast"></div>
 
 
 <script>
 
 const PIN = "1157";
-
 const STORAGE_KEY = "mesAcces";
 
 let accounts = [];
-
 let editingId = null;
+let currentPhoto = "";
 
 
-/* =========================
-   PIN
-========================= */
+/* ========================= */
+/* PIN */
+/* ========================= */
 
 function checkPin(){
 
-    const value =
-        document.getElementById("pinInput").value;
-
-    const error =
-        document.getElementById("pinError");
-
+    const value = document.getElementById("pinInput").value;
+    const error = document.getElementById("pinError");
 
     if(value === PIN){
 
-        document.getElementById("pinScreen")
-            .classList.add("hidden");
-
-        document.getElementById("app")
-            .classList.remove("hidden");
+        document.getElementById("pinScreen").classList.add("hidden");
+        document.getElementById("app").classList.remove("hidden");
 
         error.textContent = "";
 
@@ -851,49 +846,43 @@ function checkPin(){
 
     }else{
 
-        error.textContent =
-            "Code incorrect";
+        error.textContent = "Code incorrect";
 
         document.getElementById("pinInput").value = "";
-
         document.getElementById("pinInput").focus();
 
     }
-
 }
 
 
-document.getElementById("pinInput")
-.addEventListener("keydown", function(event){
+document.getElementById("pinInput").addEventListener(
+    "keydown",
+    function(event){
 
-    if(event.key === "Enter"){
-
-        checkPin();
+        if(event.key === "Enter"){
+            checkPin();
+        }
 
     }
+);
 
-});
 
-
-/* =========================
-   CHARGEMENT
-========================= */
+/* ========================= */
+/* CHARGEMENT */
+/* ========================= */
 
 function loadAccounts(){
 
     try{
 
-        const saved =
-            localStorage.getItem(STORAGE_KEY);
+        const saved = localStorage.getItem(STORAGE_KEY);
 
         if(saved){
 
             accounts = JSON.parse(saved);
 
             if(!Array.isArray(accounts)){
-
                 accounts = [];
-
             }
 
         }
@@ -905,28 +894,1358 @@ function loadAccounts(){
     }
 
     renderAccounts();
+}
+
+
+/* ========================= */
+/* SAUVEGARDE */
+/* ========================= */
+
+function saveData(){
+
+    try{
+
+        localStorage.setItem(
+            STORAGE_KEY,
+            JSON.stringify(accounts)
+        );
+
+    }catch(error){
+
+        alert(
+            "Impossible d'enregistrer les données. " +
+            "La mémoire du navigateur est peut-être pleine."
+        );
+
+    }
+}
+
+
+/* ========================= */
+/* APPLICATION */
+/* ========================= */
+
+function toggleApplicationFields(){
+
+    const checkbox =
+        document.getElementById("application");
+
+    const fields =
+        document.getElementById("appFields");
+
+    fields.style.display =
+        checkbox.checked ? "block" : "none";
+}
+
+
+/* ========================= */
+/* MOT DE PASSE */
+/* ========================= */
+
+function togglePasswordInput(button){
+
+    const input =
+        document.getElementById("password");
+
+    if(input.type === "password"){
+
+        input.type = "text";
+        button.textContent = "🙈";
+
+    }else{
+
+        input.type = "password";
+        button.textContent = "👁️";
+
+    }
+}
+
+
+/* ========================= */
+/* PHOTO */
+/* ========================= */
+
+function openPhotoPicker(){
+
+    document
+        .getElementById("photoInput")
+        .click();
 
 }
 
 
-/* =========================
-   SAUVEGARDE LOCALE
-========================= */
+function handlePhoto(event){
 
-function saveData(){
+    const file = event.target.files[0];
 
-    localStorage.setItem(
-        STORAGE_KEY,
-        JSON.stringify(accounts)
+    if(!file) return;
+
+    if(!file.type.startsWith("image/")){
+
+        alert("Veuillez sélectionner une image.");
+        return;
+
+    }
+
+    const reader = new FileReader();
+
+    reader.onload = function(e){
+
+        currentPhoto = e.target.result;
+
+        document.getElementById("photoPreviewImg").src =
+            currentPhoto;
+
+        document.getElementById("photoPreview").style.display =
+            "block";
+
+    };
+
+    reader.readAsDataURL(file);
+
+}
+
+
+function removePhoto(){
+
+    currentPhoto = "";
+
+    document.getElementById("photoInput").value = "";
+
+    document.getElementById("photoPreviewImg").src = "";
+
+    document.getElementById("photoPreview").style.display =
+        "none";
+}
+
+
+/* ========================= */
+/* COPIE COMPATIBLE IPHONE */
+/* ========================= */
+
+function copyInput(id){
+
+    const input = document.getElementById(id);
+
+    if(!input || !input.value){
+
+        showToast("Rien à copier");
+        return;
+
+    }
+
+    copyText(input.value);
+}
+
+
+function copyValue(value){
+
+    if(!value){
+
+        showToast("Rien à copier");
+        return;
+
+    }
+
+    copyText(String(value));
+}
+
+
+function copyText(value){
+
+    value = String(value);
+
+    /*
+       Première méthode :
+       presse-papiers moderne
+    */
+
+    if(
+        navigator.clipboard &&
+        window.isSecureContext
+    ){
+
+        navigator.clipboard.writeText(value)
+        .then(function(){
+
+            showToast("Copié 📋");
+
+        })
+        .catch(function(){
+
+            copyTextFallback(value);
+
+        });
+
+        return;
+    }
+
+    /*
+       Méthode compatible iPhone
+    */
+
+    copyTextFallback(value);
+}
+
+
+function copyTextFallback(value){
+
+    const textarea =
+        document.createElement("textarea");
+
+    textarea.value = value;
+
+    textarea.setAttribute("readonly", "");
+
+    textarea.style.position = "fixed";
+    textarea.style.left = "-9999px";
+    textarea.style.top = "0";
+    textarea.style.opacity = "0";
+
+    document.body.appendChild(textarea);
+
+    textarea.focus();
+    textarea.select();
+
+    textarea.setSelectionRange(
+        0,
+        textarea.value.length
+    );
+
+    let success = false;
+
+    try{
+
+        success =
+            document.execCommand("copy");
+
+    }catch(error){
+
+        success = false;
+
+    }
+
+    textarea.remove();
+
+    if(success){
+
+        showToast("Copié 📋");
+
+    }else{
+
+        /*
+           Dernier recours sur iPhone :
+           le texte est sélectionné pour permettre
+           de faire Copier manuellement.
+        */
+
+        const manual =
+            document.createElement("textarea");
+
+        manual.value = value;
+
+        manual.style.position = "fixed";
+        manual.style.left = "10px";
+        manual.style.right = "10px";
+        manual.style.bottom = "80px";
+        manual.style.width = "calc(100% - 20px)";
+        manual.style.height = "90px";
+        manual.style.zIndex = "9999";
+        manual.style.background = "white";
+        manual.style.border = "2px solid #007aff";
+        manual.style.borderRadius = "12px";
+        manual.style.padding = "12px";
+        manual.style.fontSize = "16px";
+
+        document.body.appendChild(manual);
+
+        manual.focus();
+        manual.select();
+        manual.setSelectionRange(
+            0,
+            manual.value.length
+        );
+
+        showToast("Appuie sur Copier");
+
+        setTimeout(function(){
+
+            if(manual.parentNode){
+                manual.remove();
+            }
+
+        }, 5000);
+
+    }
+}
+
+
+/* ========================= */
+/* ENREGISTRER */
+/* ========================= */
+
+function saveAccount(){
+
+    const personName =
+        document.getElementById("personName").value.trim();
+
+    const username =
+        document.getElementById("username").value.trim();
+
+    const password =
+        document.getElementById("password").value;
+
+    const url1 =
+        document.getElementById("url1").value.trim();
+
+    const application =
+        document.getElementById("application").checked;
+
+    const appUrl1 =
+        document.getElementById("appUrl1").value.trim();
+
+    const mac =
+        document.getElementById("mac").value.trim();
+
+    const key =
+        document.getElementById("key").value.trim();
+
+
+    if(!personName){
+
+        alert("Veuillez entrer le nom / prénom.");
+        return;
+
+    }
+
+    if(!username){
+
+        alert("Veuillez entrer un utilisateur.");
+        return;
+
+    }
+
+    if(!password){
+
+        alert("Veuillez entrer un mot de passe.");
+        return;
+
+    }
+
+    if(!url1){
+
+        alert("Veuillez entrer l'URL.");
+        return;
+
+    }
+
+
+    /* MODIFICATION */
+
+    if(editingId !== null){
+
+        const account =
+            accounts.find(
+                a => a.id === editingId
+            );
+
+        if(account){
+
+            account.personName = personName;
+            account.username = username;
+            account.password = password;
+            account.url1 = url1;
+            account.application = application;
+
+            account.appUrl1 =
+                application ? appUrl1 : "";
+
+            account.mac =
+                application ? mac : "";
+
+            account.key =
+                application ? key : "";
+
+            account.photo =
+                currentPhoto || "";
+
+        }
+
+        showToast("Accès modifié ✅");
+
+
+    }else{
+
+        accounts.unshift({
+
+            id: Date.now(),
+
+            personName: personName,
+
+            username: username,
+
+            password: password,
+
+            url1: url1,
+
+            application: application,
+
+            appUrl1:
+                application ? appUrl1 : "",
+
+            mac:
+                application ? mac : "",
+
+            key:
+                application ? key : "",
+
+            photo:
+                currentPhoto || "",
+
+            createdAt:
+                new Date().toISOString()
+
+        });
+
+        showToast("Accès enregistré ✅");
+
+    }
+
+
+    saveData();
+
+    clearForm();
+
+    renderAccounts();
+}
+
+
+/* ========================= */
+/* AFFICHAGE */
+/* ========================= */
+
+function renderAccounts(){
+
+    const container =
+        document.getElementById("accounts");
+
+    const search =
+        document.getElementById("search")
+        .value
+        .trim()
+        .toLowerCase();
+
+
+    const filtered =
+        accounts.filter(function(account){
+
+            const searchable = [
+
+                account.personName,
+                account.username,
+                account.url1,
+                account.appUrl1,
+                account.mac,
+                account.key
+
+            ].map(function(v){
+
+                return String(v || "").toLowerCase();
+
+            });
+
+            return searchable.some(function(v){
+
+                return v.includes(search);
+
+            });
+
+        });
+
+
+    document.getElementById("counter").textContent =
+        filtered.length + " accès";
+
+
+    container.innerHTML = "";
+
+
+    if(filtered.length === 0){
+
+        container.innerHTML = `
+            <div class="card empty">
+                Aucun accès enregistré.
+            </div>
+        `;
+
+        return;
+    }
+
+
+    filtered.forEach(function(account){
+
+        const card =
+            document.createElement("div");
+
+        card.className = "account";
+
+
+        let html = `
+
+            <div class="accountTitle">
+
+                <div class="accountName">
+                    👤 ${escapeHtml(account.personName || "")}
+                </div>
+
+                ${
+                    account.application
+                    ?
+                    `
+                    <span class="appBadge">
+                        📱 APPLICATION
+                    </span>
+                    `
+                    :
+                    ""
+                }
+
+            </div>
+
+
+            <!-- UTILISATEUR -->
+
+            <div class="line">
+
+                <div class="lineTitle">
+                    👤 Utilisateur
+                </div>
+
+                <div class="valueRow">
+
+                    <div class="value">
+                        ${escapeHtml(account.username || "")}
+                    </div>
+
+                    <button
+                        class="copyBtn accountCopy"
+                        type="button"
+                        data-id="${account.id}"
+                        data-field="username"
+                    >
+                        📋
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <!-- MOT DE PASSE -->
+
+            <div class="line">
+
+                <div class="lineTitle">
+                    🔑 Mot de passe
+                </div>
+
+                <div class="valueRow">
+
+                    <div
+                        class="value"
+                        id="pass-${account.id}"
+                    >
+                        ••••••••••
+                    </div>
+
+                    <button
+                        class="show"
+                        type="button"
+                        onclick="showPasswordAccount(${account.id}, this)"
+                    >
+                        👁️
+                    </button>
+
+                    <button
+                        class="copyBtn accountCopy"
+                        type="button"
+                        data-id="${account.id}"
+                        data-field="password"
+                    >
+                        📋
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <!-- URL PRINCIPALE -->
+
+            <div class="line">
+
+                <div class="lineTitle">
+                    🌐 URL 1
+                </div>
+
+                <div class="valueRow">
+
+                    <div class="value">
+                        ${escapeHtml(account.url1 || "")}
+                    </div>
+
+                    <button
+                        class="copyBtn accountCopy"
+                        type="button"
+                        data-id="${account.id}"
+                        data-field="url1"
+                    >
+                        📋
+                    </button>
+
+                </div>
+
+            </div>
+
+        `;
+
+
+        /* PHOTO */
+
+        if(account.photo){
+
+            html += `
+
+                <div class="savedPhoto">
+
+                    <div class="lineTitle">
+                        📷 Photo
+                    </div>
+
+                    <img
+                        src="${escapeHtml(account.photo)}"
+                        alt="Photo"
+                    >
+
+                </div>
+
+            `;
+
+        }
+
+
+        /* APPLICATION */
+
+        if(account.application){
+
+            html += `
+
+                <div class="sectionTitle">
+                    📱 Informations application
+                </div>
+
+
+                <!-- URL APPLICATION -->
+
+                <div class="line">
+
+                    <div class="lineTitle">
+                        🌐 URL 1
+                    </div>
+
+                    <div class="valueRow">
+
+                        <div class="value">
+                            ${escapeHtml(account.appUrl1 || "")}
+                        </div>
+
+                        <button
+                            class="copyBtn accountCopy"
+                            type="button"
+                            data-id="${account.id}"
+                            data-field="appUrl1"
+                        >
+                            📋
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+                <!-- MAC -->
+
+                <div class="line">
+
+                    <div class="lineTitle">
+                        📱 MAC
+                    </div>
+
+                    <div class="valueRow">
+
+                        <div class="value">
+                            ${escapeHtml(account.mac || "")}
+                        </div>
+
+                        <button
+                            class="copyBtn accountCopy"
+                            type="button"
+                            data-id="${account.id}"
+                            data-field="mac"
+                        >
+                            📋
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+                <!-- CLE -->
+
+                <div class="line">
+
+                    <div class="lineTitle">
+                        🔑 Clé
+                    </div>
+
+                    <div class="valueRow">
+
+                        <div class="value">
+                            ${escapeHtml(account.key || "")}
+                        </div>
+
+                        <button
+                            class="copyBtn accountCopy"
+                            type="button"
+                            data-id="${account.id}"
+                            data-field="key"
+                        >
+                            📋
+                        </button>
+
+                    </div>
+
+                </div>
+
+            `;
+
+        }
+
+
+        /* ACTIONS */
+
+        html += `
+
+            <div class="actions">
+
+                <button
+                    class="edit"
+                    type="button"
+                    onclick="editAccount(${account.id})"
+                >
+                    ✏️ Modifier
+                </button>
+
+                <button
+                    class="delete"
+                    type="button"
+                    onclick="deleteAccount(${account.id})"
+                >
+                    🗑️ Supprimer
+                </button>
+
+            </div>
+
+        `;
+
+
+        card.innerHTML = html;
+
+        container.appendChild(card);
+
+    });
+
+}
+
+
+/* ========================= */
+/* BOUTONS COPIER DES ACCES */
+/* ========================= */
+
+document.addEventListener(
+    "click",
+    function(event){
+
+        const button =
+            event.target.closest(".accountCopy");
+
+        if(!button) return;
+
+
+        const id =
+            Number(button.dataset.id);
+
+        const field =
+            button.dataset.field;
+
+
+        const account =
+            accounts.find(
+                a => Number(a.id) === id
+            );
+
+
+        if(!account) return;
+
+
+        const value =
+            account[field];
+
+
+        copyValue(value);
+
+    }
+);
+
+
+/* ========================= */
+/* MOT DE PASSE AFFICHAGE */
+/* ========================= */
+
+function showPasswordAccount(id, button){
+
+    const account =
+        accounts.find(
+            a => Number(a.id) === Number(id)
+        );
+
+    if(!account) return;
+
+
+    const element =
+        document.getElementById(
+            "pass-" + id
+        );
+
+    if(!element) return;
+
+
+    if(element.dataset.visible === "true"){
+
+        element.textContent =
+            "••••••••••";
+
+        element.dataset.visible =
+            "false";
+
+        button.textContent =
+            "👁️";
+
+    }else{
+
+        element.textContent =
+            account.password;
+
+        element.dataset.visible =
+            "true";
+
+        button.textContent =
+            "🙈";
+
+    }
+
+}
+
+
+/* ========================= */
+/* MODIFIER */
+/* ========================= */
+
+function editAccount(id){
+
+    const account =
+        accounts.find(
+            a => Number(a.id) === Number(id)
+        );
+
+    if(!account) return;
+
+
+    editingId = id;
+
+
+    document.getElementById("personName").value =
+        account.personName || "";
+
+    document.getElementById("username").value =
+        account.username || "";
+
+    document.getElementById("password").value =
+        account.password || "";
+
+    document.getElementById("url1").value =
+        account.url1 || "";
+
+    document.getElementById("application").checked =
+        !!account.application;
+
+    document.getElementById("appUrl1").value =
+        account.appUrl1 || "";
+
+    document.getElementById("mac").value =
+        account.mac || "";
+
+    document.getElementById("key").value =
+        account.key || "";
+
+
+    currentPhoto =
+        account.photo || "";
+
+
+    if(currentPhoto){
+
+        document.getElementById("photoPreviewImg").src =
+            currentPhoto;
+
+        document.getElementById("photoPreview").style.display =
+            "block";
+
+    }else{
+
+        document.getElementById("photoPreview").style.display =
+            "none";
+
+    }
+
+
+    document.getElementById("saveButton").textContent =
+        "💾 Enregistrer les modifications";
+
+    document.getElementById("cancelButton")
+        .classList
+        .remove("hidden");
+
+
+    toggleApplicationFields();
+
+
+    window.scrollTo({
+        top:0,
+        behavior:"smooth"
+    });
+
+}
+
+
+/* ========================= */
+/* ANNULER */
+/* ========================= */
+
+function cancelEdit(){
+
+    editingId = null;
+
+    clearForm();
+}
+
+
+/* ========================= */
+/* VIDER FORMULAIRE */
+/* ========================= */
+
+function clearForm(){
+
+    editingId = null;
+    currentPhoto = "";
+
+
+    document.getElementById("personName").value = "";
+    document.getElementById("username").value = "";
+    document.getElementById("password").value = "";
+    document.getElementById("url1").value = "";
+
+
+    document.getElementById("application").checked =
+        false;
+
+    document.getElementById("appUrl1").value = "";
+    document.getElementById("mac").value = "";
+    document.getElementById("key").value = "";
+
+
+    document.getElementById("password").type =
+        "password";
+
+
+    document.getElementById("photoInput").value =
+        "";
+
+    document.getElementById("photoPreviewImg").src =
+        "";
+
+    document.getElementById("photoPreview").style.display =
+        "none";
+
+
+    document.getElementById("saveButton").textContent =
+        "💾 Enregistrer";
+
+
+    document.getElementById("cancelButton")
+        .classList
+        .add("hidden");
+
+
+    document.getElementById("appFields").style.display =
+        "none";
+}
+
+
+/* ========================= */
+/* SUPPRIMER */
+/* ========================= */
+
+function deleteAccount(id){
+
+    const account =
+        accounts.find(
+            a => Number(a.id) === Number(id)
+        );
+
+    if(!account) return;
+
+
+    if(!confirm(
+        "Supprimer l'accès de " +
+        account.personName +
+        " ?"
+    )){
+
+        return;
+
+    }
+
+
+    accounts =
+        accounts.filter(
+            a => Number(a.id) !== Number(id)
+        );
+
+
+    saveData();
+
+    renderAccounts();
+
+    showToast("Accès supprimé");
+}
+
+
+/* ========================= */
+/* SAUVEGARDE JSON */
+/* ========================= */
+
+function downloadBackup(){
+
+    if(accounts.length === 0){
+
+        alert(
+            "Il n'y a aucun accès à sauvegarder."
+        );
+
+        return;
+
+    }
+
+
+    const backup = {
+
+        version:5,
+
+        application:"Mes accès",
+
+        date:
+            new Date().toISOString(),
+
+        accounts:
+            accounts
+
+    };
+
+
+    const json =
+        JSON.stringify(
+            backup,
+            null,
+            2
+        );
+
+
+    const blob =
+        new Blob(
+            [json],
+            {
+                type:"application/json"
+            }
+        );
+
+
+    const url =
+        URL.createObjectURL(blob);
+
+
+    const link =
+        document.createElement("a");
+
+
+    const date =
+        new Date()
+        .toISOString()
+        .slice(0,10);
+
+
+    link.href = url;
+
+    link.download =
+        "mes-acces-sauvegarde-" +
+        date +
+        ".json";
+
+
+    document.body.appendChild(link);
+
+    link.click();
+
+    link.remove();
+
+
+    URL.revokeObjectURL(url);
+
+
+    showToast(
+        "Sauvegarde téléchargée 💾"
     );
 
 }
 
 
-/* =========================
-   APPLICATION
-========================= */
+/* ========================= */
+/* RESTAURATION */
+/* ========================= */
 
-function toggleApplicationFields(){
+function restoreBackup(event){
 
-    const
+    const file =
+        event.target.files[0];
+
+    if(!file) return;
+
+
+    if(!confirm(
+        "⚠️ Restaurer cette sauvegarde ?\n\n" +
+        "Les accès actuellement présents seront remplacés par ceux de la sauvegarde."
+    )){
+
+        event.target.value = "";
+
+        return;
+
+    }
+
+
+    const reader =
+        new FileReader();
+
+
+    reader.onload =
+        function(e){
+
+            try{
+
+                const data =
+                    JSON.parse(
+                        e.target.result
+                    );
+
+
+                let restoredAccounts;
+
+
+                if(Array.isArray(data)){
+
+                    restoredAccounts =
+                        data;
+
+                }else if(
+                    Array.isArray(data.accounts)
+                ){
+
+                    restoredAccounts =
+                        data.accounts;
+
+                }else{
+
+                    throw new Error(
+                        "Format invalide"
+                    );
+
+                }
+
+
+                accounts =
+                    restoredAccounts.map(
+                        function(account){
+
+                            return {
+
+                                id:
+                                    account.id ||
+                                    Date.now() +
+                                    Math.random(),
+
+                                personName:
+                                    account.personName ||
+                                    "",
+
+                                username:
+                                    account.username ||
+                                    "",
+
+                                password:
+                                    account.password ||
+                                    "",
+
+                                url1:
+                                    account.url1 ||
+                                    "",
+
+                                application:
+                                    !!account.application,
+
+                                appUrl1:
+                                    account.appUrl1 ||
+                                    "",
+
+                                mac:
+                                    account.mac ||
+                                    "",
+
+                                key:
+                                    account.key ||
+                                    "",
+
+                                photo:
+                                    account.photo ||
+                                    "",
+
+                                createdAt:
+                                    account.createdAt ||
+                                    new Date()
+                                    .toISOString()
+
+                            };
+
+                        }
+                    );
+
+
+                saveData();
+
+                renderAccounts();
+
+                clearForm();
+
+
+                showToast(
+                    "Sauvegarde restaurée ✅"
+                );
+
+
+            }catch(error){
+
+                alert(
+                    "❌ Impossible de restaurer cette sauvegarde.\n\n" +
+                    "Le fichier n'est pas valide."
+                );
+
+            }
+
+
+            event.target.value = "";
+
+        };
+
+
+    reader.readAsText(file);
+}
+
+
+/* ========================= */
+/* TOAST */
+/* ========================= */
+
+function showToast(message){
+
+    const toast =
+        document.getElementById("toast");
+
+
+    toast.textContent =
+        message;
+
+
+    toast.classList.add("show");
+
+
+    setTimeout(
+        function(){
+
+            toast.classList.remove("show");
+
+        },
+        1800
+    );
+
+}
+
+
+/* ========================= */
+/* SECURITE AFFICHAGE */
+/* ========================= */
+
+function escapeHtml(value){
+
+    return String(value)
+
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
+
+}
+
+
+/* ========================= */
+/* FOCUS PIN */
+/* ========================= */
+
+setTimeout(
+    function(){
+
+        const pin =
+            document.getElementById("pinInput");
+
+        if(pin){
+            pin.focus();
+        }
+
+    },
+    300
+);
+
+</script>
+
+</body>
+</html>
