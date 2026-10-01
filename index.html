@@ -507,7 +507,6 @@ hr{
 
 </div>
 
-
 <header>
 
     <h1>🔐 Mes accès</h1>
@@ -520,7 +519,6 @@ hr{
     </div>
 
 </header>
-
 
 <div class="container">
 
@@ -557,13 +555,11 @@ hr{
 
     </div>
 
-
     <input
         id="searchInput"
         placeholder="🔎 Rechercher un utilisateur..."
         oninput="renderAccounts()"
     >
-
 
     <div
         class="card hidden"
@@ -574,7 +570,6 @@ hr{
             ➕ Nouvel accès
         </h2>
 
-
         <label>
             Nom / Prénom
         </label>
@@ -583,7 +578,6 @@ hr{
             id="name"
             placeholder="Exemple : Jean Dupont"
         >
-
 
         <label>
             Utilisateur
@@ -604,7 +598,6 @@ hr{
             </button>
 
         </div>
-
 
         <label>
             Mot de passe
@@ -634,7 +627,6 @@ hr{
 
         </div>
 
-
         <label>
             URL 1
         </label>
@@ -654,7 +646,6 @@ hr{
             </button>
 
         </div>
-
 
         <label>
             URL 2
@@ -676,7 +667,6 @@ hr{
 
         </div>
 
-
         <label>
             Remarque
         </label>
@@ -686,9 +676,7 @@ hr{
             placeholder="Remarque..."
         ></textarea>
 
-
         <hr>
-
 
         <div class="durationBox">
 
@@ -729,7 +717,6 @@ hr{
 
         </div>
 
-
         <div class="checkRow">
 
             <input
@@ -746,7 +733,6 @@ hr{
             </label>
 
         </div>
-
 
         <div
             id="applicationFields"
@@ -773,7 +759,6 @@ hr{
 
             </div>
 
-
             <div class="applicationFieldTitle">
                 MAC 1
             </div>
@@ -793,7 +778,6 @@ hr{
                 </button>
 
             </div>
-
 
             <div class="applicationFieldTitle">
                 MAC 2
@@ -815,7 +799,6 @@ hr{
 
             </div>
 
-
             <div class="applicationFieldTitle">
                 Clé 1
             </div>
@@ -835,7 +818,6 @@ hr{
                 </button>
 
             </div>
-
 
             <div class="applicationFieldTitle">
                 Clé 2
@@ -859,14 +841,11 @@ hr{
 
         </div>
 
-
         <hr>
-
 
         <label>
             📷 Photo
         </label>
-
 
         <div class="photoButtons">
 
@@ -888,7 +867,6 @@ hr{
 
         </div>
 
-
         <input
             type="file"
             id="photoLibraryInput"
@@ -896,7 +874,6 @@ hr{
             class="hidden"
             onchange="handlePhoto(event)"
         >
-
 
         <input
             type="file"
@@ -907,11 +884,9 @@ hr{
             onchange="handlePhoto(event)"
         >
 
-
         <span class="photoButtonText">
             Choisis une photo existante ou prends-en une nouvelle.
         </span>
-
 
         <div
             id="photoContainer"
@@ -933,14 +908,12 @@ hr{
 
         </div>
 
-
         <button
             class="primary"
             onclick="saveAccount()"
         >
             💾 Enregistrer
         </button>
-
 
         <button
             class="secondary"
@@ -952,11 +925,9 @@ hr{
 
     </div>
 
-
     <div id="accountsList"></div>
 
 </div>
-
 
 <div
     id="copyModal"
@@ -978,14 +949,12 @@ hr{
             <b>Copier</b>.
         </div>
 
-
         <input
             id="copyFallback"
             class="copyFallback"
             readonly
             onclick="selectFallback()"
         >
-
 
         <div class="modalButtons">
 
@@ -1009,7 +978,6 @@ hr{
     </div>
 
 </div>
-
 
 <script>
 
@@ -1338,48 +1306,6 @@ function copyText(text,button){
 
     }
 
-    let copied = false;
-
-    const textarea =
-        document.createElement("textarea");
-
-    textarea.value = value;
-    textarea.setAttribute("readonly","");
-    textarea.style.position = "fixed";
-    textarea.style.left = "-9999px";
-    textarea.style.top = "0";
-    textarea.style.opacity = "0";
-
-    document.body.appendChild(textarea);
-
-    textarea.focus();
-    textarea.select();
-    textarea.setSelectionRange(
-        0,
-        textarea.value.length
-    );
-
-    try{
-
-        copied =
-            document.execCommand("copy");
-
-    }catch(error){
-
-        copied = false;
-
-    }
-
-    document.body.removeChild(textarea);
-
-    if(copied){
-
-        showCopied(button);
-
-        return;
-
-    }
-
     if(
         navigator.clipboard &&
         window.isSecureContext
@@ -1394,7 +1320,10 @@ function copyText(text,button){
             })
             .catch(function(){
 
-                showCopyFallback(value);
+                copyWithFallback(
+                    value,
+                    button
+                );
 
             });
 
@@ -1402,7 +1331,73 @@ function copyText(text,button){
 
     }
 
-    showCopyFallback(value);
+    copyWithFallback(
+        value,
+        button
+    );
+
+}
+
+
+function copyWithFallback(
+    value,
+    button
+){
+
+    const textarea =
+        document.createElement("textarea");
+
+    textarea.value = value;
+
+    textarea.setAttribute(
+        "readonly",
+        ""
+    );
+
+    textarea.style.position = "fixed";
+    textarea.style.left = "-9999px";
+    textarea.style.top = "0";
+    textarea.style.opacity = "0";
+
+    document.body.appendChild(
+        textarea
+    );
+
+    textarea.focus();
+
+    textarea.select();
+
+    textarea.setSelectionRange(
+        0,
+        textarea.value.length
+    );
+
+    let copied = false;
+
+    try{
+
+        copied =
+            document.execCommand("copy");
+
+    }catch(error){
+
+        copied = false;
+
+    }
+
+    document.body.removeChild(
+        textarea
+    );
+
+    if(copied){
+
+        showCopied(button);
+
+    }else{
+
+        showCopyFallback(value);
+
+    }
 
 }
 
@@ -1460,6 +1455,51 @@ function copyField(id,button){
     );
 
 }
+
+
+/* =========================
+   COPIE DES ACCÈS ENREGISTRÉS
+========================= */
+
+document.addEventListener(
+    "click",
+    function(event){
+
+        const button =
+            event.target.closest(
+                ".accountCopy"
+            );
+
+        if(!button){
+
+            return;
+
+        }
+
+        const index =
+            Number(
+                button.dataset.index
+            );
+
+        const field =
+            button.dataset.field;
+
+        if(
+            !Number.isInteger(index) ||
+            !accounts[index]
+        ){
+
+            return;
+
+        }
+
+        copyText(
+            accounts[index][field],
+            button
+        );
+
+    }
+);
 
 
 function showCopyFallback(text){
@@ -2577,12 +2617,11 @@ function renderAccounts(){
                     'onclick="this.select()">' +
 
                     '<button ' +
-                    'class="copyBtn" ' +
-                    'onclick="copyText(' +
-                    jsString(
-                        account.username
-                    ) +
-                    ',this)">' +
+                    'class="copyBtn accountCopy" ' +
+                    'data-index="' +
+                    index +
+                    '" ' +
+                    'data-field="username">' +
 
                     "📋" +
 
@@ -2630,12 +2669,11 @@ function renderAccounts(){
                     "</button>" +
 
                     '<button ' +
-                    'class="copyBtn" ' +
-                    'onclick="copyText(' +
-                    jsString(
-                        account.password
-                    ) +
-                    ',this)">' +
+                    'class="copyBtn accountCopy" ' +
+                    'data-index="' +
+                    index +
+                    '" ' +
+                    'data-field="password">' +
 
                     "📋" +
 
@@ -2679,12 +2717,11 @@ function renderAccounts(){
                     "</a>" +
 
                     '<button ' +
-                    'class="copyBtn" ' +
-                    'onclick="copyText(' +
-                    jsString(
-                        account.url1
-                    ) +
-                    ',this)">' +
+                    'class="copyBtn accountCopy" ' +
+                    'data-index="' +
+                    index +
+                    '" ' +
+                    'data-field="url1">' +
 
                     "📋" +
 
@@ -2728,12 +2765,11 @@ function renderAccounts(){
                     "</a>" +
 
                     '<button ' +
-                    'class="copyBtn" ' +
-                    'onclick="copyText(' +
-                    jsString(
-                        account.url2
-                    ) +
-                    ',this)">' +
+                    'class="copyBtn accountCopy" ' +
+                    'data-index="' +
+                    index +
+                    '" ' +
+                    'data-field="url2">' +
 
                     "📋" +
 
@@ -2769,12 +2805,11 @@ function renderAccounts(){
                     '</textarea>' +
 
                     '<button ' +
-                    'class="copyBtn" ' +
-                    'onclick="copyText(' +
-                    jsString(
-                        account.remark
-                    ) +
-                    ',this)">' +
+                    'class="copyBtn accountCopy" ' +
+                    'data-index="' +
+                    index +
+                    '" ' +
+                    'data-field="remark">' +
 
                     "📋" +
 
@@ -2828,12 +2863,11 @@ function renderAccounts(){
                         "</a>" +
 
                         '<button ' +
-                        'class="copyBtn" ' +
-                        'onclick="copyText(' +
-                        jsString(
-                            account.appUrl1
-                        ) +
-                        ',this)">' +
+                        'class="copyBtn accountCopy" ' +
+                        'data-index="' +
+                        index +
+                        '" ' +
+                        'data-field="appUrl1">' +
 
                         "📋" +
 
@@ -2868,12 +2902,11 @@ function renderAccounts(){
                         'onclick="this.select()">' +
 
                         '<button ' +
-                        'class="copyBtn" ' +
-                        'onclick="copyText(' +
-                        jsString(
-                            account.mac
-                        ) +
-                        ',this)">' +
+                        'class="copyBtn accountCopy" ' +
+                        'data-index="' +
+                        index +
+                        '" ' +
+                        'data-field="mac">' +
 
                         "📋" +
 
@@ -2908,12 +2941,11 @@ function renderAccounts(){
                         'onclick="this.select()">' +
 
                         '<button ' +
-                        'class="copyBtn" ' +
-                        'onclick="copyText(' +
-                        jsString(
-                            account.mac2
-                        ) +
-                        ',this)">' +
+                        'class="copyBtn accountCopy" ' +
+                        'data-index="' +
+                        index +
+                        '" ' +
+                        'data-field="mac2">' +
 
                         "📋" +
 
@@ -2948,12 +2980,11 @@ function renderAccounts(){
                         'onclick="this.select()">' +
 
                         '<button ' +
-                        'class="copyBtn" ' +
-                        'onclick="copyText(' +
-                        jsString(
-                            account.appKey
-                        ) +
-                        ',this)">' +
+                        'class="copyBtn accountCopy" ' +
+                        'data-index="' +
+                        index +
+                        '" ' +
+                        'data-field="appKey">' +
 
                         "📋" +
 
@@ -2988,12 +3019,11 @@ function renderAccounts(){
                         'onclick="this.select()">' +
 
                         '<button ' +
-                        'class="copyBtn" ' +
-                        'onclick="copyText(' +
-                        jsString(
-                            account.appKey2
-                        ) +
-                        ',this)">' +
+                        'class="copyBtn accountCopy" ' +
+                        'data-index="' +
+                        index +
+                        '" ' +
+                        'data-field="appKey2">' +
 
                         "📋" +
 
