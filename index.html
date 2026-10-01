@@ -160,22 +160,6 @@ button{
     opacity:.6;
 }
 
-.urlButtons{
-    display:none;
-}
-
-.openUrl{
-    display:block;
-    text-align:center;
-    background:#007aff;
-    color:white;
-    text-decoration:none;
-    border-radius:10px;
-    padding:9px;
-    font-size:14px;
-    font-weight:600;
-}
-
 .hidden{
     display:none !important;
 }
@@ -1293,7 +1277,7 @@ function togglePassword(){
 
 
 /* =========================
-   COPIE IPHONE
+   COPIE
 ========================= */
 
 function copyText(text,button){
@@ -1314,48 +1298,26 @@ function copyText(text,button){
 
     }
 
-    let textarea =
+    let copied = false;
+
+    const textarea =
         document.createElement("textarea");
 
-    textarea.value =
-        value;
+    textarea.value = value;
+    textarea.setAttribute("readonly","");
+    textarea.style.position = "fixed";
+    textarea.style.left = "-9999px";
+    textarea.style.top = "0";
+    textarea.style.opacity = "0";
 
-    textarea.setAttribute(
-        "readonly",
-        ""
-    );
-
-    textarea.style.position =
-        "fixed";
-
-    textarea.style.left =
-        "-9999px";
-
-    textarea.style.top =
-        "0";
-
-    textarea.style.width =
-        "1px";
-
-    textarea.style.height =
-        "1px";
-
-    textarea.style.opacity =
-        "0";
-
-    document.body.appendChild(
-        textarea
-    );
+    document.body.appendChild(textarea);
 
     textarea.focus();
     textarea.select();
-
     textarea.setSelectionRange(
         0,
         textarea.value.length
     );
-
-    let copied = false;
 
     try{
 
@@ -1368,9 +1330,7 @@ function copyText(text,button){
 
     }
 
-    document.body.removeChild(
-        textarea
-    );
+    document.body.removeChild(textarea);
 
     if(copied){
 
@@ -1387,20 +1347,16 @@ function copyText(text,button){
 
         navigator.clipboard
             .writeText(value)
-            .then(
-                function(){
+            .then(function(){
 
-                    showCopied(button);
+                showCopied(button);
 
-                }
-            )
-            .catch(
-                function(){
+            })
+            .catch(function(){
 
-                    showCopyFallback(value);
+                showCopyFallback(value);
 
-                }
-            );
+            });
 
         return;
 
@@ -1431,21 +1387,18 @@ function showCopied(button){
     button.style.color =
         "#16803c";
 
-    setTimeout(
-        function(){
+    setTimeout(function(){
 
-            button.textContent =
-                oldText;
+        button.textContent =
+            oldText;
 
-            button.style.background =
-                "";
+        button.style.background =
+            "";
 
-            button.style.color =
-                "";
+        button.style.color =
+            "";
 
-        },
-        1200
-    );
+    },1200);
 
 }
 
@@ -1453,8 +1406,7 @@ function showCopied(button){
 function copyField(id,button){
 
     const field =
-        document
-            .getElementById(id);
+        document.getElementById(id);
 
     if(!field){
 
@@ -1473,28 +1425,20 @@ function copyField(id,button){
 function showCopyFallback(text){
 
     const modal =
-        document
-            .getElementById("copyModal");
+        document.getElementById("copyModal");
 
     const input =
-        document
-            .getElementById("copyFallback");
+        document.getElementById("copyFallback");
 
-    input.value =
-        text;
+    input.value = text;
 
-    modal
-        .classList
-        .remove("hidden");
+    modal.classList.remove("hidden");
 
-    setTimeout(
-        function(){
+    setTimeout(function(){
 
-            selectFallback();
+        selectFallback();
 
-        },
-        100
-    );
+    },100);
 
 }
 
@@ -1502,8 +1446,7 @@ function showCopyFallback(text){
 function selectFallback(){
 
     const input =
-        document
-            .getElementById("copyFallback");
+        document.getElementById("copyFallback");
 
     input.focus();
     input.select();
@@ -1639,9 +1582,7 @@ function calculateExpiryDate(
         new Date(startDate);
 
     if(
-        isNaN(
-            date.getTime()
-        )
+        isNaN(date.getTime())
     ){
 
         return null;
@@ -1856,28 +1797,20 @@ function saveAccount(){
             url2:url2,
             remark:remark,
             duration:duration,
-
             startDate:
                 new Date().toISOString(),
-
             isApplication:
                 isApplication,
-
             appUrl1:
                 appUrl1,
-
             mac:
                 mac,
-
             mac2:
                 mac2,
-
             appKey:
                 appKey,
-
             appKey2:
                 appKey2,
-
             photo:
                 currentPhoto
 
@@ -1962,8 +1895,7 @@ function editAccount(index){
 
     }
 
-    editIndex =
-        index;
+    editIndex = index;
 
     document
         .getElementById("formTitle")
@@ -2142,9 +2074,7 @@ function getCountdown(account){
         );
 
     if(
-        isNaN(
-            start.getTime()
-        )
+        isNaN(start.getTime())
     ){
 
         return {
@@ -2366,16 +2296,15 @@ function normalizeUrl(url){
 
 
 /* =========================
-   AFFICHAGE
+   AFFICHAGE + TRI ALPHABÉTIQUE
 ========================= */
 
 function renderAccounts(){
 
     const list =
-        document
-            .getElementById(
-                "accountsList"
-            );
+        document.getElementById(
+            "accountsList"
+        );
 
     const search =
         document
@@ -2386,55 +2315,87 @@ function renderAccounts(){
             .toLowerCase()
             .trim();
 
+
+    /*
+       On crée une copie pour le tri.
+       Les données originales ne sont pas
+       déplacées dans localStorage.
+    */
+
+    const sortedAccounts =
+        accounts
+            .map(function(account,index){
+
+                return {
+                    account:account,
+                    index:index
+                };
+
+            })
+            .sort(function(a,b){
+
+                const nameA =
+                    String(
+                        a.account.name || ""
+                    ).trim();
+
+                const nameB =
+                    String(
+                        b.account.name || ""
+                    ).trim();
+
+                return nameA.localeCompare(
+                    nameB,
+                    "fr",
+                    {
+                        sensitivity:"base",
+                        numeric:true
+                    }
+                );
+
+            });
+
+
     list.innerHTML = "";
 
+
     const filtered =
-        accounts
-            .map(
-                function(account,index){
+        sortedAccounts.filter(
+            function(item){
 
-                    return {
-                        account:account,
-                        index:index
-                    };
+                if(!search){
+
+                    return true;
 
                 }
-            )
-            .filter(
-                function(item){
 
-                    if(!search){
+                const a =
+                    item.account;
 
-                        return true;
+                const text = [
 
-                    }
+                    a.name,
+                    a.username,
+                    a.password,
+                    a.url1,
+                    a.url2,
+                    a.remark,
+                    a.appUrl1,
+                    a.mac,
+                    a.mac2,
+                    a.appKey,
+                    a.appKey2
 
-                    const a =
-                        item.account;
+                ]
+                .join(" ")
+                .toLowerCase();
 
-                    const text = [
+                return text.includes(
+                    search
+                );
 
-                        a.name,
-                        a.username,
-                        a.url1,
-                        a.url2,
-                        a.remark,
-                        a.appUrl1,
-                        a.mac,
-                        a.mac2,
-                        a.appKey,
-                        a.appKey2
-
-                    ]
-                    .join(" ")
-                    .toLowerCase();
-
-                    return text.includes(
-                        search
-                    );
-
-                }
-            );
+            }
+        );
 
 
     if(filtered.length === 0){
@@ -2528,7 +2489,6 @@ function renderAccounts(){
                     "</div>" +
                     "</div>";
 
-
                 html +=
                     '<div class="calendarBox">' +
                     "<strong>📆 Rappel calendrier</strong>" +
@@ -2543,6 +2503,10 @@ function renderAccounts(){
 
             }
 
+
+            /*
+               UTILISATEUR COPIABLE
+            */
 
             if(account.username){
 
@@ -2572,14 +2536,21 @@ function renderAccounts(){
                         account.username
                     ) +
                     ',this)">' +
+
                     "📋" +
+
                     "</button>" +
 
                     "</div>" +
+
                     "</div>";
 
             }
 
+
+            /*
+               MOT DE PASSE COPIABLE
+            */
 
             if(account.password){
 
@@ -2610,7 +2581,9 @@ function renderAccounts(){
                     'onclick="showAccountPassword(' +
                     index +
                     ',this)">' +
+
                     "👁️" +
+
                     "</button>" +
 
                     '<button ' +
@@ -2620,18 +2593,22 @@ function renderAccounts(){
                         account.password
                     ) +
                     ',this)">' +
+
                     "📋" +
+
                     "</button>" +
 
                     "</div>" +
+
                     "</div>";
 
             }
 
 
-            /* =========================
-               URL 1 CLIQUABLE
-            ========================= */
+            /*
+               URL 1 :
+               TEXTE CLIQUABLE + COPIER
+            */
 
             if(account.url1){
 
@@ -2661,7 +2638,7 @@ function renderAccounts(){
                         account.url1
                     ) +
 
-                    '</a>' +
+                    "</a>" +
 
                     '<button ' +
                     'class="copyBtn" ' +
@@ -2682,9 +2659,10 @@ function renderAccounts(){
             }
 
 
-            /* =========================
-               URL 2 CLIQUABLE
-            ========================= */
+            /*
+               URL 2 :
+               TEXTE CLIQUABLE + COPIER
+            */
 
             if(account.url2){
 
@@ -2714,7 +2692,7 @@ function renderAccounts(){
                         account.url2
                     ) +
 
-                    '</a>' +
+                    "</a>" +
 
                     '<button ' +
                     'class="copyBtn" ' +
@@ -2734,6 +2712,10 @@ function renderAccounts(){
 
             }
 
+
+            /*
+               REMARQUE COPIABLE
+            */
 
             if(account.remark){
 
@@ -2776,9 +2758,9 @@ function renderAccounts(){
             }
 
 
-            /* =========================
+            /*
                APPLICATION
-            ========================= */
+            */
 
             if(account.isApplication){
 
@@ -2789,6 +2771,10 @@ function renderAccounts(){
                     "📱 APPLICATION" +
                     "</div>";
 
+
+                /*
+                   URL APPLICATION
+                */
 
                 if(account.appUrl1){
 
@@ -2818,7 +2804,7 @@ function renderAccounts(){
                             account.appUrl1
                         ) +
 
-                        '</a>' +
+                        "</a>" +
 
                         '<button ' +
                         'class="copyBtn" ' +
@@ -2838,6 +2824,10 @@ function renderAccounts(){
 
                 }
 
+
+                /*
+                   MAC 1
+                */
 
                 if(account.mac){
 
@@ -2879,6 +2869,10 @@ function renderAccounts(){
                 }
 
 
+                /*
+                   MAC 2
+                */
+
                 if(account.mac2){
 
                     html +=
@@ -2919,6 +2913,10 @@ function renderAccounts(){
                 }
 
 
+                /*
+                   CLÉ 1
+                */
+
                 if(account.appKey){
 
                     html +=
@@ -2958,6 +2956,10 @@ function renderAccounts(){
 
                 }
 
+
+                /*
+                   CLÉ 2
+                */
 
                 if(account.appKey2){
 
@@ -3001,6 +3003,10 @@ function renderAccounts(){
             }
 
 
+            /*
+               PHOTO
+            */
+
             if(account.photo){
 
                 html +=
@@ -3016,6 +3022,10 @@ function renderAccounts(){
 
             }
 
+
+            /*
+               BOUTONS
+            */
 
             html +=
                 '<div class="actions">' +
@@ -3177,25 +3187,18 @@ function exportData(){
             "a"
         );
 
-    a.href =
-        url;
+    a.href = url;
 
     a.download =
         "mes-acces-sauvegarde.json";
 
-    document.body.appendChild(
-        a
-    );
+    document.body.appendChild(a);
 
     a.click();
 
-    document.body.removeChild(
-        a
-    );
+    document.body.removeChild(a);
 
-    URL.revokeObjectURL(
-        url
-    );
+    URL.revokeObjectURL(url);
 
 }
 
@@ -3273,12 +3276,9 @@ function importData(event){
 
         };
 
-    reader.readAsText(
-        file
-    );
+    reader.readAsText(file);
 
-    event.target.value =
-        "";
+    event.target.value = "";
 
 }
 
