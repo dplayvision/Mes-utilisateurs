@@ -138,17 +138,19 @@ button{
 }
 
 /* =========================
-   BARRE ACTIONS
+   ACTIONS
 ========================= */
 
 .topActions{
     display:flex;
     gap:8px;
     margin-bottom:12px;
+    flex-wrap:wrap;
 }
 
 .topActions button{
     flex:1;
+    min-width:120px;
 }
 
 .primaryButton{
@@ -223,10 +225,12 @@ button{
 .inputCopy{
     display:flex;
     gap:7px;
+    align-items:center;
 }
 
 .inputCopy input{
     flex:1;
+    min-width:0;
 }
 
 input[type="text"],
@@ -245,12 +249,24 @@ input[type="search"]{
 
 .copyBtn{
     flex:0 0 45px;
+    min-width:45px;
+    height:45px;
     border:0;
     border-radius:10px;
     background:#e9f2ff;
     color:#007aff;
     font-size:19px;
+}
+
+.safariBtn{
+    flex:0 0 45px;
     min-width:45px;
+    height:45px;
+    border:0;
+    border-radius:10px;
+    background:#e8f5e9;
+    color:#087f23;
+    font-size:19px;
 }
 
 .passwordArea{
@@ -260,10 +276,12 @@ input[type="search"]{
 
 .passwordArea input{
     flex:1;
+    min-width:0;
 }
 
 .showPasswordBtn{
     flex:0 0 45px;
+    min-width:45px;
     border:0;
     border-radius:10px;
     background:#f0f0f0;
@@ -480,10 +498,6 @@ input[type="search"]{
     color:#777;
 }
 
-/* =========================
-   BOUTON CALENDRIER
-========================= */
-
 .calendarButton{
     width:100%;
     margin-top:10px;
@@ -559,17 +573,19 @@ input[type="search"]{
 ========================= */
 
 @media(max-width:500px){
-    .topActions{
-        flex-wrap:wrap;
-    }
-
-    .topActions button{
-        min-width:calc(50% - 4px);
-    }
 
     .accountHeader{
         align-items:flex-start;
     }
+
+    .photoButtons{
+        flex-direction:column;
+    }
+
+    .formButtons{
+        flex-direction:column;
+    }
+
 }
 </style>
 </head>
@@ -577,7 +593,7 @@ input[type="search"]{
 <body>
 
 <!-- =========================
-     ECRAN PIN
+     CONNEXION
 ========================= -->
 
 <div id="loginScreen">
@@ -586,7 +602,9 @@ input[type="search"]{
 
         <h1>🔐 Mes accès</h1>
 
-        <p>Entrez votre code PIN pour accéder à vos informations.</p>
+        <p>
+            Entrez votre code PIN pour accéder à vos informations.
+        </p>
 
         <input
             id="pinInput"
@@ -597,11 +615,17 @@ input[type="search"]{
             autocomplete="off"
         >
 
-        <button class="loginButton" onclick="login()">
+        <button
+            class="loginButton"
+            onclick="login()"
+        >
             Ouvrir
         </button>
 
-        <div id="loginError" class="loginError"></div>
+        <div
+            id="loginError"
+            class="loginError"
+        ></div>
 
     </div>
 
@@ -612,7 +636,10 @@ input[type="search"]{
      APPLICATION
 ========================= -->
 
-<div id="app" class="hidden">
+<div
+    id="app"
+    class="hidden"
+>
 
     <header class="header">
 
@@ -620,7 +647,10 @@ input[type="search"]{
 
             <h1>🔐 Mes accès</h1>
 
-            <div class="userCount" id="userCount">
+            <div
+                class="userCount"
+                id="userCount"
+            >
                 0 accès
             </div>
 
@@ -678,7 +708,10 @@ input[type="search"]{
              FORMULAIRE
         ========================= -->
 
-        <div id="formCard" class="formCard hidden">
+        <div
+            id="formCard"
+            class="formCard hidden"
+        >
 
             <h2 id="formTitle">
                 Ajouter un accès
@@ -1106,8 +1139,6 @@ input[type="search"]{
         </div>
 
 
-        <!-- LISTE -->
-
         <div id="accountsList"></div>
 
     </main>
@@ -1166,21 +1197,27 @@ let currentPhoto = "";
    INITIALISATION
 ========================================================= */
 
-document.addEventListener("DOMContentLoaded", function(){
+document.addEventListener(
+    "DOMContentLoaded",
+    function(){
 
-    loadData();
+        loadData();
 
-    document
-        .getElementById("pinInput")
-        .addEventListener("keydown", function(event){
+        document
+            .getElementById("pinInput")
+            .addEventListener(
+                "keydown",
+                function(event){
 
-            if(event.key === "Enter"){
-                login();
-            }
+                    if(event.key === "Enter"){
+                        login();
+                    }
 
-        });
+                }
+            );
 
-});
+    }
+);
 
 
 /* =========================================================
@@ -1194,6 +1231,7 @@ function login(){
 
     const error =
         document.getElementById("loginError");
+
 
     if(pin === PIN){
 
@@ -1290,8 +1328,7 @@ function updateUserCount(){
     const count = accounts.length;
 
     element.textContent =
-        count +
-        (count > 1 ? " accès" : " accès");
+        count + " accès";
 
 }
 
@@ -1394,6 +1431,7 @@ function toggleApplicationFields(){
     const box =
         document.getElementById("applicationBox");
 
+
     if(checked){
 
         box.classList.remove("hidden");
@@ -1421,24 +1459,31 @@ function handlePhoto(event){
         return;
     }
 
-    const reader = new FileReader();
 
-    reader.onload = function(e){
+    const reader =
+        new FileReader();
 
-        currentPhoto = e.target.result;
 
-        const preview =
-            document.getElementById("photoPreview");
+    reader.onload =
+        function(e){
 
-        preview.src = currentPhoto;
+            currentPhoto =
+                e.target.result;
 
-        preview.classList.remove("hidden");
+            const preview =
+                document.getElementById("photoPreview");
 
-        document
-            .getElementById("deletePhotoBtn")
-            .classList.remove("hidden");
+            preview.src =
+                currentPhoto;
 
-    };
+            preview.classList.remove("hidden");
+
+            document
+                .getElementById("deletePhotoBtn")
+                .classList.remove("hidden");
+
+        };
+
 
     reader.readAsDataURL(file);
 
@@ -1449,7 +1494,9 @@ function deletePhoto(){
 
     currentPhoto = "";
 
-    document.getElementById("photoPreview").src = "";
+    document
+        .getElementById("photoPreview")
+        .src = "";
 
     document
         .getElementById("photoPreview")
@@ -1493,16 +1540,17 @@ function saveAccount(){
     const application =
         document.getElementById("applicationCheck").checked;
 
-    const durationValue =
-        document.getElementById("durationInput").value;
-
     const duration =
-        Number(durationValue);
+        Number(
+            document.getElementById("durationInput").value
+        );
 
 
     if(!name){
 
-        alert("Veuillez entrer un nom / prénom.");
+        alert(
+            "Veuillez entrer un nom / prénom."
+        );
 
         return;
 
@@ -1511,7 +1559,9 @@ function saveAccount(){
 
     if(!duration || duration < 1){
 
-        alert("Veuillez entrer une durée en jours.");
+        alert(
+            "Veuillez entrer une durée en jours."
+        );
 
         return;
 
@@ -1579,7 +1629,8 @@ function saveAccount(){
 
         const index =
             accounts.findIndex(
-                account => account.id === editingId
+                account =>
+                    account.id === editingId
             );
 
         if(index !== -1){
@@ -1608,7 +1659,8 @@ function getExistingStartDate(id){
 
     const existing =
         accounts.find(
-            account => account.id === id
+            account =>
+                account.id === id
         );
 
     if(existing && existing.startDate){
@@ -1630,18 +1682,23 @@ function editAccount(id){
 
     const account =
         accounts.find(
-            item => item.id === id
+            item =>
+                item.id === id
         );
+
 
     if(!account){
         return;
     }
 
+
     editingId = id;
+
 
     document
         .getElementById("formTitle")
-        .textContent = "Modifier l'accès";
+        .textContent =
+        "Modifier l'accès";
 
 
     document.getElementById("nameInput").value =
@@ -1668,7 +1725,8 @@ function editAccount(id){
 
     document
         .getElementById("applicationCheck")
-        .checked = !!account.application;
+        .checked =
+        !!account.application;
 
 
     document.getElementById("appUrlInput").value =
@@ -1696,33 +1754,40 @@ function editAccount(id){
 
     if(currentPhoto){
 
-        document.getElementById("photoPreview").src =
+        document
+            .getElementById("photoPreview")
+            .src =
             currentPhoto;
 
         document
             .getElementById("photoPreview")
-            .classList.remove("hidden");
+            .classList
+            .remove("hidden");
 
         document
             .getElementById("deletePhotoBtn")
-            .classList.remove("hidden");
+            .classList
+            .remove("hidden");
 
     }else{
 
         document
             .getElementById("photoPreview")
-            .classList.add("hidden");
+            .classList
+            .add("hidden");
 
         document
             .getElementById("deletePhotoBtn")
-            .classList.add("hidden");
+            .classList
+            .add("hidden");
 
     }
 
 
     document
         .getElementById("formCard")
-        .classList.remove("hidden");
+        .classList
+        .remove("hidden");
 
 
     window.scrollTo({
@@ -1741,30 +1806,33 @@ function deleteAccount(id){
 
     const account =
         accounts.find(
-            item => item.id === id
+            item =>
+                item.id === id
         );
+
 
     if(!account){
         return;
     }
 
 
-    const confirmed =
-        confirm(
+    if(
+        !confirm(
             "Supprimer l'accès de " +
             account.name +
             " ?"
-        );
+        )
+    ){
 
-
-    if(!confirmed){
         return;
+
     }
 
 
     accounts =
         accounts.filter(
-            item => item.id !== id
+            item =>
+                item.id !== id
         );
 
 
@@ -1785,8 +1853,10 @@ function normalizeUrl(url){
         return "";
     }
 
+
     let value =
         String(url).trim();
+
 
     if(!value){
         return "";
@@ -1803,27 +1873,27 @@ function normalizeUrl(url){
 
     }
 
+
     return value;
 
 }
 
 
 /*
-    IMPORTANT :
-    Cette fonction est appelée directement par le clic
-    sur l'URL.
+   OUVERTURE URL
 
-    Elle demande à l'iPhone d'ouvrir l'adresse dans
-    une nouvelle page/onglet.
+   Le bouton 🌐 crée un vrai élément <a>
+   avec target="_blank" et rel="external".
 
-    L'application Mes accès reste donc ouverte.
+   C'est le comportement le plus adapté
+   lorsqu'une page est installée sur l'écran
+   d'accueil de l'iPhone.
 */
 
-function openUrlInNewPage(event, url){
+function openSafari(url){
 
-    if(event){
-        event.preventDefault();
-        event.stopPropagation();
+    if(!url){
+        return;
     }
 
 
@@ -1832,23 +1902,49 @@ function openUrlInNewPage(event, url){
 
 
     if(!finalUrl){
-        return false;
+        return;
     }
 
 
-    /*
-       window.open est déclenché directement par
-       l'action de l'utilisateur.
-    */
+    const link =
+        document.createElement("a");
 
-    window.open(
-        finalUrl,
-        "_blank",
-        "noopener,noreferrer"
+
+    link.href =
+        finalUrl;
+
+    link.target =
+        "_blank";
+
+    link.rel =
+        "external noopener noreferrer";
+
+
+    link.style.position =
+        "fixed";
+
+    link.style.left =
+        "-9999px";
+
+
+    document.body.appendChild(link);
+
+
+    link.click();
+
+
+    setTimeout(
+        function(){
+
+            if(link.parentNode){
+
+                link.parentNode.removeChild(link);
+
+            }
+
+        },
+        100
     );
-
-
-    return false;
 
 }
 
@@ -1862,6 +1958,7 @@ function renderAccounts(){
     const container =
         document.getElementById("accountsList");
 
+
     const search =
         document
             .getElementById("searchInput")
@@ -1871,53 +1968,52 @@ function renderAccounts(){
 
 
     let filtered =
-        accounts.filter(account => {
+        accounts.filter(
+            function(account){
 
-            const text = [
+                const text = [
 
-                account.name,
-                account.username,
-                account.url1,
-                account.url2,
-                account.note,
-                account.appUrl,
-                account.mac1,
-                account.key1,
-                account.mac2,
-                account.key2
+                    account.name,
+                    account.username,
+                    account.url1,
+                    account.url2,
+                    account.note,
+                    account.appUrl,
+                    account.mac1,
+                    account.key1,
+                    account.mac2,
+                    account.key2
 
-            ]
-            .join(" ")
-            .toLowerCase();
-
-
-            return text.includes(search);
-
-        });
+                ]
+                .join(" ")
+                .toLowerCase();
 
 
-    /*
-       Tri alphabétique Nom / Prénom
-    */
+                return text.includes(search);
 
-    filtered.sort(function(a,b){
+            }
+        );
 
-        return String(a.name || "")
-            .localeCompare(
-                String(b.name || ""),
-                "fr",
-                {
-                    sensitivity:"base"
-                }
-            );
 
-    });
+    filtered.sort(
+        function(a,b){
+
+            return String(a.name || "")
+                .localeCompare(
+                    String(b.name || ""),
+                    "fr",
+                    {
+                        sensitivity:"base"
+                    }
+                );
+
+        }
+    );
 
 
     if(filtered.length === 0){
 
         container.innerHTML =
-
             '<div class="empty">' +
                 '<div class="emptyIcon">🔐</div>' +
                 '<div>Aucun accès trouvé.</div>' +
@@ -1933,14 +2029,19 @@ function renderAccounts(){
     let html = "";
 
 
-    filtered.forEach(function(account){
+    filtered.forEach(
+        function(account){
 
-        html += renderAccount(account);
+            html +=
+                renderAccount(account);
 
-    });
+        }
+    );
 
 
-    container.innerHTML = html;
+    container.innerHTML =
+        html;
+
 
     updateUserCount();
 
@@ -1948,7 +2049,7 @@ function renderAccounts(){
 
 
 /* =========================================================
-   CARTE COMPTE
+   CARTE
 ========================================================= */
 
 function renderAccount(account){
@@ -1966,7 +2067,9 @@ function renderAccount(account){
         '<div class="accountHeader">' +
 
             '<div class="accountName">' +
-                escapeHtml(account.name || "") +
+                escapeHtml(
+                    account.name || ""
+                ) +
             '</div>' +
 
             '<div class="accountActions">' +
@@ -1996,10 +2099,11 @@ function renderAccount(account){
 
     if(account.username){
 
-        html += accountLineCopy(
-            "Utilisateur",
-            account.username
-        );
+        html +=
+            accountLineCopy(
+                "Utilisateur",
+                account.username
+            );
 
     }
 
@@ -2020,7 +2124,9 @@ function renderAccount(account){
                     '<div ' +
                         'class="valueText passwordValue" ' +
                         'data-password="' +
-                        escapeHtml(account.password) +
+                        escapeHtml(
+                            account.password
+                        ) +
                         '">' +
                         '••••••••' +
                     '</div>' +
@@ -2033,9 +2139,11 @@ function renderAccount(account){
 
                     '<button ' +
                         'class="copyBtn" ' +
-                        'onclick="copySavedValue(this)"' +
+                        'onclick="copySavedValue(this)" ' +
                         'data-copy="' +
-                        escapeHtml(account.password) +
+                        escapeHtml(
+                            account.password
+                        ) +
                         '">' +
                         '📋' +
                     '</button>' +
@@ -2051,10 +2159,11 @@ function renderAccount(account){
 
     if(account.url1){
 
-        html += accountUrlLine(
-            "URL 1",
-            account.url1
-        );
+        html +=
+            accountUrlLine(
+                "URL 1",
+                account.url1
+            );
 
     }
 
@@ -2063,10 +2172,11 @@ function renderAccount(account){
 
     if(account.url2){
 
-        html += accountUrlLine(
-            "URL 2",
-            account.url2
-        );
+        html +=
+            accountUrlLine(
+                "URL 2",
+                account.url2
+            );
 
     }
 
@@ -2085,14 +2195,18 @@ function renderAccount(account){
                 '<div class="copyArea">' +
 
                     '<div class="valueText remarque">' +
-                        escapeHtml(account.note) +
+                        escapeHtml(
+                            account.note
+                        ) +
                     '</div>' +
 
                     '<button ' +
                         'class="copyBtn" ' +
                         'onclick="copySavedValue(this)" ' +
                         'data-copy="' +
-                        escapeHtml(account.note) +
+                        escapeHtml(
+                            account.note
+                        ) +
                         '">' +
                         '📋' +
                     '</button>' +
@@ -2111,55 +2225,62 @@ function renderAccount(account){
         html +=
             '<div class="applicationSaved">' +
 
-                '<h3>📱 Application</h3>';
+                '<h3>' +
+                    '📱 Application' +
+                '</h3>';
 
 
         if(account.appUrl){
 
-            html += accountUrlLine(
-                "URL application",
-                account.appUrl
-            );
+            html +=
+                accountUrlLine(
+                    "URL application",
+                    account.appUrl
+                );
 
         }
 
 
         if(account.mac1){
 
-            html += accountLineCopy(
-                "MAC 1",
-                account.mac1
-            );
+            html +=
+                accountLineCopy(
+                    "MAC 1",
+                    account.mac1
+                );
 
         }
 
 
         if(account.key1){
 
-            html += accountLineCopy(
-                "Clé 1",
-                account.key1
-            );
+            html +=
+                accountLineCopy(
+                    "Clé 1",
+                    account.key1
+                );
 
         }
 
 
         if(account.mac2){
 
-            html += accountLineCopy(
-                "MAC 2",
-                account.mac2
-            );
+            html +=
+                accountLineCopy(
+                    "MAC 2",
+                    account.mac2
+                );
 
         }
 
 
         if(account.key2){
 
-            html += accountLineCopy(
-                "Clé 2",
-                account.key2
-            );
+            html +=
+                accountLineCopy(
+                    "Clé 2",
+                    account.key2
+                );
 
         }
 
@@ -2184,11 +2305,15 @@ function renderAccount(account){
                 '<img ' +
                     'class="photoSaved" ' +
                     'src="' +
-                    account.photo +
+                    escapeAttribute(
+                        account.photo
+                    ) +
                     '" ' +
                     'alt="Document" ' +
                     'onclick="openPhotoModal(\'' +
-                    escapeJs(account.photo) +
+                    escapeJs(
+                        account.photo
+                    ) +
                     '\')" ' +
                     'style="cursor:pointer;"' +
                 '>' +
@@ -2200,7 +2325,8 @@ function renderAccount(account){
 
     /* DUREE */
 
-    html += renderDuration(account);
+    html +=
+        renderDuration(account);
 
 
     html +=
@@ -2213,10 +2339,10 @@ function renderAccount(account){
 
 
 /* =========================================================
-   LIGNE TEXTE + COPIE
+   TEXTE + COPIE
 ========================================================= */
 
-function accountLineCopy(label, value){
+function accountLineCopy(label,value){
 
     return (
 
@@ -2251,21 +2377,14 @@ function accountLineCopy(label, value){
 
 
 /* =========================================================
-   LIGNE URL
+   URL + COPIE + SAFARI
 ========================================================= */
 
-function accountUrlLine(label, value){
+function accountUrlLine(label,value){
 
     const normalized =
         normalizeUrl(value);
 
-
-    /*
-       L'URL elle-même est cliquable.
-
-       Le clic utilise openUrlInNewPage()
-       pour demander une nouvelle page/onglet.
-    */
 
     return (
 
@@ -2283,8 +2402,7 @@ function accountUrlLine(label, value){
                     escapeAttribute(normalized) +
                     '" ' +
                     'target="_blank" ' +
-                    'rel="noopener noreferrer" ' +
-                    'onclick="return openUrlInNewPage(event, this.href);">' +
+                    'rel="external noopener noreferrer">' +
 
                     escapeHtml(value) +
 
@@ -2299,6 +2417,14 @@ function accountUrlLine(label, value){
                     '📋' +
                 '</button>' +
 
+                '<button ' +
+                    'class="safariBtn" ' +
+                    'onclick="openSafari(\'' +
+                    escapeJs(normalized) +
+                    '\')">' +
+                    '🌐' +
+                '</button>' +
+
             '</div>' +
 
         '</div>'
@@ -2309,12 +2435,15 @@ function accountUrlLine(label, value){
 
 
 /* =========================================================
-   DUREE / EXPIRATION
+   DUREE
 ========================================================= */
 
 function renderDuration(account){
 
-    if(!account.duration || !account.startDate){
+    if(
+        !account.duration ||
+        !account.startDate
+    ){
 
         return "";
 
@@ -2324,13 +2453,16 @@ function renderDuration(account){
     const start =
         new Date(account.startDate);
 
+
     const expiration =
-        new Date(start.getTime() +
-        Number(account.duration) *
-        24 *
-        60 *
-        60 *
-        1000);
+        new Date(
+            start.getTime() +
+            Number(account.duration) *
+            24 *
+            60 *
+            60 *
+            1000
+        );
 
 
     const now =
@@ -2355,15 +2487,18 @@ function renderDuration(account){
 
     if(daysRemaining < 0){
 
-        className = "expGray";
+        className =
+            "expGray";
 
     }else if(daysRemaining <= 2){
 
-        className = "expRed";
+        className =
+            "expRed";
 
     }else if(daysRemaining <= 7){
 
-        className = "expOrange";
+        className =
+            "expOrange";
 
     }
 
@@ -2416,16 +2551,22 @@ function renderDuration(account){
             '">' +
 
                 '⏳ ' +
-                escapeHtml(remainingText) +
+                escapeHtml(
+                    remainingText
+                ) +
 
             '</div>' +
 
             '<div class="expirationText">' +
 
                 'Durée : ' +
-                escapeHtml(String(account.duration)) +
+                escapeHtml(
+                    String(account.duration)
+                ) +
                 ' jour(s) • Expiration : ' +
-                escapeHtml(expirationDate) +
+                escapeHtml(
+                    expirationDate
+                ) +
 
             '</div>' +
 
@@ -2447,7 +2588,7 @@ function renderDuration(account){
 
 
 /* =========================================================
-   MOT DE PASSE SAUVEGARDE
+   MOT DE PASSE
 ========================================================= */
 
 function toggleSavedPassword(button){
@@ -2455,8 +2596,12 @@ function toggleSavedPassword(button){
     const area =
         button.parentElement;
 
+
     const passwordElement =
-        area.querySelector(".passwordValue");
+        area.querySelector(
+            ".passwordValue"
+        );
+
 
     if(!passwordElement){
         return;
@@ -2470,7 +2615,8 @@ function toggleSavedPassword(button){
 
 
     const visible =
-        passwordElement.dataset.visible === "true";
+        passwordElement.dataset.visible ===
+        "true";
 
 
     if(visible){
@@ -2481,7 +2627,8 @@ function toggleSavedPassword(button){
         passwordElement.dataset.visible =
             "false";
 
-        button.textContent = "👁️";
+        button.textContent =
+            "👁️";
 
     }else{
 
@@ -2491,7 +2638,8 @@ function toggleSavedPassword(button){
         passwordElement.dataset.visible =
             "true";
 
-        button.textContent = "🙈";
+        button.textContent =
+            "🙈";
 
     }
 
@@ -2507,9 +2655,11 @@ function copyInputValue(id){
     const input =
         document.getElementById(id);
 
+
     if(!input){
         return;
     }
+
 
     copyText(
         input.value,
@@ -2525,8 +2675,12 @@ function copySavedValue(button){
         return;
     }
 
+
     const value =
-        button.getAttribute("data-copy") || "";
+        button.getAttribute(
+            "data-copy"
+        ) || "";
+
 
     copyText(
         value,
@@ -2536,12 +2690,10 @@ function copySavedValue(button){
 }
 
 
-function copyText(text, button){
+function copyText(text,button){
 
     if(!text){
-
         return;
-
     }
 
 
@@ -2552,38 +2704,60 @@ function copyText(text, button){
 
         navigator.clipboard
             .writeText(text)
-            .then(function(){
+            .then(
+                function(){
 
-                copySuccess(button);
+                    copySuccess(button);
 
-            })
-            .catch(function(){
+                }
+            )
+            .catch(
+                function(){
 
-                fallbackCopy(text, button);
+                    fallbackCopy(
+                        text,
+                        button
+                    );
 
-            });
+                }
+            );
 
     }else{
 
-        fallbackCopy(text, button);
+        fallbackCopy(
+            text,
+            button
+        );
 
     }
 
 }
 
 
-function fallbackCopy(text, button){
+function fallbackCopy(text,button){
 
     const textarea =
-        document.createElement("textarea");
+        document.createElement(
+            "textarea"
+        );
 
-    textarea.value = text;
 
-    textarea.style.position = "fixed";
+    textarea.value =
+        text;
 
-    textarea.style.left = "-9999px";
 
-    document.body.appendChild(textarea);
+    textarea.style.position =
+        "fixed";
+
+
+    textarea.style.left =
+        "-9999px";
+
+
+    document.body.appendChild(
+        textarea
+    );
+
 
     textarea.focus();
 
@@ -2592,21 +2766,24 @@ function fallbackCopy(text, button){
 
     try{
 
-        document.execCommand("copy");
+        document.execCommand(
+            "copy"
+        );
 
         copySuccess(button);
 
     }catch(error){
 
         alert(
-            "Impossible de copier automatiquement. " +
-            "Vous pouvez sélectionner le texte manuellement."
+            "Impossible de copier automatiquement."
         );
 
     }
 
 
-    document.body.removeChild(textarea);
+    document.body.removeChild(
+        textarea
+    );
 
 }
 
@@ -2617,31 +2794,37 @@ function copySuccess(button){
         return;
     }
 
+
     const old =
         button.textContent;
+
 
     button.textContent =
         "✅";
 
 
-    setTimeout(function(){
+    setTimeout(
+        function(){
 
-        button.textContent =
-            old;
+            button.textContent =
+                old;
 
-    },1000);
+        },
+        1000
+    );
 
 }
 
 
 /* =========================================================
-   MOT DE PASSE FORMULAIRE
+   PASSWORD FORMULAIRE
 ========================================================= */
 
-function togglePassword(id, button){
+function togglePassword(id,button){
 
     const input =
         document.getElementById(id);
+
 
     if(!input){
         return;
@@ -2650,15 +2833,19 @@ function togglePassword(id, button){
 
     if(input.type === "password"){
 
-        input.type = "text";
+        input.type =
+            "text";
 
-        button.textContent = "🙈";
+        button.textContent =
+            "🙈";
 
     }else{
 
-        input.type = "password";
+        input.type =
+            "password";
 
-        button.textContent = "👁️";
+        button.textContent =
+            "👁️";
 
     }
 
@@ -2673,11 +2860,14 @@ function openPhotoModal(src){
 
     document
         .getElementById("modalPhoto")
-        .src = src;
+        .src =
+        src;
+
 
     document
         .getElementById("photoModal")
-        .classList.remove("hidden");
+        .classList
+        .remove("hidden");
 
 }
 
@@ -2687,7 +2877,8 @@ function closePhotoModal(event){
     if(
         event &&
         event.target &&
-        event.target.id !== "photoModal"
+        event.target.id !==
+        "photoModal"
     ){
 
         return;
@@ -2697,7 +2888,8 @@ function closePhotoModal(event){
 
     document
         .getElementById("photoModal")
-        .classList.add("hidden");
+        .classList
+        .add("hidden");
 
 }
 
@@ -2710,18 +2902,20 @@ function addCalendarReminder(id){
 
     const account =
         accounts.find(
-            item => item.id === id
+            item =>
+                item.id === id
         );
 
 
     if(!account){
-
         return;
-
     }
 
 
-    if(!account.duration || !account.startDate){
+    if(
+        !account.duration ||
+        !account.startDate
+    ){
 
         alert(
             "Aucune durée disponible pour cet accès."
@@ -2733,7 +2927,9 @@ function addCalendarReminder(id){
 
 
     const start =
-        new Date(account.startDate);
+        new Date(
+            account.startDate
+        );
 
 
     const expiration =
@@ -2747,10 +2943,6 @@ function addCalendarReminder(id){
         );
 
 
-    /*
-       Rappel exactement 2 jours avant expiration.
-    */
-
     const reminder =
         new Date(
             expiration.getTime() -
@@ -2762,26 +2954,29 @@ function addCalendarReminder(id){
         );
 
 
-    const formatCalendarDate =
-        function(date){
+    function formatCalendarDate(date){
 
-            return date
-                .toISOString()
-                .replace(/[-:]/g,"")
-                .replace(/\.\d{3}/,"");
+        return date
+            .toISOString()
+            .replace(/[-:]/g,"")
+            .replace(/\.\d{3}/,"");
 
-        };
+    }
 
 
     const dateStart =
-        formatCalendarDate(reminder);
+        formatCalendarDate(
+            reminder
+        );
 
 
     const dateEnd =
         formatCalendarDate(
             new Date(
                 reminder.getTime() +
-                60 * 60 * 1000
+                60 *
+                60 *
+                1000
             )
         );
 
@@ -2798,17 +2993,23 @@ function addCalendarReminder(id){
             "L'accès de " +
             account.name +
             " expire le " +
-            expiration.toLocaleDateString("fr-BE")
+            expiration.toLocaleDateString(
+                "fr-BE"
+            )
         );
 
 
     const url =
         "https://calendar.google.com/calendar/render" +
         "?action=TEMPLATE" +
-        "&text=" + title +
-        "&dates=" + dateStart +
-        "/" + dateEnd +
-        "&details=" + details;
+        "&text=" +
+        title +
+        "&dates=" +
+        dateStart +
+        "/" +
+        dateEnd +
+        "&details=" +
+        details;
 
 
     window.open(
@@ -2821,7 +3022,7 @@ function addCalendarReminder(id){
 
 
 /* =========================================================
-   SAUVEGARDE JSON
+   EXPORT
 ========================================================= */
 
 function exportData(){
@@ -2838,37 +3039,54 @@ function exportData(){
         new Blob(
             [data],
             {
-                type:"application/json"
+                type:
+                    "application/json"
             }
         );
 
 
     const url =
-        URL.createObjectURL(blob);
+        URL.createObjectURL(
+            blob
+        );
 
 
     const link =
-        document.createElement("a");
+        document.createElement(
+            "a"
+        );
 
-    link.href = url;
+
+    link.href =
+        url;
+
 
     link.download =
         "mes-acces-sauvegarde.json";
 
 
-    document.body.appendChild(link);
+    document.body.appendChild(
+        link
+    );
+
 
     link.click();
 
-    document.body.removeChild(link);
 
-    URL.revokeObjectURL(url);
+    document.body.removeChild(
+        link
+    );
+
+
+    URL.revokeObjectURL(
+        url
+    );
 
 }
 
 
 /* =========================================================
-   RESTAURATION JSON
+   IMPORT
 ========================================================= */
 
 function importData(event){
@@ -2893,7 +3111,9 @@ function importData(event){
             try{
 
                 const imported =
-                    JSON.parse(e.target.result);
+                    JSON.parse(
+                        e.target.result
+                    );
 
 
                 if(!Array.isArray(imported)){
@@ -2905,14 +3125,14 @@ function importData(event){
                 }
 
 
-                const confirmed =
-                    confirm(
+                if(
+                    !confirm(
                         "La restauration va remplacer les accès actuellement enregistrés. Continuer ?"
-                    );
+                    )
+                ){
 
-
-                if(!confirmed){
                     return;
+
                 }
 
 
@@ -2941,70 +3161,131 @@ function importData(event){
         };
 
 
-    reader.readAsText(file);
+    reader.readAsText(
+        file
+    );
 
 
-    event.target.value = "";
+    event.target.value =
+        "";
 
 }
 
 
 /* =========================================================
-   SECURITE AFFICHAGE
+   SECURITE
 ========================================================= */
 
 function escapeHtml(value){
 
-    return String(value ?? "")
-        .replace(/&/g,"&amp;")
-        .replace(/</g,"&lt;")
-        .replace(/>/g,"&gt;")
-        .replace(/"/g,"&quot;")
-        .replace(/'/g,"&#039;");
+    return String(
+        value ?? ""
+    )
+    .replace(
+        /&/g,
+        "&amp;"
+    )
+    .replace(
+        /</g,
+        "&lt;"
+    )
+    .replace(
+        />/g,
+        "&gt;"
+    )
+    .replace(
+        /"/g,
+        "&quot;"
+    )
+    .replace(
+        /'/g,
+        "&#039;"
+    );
 
 }
 
 
 function escapeAttribute(value){
 
-    return String(value ?? "")
-        .replace(/&/g,"&amp;")
-        .replace(/"/g,"&quot;")
-        .replace(/</g,"&lt;")
-        .replace(/>/g,"&gt;");
+    return String(
+        value ?? ""
+    )
+    .replace(
+        /&/g,
+        "&amp;"
+    )
+    .replace(
+        /"/g,
+        "&quot;"
+    )
+    .replace(
+        /</g,
+        "&lt;"
+    )
+    .replace(
+        />/g,
+        "&gt;"
+    );
 
 }
 
 
 function escapeJs(value){
 
-    return String(value ?? "")
-        .replace(/\\/g,"\\\\")
-        .replace(/'/g,"\\'")
-        .replace(/"/g,'\\"')
-        .replace(/\n/g,"\\n")
-        .replace(/\r/g,"\\r");
+    return String(
+        value ?? ""
+    )
+    .replace(
+        /\\/g,
+        "\\\\"
+    )
+    .replace(
+        /'/g,
+        "\\'"
+    )
+    .replace(
+        /"/g,
+        '\\"'
+    )
+    .replace(
+        /\n/g,
+        "\\n"
+    )
+    .replace(
+        /\r/g,
+        "\\r"
+    );
 
 }
 
 
 /* =========================================================
-   ACTUALISATION DU COMPTE A REBOURS
+   ACTUALISATION
 ========================================================= */
 
-setInterval(function(){
+setInterval(
+    function(){
 
-    if(
-        !document
-            .getElementById("app")
-            .classList.contains("hidden")
-    ){
+        const app =
+            document.getElementById(
+                "app"
+            );
 
-        renderAccounts();
 
-    }
+        if(
+            app &&
+            !app.classList.contains(
+                "hidden"
+            )
+        ){
 
-},60000);
+            renderAccounts();
+
+        }
+
+    },
+    60000
+);
 
 </script>
 
