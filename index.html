@@ -146,22 +146,22 @@ button{
 
 .urlLink{
     display:block;
+    flex:1;
+    min-width:0;
     color:#007aff;
     text-decoration:underline;
     word-break:break-all;
-    margin-top:8px;
-    padding:8px 0;
+    padding:12px 4px;
+    cursor:pointer;
+    font-size:16px;
+}
+
+.urlLink:active{
+    opacity:.6;
 }
 
 .urlButtons{
-    display:flex;
-    gap:7px;
-    margin-top:5px;
-}
-
-.urlButtons button,
-.urlButtons a{
-    flex:1;
+    display:none;
 }
 
 .openUrl{
@@ -426,6 +426,21 @@ hr{
 
 .modalButtons button{
     flex:1;
+}
+
+.actions{
+    display:flex;
+    gap:8px;
+    margin-top:15px;
+}
+
+.actions button{
+    flex:1;
+}
+
+.applicationFieldTitle{
+    margin-top:14px;
+    font-weight:700;
 }
 
 </style>
@@ -735,15 +750,15 @@ hr{
             </div>
 
 
-            <label>
-                MAC
-            </label>
+            <div class="applicationFieldTitle">
+                MAC 1
+            </div>
 
             <div class="fieldRow">
 
                 <input
                     id="mac"
-                    placeholder="MAC"
+                    placeholder="MAC 1"
                 >
 
                 <button
@@ -756,20 +771,62 @@ hr{
             </div>
 
 
-            <label>
-                Clé
-            </label>
+            <div class="applicationFieldTitle">
+                MAC 2
+            </div>
+
+            <div class="fieldRow">
+
+                <input
+                    id="mac2"
+                    placeholder="MAC 2"
+                >
+
+                <button
+                    class="copyBtn"
+                    onclick="copyField('mac2',this)"
+                >
+                    📋 Copier
+                </button>
+
+            </div>
+
+
+            <div class="applicationFieldTitle">
+                Clé 1
+            </div>
 
             <div class="fieldRow">
 
                 <input
                     id="appKey"
-                    placeholder="Clé"
+                    placeholder="Clé 1"
                 >
 
                 <button
                     class="copyBtn"
                     onclick="copyField('appKey',this)"
+                >
+                    📋 Copier
+                </button>
+
+            </div>
+
+
+            <div class="applicationFieldTitle">
+                Clé 2
+            </div>
+
+            <div class="fieldRow">
+
+                <input
+                    id="appKey2"
+                    placeholder="Clé 2"
+                >
+
+                <button
+                    class="copyBtn"
+                    onclick="copyField('appKey2',this)"
                 >
                     📋 Copier
                 </button>
@@ -952,9 +1009,7 @@ function loadData(){
     try{
 
         const saved =
-            localStorage.getItem(
-                STORAGE_KEY
-            );
+            localStorage.getItem(STORAGE_KEY);
 
         if(saved){
 
@@ -986,7 +1041,6 @@ function loadData(){
     }
 
     updateUserCount();
-
     renderAccounts();
 
 }
@@ -1134,17 +1188,11 @@ function showAddForm(){
 function clearForm(){
 
     document.getElementById("name").value = "";
-
     document.getElementById("username").value = "";
-
     document.getElementById("password").value = "";
-
     document.getElementById("url1").value = "";
-
     document.getElementById("url2").value = "";
-
     document.getElementById("remark").value = "";
-
     document.getElementById("duration").value = "";
 
     document
@@ -1152,10 +1200,10 @@ function clearForm(){
         .checked = false;
 
     document.getElementById("appUrl1").value = "";
-
     document.getElementById("mac").value = "";
-
+    document.getElementById("mac2").value = "";
     document.getElementById("appKey").value = "";
+    document.getElementById("appKey2").value = "";
 
     document
         .getElementById("applicationFields")
@@ -1248,17 +1296,6 @@ function togglePassword(){
    COPIE IPHONE
 ========================= */
 
-/*
- * IMPORTANT :
- * La copie est maintenant effectuée
- * de manière SYNCHRONE pendant l'appui
- * sur le bouton.
- *
- * Cela évite le problème iPhone/Safari
- * où un fallback lancé après une Promise
- * n'a plus le droit d'utiliser le presse-papiers.
- */
-
 function copyText(text,button){
 
     const value =
@@ -1277,28 +1314,16 @@ function copyText(text,button){
 
     }
 
-
-    /*
-     * Première méthode :
-     * sélection directe dans un textarea.
-     *
-     * execCommand("copy") est appelé
-     * immédiatement dans le clic du bouton.
-     */
-
     let textarea =
         document.createElement("textarea");
 
-
     textarea.value =
         value;
-
 
     textarea.setAttribute(
         "readonly",
         ""
     );
-
 
     textarea.style.position =
         "fixed";
@@ -1318,14 +1343,11 @@ function copyText(text,button){
     textarea.style.opacity =
         "0";
 
-
     document.body.appendChild(
         textarea
     );
 
-
     textarea.focus();
-
     textarea.select();
 
     textarea.setSelectionRange(
@@ -1333,16 +1355,12 @@ function copyText(text,button){
         textarea.value.length
     );
 
-
     let copied = false;
-
 
     try{
 
         copied =
-            document.execCommand(
-                "copy"
-            );
+            document.execCommand("copy");
 
     }catch(error){
 
@@ -1350,11 +1368,9 @@ function copyText(text,button){
 
     }
 
-
     document.body.removeChild(
         textarea
     );
-
 
     if(copied){
 
@@ -1363,15 +1379,6 @@ function copyText(text,button){
         return;
 
     }
-
-
-    /*
-     * Deuxième méthode :
-     * Clipboard API.
-     *
-     * Elle est tentée directement,
-     * toujours depuis l'action du bouton.
-     */
 
     if(
         navigator.clipboard &&
@@ -1399,11 +1406,6 @@ function copyText(text,button){
 
     }
 
-
-    /*
-     * Dernier secours.
-     */
-
     showCopyFallback(value);
 
 }
@@ -1428,7 +1430,6 @@ function showCopied(button){
 
     button.style.color =
         "#16803c";
-
 
     setTimeout(
         function(){
@@ -1469,10 +1470,6 @@ function copyField(id,button){
 }
 
 
-/*
- * Solution de secours visible.
- */
-
 function showCopyFallback(text){
 
     const modal =
@@ -1489,7 +1486,6 @@ function showCopyFallback(text){
     modal
         .classList
         .remove("hidden");
-
 
     setTimeout(
         function(){
@@ -1510,7 +1506,6 @@ function selectFallback(){
             .getElementById("copyFallback");
 
     input.focus();
-
     input.select();
 
     try{
@@ -1706,7 +1701,6 @@ function updateDatePreview(){
 
     let startDate;
 
-
     if(editIndex === -1){
 
         startDate =
@@ -1733,13 +1727,11 @@ function updateDatePreview(){
 
     }
 
-
     const expiry =
         calculateExpiryDate(
             startDate,
             duration
         );
-
 
     document
         .getElementById("expiryPreview")
@@ -1779,7 +1771,6 @@ function saveAccount(){
         return;
 
     }
-
 
     const username =
         document
@@ -1835,9 +1826,21 @@ function saveAccount(){
             .value
             .trim();
 
+    const mac2 =
+        document
+            .getElementById("mac2")
+            .value
+            .trim();
+
     const appKey =
         document
             .getElementById("appKey")
+            .value
+            .trim();
+
+    const appKey2 =
+        document
+            .getElementById("appKey2")
             .value
             .trim();
 
@@ -1847,17 +1850,11 @@ function saveAccount(){
         accounts.push({
 
             name:name,
-
             username:username,
-
             password:password,
-
             url1:url1,
-
             url2:url2,
-
             remark:remark,
-
             duration:duration,
 
             startDate:
@@ -1872,8 +1869,14 @@ function saveAccount(){
             mac:
                 mac,
 
+            mac2:
+                mac2,
+
             appKey:
                 appKey,
+
+            appKey2:
+                appKey2,
 
             photo:
                 currentPhoto
@@ -1915,12 +1918,17 @@ function saveAccount(){
         account.mac =
             mac;
 
+        account.mac2 =
+            mac2;
+
         account.appKey =
             appKey;
 
+        account.appKey2 =
+            appKey2;
+
         account.photo =
             currentPhoto;
-
 
         if(!account.startDate){
 
@@ -1931,13 +1939,9 @@ function saveAccount(){
 
     }
 
-
     saveData();
-
     updateUserCount();
-
     renderAccounts();
-
     cancelForm();
 
 }
@@ -1966,79 +1970,75 @@ function editAccount(index){
         .textContent =
             "✏️ Modifier l'accès";
 
-
     document
         .getElementById("name")
         .value =
             account.name || "";
-
 
     document
         .getElementById("username")
         .value =
             account.username || "";
 
-
     document
         .getElementById("password")
         .value =
             account.password || "";
-
 
     document
         .getElementById("url1")
         .value =
             account.url1 || "";
 
-
     document
         .getElementById("url2")
         .value =
             account.url2 || "";
-
 
     document
         .getElementById("remark")
         .value =
             account.remark || "";
 
-
     document
         .getElementById("duration")
         .value =
             account.duration || "";
-
 
     document
         .getElementById("isApplication")
         .checked =
             !!account.isApplication;
 
-
     document
         .getElementById("appUrl1")
         .value =
             account.appUrl1 || "";
-
 
     document
         .getElementById("mac")
         .value =
             account.mac || "";
 
+    document
+        .getElementById("mac2")
+        .value =
+            account.mac2 || "";
 
     document
         .getElementById("appKey")
         .value =
             account.appKey || "";
 
+    document
+        .getElementById("appKey2")
+        .value =
+            account.appKey2 || "";
 
     toggleApplicationFields();
 
-
     currentPhoto =
         account.photo || "";
-
 
     if(currentPhoto){
 
@@ -2061,15 +2061,12 @@ function editAccount(index){
 
     }
 
-
     document
         .getElementById("formCard")
         .classList
         .remove("hidden");
 
-
     updateDatePreview();
-
 
     window.scrollTo({
         top:0,
@@ -2115,9 +2112,7 @@ function deleteAccount(index){
     );
 
     saveData();
-
     updateUserCount();
-
     renderAccounts();
 
 }
@@ -2135,17 +2130,11 @@ function getCountdown(account){
     ){
 
         return {
-
-            text:
-                "⏳ Aucune durée définie",
-
-            className:
-                "none"
-
+            text:"⏳ Aucune durée définie",
+            className:"none"
         };
 
     }
-
 
     const start =
         new Date(
@@ -2159,17 +2148,11 @@ function getCountdown(account){
     ){
 
         return {
-
-            text:
-                "⏳ Date invalide",
-
-            className:
-                "none"
-
+            text:"⏳ Date invalide",
+            className:"none"
         };
 
     }
-
 
     start.setHours(
         0,
@@ -2178,16 +2161,13 @@ function getCountdown(account){
         0
     );
 
-
     const expiry =
         new Date(start);
-
 
     expiry.setDate(
         expiry.getDate() +
         Number(account.duration)
     );
-
 
     const today =
         new Date();
@@ -2198,7 +2178,6 @@ function getCountdown(account){
         0,
         0
     );
-
 
     const days =
         Math.ceil(
@@ -2214,68 +2193,48 @@ function getCountdown(account){
             )
         );
 
-
     if(days < 0){
 
         return {
-
             text:
                 "❌ Expiré depuis " +
                 Math.abs(days) +
                 " jour(s)",
-
-            className:
-                "expired"
-
+            className:"expired"
         };
 
     }
-
 
     if(days <= 2){
 
         return {
-
             text:
                 "🔴 " +
                 days +
                 " jour(s) restant(s)",
-
-            className:
-                "danger"
-
+            className:"danger"
         };
 
     }
-
 
     if(days <= 7){
 
         return {
-
             text:
                 "🟠 " +
                 days +
                 " jours restants",
-
-            className:
-                "warning"
-
+            className:"warning"
         };
 
     }
 
-
     return {
-
         text:
             "🟢 " +
             days +
             " jours restants",
-
-        className:
-            "ok"
-
+        className:"ok"
     };
 
 }
@@ -2311,13 +2270,11 @@ function addToGoogleCalendar(index){
 
     }
 
-
     const expiry =
         calculateExpiryDate(
             account.startDate,
             account.duration
         );
-
 
     if(!expiry){
 
@@ -2329,36 +2286,25 @@ function addToGoogleCalendar(index){
 
     }
 
-
     const reminder =
         new Date(expiry);
-
 
     reminder.setDate(
         reminder.getDate() - 2
     );
 
-
     const start =
-        googleDate(
-            reminder
-        );
-
+        googleDate(reminder);
 
     const endDate =
         new Date(reminder);
-
 
     endDate.setDate(
         endDate.getDate() + 1
     );
 
-
     const end =
-        googleDate(
-            endDate
-        );
-
+        googleDate(endDate);
 
     const title =
         "🔔 Rappel accès - " +
@@ -2367,12 +2313,10 @@ function addToGoogleCalendar(index){
             "Utilisateur"
         );
 
-
     const details =
         "Rappel 2 jours avant l'expiration." +
         "\nExpiration : " +
         formatDate(expiry);
-
 
     const url =
         "https://calendar.google.com/calendar/render" +
@@ -2385,7 +2329,6 @@ function addToGoogleCalendar(index){
         end +
         "&details=" +
         encodeURIComponent(details);
-
 
     window.location.href =
         url;
@@ -2434,7 +2377,6 @@ function renderAccounts(){
                 "accountsList"
             );
 
-
     const search =
         document
             .getElementById(
@@ -2444,9 +2386,7 @@ function renderAccounts(){
             .toLowerCase()
             .trim();
 
-
     list.innerHTML = "";
-
 
     const filtered =
         accounts
@@ -2469,10 +2409,8 @@ function renderAccounts(){
 
                     }
 
-
                     const a =
                         item.account;
-
 
                     const text = [
 
@@ -2483,12 +2421,13 @@ function renderAccounts(){
                         a.remark,
                         a.appUrl1,
                         a.mac,
-                        a.appKey
+                        a.mac2,
+                        a.appKey,
+                        a.appKey2
 
                     ]
                     .join(" ")
                     .toLowerCase();
-
 
                     return text.includes(
                         search
@@ -2522,16 +2461,13 @@ function renderAccounts(){
             const countdown =
                 getCountdown(account);
 
-
             const div =
                 document.createElement(
                     "div"
                 );
 
-
             div.className =
                 "account";
-
 
             let html = "";
 
@@ -2582,7 +2518,6 @@ function renderAccounts(){
                         account.duration
                     );
 
-
                 html +=
                     '<div class="accountLine">' +
                     '<div class="accountLabel">📅 Expiration</div>' +
@@ -2596,19 +2531,14 @@ function renderAccounts(){
 
                 html +=
                     '<div class="calendarBox">' +
-
                     "<strong>📆 Rappel calendrier</strong>" +
-
                     '<button ' +
                     'class="calendarButton" ' +
                     'onclick="addToGoogleCalendar(' +
                     index +
                     ')">' +
-
                     "📅 Ajouter au calendrier Google" +
-
                     "</button>" +
-
                     "</div>";
 
             }
@@ -2642,13 +2572,10 @@ function renderAccounts(){
                         account.username
                     ) +
                     ',this)">' +
-
                     "📋" +
-
                     "</button>" +
 
                     "</div>" +
-
                     "</div>";
 
             }
@@ -2683,9 +2610,7 @@ function renderAccounts(){
                     'onclick="showAccountPassword(' +
                     index +
                     ',this)">' +
-
                     "👁️" +
-
                     "</button>" +
 
                     '<button ' +
@@ -2695,17 +2620,18 @@ function renderAccounts(){
                         account.password
                     ) +
                     ',this)">' +
-
                     "📋" +
-
                     "</button>" +
 
                     "</div>" +
-
                     "</div>";
 
             }
 
+
+            /* =========================
+               URL 1 CLIQUABLE
+            ========================= */
 
             if(account.url1){
 
@@ -2713,7 +2639,6 @@ function renderAccounts(){
                     normalizeUrl(
                         account.url1
                     );
-
 
                 html +=
                     '<div class="accountLine">' +
@@ -2724,15 +2649,19 @@ function renderAccounts(){
 
                     '<div class="copyArea">' +
 
-                    '<input ' +
-                    'class="copyValue" ' +
-                    'readonly ' +
-                    'value="' +
+                    '<a ' +
+                    'class="urlLink" ' +
+                    'href="' +
+                    escapeHtml(url1) +
+                    '" ' +
+                    'target="_blank" ' +
+                    'rel="noopener noreferrer">' +
+
                     escapeHtml(
                         account.url1
                     ) +
-                    '" ' +
-                    'onclick="this.select()">' +
+
+                    '</a>' +
 
                     '<button ' +
                     'class="copyBtn" ' +
@@ -2748,26 +2677,14 @@ function renderAccounts(){
 
                     "</div>" +
 
-                    '<div class="urlButtons">' +
-
-                    '<a ' +
-                    'class="openUrl" ' +
-                    'href="' +
-                    escapeHtml(url1) +
-                    '" ' +
-                    'target="_blank" ' +
-                    'rel="noopener noreferrer">' +
-
-                    "🔗 Ouvrir dans une nouvelle page" +
-
-                    "</a>" +
-
-                    "</div>" +
-
                     "</div>";
 
             }
 
+
+            /* =========================
+               URL 2 CLIQUABLE
+            ========================= */
 
             if(account.url2){
 
@@ -2775,7 +2692,6 @@ function renderAccounts(){
                     normalizeUrl(
                         account.url2
                     );
-
 
                 html +=
                     '<div class="accountLine">' +
@@ -2786,15 +2702,19 @@ function renderAccounts(){
 
                     '<div class="copyArea">' +
 
-                    '<input ' +
-                    'class="copyValue" ' +
-                    'readonly ' +
-                    'value="' +
+                    '<a ' +
+                    'class="urlLink" ' +
+                    'href="' +
+                    escapeHtml(url2) +
+                    '" ' +
+                    'target="_blank" ' +
+                    'rel="noopener noreferrer">' +
+
                     escapeHtml(
                         account.url2
                     ) +
-                    '" ' +
-                    'onclick="this.select()">' +
+
+                    '</a>' +
 
                     '<button ' +
                     'class="copyBtn" ' +
@@ -2807,22 +2727,6 @@ function renderAccounts(){
                     "📋" +
 
                     "</button>" +
-
-                    "</div>" +
-
-                    '<div class="urlButtons">' +
-
-                    '<a ' +
-                    'class="openUrl" ' +
-                    'href="' +
-                    escapeHtml(url2) +
-                    '" ' +
-                    'target="_blank" ' +
-                    'rel="noopener noreferrer">' +
-
-                    "🔗 Ouvrir dans une nouvelle page" +
-
-                    "</a>" +
 
                     "</div>" +
 
@@ -2872,6 +2776,10 @@ function renderAccounts(){
             }
 
 
+            /* =========================
+               APPLICATION
+            ========================= */
+
             if(account.isApplication){
 
                 html +=
@@ -2889,7 +2797,6 @@ function renderAccounts(){
                             account.appUrl1
                         );
 
-
                     html +=
                         '<div class="accountLine">' +
 
@@ -2899,15 +2806,19 @@ function renderAccounts(){
 
                         '<div class="copyArea">' +
 
-                        '<input ' +
-                        'class="copyValue" ' +
-                        'readonly ' +
-                        'value="' +
+                        '<a ' +
+                        'class="urlLink" ' +
+                        'href="' +
+                        escapeHtml(appUrl) +
+                        '" ' +
+                        'target="_blank" ' +
+                        'rel="noopener noreferrer">' +
+
                         escapeHtml(
                             account.appUrl1
                         ) +
-                        '" ' +
-                        'onclick="this.select()">' +
+
+                        '</a>' +
 
                         '<button ' +
                         'class="copyBtn" ' +
@@ -2923,22 +2834,6 @@ function renderAccounts(){
 
                         "</div>" +
 
-                        '<div class="urlButtons">' +
-
-                        '<a ' +
-                        'class="openUrl" ' +
-                        'href="' +
-                        escapeHtml(appUrl) +
-                        '" ' +
-                        'target="_blank" ' +
-                        'rel="noopener noreferrer">' +
-
-                        "🔗 Ouvrir dans une nouvelle page" +
-
-                        "</a>" +
-
-                        "</div>" +
-
                         "</div>";
 
                 }
@@ -2950,7 +2845,7 @@ function renderAccounts(){
                         '<div class="accountLine">' +
 
                         '<div class="accountLabel">' +
-                        "MAC" +
+                        "MAC 1" +
                         "</div>" +
 
                         '<div class="copyArea">' +
@@ -2970,6 +2865,46 @@ function renderAccounts(){
                         'onclick="copyText(' +
                         jsString(
                             account.mac
+                        ) +
+                        ',this)">' +
+
+                        "📋" +
+
+                        "</button>" +
+
+                        "</div>" +
+
+                        "</div>";
+
+                }
+
+
+                if(account.mac2){
+
+                    html +=
+                        '<div class="accountLine">' +
+
+                        '<div class="accountLabel">' +
+                        "MAC 2" +
+                        "</div>" +
+
+                        '<div class="copyArea">' +
+
+                        '<input ' +
+                        'class="copyValue" ' +
+                        'readonly ' +
+                        'value="' +
+                        escapeHtml(
+                            account.mac2
+                        ) +
+                        '" ' +
+                        'onclick="this.select()">' +
+
+                        '<button ' +
+                        'class="copyBtn" ' +
+                        'onclick="copyText(' +
+                        jsString(
+                            account.mac2
                         ) +
                         ',this)">' +
 
@@ -2990,7 +2925,7 @@ function renderAccounts(){
                         '<div class="accountLine">' +
 
                         '<div class="accountLabel">' +
-                        "Clé" +
+                        "Clé 1" +
                         "</div>" +
 
                         '<div class="copyArea">' +
@@ -3010,6 +2945,46 @@ function renderAccounts(){
                         'onclick="copyText(' +
                         jsString(
                             account.appKey
+                        ) +
+                        ',this)">' +
+
+                        "📋" +
+
+                        "</button>" +
+
+                        "</div>" +
+
+                        "</div>";
+
+                }
+
+
+                if(account.appKey2){
+
+                    html +=
+                        '<div class="accountLine">' +
+
+                        '<div class="accountLabel">' +
+                        "Clé 2" +
+                        "</div>" +
+
+                        '<div class="copyArea">' +
+
+                        '<input ' +
+                        'class="copyValue" ' +
+                        'readonly ' +
+                        'value="' +
+                        escapeHtml(
+                            account.appKey2
+                        ) +
+                        '" ' +
+                        'onclick="this.select()">' +
+
+                        '<button ' +
+                        'class="copyBtn" ' +
+                        'onclick="copyText(' +
+                        jsString(
+                            account.appKey2
                         ) +
                         ',this)">' +
 
@@ -3071,7 +3046,6 @@ function renderAccounts(){
             div.innerHTML =
                 html;
 
-
             list.appendChild(
                 div
             );
@@ -3097,13 +3071,11 @@ function showAccountPassword(
             index
         );
 
-
     if(!input){
 
         return;
 
     }
-
 
     if(input.type === "password"){
 
@@ -3186,7 +3158,6 @@ function exportData(){
             2
         );
 
-
     const blob =
         new Blob(
             [data],
@@ -3196,25 +3167,21 @@ function exportData(){
             }
         );
 
-
     const url =
         URL.createObjectURL(
             blob
         );
-
 
     const a =
         document.createElement(
             "a"
         );
 
-
     a.href =
         url;
 
     a.download =
         "mes-acces-sauvegarde.json";
-
 
     document.body.appendChild(
         a
@@ -3248,10 +3215,8 @@ function importData(event){
 
     }
 
-
     const reader =
         new FileReader();
-
 
     reader.onload =
         function(e){
@@ -3262,7 +3227,6 @@ function importData(event){
                     JSON.parse(
                         e.target.result
                     );
-
 
                 if(
                     !Array.isArray(
@@ -3278,7 +3242,6 @@ function importData(event){
 
                 }
 
-
                 if(
                     !confirm(
                         "Remplacer les accès actuels par cette sauvegarde ?"
@@ -3289,22 +3252,16 @@ function importData(event){
 
                 }
 
-
                 accounts =
                     imported;
 
-
                 saveData();
-
                 updateUserCount();
-
                 renderAccounts();
-
 
                 alert(
                     "✅ Sauvegarde restaurée."
                 );
-
 
             }catch(error){
 
@@ -3316,11 +3273,9 @@ function importData(event){
 
         };
 
-
     reader.readAsText(
         file
     );
-
 
     event.target.value =
         "";
@@ -3339,7 +3294,6 @@ setInterval(
             document.getElementById(
                 "loginScreen"
             );
-
 
         if(
             loginScreen.classList.contains(
