@@ -635,7 +635,11 @@ header h1{
                     type="password"
                     autocomplete="new-password"
                 >
-                <button class="eyeBtn" onclick="togglePassword('passwordInput', this)">
+
+                <button
+                    class="eyeBtn"
+                    onclick="togglePassword('passwordInput', this)"
+                >
                     👁️
                 </button>
             </div>
@@ -651,36 +655,61 @@ header h1{
 
         <div class="formGroup">
             <label>URL 1</label>
+
             <div class="inputCopy">
                 <input id="url1Input" type="url" autocomplete="off">
-                <button class="copyBtn" onclick="copyInputValue('url1Input')">📋</button>
+
+                <button
+                    class="copyBtn"
+                    onclick="copyInputValue('url1Input')"
+                >
+                    📋
+                </button>
+
                 <button
                     class="copyBtn"
                     onclick="openSafari(document.getElementById('url1Input').value)"
-                >🌐</button>
+                >
+                    🌐
+                </button>
             </div>
         </div>
 
         <div class="formGroup">
             <label>URL 2</label>
+
             <div class="inputCopy">
                 <input id="url2Input" type="url" autocomplete="off">
-                <button class="copyBtn" onclick="copyInputValue('url2Input')">📋</button>
+
+                <button
+                    class="copyBtn"
+                    onclick="copyInputValue('url2Input')"
+                >
+                    📋
+                </button>
+
                 <button
                     class="copyBtn"
                     onclick="openSafari(document.getElementById('url2Input').value)"
-                >🌐</button>
+                >
+                    🌐
+                </button>
             </div>
         </div>
 
         <!-- APPLICATION -->
         <div class="checkboxRow">
+
             <input
                 id="isApplicationInput"
                 type="checkbox"
                 onchange="toggleApplicationFields()"
             >
-            <label for="isApplicationInput">📱 Application</label>
+
+            <label for="isApplicationInput">
+                📱 Application
+            </label>
+
         </div>
 
         <div id="applicationBox" class="applicationBox hidden">
@@ -691,6 +720,7 @@ header h1{
                 <label>URL de l'application</label>
 
                 <div class="inputCopy">
+
                     <input
                         id="appUrl1Input"
                         type="url"
@@ -700,12 +730,17 @@ header h1{
                     <button
                         class="copyBtn"
                         onclick="copyInputValue('appUrl1Input')"
-                    >📋</button>
+                    >
+                        📋
+                    </button>
 
                     <button
                         class="copyBtn"
                         onclick="openSafari(document.getElementById('appUrl1Input').value)"
-                    >🌐</button>
+                    >
+                        🌐
+                    </button>
+
                 </div>
             </div>
 
@@ -713,6 +748,7 @@ header h1{
                 <label>MAC 1</label>
 
                 <div class="inputCopy">
+
                     <input
                         id="macInput"
                         type="text"
@@ -722,7 +758,10 @@ header h1{
                     <button
                         class="copyBtn"
                         onclick="copyInputValue('macInput')"
-                    >📋</button>
+                    >
+                        📋
+                    </button>
+
                 </div>
             </div>
 
@@ -730,6 +769,7 @@ header h1{
                 <label>MAC 2</label>
 
                 <div class="inputCopy">
+
                     <input
                         id="mac2Input"
                         type="text"
@@ -739,7 +779,10 @@ header h1{
                     <button
                         class="copyBtn"
                         onclick="copyInputValue('mac2Input')"
-                    >📋</button>
+                    >
+                        📋
+                    </button>
+
                 </div>
             </div>
 
@@ -747,6 +790,7 @@ header h1{
                 <label>Clé 1</label>
 
                 <div class="inputCopy">
+
                     <input
                         id="appKeyInput"
                         type="text"
@@ -756,7 +800,10 @@ header h1{
                     <button
                         class="copyBtn"
                         onclick="copyInputValue('appKeyInput')"
-                    >📋</button>
+                    >
+                        📋
+                    </button>
+
                 </div>
             </div>
 
@@ -764,6 +811,7 @@ header h1{
                 <label>Clé 2</label>
 
                 <div class="inputCopy">
+
                     <input
                         id="appKey2Input"
                         type="text"
@@ -773,7 +821,10 @@ header h1{
                     <button
                         class="copyBtn"
                         onclick="copyInputValue('appKey2Input')"
-                    >📋</button>
+                    >
+                        📋
+                    </button>
+
                 </div>
             </div>
 
@@ -781,14 +832,16 @@ header h1{
 
         <!-- DUREE -->
         <div class="formGroup">
+
             <label>Durée en jours</label>
 
             <input
                 id="durationInput"
                 type="number"
                 min="1"
-                placeholder="Exemple : 30"
+                placeholder="Exemple : 353"
             >
+
         </div>
 
         <!-- PHOTO -->
@@ -798,11 +851,15 @@ header h1{
 
             <div class="photoButtons">
 
-                <button onclick="document.getElementById('photoInput').click()">
+                <button
+                    onclick="document.getElementById('photoInput').click()"
+                >
                     🖼️ Mes photos
                 </button>
 
-                <button onclick="document.getElementById('cameraInput').click()">
+                <button
+                    onclick="document.getElementById('cameraInput').click()"
+                >
                     📷 Prendre une photo
                 </button>
 
@@ -831,12 +888,14 @@ header h1{
 
         <!-- REMARQUE -->
         <div class="formGroup" style="margin-top:13px;">
+
             <label>Remarque</label>
 
             <textarea
                 id="noteInput"
                 placeholder="Remarque..."
             ></textarea>
+
         </div>
 
         <div class="mainButtons">
@@ -865,7 +924,9 @@ header h1{
                 💾 Sauvegarde
             </button>
 
-            <button onclick="document.getElementById('restoreInput').click()">
+            <button
+                onclick="document.getElementById('restoreInput').click()"
+            >
                 ♻️ Restaurer
             </button>
 
@@ -889,8 +950,16 @@ header h1{
 </div>
 
 <!-- PHOTO MODAL -->
-<div id="photoModal" class="modal hidden" onclick="closePhotoModal(event)">
-    <div class="modalBox" onclick="event.stopPropagation()">
+<div
+    id="photoModal"
+    class="modal hidden"
+    onclick="closePhotoModal(event)"
+>
+
+    <div
+        class="modalBox"
+        onclick="event.stopPropagation()"
+    >
 
         <h2>📷 Photo</h2>
 
@@ -912,6 +981,7 @@ header h1{
         </div>
 
     </div>
+
 </div>
 
 <script>
@@ -937,18 +1007,23 @@ document.addEventListener("DOMContentLoaded", function(){
 
     document.getElementById("pinInput").focus();
 
-    document.getElementById("pinInput").addEventListener("keydown", function(e){
+    document.getElementById("pinInput").addEventListener(
+        "keydown",
+        function(e){
 
-        if(e.key === "Enter"){
-            checkPin();
+            if(e.key === "Enter"){
+                checkPin();
+            }
+
         }
-
-    });
+    );
 
     updateUserCount();
 
     setInterval(function(){
+
         renderAccounts();
+
     }, 60000);
 
 });
@@ -959,23 +1034,30 @@ document.addEventListener("DOMContentLoaded", function(){
 
 function checkPin(){
 
-    const value = document.getElementById("pinInput").value;
+    const value =
+        document.getElementById("pinInput").value;
 
     if(value === PIN){
 
-        document.getElementById("pinScreen").classList.add("hidden");
-        document.getElementById("app").classList.remove("hidden");
+        document.getElementById("pinScreen")
+            .classList.add("hidden");
+
+        document.getElementById("app")
+            .classList.remove("hidden");
 
         renderAccounts();
 
     }else{
 
-        document.getElementById("pinError").textContent =
+        document.getElementById("pinError")
+            .textContent =
             "Code PIN incorrect";
 
-        document.getElementById("pinInput").value = "";
+        document.getElementById("pinInput")
+            .value = "";
 
     }
+
 }
 
 /* =========================
@@ -986,14 +1068,18 @@ function loadAccounts(){
 
     try{
 
-        const saved = localStorage.getItem(STORAGE_KEY);
+        const saved =
+            localStorage.getItem(STORAGE_KEY);
 
         if(saved){
 
-            const parsed = JSON.parse(saved);
+            const parsed =
+                JSON.parse(saved);
 
             if(Array.isArray(parsed)){
+
                 accounts = parsed;
+
             }
 
         }
@@ -1001,6 +1087,7 @@ function loadAccounts(){
     }catch(error){
 
         console.error(error);
+
         accounts = [];
 
     }
@@ -1023,10 +1110,14 @@ function saveToStorage(){
 function toggleApplicationFields(){
 
     const checked =
-        document.getElementById("isApplicationInput").checked;
+        document.getElementById(
+            "isApplicationInput"
+        ).checked;
 
     const box =
-        document.getElementById("applicationBox");
+        document.getElementById(
+            "applicationBox"
+        );
 
     if(checked){
 
@@ -1046,16 +1137,19 @@ function toggleApplicationFields(){
 
 function togglePassword(id, button){
 
-    const input = document.getElementById(id);
+    const input =
+        document.getElementById(id);
 
     if(input.type === "password"){
 
         input.type = "text";
+
         button.textContent = "🙈";
 
     }else{
 
         input.type = "password";
+
         button.textContent = "👁️";
 
     }
@@ -1078,9 +1172,11 @@ async function copyText(text){
 
     }catch(error){
 
-        const textarea = document.createElement("textarea");
+        const textarea =
+            document.createElement("textarea");
 
         textarea.value = text;
+
         textarea.style.position = "fixed";
         textarea.style.opacity = "0";
 
@@ -1090,7 +1186,9 @@ async function copyText(text){
         textarea.select();
 
         try{
+
             document.execCommand("copy");
+
         }catch(e){}
 
         document.body.removeChild(textarea);
@@ -1101,10 +1199,13 @@ async function copyText(text){
 
 function copyInputValue(id){
 
-    const input = document.getElementById(id);
+    const input =
+        document.getElementById(id);
 
     if(input){
+
         copyText(input.value);
+
     }
 
 }
@@ -1125,7 +1226,8 @@ function openSafari(url){
         return;
     }
 
-    let finalUrl = url.trim();
+    let finalUrl =
+        String(url).trim();
 
     if(!finalUrl){
         return;
@@ -1135,27 +1237,26 @@ function openSafari(url){
         !finalUrl.startsWith("http://") &&
         !finalUrl.startsWith("https://")
     ){
-        finalUrl = "https://" + finalUrl;
+
+        finalUrl =
+            "https://" + finalUrl;
+
     }
 
-    /*
-      target="_blank" demande à iOS d'ouvrir
-      le lien hors de la page actuelle.
-      Sur iPhone, l'ouverture dans Safari
-      dépend ensuite du comportement d'iOS.
-    */
-
-    const link = document.createElement("a");
+    const link =
+        document.createElement("a");
 
     link.href = finalUrl;
     link.target = "_blank";
-    link.rel = "external noopener noreferrer";
+    link.rel =
+        "external noopener noreferrer";
 
     document.body.appendChild(link);
 
     link.click();
 
     document.body.removeChild(link);
+
 }
 
 /* =========================
@@ -1164,28 +1265,33 @@ function openSafari(url){
 
 function handlePhoto(input){
 
-    const file = input.files && input.files[0];
+    const file =
+        input.files &&
+        input.files[0];
 
     if(!file){
         return;
     }
 
-    const reader = new FileReader();
+    const reader =
+        new FileReader();
 
-    reader.onload = function(e){
+    reader.onload =
+        function(e){
 
-        compressImage(
-            e.target.result,
-            function(compressed){
+            compressImage(
+                e.target.result,
+                function(compressed){
 
-                currentPhoto = compressed;
+                    currentPhoto =
+                        compressed;
 
-                showPhotoPreview();
+                    showPhotoPreview();
 
-            }
-        );
+                }
+            );
 
-    };
+        };
 
     reader.readAsDataURL(file);
 
@@ -1193,54 +1299,61 @@ function handlePhoto(input){
 
 function compressImage(dataUrl, callback){
 
-    const img = new Image();
+    const img =
+        new Image();
 
-    img.onload = function(){
+    img.onload =
+        function(){
 
-        const maxWidth = 1200;
-        const maxHeight = 1200;
+            const maxWidth = 1200;
+            const maxHeight = 1200;
 
-        let width = img.width;
-        let height = img.height;
+            let width = img.width;
+            let height = img.height;
 
-        if(width > maxWidth){
+            if(width > maxWidth){
 
-            height =
-                height * maxWidth / width;
+                height =
+                    height * maxWidth / width;
 
-            width = maxWidth;
+                width = maxWidth;
 
-        }
+            }
 
-        if(height > maxHeight){
+            if(height > maxHeight){
 
-            width =
-                width * maxHeight / height;
+                width =
+                    width * maxHeight / height;
 
-            height = maxHeight;
+                height = maxHeight;
 
-        }
+            }
 
-        const canvas = document.createElement("canvas");
+            const canvas =
+                document.createElement("canvas");
 
-        canvas.width = width;
-        canvas.height = height;
+            canvas.width = width;
+            canvas.height = height;
 
-        const ctx = canvas.getContext("2d");
+            const ctx =
+                canvas.getContext("2d");
 
-        ctx.drawImage(
-            img,
-            0,
-            0,
-            width,
-            height
-        );
+            ctx.drawImage(
+                img,
+                0,
+                0,
+                width,
+                height
+            );
 
-        callback(
-            canvas.toDataURL("image/jpeg", 0.75)
-        );
+            callback(
+                canvas.toDataURL(
+                    "image/jpeg",
+                    0.75
+                )
+            );
 
-    };
+        };
 
     img.src = dataUrl;
 
@@ -1249,21 +1362,26 @@ function compressImage(dataUrl, callback){
 function showPhotoPreview(){
 
     const container =
-        document.getElementById("photoPreviewContainer");
+        document.getElementById(
+            "photoPreviewContainer"
+        );
 
     if(!currentPhoto){
 
         container.innerHTML = "";
+
         return;
 
     }
 
     container.innerHTML = `
+
         <img
             class="photoPreview"
             src="${currentPhoto}"
             alt="Photo"
         >
+
         <button
             type="button"
             style="
@@ -1278,6 +1396,7 @@ function showPhotoPreview(){
         >
             🗑️ Supprimer la photo
         </button>
+
     `;
 
 }
@@ -1286,8 +1405,13 @@ function removeCurrentPhoto(){
 
     currentPhoto = "";
 
-    document.getElementById("photoInput").value = "";
-    document.getElementById("cameraInput").value = "";
+    document.getElementById(
+        "photoInput"
+    ).value = "";
+
+    document.getElementById(
+        "cameraInput"
+    ).value = "";
 
     showPhotoPreview();
 
@@ -1303,13 +1427,16 @@ function normalizeUrl(url){
         return "";
     }
 
-    url = String(url).trim();
+    url =
+        String(url).trim();
 
     if(
         !url.startsWith("http://") &&
         !url.startsWith("https://")
     ){
+
         return "https://" + url;
+
     }
 
     return url;
@@ -1319,14 +1446,18 @@ function normalizeUrl(url){
 function accountUrlLine(url){
 
     if(!url){
+
         return `
             <div class="infoValue">-</div>
         `;
+
     }
 
-    const safeUrl = normalizeUrl(url);
+    const safeUrl =
+        normalizeUrl(url);
 
     return `
+
         <div class="urlLine">
 
             <a
@@ -1352,6 +1483,7 @@ function accountUrlLine(url){
             </button>
 
         </div>
+
     `;
 
 }
@@ -1362,8 +1494,13 @@ function accountUrlLine(url){
 
 function escapeHtml(value){
 
-    if(value === null || value === undefined){
+    if(
+        value === null ||
+        value === undefined
+    ){
+
         return "";
+
     }
 
     return String(value)
@@ -1377,8 +1514,13 @@ function escapeHtml(value){
 
 function escapeJs(value){
 
-    if(value === null || value === undefined){
+    if(
+        value === null ||
+        value === undefined
+    ){
+
         return "";
+
     }
 
     return String(value)
@@ -1390,24 +1532,46 @@ function escapeJs(value){
 }
 
 /* =========================
-   DATE
+   DATE / DECOMPTE
 ========================= */
+
+/*
+   IMPORTANT :
+
+   startDate est créé uniquement lors
+   de la création d'un nouvel accès.
+
+   Lors d'une modification, l'ancienne
+   startDate est conservée.
+
+   Le décompte est basé sur les jours
+   calendaires : 353 -> 352 -> 351...
+*/
 
 function getExpirationDate(account){
 
-    if(!account.startDate || !account.duration){
+    if(
+        !account.startDate ||
+        !account.duration
+    ){
+
         return null;
+
     }
 
     const start =
         new Date(account.startDate);
 
     if(isNaN(start.getTime())){
+
         return null;
+
     }
 
     const expiration =
         new Date(start);
+
+    expiration.setHours(0,0,0,0);
 
     expiration.setDate(
         expiration.getDate() +
@@ -1441,17 +1605,40 @@ function getCountdown(account){
         getExpirationDate(account);
 
     if(!expiration){
+
         return null;
+
     }
 
-    const now = new Date();
+    const now =
+        new Date();
+
+    /*
+      On compare les dates sans les heures.
+      Ainsi, si tu mets 353 jours aujourd'hui,
+      demain sera bien 352 jours.
+    */
+
+    const today =
+        new Date(
+            now.getFullYear(),
+            now.getMonth(),
+            now.getDate()
+        );
+
+    const expirationDay =
+        new Date(
+            expiration.getFullYear(),
+            expiration.getMonth(),
+            expiration.getDate()
+        );
 
     const diff =
-        expiration.getTime() -
-        now.getTime();
+        expirationDay.getTime() -
+        today.getTime();
 
     const days =
-        Math.ceil(
+        Math.round(
             diff /
             (1000 * 60 * 60 * 24)
         );
@@ -1464,24 +1651,38 @@ function getCountdown(account){
 }
 
 /* =========================
-   CALENDAR
+   CALENDAR GOOGLE
 ========================= */
 
 function addCalendarReminder(id){
 
     const account =
-        accounts.find(a => a.id === id);
+        accounts.find(
+            a => a.id === id
+        );
 
     if(!account){
+
         return;
+
     }
 
     const expiration =
         getExpirationDate(account);
 
     if(!expiration){
+
+        alert(
+            "Impossible de calculer la date d'expiration."
+        );
+
         return;
+
     }
+
+    /*
+      Rappel 2 jours avant l'expiration.
+    */
 
     const reminder =
         new Date(expiration);
@@ -1490,44 +1691,71 @@ function addCalendarReminder(id){
         reminder.getDate() - 2
     );
 
+    /*
+      Événement Google Agenda
+      de 09:00 à 10:00.
+    */
+
     const start =
         new Date(reminder);
 
-    start.setHours(9,0,0,0);
+    start.setHours(
+        9,0,0,0
+    );
 
     const end =
-        new Date(start);
+        new Date(reminder);
 
-    end.setHours(10,0,0,0);
+    end.setHours(
+        10,0,0,0
+    );
 
-    const formatGoogleDate = function(date){
+    function googleDate(date){
 
         const yyyy =
             date.getFullYear();
 
         const mm =
-            String(date.getMonth()+1).padStart(2,"0");
+            String(
+                date.getMonth() + 1
+            ).padStart(2,"0");
 
         const dd =
-            String(date.getDate()).padStart(2,"0");
+            String(
+                date.getDate()
+            ).padStart(2,"0");
 
         const hh =
-            String(date.getHours()).padStart(2,"0");
+            String(
+                date.getHours()
+            ).padStart(2,"0");
 
         const mi =
-            String(date.getMinutes()).padStart(2,"0");
+            String(
+                date.getMinutes()
+            ).padStart(2,"0");
 
         const ss =
-            String(date.getSeconds()).padStart(2,"0");
+            String(
+                date.getSeconds()
+            ).padStart(2,"0");
 
-        return `${yyyy}${mm}${dd}T${hh}${mi}${ss}`;
+        return (
+            yyyy +
+            mm +
+            dd +
+            "T" +
+            hh +
+            mi +
+            ss
+        );
 
-    };
+    }
 
     const dates =
-        formatGoogleDate(start) +
+        googleDate(start) +
         "/" +
-        formatGoogleDate(end);
+        googleDate(end);
 
     const title =
         encodeURIComponent(
@@ -1542,12 +1770,21 @@ function addCalendarReminder(id){
         );
 
     const url =
-        "https://calendar.google.com/calendar/render?action=TEMPLATE" +
+        "https://calendar.google.com/calendar/render" +
+        "?action=TEMPLATE" +
         "&text=" + title +
         "&dates=" + dates +
         "&details=" + details;
 
-    openSafari(url);
+    /*
+      Ouverture Google Agenda.
+    */
+
+    window.open(
+        url,
+        "_blank",
+        "noopener,noreferrer"
+    );
 
 }
 
@@ -1558,49 +1795,77 @@ function addCalendarReminder(id){
 function saveAccount(){
 
     const name =
-        document.getElementById("nameInput").value.trim();
+        document.getElementById(
+            "nameInput"
+        ).value.trim();
 
     const username =
-        document.getElementById("usernameInput").value.trim();
+        document.getElementById(
+            "usernameInput"
+        ).value.trim();
 
     const password =
-        document.getElementById("passwordInput").value;
+        document.getElementById(
+            "passwordInput"
+        ).value;
 
     const url1 =
-        document.getElementById("url1Input").value.trim();
+        document.getElementById(
+            "url1Input"
+        ).value.trim();
 
     const url2 =
-        document.getElementById("url2Input").value.trim();
+        document.getElementById(
+            "url2Input"
+        ).value.trim();
 
     const note =
-        document.getElementById("noteInput").value.trim();
+        document.getElementById(
+            "noteInput"
+        ).value.trim();
 
     const durationValue =
-        document.getElementById("durationInput").value.trim();
+        document.getElementById(
+            "durationInput"
+        ).value.trim();
 
     const isApplication =
-        document.getElementById("isApplicationInput").checked;
+        document.getElementById(
+            "isApplicationInput"
+        ).checked;
 
-    /* EXACTE STRUCTURE APPLICATION */
+    /* APPLICATION */
 
     const appUrl1 =
-        document.getElementById("appUrl1Input").value.trim();
+        document.getElementById(
+            "appUrl1Input"
+        ).value.trim();
 
     const mac =
-        document.getElementById("macInput").value.trim();
+        document.getElementById(
+            "macInput"
+        ).value.trim();
 
     const mac2 =
-        document.getElementById("mac2Input").value.trim();
+        document.getElementById(
+            "mac2Input"
+        ).value.trim();
 
     const appKey =
-        document.getElementById("appKeyInput").value.trim();
+        document.getElementById(
+            "appKeyInput"
+        ).value.trim();
 
     const appKey2 =
-        document.getElementById("appKey2Input").value.trim();
+        document.getElementById(
+            "appKey2Input"
+        ).value.trim();
 
     if(!name){
 
-        alert("Veuillez mettre un Nom / Prénom.");
+        alert(
+            "Veuillez mettre un Nom / Prénom."
+        );
 
         return;
 
@@ -1608,23 +1873,65 @@ function saveAccount(){
 
     if(!durationValue){
 
-        alert("Veuillez mettre une durée en jours.");
+        alert(
+            "Veuillez mettre une durée en jours."
+        );
 
         return;
 
     }
 
+    /*
+      On récupère l'ancien accès AVANT
+      de construire le nouvel objet.
+    */
+
     const existing =
         editingId
-            ? accounts.find(a => a.id === editingId)
+            ? accounts.find(
+                a => a.id === editingId
+            )
             : null;
+
+    /*
+      DATE DE DEPART :
+
+      - nouvel accès :
+        date d'aujourd'hui à 00:00
+
+      - modification :
+        on reprend EXACTEMENT
+        l'ancienne date.
+
+      Elle ne repart donc jamais à zéro.
+    */
+
+    let startDate;
+
+    if(
+        existing &&
+        existing.startDate
+    ){
+
+        startDate =
+            existing.startDate;
+
+    }else{
+
+        const today =
+            new Date();
+
+        today.setHours(
+            0,0,0,0
+        );
+
+        startDate =
+            today.toISOString();
+
+    }
 
     const account = {
 
-        /*
-          On conserve toutes les anciennes données
-          qui pourraient exister dans l'enregistrement.
-        */
         ...(existing || {}),
 
         id:
@@ -1643,19 +1950,21 @@ function saveAccount(){
 
         note:note,
 
-        duration:Number(durationValue),
+        duration:
+            Number(durationValue),
 
-        startDate:
-            existing && existing.startDate
-                ? existing.startDate
-                : new Date().toISOString(),
+        /*
+          NE PAS REMPLACER CETTE DATE
+          lors d'une modification.
+        */
+
+        startDate:startDate,
 
         photo:
             currentPhoto,
 
-        /* APPLICATION */
-
-        isApplication:isApplication,
+        isApplication:
+            isApplication,
 
         appUrl1:
             isApplication
@@ -1693,13 +2002,16 @@ function saveAccount(){
 
         if(index !== -1){
 
-            accounts[index] = account;
+            accounts[index] =
+                account;
 
         }
 
     }else{
 
-        accounts.unshift(account);
+        accounts.unshift(
+            account
+        );
 
     }
 
@@ -1723,42 +2035,91 @@ function resetForm(){
 
     currentPhoto = "";
 
-    document.getElementById("nameInput").value = "";
-    document.getElementById("usernameInput").value = "";
-    document.getElementById("passwordInput").value = "";
-    document.getElementById("url1Input").value = "";
-    document.getElementById("url2Input").value = "";
-    document.getElementById("noteInput").value = "";
-    document.getElementById("durationInput").value = "";
+    document.getElementById(
+        "nameInput"
+    ).value = "";
 
-    document.getElementById("isApplicationInput").checked = false;
+    document.getElementById(
+        "usernameInput"
+    ).value = "";
 
-    document.getElementById("appUrl1Input").value = "";
-    document.getElementById("macInput").value = "";
-    document.getElementById("mac2Input").value = "";
-    document.getElementById("appKeyInput").value = "";
-    document.getElementById("appKey2Input").value = "";
+    document.getElementById(
+        "passwordInput"
+    ).value = "";
 
-    document.getElementById("photoInput").value = "";
-    document.getElementById("cameraInput").value = "";
+    document.getElementById(
+        "url1Input"
+    ).value = "";
 
-    document.getElementById("applicationBox")
-        .classList.add("hidden");
+    document.getElementById(
+        "url2Input"
+    ).value = "";
 
-    document.getElementById("photoPreviewContainer")
-        .innerHTML = "";
+    document.getElementById(
+        "noteInput"
+    ).value = "";
 
-    document.getElementById("formTitle")
-        .textContent = "➕ Ajouter un accès";
+    document.getElementById(
+        "durationInput"
+    ).value = "";
 
-    document.getElementById("saveButton")
-        .textContent = "💾 Enregistrer";
+    document.getElementById(
+        "isApplicationInput"
+    ).checked = false;
 
-    document.getElementById("cancelButton")
-        .classList.add("hidden");
+    document.getElementById(
+        "appUrl1Input"
+    ).value = "";
 
-    document.getElementById("passwordInput").type =
-        "password";
+    document.getElementById(
+        "macInput"
+    ).value = "";
+
+    document.getElementById(
+        "mac2Input"
+    ).value = "";
+
+    document.getElementById(
+        "appKeyInput"
+    ).value = "";
+
+    document.getElementById(
+        "appKey2Input"
+    ).value = "";
+
+    document.getElementById(
+        "photoInput"
+    ).value = "";
+
+    document.getElementById(
+        "cameraInput"
+    ).value = "";
+
+    document.getElementById(
+        "applicationBox"
+    ).classList.add("hidden");
+
+    document.getElementById(
+        "photoPreviewContainer"
+    ).innerHTML = "";
+
+    document.getElementById(
+        "formTitle"
+    ).textContent =
+        "➕ Ajouter un accès";
+
+    document.getElementById(
+        "saveButton"
+    ).textContent =
+        "💾 Enregistrer";
+
+    document.getElementById(
+        "cancelButton"
+    ).classList.add("hidden");
+
+    document.getElementById(
+        "passwordInput"
+    ).type = "password";
 
 }
 
@@ -1769,76 +2130,93 @@ function resetForm(){
 function editAccount(id){
 
     const account =
-        accounts.find(a => a.id === id);
+        accounts.find(
+            a => a.id === id
+        );
 
     if(!account){
+
         return;
+
     }
 
     editingId = id;
 
-    document.getElementById("nameInput").value =
+    document.getElementById(
+        "nameInput"
+    ).value =
         account.name || "";
 
-    document.getElementById("usernameInput").value =
+    document.getElementById(
+        "usernameInput"
+    ).value =
         account.username || "";
 
-    document.getElementById("passwordInput").value =
+    document.getElementById(
+        "passwordInput"
+    ).value =
         account.password || "";
 
-    document.getElementById("url1Input").value =
+    document.getElementById(
+        "url1Input"
+    ).value =
         account.url1 || "";
 
-    document.getElementById("url2Input").value =
+    document.getElementById(
+        "url2Input"
+    ).value =
         account.url2 || "";
 
-    document.getElementById("noteInput").value =
+    document.getElementById(
+        "noteInput"
+    ).value =
         account.note || "";
 
-    document.getElementById("durationInput").value =
+    document.getElementById(
+        "durationInput"
+    ).value =
         account.duration || "";
-
-    /*
-      Compatibilité avec les anciennes versions.
-    */
 
     const isApplication =
         account.isApplication ??
         account.application ??
         false;
 
-    document.getElementById("isApplicationInput").checked =
+    document.getElementById(
+        "isApplicationInput"
+    ).checked =
         !!isApplication;
 
-    /*
-      Structure exacte précédente :
-      appUrl1
-      mac
-      mac2
-      appKey
-      appKey2
-    */
-
-    document.getElementById("appUrl1Input").value =
+    document.getElementById(
+        "appUrl1Input"
+    ).value =
         account.appUrl1 ||
         account.appUrl ||
         "";
 
-    document.getElementById("macInput").value =
+    document.getElementById(
+        "macInput"
+    ).value =
         account.mac ||
         account.mac1 ||
         "";
 
-    document.getElementById("mac2Input").value =
+    document.getElementById(
+        "mac2Input"
+    ).value =
         account.mac2 ||
         "";
 
-    document.getElementById("appKeyInput").value =
+    document.getElementById(
+        "appKeyInput"
+    ).value =
         account.appKey ||
         account.key1 ||
         "";
 
-    document.getElementById("appKey2Input").value =
+    document.getElementById(
+        "appKey2Input"
+    ).value =
         account.appKey2 ||
         account.key2 ||
         "";
@@ -1850,14 +2228,19 @@ function editAccount(id){
 
     showPhotoPreview();
 
-    document.getElementById("formTitle")
-        .textContent = "✏️ Modifier l'accès";
+    document.getElementById(
+        "formTitle"
+    ).textContent =
+        "✏️ Modifier l'accès";
 
-    document.getElementById("saveButton")
-        .textContent = "💾 Enregistrer les modifications";
+    document.getElementById(
+        "saveButton"
+    ).textContent =
+        "💾 Enregistrer les modifications";
 
-    document.getElementById("cancelButton")
-        .classList.remove("hidden");
+    document.getElementById(
+        "cancelButton"
+    ).classList.remove("hidden");
 
     window.scrollTo({
         top:0,
@@ -1883,10 +2266,14 @@ function cancelEdit(){
 function deleteAccount(id){
 
     const account =
-        accounts.find(a => a.id === id);
+        accounts.find(
+            a => a.id === id
+        );
 
     if(!account){
+
         return;
+
     }
 
     const confirmed =
@@ -1897,7 +2284,9 @@ function deleteAccount(id){
         );
 
     if(!confirmed){
+
         return;
+
     }
 
     accounts =
@@ -1920,72 +2309,119 @@ function deleteAccount(id){
 function renderAccounts(){
 
     const list =
-        document.getElementById("accountsList");
+        document.getElementById(
+            "accountsList"
+        );
 
     const search =
-        document.getElementById("searchInput")
-            .value
-            .trim()
-            .toLowerCase();
+        document.getElementById(
+            "searchInput"
+        ).value
+         .trim()
+         .toLowerCase();
+
+    /*
+      Filtre d'abord.
+    */
 
     let filtered =
-        accounts.filter(account => {
+        accounts.filter(
+            account => {
 
-            const applicationValues = [
+                const applicationValues = [
 
-                account.appUrl1,
-                account.appUrl,
-                account.mac,
-                account.mac1,
-                account.mac2,
-                account.appKey,
-                account.key1,
-                account.appKey2,
-                account.key2
+                    account.appUrl1,
+                    account.appUrl,
+                    account.mac,
+                    account.mac1,
+                    account.mac2,
+                    account.appKey,
+                    account.key1,
+                    account.appKey2,
+                    account.key2
 
-            ]
-            .filter(Boolean)
-            .join(" ");
+                ]
+                .filter(Boolean)
+                .join(" ");
 
-            const text = [
+                const text = [
 
-                account.name,
-                account.username,
-                account.password,
-                account.url1,
-                account.url2,
-                account.note,
-                applicationValues
+                    account.name,
+                    account.username,
+                    account.password,
+                    account.url1,
+                    account.url2,
+                    account.note,
+                    applicationValues
 
-            ]
-            .filter(Boolean)
-            .join(" ")
-            .toLowerCase();
+                ]
+                .filter(Boolean)
+                .join(" ")
+                .toLowerCase();
 
-            return text.includes(search);
+                return text.includes(search);
 
-        });
+            }
+        );
+
+    /*
+      ORDRE ALPHABÉTIQUE
+      SUR NOM / PRÉNOM
+    */
+
+    filtered.sort(
+        function(a,b){
+
+            const nameA =
+                String(
+                    a.name || ""
+                ).trim();
+
+            const nameB =
+                String(
+                    b.name || ""
+                ).trim();
+
+            return nameA.localeCompare(
+                nameB,
+                "fr",
+                {
+                    sensitivity:"base"
+                }
+            );
+
+        }
+    );
 
     if(filtered.length === 0){
 
         list.innerHTML = `
+
             <div class="empty">
                 Aucun accès trouvé.
             </div>
+
         `;
 
-        updateUserCount(filtered.length);
+        updateUserCount(
+            filtered.length
+        );
 
         return;
 
     }
 
     list.innerHTML =
-        filtered.map(
-            account => renderAccount(account)
-        ).join("");
+        filtered
+            .map(
+                account =>
+                    renderAccount(account)
+            )
+            .join("");
 
-    updateUserCount(filtered.length);
+    updateUserCount(
+        filtered.length
+    );
 
 }
 
@@ -1994,10 +2430,6 @@ function renderAccounts(){
 ========================= */
 
 function renderAccount(account){
-
-    /*
-      Compatibilité ancienne structure Application
-    */
 
     const isApplication =
         account.isApplication ??
@@ -2156,7 +2588,6 @@ function renderAccount(account){
     if(countdown){
 
         let className = "";
-
         let text = "";
 
         if(countdown.days < 0){
@@ -2165,10 +2596,14 @@ function renderAccount(account){
 
             text =
                 "Expiré depuis " +
-                Math.abs(countdown.days) +
+                Math.abs(
+                    countdown.days
+                ) +
                 " jour(s)";
 
-        }else if(countdown.days <= 2){
+        }else if(
+            countdown.days <= 2
+        ){
 
             className = "danger";
 
@@ -2176,7 +2611,9 @@ function renderAccount(account){
                 countdown.days +
                 " jour(s) restant(s)";
 
-        }else if(countdown.days <= 7){
+        }else if(
+            countdown.days <= 7
+        ){
 
             className = "warning";
 
@@ -2201,7 +2638,9 @@ function renderAccount(account){
                 </strong>
 
                 <div>
-                    Durée : ${escapeHtml(account.duration)} jour(s)
+                    Durée :
+                    ${escapeHtml(account.duration)}
+                    jour(s)
                 </div>
 
                 <div>
@@ -2249,7 +2688,10 @@ function renderAccount(account){
             <div class="accountHeader">
 
                 <div class="accountName">
-                    ${escapeHtml(account.name || "Sans nom")}
+                    ${escapeHtml(
+                        account.name ||
+                        "Sans nom"
+                    )}
                 </div>
 
                 <div class="accountActions">
@@ -2281,7 +2723,9 @@ function renderAccount(account){
                 <div class="copyLine">
 
                     <div class="value">
-                        ${escapeHtml(account.username || "-")}
+                        ${escapeHtml(
+                            account.username || "-"
+                        )}
                     </div>
 
                     <button
@@ -2353,6 +2797,7 @@ function renderAccount(account){
             ${
                 account.note
                 ? `
+
                     <div class="infoLine">
 
                         <div class="infoLabel">
@@ -2364,6 +2809,7 @@ function renderAccount(account){
                         </div>
 
                     </div>
+
                 `
                 : ""
             }
@@ -2382,7 +2828,11 @@ function renderAccount(account){
    SAVED PASSWORD
 ========================= */
 
-function toggleSavedPassword(id,password,button){
+function toggleSavedPassword(
+    id,
+    password,
+    button
+){
 
     const element =
         document.getElementById(
@@ -2390,22 +2840,29 @@ function toggleSavedPassword(id,password,button){
         );
 
     if(!element){
+
         return;
+
     }
 
-    if(element.textContent === "••••••••"){
+    if(
+        element.textContent ===
+        "••••••••"
+    ){
 
         element.textContent =
             password || "-";
 
-        button.textContent = "🙈";
+        button.textContent =
+            "🙈";
 
     }else{
 
         element.textContent =
             "••••••••";
 
-        button.textContent = "👁️";
+        button.textContent =
+            "👁️";
 
     }
 
@@ -2418,26 +2875,44 @@ function toggleSavedPassword(id,password,button){
 function showPhoto(id){
 
     const account =
-        accounts.find(a => a.id === id);
+        accounts.find(
+            a => a.id === id
+        );
 
-    if(!account || !account.photo){
+    if(
+        !account ||
+        !account.photo
+    ){
+
         return;
+
     }
 
-    document.getElementById("modalPhoto").src =
+    document.getElementById(
+        "modalPhoto"
+    ).src =
         account.photo;
 
-    document.getElementById("photoModal")
-        .classList.remove("hidden");
+    document.getElementById(
+        "photoModal"
+    ).classList.remove(
+        "hidden"
+    );
 
 }
 
 function closePhotoModal(event){
 
-    if(event.target.id === "photoModal"){
+    if(
+        event.target.id ===
+        "photoModal"
+    ){
 
-        document.getElementById("photoModal")
-            .classList.add("hidden");
+        document.getElementById(
+            "photoModal"
+        ).classList.add(
+            "hidden"
+        );
 
     }
 
@@ -2450,13 +2925,19 @@ function closePhotoModal(event){
 function updateUserCount(count){
 
     if(count === undefined){
-        count = accounts.length;
+
+        count =
+            accounts.length;
+
     }
 
-    document.getElementById("userCount")
-        .textContent =
+    document.getElementById(
+        "userCount"
+    ).textContent =
         count +
-        (count > 1 ? " accès" : " accès");
+        (count > 1
+            ? " accès"
+            : " accès");
 
 }
 
@@ -2520,7 +3001,9 @@ function restoreBackup(input){
         input.files[0];
 
     if(!file){
+
         return;
+
     }
 
     const reader =
@@ -2532,9 +3015,15 @@ function restoreBackup(input){
             try{
 
                 const imported =
-                    JSON.parse(e.target.result);
+                    JSON.parse(
+                        e.target.result
+                    );
 
-                if(!Array.isArray(imported)){
+                if(
+                    !Array.isArray(
+                        imported
+                    )
+                ){
 
                     alert(
                         "Le fichier n'est pas valide."
@@ -2550,7 +3039,9 @@ function restoreBackup(input){
                     );
 
                 if(!confirmed){
+
                     return;
+
                 }
 
                 accounts =
