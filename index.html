@@ -427,6 +427,46 @@ hr{
     font-weight:700;
 }
 
+/* =========================
+   FICHE REPLIABLE
+========================= */
+
+.accountHeader{
+    cursor:pointer;
+    user-select:none;
+    -webkit-user-select:none;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+}
+
+.accountHeader:active{
+    opacity:.6;
+}
+
+.accountHeader h2{
+    margin:0;
+}
+
+.accountArrow{
+    font-size:18px;
+    color:#777;
+    transition:transform .2s;
+}
+
+.account.open .accountArrow{
+    transform:rotate(180deg);
+}
+
+.accountContent{
+    display:none;
+}
+
+.account.open .accountContent{
+    display:block;
+}
+
 </style>
 </head>
 
@@ -2316,12 +2356,6 @@ function renderAccounts(){
             .trim();
 
 
-    /*
-       On crée une copie pour le tri.
-       Les données originales ne sont pas
-       déplacées dans localStorage.
-    */
-
     const sortedAccounts =
         accounts
             .map(function(account,index){
@@ -2433,13 +2467,30 @@ function renderAccounts(){
             let html = "";
 
 
+            /*
+               NOM / PRÉNOM VISIBLE
+               UNIQUEMENT
+            */
+
             html +=
-                "<h2>👤 " +
+                '<div class="accountHeader" ' +
+                'onclick="toggleAccount(' +
+                index +
+                ')">' +
+
+                "<h2>" +
+                "👤 " +
                 escapeHtml(
                     account.name ||
                     "Sans nom"
                 ) +
-                "</h2>";
+                "</h2>" +
+
+                '<span class="accountArrow">▼</span>' +
+
+                "</div>" +
+
+                '<div class="accountContent">';
 
 
             html +=
@@ -2504,10 +2555,6 @@ function renderAccounts(){
             }
 
 
-            /*
-               UTILISATEUR COPIABLE
-            */
-
             if(account.username){
 
                 html +=
@@ -2547,10 +2594,6 @@ function renderAccounts(){
 
             }
 
-
-            /*
-               MOT DE PASSE COPIABLE
-            */
 
             if(account.password){
 
@@ -2605,11 +2648,6 @@ function renderAccounts(){
             }
 
 
-            /*
-               URL 1 :
-               TEXTE CLIQUABLE + COPIER
-            */
-
             if(account.url1){
 
                 const url1 =
@@ -2658,11 +2696,6 @@ function renderAccounts(){
 
             }
 
-
-            /*
-               URL 2 :
-               TEXTE CLIQUABLE + COPIER
-            */
 
             if(account.url2){
 
@@ -2713,10 +2746,6 @@ function renderAccounts(){
             }
 
 
-            /*
-               REMARQUE COPIABLE
-            */
-
             if(account.remark){
 
                 html +=
@@ -2758,10 +2787,6 @@ function renderAccounts(){
             }
 
 
-            /*
-               APPLICATION
-            */
-
             if(account.isApplication){
 
                 html +=
@@ -2771,10 +2796,6 @@ function renderAccounts(){
                     "📱 APPLICATION" +
                     "</div>";
 
-
-                /*
-                   URL APPLICATION
-                */
 
                 if(account.appUrl1){
 
@@ -2825,10 +2846,6 @@ function renderAccounts(){
                 }
 
 
-                /*
-                   MAC 1
-                */
-
                 if(account.mac){
 
                     html +=
@@ -2868,10 +2885,6 @@ function renderAccounts(){
 
                 }
 
-
-                /*
-                   MAC 2
-                */
 
                 if(account.mac2){
 
@@ -2913,10 +2926,6 @@ function renderAccounts(){
                 }
 
 
-                /*
-                   CLÉ 1
-                */
-
                 if(account.appKey){
 
                     html +=
@@ -2956,10 +2965,6 @@ function renderAccounts(){
 
                 }
 
-
-                /*
-                   CLÉ 2
-                */
 
                 if(account.appKey2){
 
@@ -3003,10 +3008,6 @@ function renderAccounts(){
             }
 
 
-            /*
-               PHOTO
-            */
-
             if(account.photo){
 
                 html +=
@@ -3022,10 +3023,6 @@ function renderAccounts(){
 
             }
 
-
-            /*
-               BOUTONS
-            */
 
             html +=
                 '<div class="actions">' +
@@ -3053,6 +3050,9 @@ function renderAccounts(){
                 "</div>";
 
 
+            html += "</div>";
+
+
             div.innerHTML =
                 html;
 
@@ -3062,6 +3062,44 @@ function renderAccounts(){
 
         }
     );
+
+}
+
+
+/* =========================
+   OUVRIR / FERMER UNE FICHE
+========================= */
+
+function toggleAccount(index){
+
+    const list =
+        document.getElementById("accountsList");
+
+    const cards =
+        list.querySelectorAll(".account");
+
+    cards.forEach(function(card){
+
+        const header =
+            card.querySelector(".accountHeader");
+
+        if(!header){
+            return;
+        }
+
+        const onclickValue =
+            header.getAttribute("onclick");
+
+        if(
+            onclickValue ===
+            "toggleAccount(" + index + ")"
+        ){
+
+            card.classList.toggle("open");
+
+        }
+
+    });
 
 }
 
