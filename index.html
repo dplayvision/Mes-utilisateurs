@@ -9,14 +9,13 @@
 <style>
 *{
     box-sizing:border-box;
-    -webkit-tap-highlight-color:transparent;
 }
 
 body{
     margin:0;
-    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
     background:#f2f2f7;
-    color:#1c1c1e;
+    color:#111;
 }
 
 button,
@@ -24,58 +23,61 @@ input{
     font-family:inherit;
 }
 
+button{
+    cursor:pointer;
+}
+
 .hidden{
     display:none !important;
 }
 
-/* PIN */
+/* =========================
+   CONNEXION
+========================= */
 
-.pinScreen{
-    position:fixed;
-    inset:0;
-    background:#f2f2f7;
+#loginScreen{
+    min-height:100vh;
     display:flex;
-    justify-content:center;
     align-items:center;
-    z-index:9999;
+    justify-content:center;
     padding:20px;
+    background:#f2f2f7;
 }
 
-.pinBox{
+.loginBox{
     width:100%;
-    max-width:360px;
+    max-width:380px;
     background:white;
     border-radius:22px;
-    padding:30px 22px;
-    box-shadow:0 10px 35px rgba(0,0,0,.12);
+    padding:30px 24px;
+    box-shadow:0 8px 30px rgba(0,0,0,.12);
     text-align:center;
 }
 
-.pinBox h1{
-    margin:0 0 8px;
+.loginBox h1{
+    margin:0 0 10px;
     font-size:28px;
 }
 
-.pinBox p{
-    margin:0 0 22px;
+.loginBox p{
     color:#666;
+    margin-bottom:22px;
 }
 
-.pinInput{
+#pinInput{
     width:100%;
-    height:55px;
-    border:1px solid #d1d1d6;
+    padding:16px;
+    border:1px solid #ddd;
     border-radius:14px;
-    font-size:25px;
+    font-size:22px;
     text-align:center;
     letter-spacing:8px;
-    outline:none;
 }
 
-.pinButton{
+.loginButton{
     width:100%;
     margin-top:15px;
-    height:50px;
+    padding:15px;
     border:0;
     border-radius:14px;
     background:#007aff;
@@ -84,18 +86,24 @@ input{
     font-weight:600;
 }
 
-.pinError{
+.loginError{
     color:#ff3b30;
     margin-top:12px;
     min-height:20px;
 }
 
-/* HEADER */
+/* =========================
+   APPLICATION
+========================= */
 
-header{
+#app{
+    min-height:100vh;
+}
+
+.header{
     position:sticky;
     top:0;
-    z-index:100;
+    z-index:50;
     background:#007aff;
     color:white;
     padding:15px;
@@ -109,56 +117,90 @@ header{
     gap:10px;
 }
 
-header h1{
+.header h1{
     margin:0;
     font-size:23px;
 }
 
 .userCount{
+    background:rgba(255,255,255,.2);
+    padding:7px 11px;
+    border-radius:20px;
     font-size:14px;
-    opacity:.9;
+    white-space:nowrap;
 }
 
-/* CONTENT */
-
 .container{
-    max-width:800px;
+    width:100%;
+    max-width:850px;
     margin:auto;
     padding:15px;
 }
 
+/* =========================
+   BARRE ACTIONS
+========================= */
+
+.topActions{
+    display:flex;
+    gap:8px;
+    margin-bottom:12px;
+}
+
+.topActions button{
+    flex:1;
+}
+
+.primaryButton{
+    background:#007aff;
+    color:white;
+    border:0;
+    border-radius:12px;
+    padding:13px 10px;
+    font-size:15px;
+    font-weight:600;
+}
+
+.secondaryButton{
+    background:white;
+    color:#007aff;
+    border:1px solid #007aff;
+    border-radius:12px;
+    padding:13px 10px;
+    font-size:15px;
+    font-weight:600;
+}
+
+.dangerButton{
+    background:#ff3b30;
+    color:white;
+    border:0;
+    border-radius:12px;
+    padding:13px 10px;
+    font-size:15px;
+    font-weight:600;
+}
+
 .searchBox{
-    position:relative;
+    width:100%;
+    padding:14px 15px;
+    border:1px solid #ddd;
+    border-radius:13px;
+    background:white;
+    font-size:16px;
     margin-bottom:15px;
 }
 
-.searchBox input{
-    width:100%;
-    height:48px;
-    border:0;
-    border-radius:14px;
-    padding:0 15px 0 43px;
-    font-size:16px;
-    background:white;
-    box-shadow:0 1px 4px rgba(0,0,0,.08);
-    outline:none;
-}
-
-.searchIcon{
-    position:absolute;
-    left:15px;
-    top:13px;
-    font-size:20px;
-}
-
-/* FORM */
+/* =========================
+   FORMULAIRE
+========================= */
 
 .formCard{
     background:white;
     border-radius:18px;
-    padding:16px;
+    padding:18px;
     margin-bottom:18px;
-    box-shadow:0 2px 8px rgba(0,0,0,.08);
+    box-shadow:0 2px 8px rgba(0,0,0,.06);
 }
 
 .formCard h2{
@@ -167,7 +209,7 @@ header h1{
 }
 
 .formGroup{
-    margin-bottom:13px;
+    margin-bottom:14px;
 }
 
 .formGroup label{
@@ -175,59 +217,57 @@ header h1{
     font-size:14px;
     font-weight:600;
     margin-bottom:6px;
-}
-
-.formGroup input,
-.formGroup textarea{
-    width:100%;
-    border:1px solid #d1d1d6;
-    border-radius:11px;
-    padding:11px;
-    font-size:16px;
-    outline:none;
-    background:white;
-}
-
-.formGroup textarea{
-    min-height:80px;
-    resize:vertical;
+    color:#444;
 }
 
 .inputCopy{
     display:flex;
-    gap:6px;
+    gap:7px;
 }
 
 .inputCopy input{
     flex:1;
-    min-width:0;
+}
+
+input[type="text"],
+input[type="password"],
+input[type="number"],
+input[type="date"],
+input[type="url"],
+input[type="search"]{
+    width:100%;
+    padding:13px;
+    border:1px solid #d5d5d5;
+    border-radius:11px;
+    font-size:16px;
+    background:white;
 }
 
 .copyBtn{
     flex:0 0 45px;
     border:0;
     border-radius:10px;
-    background:#e5e5ea;
+    background:#e9f2ff;
+    color:#007aff;
     font-size:19px;
+    min-width:45px;
 }
 
-.passwordRow{
-    position:relative;
+.passwordArea{
+    display:flex;
+    gap:7px;
 }
 
-.passwordRow input{
-    padding-right:50px;
+.passwordArea input{
+    flex:1;
 }
 
-.eyeBtn{
-    position:absolute;
-    right:4px;
-    top:4px;
-    width:42px;
-    height:42px;
+.showPasswordBtn{
+    flex:0 0 45px;
     border:0;
-    background:transparent;
-    font-size:19px;
+    border-radius:10px;
+    background:#f0f0f0;
+    font-size:18px;
 }
 
 .checkboxRow{
@@ -238,40 +278,22 @@ header h1{
 }
 
 .checkboxRow input{
-    width:21px;
-    height:21px;
+    width:20px;
+    height:20px;
 }
-
-.checkboxRow label{
-    font-weight:600;
-}
-
-/* APPLICATION */
 
 .applicationBox{
-    background:#f2f2f7;
+    background:#f5f8ff;
+    border:1px solid #dce9ff;
     border-radius:14px;
-    padding:14px;
-    margin:10px 0 15px;
+    padding:15px;
+    margin-top:10px;
 }
 
 .applicationBox h3{
-    margin:0 0 13px;
+    margin:0 0 14px;
+    color:#007aff;
     font-size:17px;
-}
-
-.applicationBox .formGroup:last-child{
-    margin-bottom:0;
-}
-
-/* PHOTO */
-
-.photoBox{
-    border:1px dashed #aaa;
-    border-radius:14px;
-    padding:14px;
-    text-align:center;
-    margin-top:12px;
 }
 
 .photoButtons{
@@ -281,74 +303,45 @@ header h1{
 
 .photoButtons button{
     flex:1;
-    border:0;
-    border-radius:11px;
-    padding:12px 5px;
-    background:#e5e5ea;
-    font-size:14px;
 }
 
 .photoPreview{
-    max-width:100%;
-    max-height:220px;
+    width:100%;
+    max-height:250px;
+    object-fit:contain;
     border-radius:12px;
-    margin-top:12px;
-}
-
-/* MAIN BUTTONS */
-
-.mainButtons{
-    display:flex;
-    gap:8px;
-    flex-wrap:wrap;
-}
-
-.mainButton{
-    flex:1;
-    min-width:130px;
-    border:0;
-    border-radius:12px;
-    padding:13px 10px;
-    font-size:16px;
-    font-weight:600;
-    background:#007aff;
-    color:white;
-}
-
-.cancelButton{
-    background:#8e8e93;
-}
-
-.secondaryButtons{
-    display:flex;
-    gap:8px;
     margin-top:10px;
+    background:#eee;
 }
 
-.secondaryButtons button{
+.formButtons{
+    display:flex;
+    gap:8px;
+    margin-top:18px;
+}
+
+.formButtons button{
     flex:1;
-    border:0;
-    border-radius:12px;
-    padding:11px 7px;
-    background:#e5e5ea;
-    font-size:14px;
 }
 
-/* ACCESS CARD */
+/* =========================
+   COMPTES
+========================= */
 
 .accountCard{
     background:white;
     border-radius:18px;
-    padding:15px;
+    padding:17px;
     margin-bottom:14px;
-    box-shadow:0 2px 8px rgba(0,0,0,.08);
+    box-shadow:0 2px 8px rgba(0,0,0,.07);
 }
 
 .accountHeader{
     display:flex;
-    align-items:flex-start;
+    align-items:center;
     justify-content:space-between;
     gap:10px;
+    margin-bottom:14px;
 }
 
 .accountName{
@@ -364,197 +357,232 @@ header h1{
 }
 
 .iconButton{
-    width:38px;
-    height:38px;
+    width:40px;
+    height:40px;
     border:0;
     border-radius:10px;
-    background:#e5e5ea;
+    background:#f0f0f0;
     font-size:18px;
 }
 
-.deleteButton{
-    background:#ffe5e5;
+.iconButton.edit{
+    color:#007aff;
 }
 
-.infoLine{
-    margin-top:11px;
+.iconButton.delete{
+    color:#ff3b30;
 }
 
-.infoLabel{
+.accountLine{
+    margin-bottom:11px;
+}
+
+.accountLabel{
     font-size:12px;
+    font-weight:600;
     color:#777;
-    margin-bottom:3px;
+    margin-bottom:4px;
+    text-transform:uppercase;
 }
 
-.infoValue{
-    word-break:break-word;
-}
-
-.copyLine{
+.copyArea{
     display:flex;
     align-items:center;
-    gap:6px;
+    gap:7px;
+    min-width:0;
 }
 
-.copyLine .value{
+.valueText{
     flex:1;
     min-width:0;
     word-break:break-word;
-}
-
-.copySmall{
-    flex:0 0 40px;
-    height:35px;
-    border:0;
+    background:#f7f7f7;
     border-radius:9px;
-    background:#e5e5ea;
-    font-size:16px;
+    padding:10px;
+    font-size:15px;
 }
 
-.urlLine{
-    display:flex;
-    align-items:center;
-    gap:5px;
-}
-
-.urlLine a{
+.urlLink{
     flex:1;
     min-width:0;
     color:#007aff;
     text-decoration:underline;
-    overflow-wrap:anywhere;
-}
-
-.safariBtn{
-    flex:0 0 39px;
-    height:35px;
-    border:0;
+    word-break:break-all;
+    background:#f7f7f7;
     border-radius:9px;
-    background:#e5e5ea;
-    font-size:17px;
-}
-
-.applicationDisplay{
-    background:#f2f2f7;
-    border-radius:14px;
-    padding:12px;
-    margin-top:13px;
-}
-
-.applicationTitle{
-    font-weight:700;
-    margin-bottom:9px;
-}
-
-.photoDisplay{
-    margin-top:12px;
-}
-
-.photoDisplay img{
-    max-width:100%;
-    max-height:260px;
-    border-radius:12px;
-}
-
-/* EXPIRATION */
-
-.expiration{
-    margin-top:13px;
     padding:10px;
-    border-radius:11px;
-    background:#e8f8ed;
-}
-
-.expiration.warning{
-    background:#fff3d6;
-}
-
-.expiration.danger{
-    background:#ffe5e5;
-}
-
-.expiration.expired{
-    background:#e5e5ea;
-}
-
-.expiration strong{
     display:block;
 }
 
-/* CALENDAR */
+.passwordValue{
+    font-family:monospace;
+}
+
+.remarque{
+    white-space:pre-wrap;
+}
+
+.applicationSaved{
+    margin-top:15px;
+    background:#f5f8ff;
+    border-radius:13px;
+    padding:13px;
+}
+
+.applicationSaved h3{
+    color:#007aff;
+    font-size:16px;
+    margin:0 0 12px;
+}
+
+.photoSaved{
+    width:100%;
+    max-height:300px;
+    object-fit:contain;
+    border-radius:12px;
+    margin-top:10px;
+    background:#eee;
+}
+
+/* =========================
+   DUREE
+========================= */
+
+.durationBox{
+    margin-top:14px;
+    padding-top:13px;
+    border-top:1px solid #eee;
+}
+
+.durationText{
+    font-size:14px;
+    font-weight:600;
+}
+
+.expirationText{
+    font-size:14px;
+    margin-top:4px;
+}
+
+.expGreen{
+    color:#34c759;
+}
+
+.expOrange{
+    color:#ff9500;
+}
+
+.expRed{
+    color:#ff3b30;
+}
+
+.expGray{
+    color:#777;
+}
+
+/* =========================
+   BOUTON CALENDRIER
+========================= */
 
 .calendarButton{
     width:100%;
     margin-top:10px;
+    padding:11px;
     border:0;
-    border-radius:11px;
-    padding:10px;
-    background:#e8f1ff;
-    color:#007aff;
+    border-radius:10px;
+    background:#34c759;
+    color:white;
     font-weight:600;
+    font-size:14px;
 }
 
-/* EMPTY */
+/* =========================
+   EMPTY
+========================= */
 
 .empty{
     text-align:center;
+    padding:45px 15px;
     color:#777;
-    padding:30px 10px;
 }
 
-/* MODAL */
+.emptyIcon{
+    font-size:45px;
+    margin-bottom:10px;
+}
+
+/* =========================
+   MODAL PHOTO
+========================= */
 
 .modal{
     position:fixed;
     inset:0;
-    background:rgba(0,0,0,.45);
+    background:rgba(0,0,0,.65);
+    z-index:100;
     display:flex;
-    justify-content:center;
     align-items:center;
-    z-index:5000;
-    padding:18px;
+    justify-content:center;
+    padding:20px;
 }
 
 .modalBox{
-    width:100%;
-    max-width:500px;
-    max-height:85vh;
-    overflow:auto;
     background:white;
-    border-radius:20px;
-    padding:18px;
+    width:100%;
+    max-width:600px;
+    border-radius:18px;
+    padding:15px;
+    max-height:90vh;
+    overflow:auto;
 }
 
-.modalBox h2{
-    margin-top:0;
-}
-
-.modalButtons{
-    display:flex;
-    gap:8px;
-    margin-top:15px;
-}
-
-.modalButtons button{
-    flex:1;
-    border:0;
+.modalBox img{
+    width:100%;
+    max-height:70vh;
+    object-fit:contain;
     border-radius:12px;
-    padding:12px;
 }
 
-.closeModal{
-    background:#e5e5ea;
+.modalClose{
+    width:100%;
+    margin-top:12px;
+    padding:13px;
+    border:0;
+    border-radius:11px;
+    background:#007aff;
+    color:white;
+    font-size:16px;
 }
 
-/* RESPONSIVE */
+/* =========================
+   BOUTON SAFARI
+========================= */
+
+.safariButton{
+    flex:0 0 45px;
+    min-width:45px;
+    border:0;
+    border-radius:10px;
+    background:#e9f2ff;
+    color:#007aff;
+    font-size:19px;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
 
 @media(max-width:500px){
-    .mainButtons{
-        flex-direction:column;
+    .topActions{
+        flex-wrap:wrap;
     }
 
-    .mainButton{
-        width:100%;
+    .topActions button{
+        min-width:calc(50% - 4px);
+    }
+
+    .accountHeader{
+        align-items:flex-start;
     }
 }
 </style>
@@ -562,438 +590,699 @@ header h1{
 
 <body>
 
-<!-- PIN -->
-<div id="pinScreen" class="pinScreen">
-    <div class="pinBox">
+<!-- =========================
+     ECRAN PIN
+========================= -->
+
+<div id="loginScreen">
+
+    <div class="loginBox">
+
         <h1>🔐 Mes accès</h1>
-        <p>Entrez votre code PIN</p>
+
+        <p>Entrez votre code PIN pour accéder à vos informations.</p>
 
         <input
             id="pinInput"
-            class="pinInput"
             type="password"
             inputmode="numeric"
             maxlength="4"
+            placeholder="••••"
             autocomplete="off"
         >
 
-        <button class="pinButton" onclick="checkPin()">
+        <button class="loginButton" onclick="login()">
             Ouvrir
         </button>
 
-        <div id="pinError" class="pinError"></div>
+        <div id="loginError" class="loginError"></div>
+
     </div>
+
 </div>
 
-<!-- APP -->
+
+<!-- =========================
+     APPLICATION
+========================= -->
+
 <div id="app" class="hidden">
 
-<header>
-    <div class="headerTop">
-        <h1>🔐 Mes accès</h1>
-        <div id="userCount" class="userCount">0 accès</div>
-    </div>
-</header>
+    <header class="header">
 
-<div class="container">
+        <div class="headerTop">
 
-    <!-- SEARCH -->
-    <div class="searchBox">
-        <span class="searchIcon">🔎</span>
-        <input
-            id="searchInput"
-            type="search"
-            placeholder="Rechercher..."
-            oninput="renderAccounts()"
-        >
-    </div>
+            <h1>🔐 Mes accès</h1>
 
-    <!-- FORM -->
-    <div class="formCard">
+            <div class="userCount" id="userCount">
+                0 accès
+            </div>
 
-        <h2 id="formTitle">➕ Ajouter un accès</h2>
-
-        <div class="formGroup">
-            <label>Nom / Prénom</label>
-            <input id="nameInput" type="text" autocomplete="off">
         </div>
 
-        <div class="formGroup">
-            <label>Utilisateur</label>
-            <div class="inputCopy">
-                <input id="usernameInput" type="text" autocomplete="off">
-                <button class="copyBtn" onclick="copyInputValue('usernameInput')">📋</button>
-            </div>
-        </div>
+    </header>
 
-        <div class="formGroup">
-            <label>Mot de passe</label>
 
-            <div class="passwordRow">
-                <input
-                    id="passwordInput"
-                    type="password"
-                    autocomplete="new-password"
-                >
-                <button class="eyeBtn" onclick="togglePassword('passwordInput', this)">
-                    👁️
-                </button>
-            </div>
+    <main class="container">
+
+        <div class="topActions">
 
             <button
-                class="copyBtn"
-                style="width:100%;height:42px;margin-top:6px;"
-                onclick="copyInputValue('passwordInput')"
+                class="primaryButton"
+                onclick="showForm()"
             >
-                📋 Copier le mot de passe
-            </button>
-        </div>
-
-        <div class="formGroup">
-            <label>URL 1</label>
-            <div class="inputCopy">
-                <input id="url1Input" type="url" autocomplete="off">
-                <button class="copyBtn" onclick="copyInputValue('url1Input')">📋</button>
-                <button
-                    class="copyBtn"
-                    onclick="openSafari(document.getElementById('url1Input').value)"
-                >🌐</button>
-            </div>
-        </div>
-
-        <div class="formGroup">
-            <label>URL 2</label>
-            <div class="inputCopy">
-                <input id="url2Input" type="url" autocomplete="off">
-                <button class="copyBtn" onclick="copyInputValue('url2Input')">📋</button>
-                <button
-                    class="copyBtn"
-                    onclick="openSafari(document.getElementById('url2Input').value)"
-                >🌐</button>
-            </div>
-        </div>
-
-        <!-- APPLICATION -->
-        <div class="checkboxRow">
-            <input
-                id="isApplicationInput"
-                type="checkbox"
-                onchange="toggleApplicationFields()"
-            >
-            <label for="isApplicationInput">📱 Application</label>
-        </div>
-
-        <div id="applicationBox" class="applicationBox hidden">
-
-            <h3>📱 Informations de l'application</h3>
-
-            <div class="formGroup">
-                <label>URL de l'application</label>
-
-                <div class="inputCopy">
-                    <input
-                        id="appUrl1Input"
-                        type="url"
-                        autocomplete="off"
-                    >
-
-                    <button
-                        class="copyBtn"
-                        onclick="copyInputValue('appUrl1Input')"
-                    >📋</button>
-
-                    <button
-                        class="copyBtn"
-                        onclick="openSafari(document.getElementById('appUrl1Input').value)"
-                    >🌐</button>
-                </div>
-            </div>
-
-            <div class="formGroup">
-                <label>MAC 1</label>
-
-                <div class="inputCopy">
-                    <input
-                        id="macInput"
-                        type="text"
-                        autocomplete="off"
-                    >
-
-                    <button
-                        class="copyBtn"
-                        onclick="copyInputValue('macInput')"
-                    >📋</button>
-                </div>
-            </div>
-
-            <div class="formGroup">
-                <label>MAC 2</label>
-
-                <div class="inputCopy">
-                    <input
-                        id="mac2Input"
-                        type="text"
-                        autocomplete="off"
-                    >
-
-                    <button
-                        class="copyBtn"
-                        onclick="copyInputValue('mac2Input')"
-                    >📋</button>
-                </div>
-            </div>
-
-            <div class="formGroup">
-                <label>Clé 1</label>
-
-                <div class="inputCopy">
-                    <input
-                        id="appKeyInput"
-                        type="text"
-                        autocomplete="off"
-                    >
-
-                    <button
-                        class="copyBtn"
-                        onclick="copyInputValue('appKeyInput')"
-                    >📋</button>
-                </div>
-            </div>
-
-            <div class="formGroup">
-                <label>Clé 2</label>
-
-                <div class="inputCopy">
-                    <input
-                        id="appKey2Input"
-                        type="text"
-                        autocomplete="off"
-                    >
-
-                    <button
-                        class="copyBtn"
-                        onclick="copyInputValue('appKey2Input')"
-                    >📋</button>
-                </div>
-            </div>
-
-        </div>
-
-        <!-- DUREE -->
-        <div class="formGroup">
-            <label>Durée en jours</label>
-
-            <input
-                id="durationInput"
-                type="number"
-                min="1"
-                placeholder="Exemple : 30"
-            >
-        </div>
-
-        <!-- PHOTO -->
-        <div class="photoBox">
-
-            <strong>📷 Document / Photo</strong>
-
-            <div class="photoButtons">
-
-                <button onclick="document.getElementById('photoInput').click()">
-                    🖼️ Mes photos
-                </button>
-
-                <button onclick="document.getElementById('cameraInput').click()">
-                    📷 Prendre une photo
-                </button>
-
-            </div>
-
-            <input
-                id="photoInput"
-                type="file"
-                accept="image/*"
-                style="display:none"
-                onchange="handlePhoto(this)"
-            >
-
-            <input
-                id="cameraInput"
-                type="file"
-                accept="image/*"
-                capture="environment"
-                style="display:none"
-                onchange="handlePhoto(this)"
-            >
-
-            <div id="photoPreviewContainer"></div>
-
-        </div>
-
-        <!-- REMARQUE -->
-        <div class="formGroup" style="margin-top:13px;">
-            <label>Remarque</label>
-
-            <textarea
-                id="noteInput"
-                placeholder="Remarque..."
-            ></textarea>
-        </div>
-
-        <div class="mainButtons">
-
-            <button
-                id="saveButton"
-                class="mainButton"
-                onclick="saveAccount()"
-            >
-                💾 Enregistrer
+                ➕ Ajouter
             </button>
 
             <button
-                id="cancelButton"
-                class="mainButton cancelButton hidden"
-                onclick="cancelEdit()"
+                class="secondaryButton"
+                onclick="exportData()"
             >
-                Annuler
-            </button>
-
-        </div>
-
-        <div class="secondaryButtons">
-
-            <button onclick="downloadBackup()">
                 💾 Sauvegarde
             </button>
 
-            <button onclick="document.getElementById('restoreInput').click()">
-                ♻️ Restaurer
+            <button
+                class="secondaryButton"
+                onclick="document.getElementById('importFile').click()"
+            >
+                📂 Restaurer
             </button>
+
+            <input
+                id="importFile"
+                type="file"
+                accept=".json,application/json"
+                style="display:none"
+                onchange="importData(event)"
+            >
 
         </div>
 
+
         <input
-            id="restoreInput"
-            type="file"
-            accept=".json,application/json"
-            style="display:none"
-            onchange="restoreBackup(this)"
+            id="searchInput"
+            class="searchBox"
+            type="search"
+            placeholder="🔎 Rechercher un accès..."
+            oninput="renderAccounts()"
         >
 
-    </div>
 
-    <!-- LISTE -->
-    <div id="accountsList"></div>
+        <!-- =========================
+             FORMULAIRE
+        ========================= -->
+
+        <div id="formCard" class="formCard hidden">
+
+            <h2 id="formTitle">
+                Ajouter un accès
+            </h2>
+
+
+            <div class="formGroup">
+
+                <label>
+                    Nom / Prénom
+                </label>
+
+                <input
+                    id="nameInput"
+                    type="text"
+                    placeholder="Nom et prénom"
+                    autocomplete="off"
+                >
+
+            </div>
+
+
+            <div class="formGroup">
+
+                <label>
+                    Utilisateur
+                </label>
+
+                <div class="inputCopy">
+
+                    <input
+                        id="usernameInput"
+                        type="text"
+                        placeholder="Nom d'utilisateur"
+                        autocomplete="off"
+                    >
+
+                    <button
+                        class="copyBtn"
+                        onclick="copyInputValue('usernameInput')"
+                    >
+                        📋
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <div class="formGroup">
+
+                <label>
+                    Mot de passe
+                </label>
+
+                <div class="passwordArea">
+
+                    <input
+                        id="passwordInput"
+                        type="password"
+                        placeholder="Mot de passe"
+                        autocomplete="new-password"
+                    >
+
+                    <button
+                        class="showPasswordBtn"
+                        onclick="togglePassword('passwordInput', this)"
+                    >
+                        👁️
+                    </button>
+
+                    <button
+                        class="copyBtn"
+                        onclick="copyInputValue('passwordInput')"
+                    >
+                        📋
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <div class="formGroup">
+
+                <label>
+                    URL 1
+                </label>
+
+                <div class="inputCopy">
+
+                    <input
+                        id="url1Input"
+                        type="url"
+                        placeholder="https://..."
+                        autocomplete="off"
+                    >
+
+                    <button
+                        class="copyBtn"
+                        onclick="copyInputValue('url1Input')"
+                    >
+                        📋
+                    </button>
+
+                    <button
+                        class="safariButton"
+                        type="button"
+                        onclick="openSafariFromInput('url1Input')"
+                    >
+                        🌐
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <div class="formGroup">
+
+                <label>
+                    URL 2
+                </label>
+
+                <div class="inputCopy">
+
+                    <input
+                        id="url2Input"
+                        type="url"
+                        placeholder="https://..."
+                        autocomplete="off"
+                    >
+
+                    <button
+                        class="copyBtn"
+                        onclick="copyInputValue('url2Input')"
+                    >
+                        📋
+                    </button>
+
+                    <button
+                        class="safariButton"
+                        type="button"
+                        onclick="openSafariFromInput('url2Input')"
+                    >
+                        🌐
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <div class="formGroup">
+
+                <label>
+                    Remarque
+                </label>
+
+                <div class="inputCopy">
+
+                    <input
+                        id="noteInput"
+                        type="text"
+                        placeholder="Remarque"
+                    >
+
+                    <button
+                        class="copyBtn"
+                        onclick="copyInputValue('noteInput')"
+                    >
+                        📋
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <!-- APPLICATION -->
+
+            <div class="checkboxRow">
+
+                <input
+                    id="applicationCheck"
+                    type="checkbox"
+                    onchange="toggleApplicationFields()"
+                >
+
+                <label for="applicationCheck">
+                    Ajouter les informations de l'application
+                </label>
+
+            </div>
+
+
+            <div
+                id="applicationBox"
+                class="applicationBox hidden"
+            >
+
+                <h3>
+                    📱 Informations application
+                </h3>
+
+
+                <div class="formGroup">
+
+                    <label>
+                        URL application
+                    </label>
+
+                    <div class="inputCopy">
+
+                        <input
+                            id="appUrlInput"
+                            type="url"
+                            placeholder="https://..."
+                        >
+
+                        <button
+                            class="copyBtn"
+                            onclick="copyInputValue('appUrlInput')"
+                        >
+                            📋
+                        </button>
+
+                        <button
+                            class="safariButton"
+                            type="button"
+                            onclick="openSafariFromInput('appUrlInput')"
+                        >
+                            🌐
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+                <div class="formGroup">
+
+                    <label>
+                        MAC 1
+                    </label>
+
+                    <div class="inputCopy">
+
+                        <input
+                            id="mac1Input"
+                            type="text"
+                            placeholder="MAC 1"
+                        >
+
+                        <button
+                            class="copyBtn"
+                            onclick="copyInputValue('mac1Input')"
+                        >
+                            📋
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+                <div class="formGroup">
+
+                    <label>
+                        Clé 1
+                    </label>
+
+                    <div class="inputCopy">
+
+                        <input
+                            id="key1Input"
+                            type="text"
+                            placeholder="Clé 1"
+                        >
+
+                        <button
+                            class="copyBtn"
+                            onclick="copyInputValue('key1Input')"
+                        >
+                            📋
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+                <div class="formGroup">
+
+                    <label>
+                        MAC 2
+                    </label>
+
+                    <div class="inputCopy">
+
+                        <input
+                            id="mac2Input"
+                            type="text"
+                            placeholder="MAC 2"
+                        >
+
+                        <button
+                            class="copyBtn"
+                            onclick="copyInputValue('mac2Input')"
+                        >
+                            📋
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+                <div class="formGroup">
+
+                    <label>
+                        Clé 2
+                    </label>
+
+                    <div class="inputCopy">
+
+                        <input
+                            id="key2Input"
+                            type="text"
+                            placeholder="Clé 2"
+                        >
+
+                        <button
+                            class="copyBtn"
+                            onclick="copyInputValue('key2Input')"
+                        >
+                            📋
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- PHOTO -->
+
+            <div class="formGroup">
+
+                <label>
+                    📷 Photo du document
+                </label>
+
+                <div class="photoButtons">
+
+                    <button
+                        type="button"
+                        class="secondaryButton"
+                        onclick="document.getElementById('photoGallery').click()"
+                    >
+                        🖼️ Mes photos
+                    </button>
+
+                    <button
+                        type="button"
+                        class="secondaryButton"
+                        onclick="document.getElementById('photoCamera').click()"
+                    >
+                        📷 Prendre une photo
+                    </button>
+
+                </div>
+
+
+                <input
+                    id="photoGallery"
+                    type="file"
+                    accept="image/*"
+                    style="display:none"
+                    onchange="handlePhoto(event)"
+                >
+
+                <input
+                    id="photoCamera"
+                    type="file"
+                    accept="image/*"
+                    capture="environment"
+                    style="display:none"
+                    onchange="handlePhoto(event)"
+                >
+
+
+                <img
+                    id="photoPreview"
+                    class="photoPreview hidden"
+                    alt="Aperçu"
+                >
+
+                <button
+                    id="deletePhotoBtn"
+                    type="button"
+                    class="dangerButton hidden"
+                    style="margin-top:8px;width:100%;"
+                    onclick="deletePhoto()"
+                >
+                    🗑️ Supprimer la photo
+                </button>
+
+            </div>
+
+
+            <!-- DUREE -->
+
+            <div class="formGroup">
+
+                <label>
+                    Durée en jours
+                </label>
+
+                <input
+                    id="durationInput"
+                    type="number"
+                    min="1"
+                    placeholder="Exemple : 30"
+                >
+
+            </div>
+
+
+            <div class="formButtons">
+
+                <button
+                    class="primaryButton"
+                    onclick="saveAccount()"
+                >
+                    💾 Enregistrer
+                </button>
+
+                <button
+                    class="secondaryButton"
+                    onclick="cancelForm()"
+                >
+                    Annuler
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <!-- LISTE -->
+
+        <div id="accountsList"></div>
+
+    </main>
 
 </div>
 
-</div>
 
-<!-- PHOTO MODAL -->
-<div id="photoModal" class="modal hidden" onclick="closePhotoModal(event)">
-    <div class="modalBox" onclick="event.stopPropagation()">
+<!-- =========================
+     MODAL PHOTO
+========================= -->
 
-        <h2>📷 Photo</h2>
+<div
+    id="photoModal"
+    class="modal hidden"
+    onclick="closePhotoModal(event)"
+>
+
+    <div class="modalBox">
 
         <img
             id="modalPhoto"
             src=""
-            style="width:100%;border-radius:14px;"
+            alt="Photo"
         >
 
-        <div class="modalButtons">
-
-            <button
-                class="closeModal"
-                onclick="document.getElementById('photoModal').classList.add('hidden')"
-            >
-                Fermer
-            </button>
-
-        </div>
+        <button
+            class="modalClose"
+            onclick="closePhotoModal()"
+        >
+            Fermer
+        </button>
 
     </div>
+
 </div>
+
 
 <script>
 
-/* =========================
+/* =========================================================
    CONFIGURATION
-========================= */
+========================================================= */
 
 const PIN = "1157";
+
 const STORAGE_KEY = "mesAcces";
 
 let accounts = [];
+
 let editingId = null;
+
 let currentPhoto = "";
 
-/* =========================
+
+/* =========================================================
    INITIALISATION
-========================= */
+========================================================= */
 
 document.addEventListener("DOMContentLoaded", function(){
 
-    loadAccounts();
+    loadData();
 
-    document.getElementById("pinInput").focus();
+    document
+        .getElementById("pinInput")
+        .addEventListener("keydown", function(event){
 
-    document.getElementById("pinInput").addEventListener("keydown", function(e){
+            if(event.key === "Enter"){
+                login();
+            }
 
-        if(e.key === "Enter"){
-            checkPin();
-        }
-
-    });
-
-    updateUserCount();
-
-    setInterval(function(){
-        renderAccounts();
-    }, 60000);
+        });
 
 });
 
-/* =========================
-   PIN
-========================= */
 
-function checkPin(){
+/* =========================================================
+   CONNEXION
+========================================================= */
 
-    const value = document.getElementById("pinInput").value;
+function login(){
 
-    if(value === PIN){
+    const pin =
+        document.getElementById("pinInput").value;
 
-        document.getElementById("pinScreen").classList.add("hidden");
-        document.getElementById("app").classList.remove("hidden");
+    const error =
+        document.getElementById("loginError");
+
+    if(pin === PIN){
+
+        document
+            .getElementById("loginScreen")
+            .classList.add("hidden");
+
+        document
+            .getElementById("app")
+            .classList.remove("hidden");
 
         renderAccounts();
 
     }else{
 
-        document.getElementById("pinError").textContent =
-            "Code PIN incorrect";
+        error.textContent =
+            "Code PIN incorrect.";
 
-        document.getElementById("pinInput").value = "";
+        document
+            .getElementById("pinInput")
+            .value = "";
 
     }
+
 }
 
-/* =========================
-   LOAD / SAVE
-========================= */
 
-function loadAccounts(){
+/* =========================================================
+   DONNEES
+========================================================= */
+
+function loadData(){
 
     try{
 
-        const saved = localStorage.getItem(STORAGE_KEY);
+        const saved =
+            localStorage.getItem(STORAGE_KEY);
 
         if(saved){
 
-            const parsed = JSON.parse(saved);
+            const parsed =
+                JSON.parse(saved);
 
             if(Array.isArray(parsed)){
+
                 accounts = parsed;
+
+            }else{
+
+                accounts = [];
+
             }
 
         }
@@ -1001,29 +1290,144 @@ function loadAccounts(){
     }catch(error){
 
         console.error(error);
+
         accounts = [];
 
     }
 
+    updateUserCount();
+
 }
 
-function saveToStorage(){
+
+function saveData(){
 
     localStorage.setItem(
         STORAGE_KEY,
         JSON.stringify(accounts)
     );
 
+    updateUserCount();
+
 }
 
-/* =========================
+
+/* =========================================================
+   COMPTEUR
+========================================================= */
+
+function updateUserCount(){
+
+    const element =
+        document.getElementById("userCount");
+
+    if(!element){
+        return;
+    }
+
+    const count = accounts.length;
+
+    element.textContent =
+        count +
+        (count > 1 ? " accès" : " accès");
+
+}
+
+
+/* =========================================================
+   FORMULAIRE
+========================================================= */
+
+function showForm(){
+
+    editingId = null;
+
+    resetForm();
+
+    document
+        .getElementById("formTitle")
+        .textContent = "Ajouter un accès";
+
+    document
+        .getElementById("formCard")
+        .classList.remove("hidden");
+
+    window.scrollTo({
+        top:0,
+        behavior:"smooth"
+    });
+
+}
+
+
+function cancelForm(){
+
+    document
+        .getElementById("formCard")
+        .classList.add("hidden");
+
+    editingId = null;
+
+    resetForm();
+
+}
+
+
+function resetForm(){
+
+    document.getElementById("nameInput").value = "";
+
+    document.getElementById("usernameInput").value = "";
+
+    document.getElementById("passwordInput").value = "";
+
+    document.getElementById("url1Input").value = "";
+
+    document.getElementById("url2Input").value = "";
+
+    document.getElementById("noteInput").value = "";
+
+    document.getElementById("applicationCheck").checked = false;
+
+    document.getElementById("appUrlInput").value = "";
+
+    document.getElementById("mac1Input").value = "";
+
+    document.getElementById("key1Input").value = "";
+
+    document.getElementById("mac2Input").value = "";
+
+    document.getElementById("key2Input").value = "";
+
+    document.getElementById("durationInput").value = "";
+
+    currentPhoto = "";
+
+    document
+        .getElementById("applicationBox")
+        .classList.add("hidden");
+
+    document
+        .getElementById("photoPreview")
+        .classList.add("hidden");
+
+    document
+        .getElementById("deletePhotoBtn")
+        .classList.add("hidden");
+
+    document.getElementById("photoPreview").src = "";
+
+}
+
+
+/* =========================================================
    APPLICATION
-========================= */
+========================================================= */
 
 function toggleApplicationFields(){
 
     const checked =
-        document.getElementById("isApplicationInput").checked;
+        document.getElementById("applicationCheck").checked;
 
     const box =
         document.getElementById("applicationBox");
@@ -1040,131 +1444,16 @@ function toggleApplicationFields(){
 
 }
 
-/* =========================
-   PASSWORD
-========================= */
 
-function togglePassword(id, button){
-
-    const input = document.getElementById(id);
-
-    if(input.type === "password"){
-
-        input.type = "text";
-        button.textContent = "🙈";
-
-    }else{
-
-        input.type = "password";
-        button.textContent = "👁️";
-
-    }
-
-}
-
-/* =========================
-   COPY
-========================= */
-
-async function copyText(text){
-
-    if(!text){
-        return;
-    }
-
-    try{
-
-        await navigator.clipboard.writeText(text);
-
-    }catch(error){
-
-        const textarea = document.createElement("textarea");
-
-        textarea.value = text;
-        textarea.style.position = "fixed";
-        textarea.style.opacity = "0";
-
-        document.body.appendChild(textarea);
-
-        textarea.focus();
-        textarea.select();
-
-        try{
-            document.execCommand("copy");
-        }catch(e){}
-
-        document.body.removeChild(textarea);
-
-    }
-
-}
-
-function copyInputValue(id){
-
-    const input = document.getElementById(id);
-
-    if(input){
-        copyText(input.value);
-    }
-
-}
-
-function copyAccountValue(value){
-
-    copyText(value || "");
-
-}
-
-/* =========================
-   SAFARI
-========================= */
-
-function openSafari(url){
-
-    if(!url){
-        return;
-    }
-
-    let finalUrl = url.trim();
-
-    if(!finalUrl){
-        return;
-    }
-
-    if(
-        !finalUrl.startsWith("http://") &&
-        !finalUrl.startsWith("https://")
-    ){
-        finalUrl = "https://" + finalUrl;
-    }
-
-    /*
-      target="_blank" demande à iOS d'ouvrir
-      le lien hors de la page actuelle.
-      Sur iPhone, l'ouverture dans Safari
-      dépend ensuite du comportement d'iOS.
-    */
-
-    const link = document.createElement("a");
-
-    link.href = finalUrl;
-    link.target = "_blank";
-    link.rel = "external noopener noreferrer";
-
-    document.body.appendChild(link);
-
-    link.click();
-
-    document.body.removeChild(link);
-}
-
-/* =========================
+/* =========================================================
    PHOTO
-========================= */
+========================================================= */
 
-function handlePhoto(input){
+function handlePhoto(event){
 
-    const file = input.files && input.files[0];
+    const file =
+        event.target.files &&
+        event.target.files[0];
 
     if(!file){
         return;
@@ -1174,16 +1463,18 @@ function handlePhoto(input){
 
     reader.onload = function(e){
 
-        compressImage(
-            e.target.result,
-            function(compressed){
+        currentPhoto = e.target.result;
 
-                currentPhoto = compressed;
+        const preview =
+            document.getElementById("photoPreview");
 
-                showPhotoPreview();
+        preview.src = currentPhoto;
 
-            }
-        );
+        preview.classList.remove("hidden");
+
+        document
+            .getElementById("deletePhotoBtn")
+            .classList.remove("hidden");
 
     };
 
@@ -1191,369 +1482,31 @@ function handlePhoto(input){
 
 }
 
-function compressImage(dataUrl, callback){
 
-    const img = new Image();
-
-    img.onload = function(){
-
-        const maxWidth = 1200;
-        const maxHeight = 1200;
-
-        let width = img.width;
-        let height = img.height;
-
-        if(width > maxWidth){
-
-            height =
-                height * maxWidth / width;
-
-            width = maxWidth;
-
-        }
-
-        if(height > maxHeight){
-
-            width =
-                width * maxHeight / height;
-
-            height = maxHeight;
-
-        }
-
-        const canvas = document.createElement("canvas");
-
-        canvas.width = width;
-        canvas.height = height;
-
-        const ctx = canvas.getContext("2d");
-
-        ctx.drawImage(
-            img,
-            0,
-            0,
-            width,
-            height
-        );
-
-        callback(
-            canvas.toDataURL("image/jpeg", 0.75)
-        );
-
-    };
-
-    img.src = dataUrl;
-
-}
-
-function showPhotoPreview(){
-
-    const container =
-        document.getElementById("photoPreviewContainer");
-
-    if(!currentPhoto){
-
-        container.innerHTML = "";
-        return;
-
-    }
-
-    container.innerHTML = `
-        <img
-            class="photoPreview"
-            src="${currentPhoto}"
-            alt="Photo"
-        >
-        <button
-            type="button"
-            style="
-                margin-top:8px;
-                width:100%;
-                border:0;
-                border-radius:10px;
-                padding:10px;
-                background:#ffe5e5;
-            "
-            onclick="removeCurrentPhoto()"
-        >
-            🗑️ Supprimer la photo
-        </button>
-    `;
-
-}
-
-function removeCurrentPhoto(){
+function deletePhoto(){
 
     currentPhoto = "";
 
-    document.getElementById("photoInput").value = "";
-    document.getElementById("cameraInput").value = "";
+    document.getElementById("photoPreview").src = "";
 
-    showPhotoPreview();
+    document
+        .getElementById("photoPreview")
+        .classList.add("hidden");
 
-}
+    document
+        .getElementById("deletePhotoBtn")
+        .classList.add("hidden");
 
-/* =========================
-   URL
-========================= */
+    document.getElementById("photoGallery").value = "";
 
-function normalizeUrl(url){
-
-    if(!url){
-        return "";
-    }
-
-    url = String(url).trim();
-
-    if(
-        !url.startsWith("http://") &&
-        !url.startsWith("https://")
-    ){
-        return "https://" + url;
-    }
-
-    return url;
+    document.getElementById("photoCamera").value = "";
 
 }
 
-function accountUrlLine(url){
 
-    if(!url){
-        return `
-            <div class="infoValue">-</div>
-        `;
-    }
-
-    const safeUrl = normalizeUrl(url);
-
-    return `
-        <div class="urlLine">
-
-            <a
-                href="${escapeHtml(safeUrl)}"
-                target="_blank"
-                rel="external noopener noreferrer"
-            >
-                ${escapeHtml(url)}
-            </a>
-
-            <button
-                class="copySmall"
-                onclick="copyAccountValue('${escapeJs(url)}')"
-            >
-                📋
-            </button>
-
-            <button
-                class="safariBtn"
-                onclick="openSafari('${escapeJs(url)}')"
-            >
-                🌐
-            </button>
-
-        </div>
-    `;
-
-}
-
-/* =========================
-   ESCAPE
-========================= */
-
-function escapeHtml(value){
-
-    if(value === null || value === undefined){
-        return "";
-    }
-
-    return String(value)
-        .replace(/&/g,"&amp;")
-        .replace(/</g,"&lt;")
-        .replace(/>/g,"&gt;")
-        .replace(/"/g,"&quot;")
-        .replace(/'/g,"&#039;");
-
-}
-
-function escapeJs(value){
-
-    if(value === null || value === undefined){
-        return "";
-    }
-
-    return String(value)
-        .replace(/\\/g,"\\\\")
-        .replace(/'/g,"\\'")
-        .replace(/\r/g,"\\r")
-        .replace(/\n/g,"\\n");
-
-}
-
-/* =========================
-   DATE
-========================= */
-
-function getExpirationDate(account){
-
-    if(!account.startDate || !account.duration){
-        return null;
-    }
-
-    const start =
-        new Date(account.startDate);
-
-    if(isNaN(start.getTime())){
-        return null;
-    }
-
-    const expiration =
-        new Date(start);
-
-    expiration.setDate(
-        expiration.getDate() +
-        Number(account.duration)
-    );
-
-    return expiration;
-
-}
-
-function formatDate(date){
-
-    if(!date){
-        return "-";
-    }
-
-    return date.toLocaleDateString(
-        "fr-BE",
-        {
-            day:"2-digit",
-            month:"2-digit",
-            year:"numeric"
-        }
-    );
-
-}
-
-function getCountdown(account){
-
-    const expiration =
-        getExpirationDate(account);
-
-    if(!expiration){
-        return null;
-    }
-
-    const now = new Date();
-
-    const diff =
-        expiration.getTime() -
-        now.getTime();
-
-    const days =
-        Math.ceil(
-            diff /
-            (1000 * 60 * 60 * 24)
-        );
-
-    return {
-        days:days,
-        expiration:expiration
-    };
-
-}
-
-/* =========================
-   CALENDAR
-========================= */
-
-function addCalendarReminder(id){
-
-    const account =
-        accounts.find(a => a.id === id);
-
-    if(!account){
-        return;
-    }
-
-    const expiration =
-        getExpirationDate(account);
-
-    if(!expiration){
-        return;
-    }
-
-    const reminder =
-        new Date(expiration);
-
-    reminder.setDate(
-        reminder.getDate() - 2
-    );
-
-    const start =
-        new Date(reminder);
-
-    start.setHours(9,0,0,0);
-
-    const end =
-        new Date(start);
-
-    end.setHours(10,0,0,0);
-
-    const formatGoogleDate = function(date){
-
-        const yyyy =
-            date.getFullYear();
-
-        const mm =
-            String(date.getMonth()+1).padStart(2,"0");
-
-        const dd =
-            String(date.getDate()).padStart(2,"0");
-
-        const hh =
-            String(date.getHours()).padStart(2,"0");
-
-        const mi =
-            String(date.getMinutes()).padStart(2,"0");
-
-        const ss =
-            String(date.getSeconds()).padStart(2,"0");
-
-        return `${yyyy}${mm}${dd}T${hh}${mi}${ss}`;
-
-    };
-
-    const dates =
-        formatGoogleDate(start) +
-        "/" +
-        formatGoogleDate(end);
-
-    const title =
-        encodeURIComponent(
-            "Expiration accès - " +
-            (account.name || "")
-        );
-
-    const details =
-        encodeURIComponent(
-            "Expiration prévue le " +
-            formatDate(expiration)
-        );
-
-    const url =
-        "https://calendar.google.com/calendar/render?action=TEMPLATE" +
-        "&text=" + title +
-        "&dates=" + dates +
-        "&details=" + details;
-
-    openSafari(url);
-
-}
-
-/* =========================
-   SAVE ACCOUNT
-========================= */
+/* =========================================================
+   ENREGISTRER
+========================================================= */
 
 function saveAccount(){
 
@@ -1575,57 +1528,35 @@ function saveAccount(){
     const note =
         document.getElementById("noteInput").value.trim();
 
+    const application =
+        document.getElementById("applicationCheck").checked;
+
     const durationValue =
-        document.getElementById("durationInput").value.trim();
+        document.getElementById("durationInput").value;
 
-    const isApplication =
-        document.getElementById("isApplicationInput").checked;
+    const duration =
+        Number(durationValue);
 
-    /* EXACTE STRUCTURE APPLICATION */
-
-    const appUrl1 =
-        document.getElementById("appUrl1Input").value.trim();
-
-    const mac =
-        document.getElementById("macInput").value.trim();
-
-    const mac2 =
-        document.getElementById("mac2Input").value.trim();
-
-    const appKey =
-        document.getElementById("appKeyInput").value.trim();
-
-    const appKey2 =
-        document.getElementById("appKey2Input").value.trim();
 
     if(!name){
 
-        alert("Veuillez mettre un Nom / Prénom.");
+        alert("Veuillez entrer un nom / prénom.");
 
         return;
 
     }
 
-    if(!durationValue){
 
-        alert("Veuillez mettre une durée en jours.");
+    if(!duration || duration < 1){
+
+        alert("Veuillez entrer une durée en jours.");
 
         return;
 
     }
 
-    const existing =
-        editingId
-            ? accounts.find(a => a.id === editingId)
-            : null;
 
-    const account = {
-
-        /*
-          On conserve toutes les anciennes données
-          qui pourraient exister dans l'enregistrement.
-        */
-        ...(existing || {}),
+    const data = {
 
         id:
             editingId ||
@@ -1643,139 +1574,113 @@ function saveAccount(){
 
         note:note,
 
-        duration:Number(durationValue),
+        application:application,
 
-        startDate:
-            existing && existing.startDate
-                ? existing.startDate
-                : new Date().toISOString(),
+        appUrl:
+            application
+            ? document.getElementById("appUrlInput").value.trim()
+            : "",
 
-        photo:
-            currentPhoto,
+        mac1:
+            application
+            ? document.getElementById("mac1Input").value.trim()
+            : "",
 
-        /* APPLICATION */
-
-        isApplication:isApplication,
-
-        appUrl1:
-            isApplication
-                ? appUrl1
-                : "",
-
-        mac:
-            isApplication
-                ? mac
-                : "",
+        key1:
+            application
+            ? document.getElementById("key1Input").value.trim()
+            : "",
 
         mac2:
-            isApplication
-                ? mac2
-                : "",
+            application
+            ? document.getElementById("mac2Input").value.trim()
+            : "",
 
-        appKey:
-            isApplication
-                ? appKey
-                : "",
+        key2:
+            application
+            ? document.getElementById("key2Input").value.trim()
+            : "",
 
-        appKey2:
-            isApplication
-                ? appKey2
-                : ""
+        photo:currentPhoto,
+
+        duration:duration,
+
+        startDate:
+            editingId
+            ? getExistingStartDate(editingId)
+            : new Date().toISOString()
 
     };
+
 
     if(editingId){
 
         const index =
             accounts.findIndex(
-                a => a.id === editingId
+                account => account.id === editingId
             );
 
         if(index !== -1){
 
-            accounts[index] = account;
+            accounts[index] = data;
 
         }
 
     }else{
 
-        accounts.unshift(account);
+        accounts.push(data);
 
     }
 
-    saveToStorage();
 
-    resetForm();
+    saveData();
+
+    cancelForm();
 
     renderAccounts();
 
-    updateUserCount();
+}
+
+
+function getExistingStartDate(id){
+
+    const existing =
+        accounts.find(
+            account => account.id === id
+        );
+
+    if(existing && existing.startDate){
+
+        return existing.startDate;
+
+    }
+
+    return new Date().toISOString();
 
 }
 
-/* =========================
-   RESET FORM
-========================= */
 
-function resetForm(){
-
-    editingId = null;
-
-    currentPhoto = "";
-
-    document.getElementById("nameInput").value = "";
-    document.getElementById("usernameInput").value = "";
-    document.getElementById("passwordInput").value = "";
-    document.getElementById("url1Input").value = "";
-    document.getElementById("url2Input").value = "";
-    document.getElementById("noteInput").value = "";
-    document.getElementById("durationInput").value = "";
-
-    document.getElementById("isApplicationInput").checked = false;
-
-    document.getElementById("appUrl1Input").value = "";
-    document.getElementById("macInput").value = "";
-    document.getElementById("mac2Input").value = "";
-    document.getElementById("appKeyInput").value = "";
-    document.getElementById("appKey2Input").value = "";
-
-    document.getElementById("photoInput").value = "";
-    document.getElementById("cameraInput").value = "";
-
-    document.getElementById("applicationBox")
-        .classList.add("hidden");
-
-    document.getElementById("photoPreviewContainer")
-        .innerHTML = "";
-
-    document.getElementById("formTitle")
-        .textContent = "➕ Ajouter un accès";
-
-    document.getElementById("saveButton")
-        .textContent = "💾 Enregistrer";
-
-    document.getElementById("cancelButton")
-        .classList.add("hidden");
-
-    document.getElementById("passwordInput").type =
-        "password";
-
-}
-
-/* =========================
-   EDIT
-========================= */
+/* =========================================================
+   MODIFIER
+========================================================= */
 
 function editAccount(id){
 
     const account =
-        accounts.find(a => a.id === id);
+        accounts.find(
+            item => item.id === id
+        );
 
     if(!account){
         return;
     }
 
     editingId = id;
+
+    document
+        .getElementById("formTitle")
+        .textContent = "Modifier l'accès";
+
 
     document.getElementById("nameInput").value =
         account.name || "";
@@ -1798,66 +1703,65 @@ function editAccount(id){
     document.getElementById("durationInput").value =
         account.duration || "";
 
-    /*
-      Compatibilité avec les anciennes versions.
-    */
 
-    const isApplication =
-        account.isApplication ??
-        account.application ??
-        false;
+    document
+        .getElementById("applicationCheck")
+        .checked = !!account.application;
 
-    document.getElementById("isApplicationInput").checked =
-        !!isApplication;
 
-    /*
-      Structure exacte précédente :
-      appUrl1
-      mac
-      mac2
-      appKey
-      appKey2
-    */
+    document.getElementById("appUrlInput").value =
+        account.appUrl || "";
 
-    document.getElementById("appUrl1Input").value =
-        account.appUrl1 ||
-        account.appUrl ||
-        "";
+    document.getElementById("mac1Input").value =
+        account.mac1 || "";
 
-    document.getElementById("macInput").value =
-        account.mac ||
-        account.mac1 ||
-        "";
+    document.getElementById("key1Input").value =
+        account.key1 || "";
 
     document.getElementById("mac2Input").value =
-        account.mac2 ||
-        "";
+        account.mac2 || "";
 
-    document.getElementById("appKeyInput").value =
-        account.appKey ||
-        account.key1 ||
-        "";
+    document.getElementById("key2Input").value =
+        account.key2 || "";
 
-    document.getElementById("appKey2Input").value =
-        account.appKey2 ||
-        account.key2 ||
-        "";
+
+    toggleApplicationFields();
+
 
     currentPhoto =
         account.photo || "";
 
-    toggleApplicationFields();
 
-    showPhotoPreview();
+    if(currentPhoto){
 
-    document.getElementById("formTitle")
-        .textContent = "✏️ Modifier l'accès";
+        document.getElementById("photoPreview").src =
+            currentPhoto;
 
-    document.getElementById("saveButton")
-        .textContent = "💾 Enregistrer les modifications";
+        document
+            .getElementById("photoPreview")
+            .classList.remove("hidden");
 
-    document.getElementById("cancelButton")
+        document
+            .getElementById("deletePhotoBtn")
+            .classList.remove("hidden");
+
+    }else{
+
+        document
+            .getElementById("photoPreview")
+            .classList.add("hidden");
+
+        document
+            .getElementById("deletePhotoBtn")
+            .classList.add("hidden");
+
+    }
+
+
+    document
+        .getElementById("formCard")
         .classList.remove("hidden");
+
 
     window.scrollTo({
         top:0,
@@ -1866,544 +1770,947 @@ function editAccount(id){
 
 }
 
-/* =========================
-   CANCEL EDIT
-========================= */
 
-function cancelEdit(){
-
-    resetForm();
-
-}
-
-/* =========================
-   DELETE
-========================= */
+/* =========================================================
+   SUPPRIMER
+========================================================= */
 
 function deleteAccount(id){
 
     const account =
-        accounts.find(a => a.id === id);
+        accounts.find(
+            item => item.id === id
+        );
 
     if(!account){
         return;
     }
 
+
     const confirmed =
         confirm(
             "Supprimer l'accès de " +
-            (account.name || "") +
+            account.name +
             " ?"
         );
+
 
     if(!confirmed){
         return;
     }
 
+
     accounts =
         accounts.filter(
-            a => a.id !== id
+            item => item.id !== id
         );
 
-    saveToStorage();
+
+    saveData();
 
     renderAccounts();
 
-    updateUserCount();
+}
+
+
+/* =========================================================
+   URL
+========================================================= */
+
+function normalizeUrl(url){
+
+    if(!url){
+        return "";
+    }
+
+    let value =
+        String(url).trim();
+
+    if(!value){
+        return "";
+    }
+
+
+    if(
+        !value.startsWith("http://") &&
+        !value.startsWith("https://")
+    ){
+
+        value =
+            "https://" + value;
+
+    }
+
+    return value;
 
 }
 
+
 /* =========================
-   RENDER
+   OUVRIR URL DANS SAFARI
 ========================= */
+
+function openSafari(url){
+
+    const finalUrl =
+        normalizeUrl(url);
+
+    if(!finalUrl){
+        return;
+    }
+
+    /*
+       Ouverture dans une nouvelle fenêtre.
+       Sur iPhone, le comportement d'ouverture
+       externe dépend d'iOS et du mode dans lequel
+       l'application web est installée.
+    */
+
+    const link =
+        document.createElement("a");
+
+    link.href = finalUrl;
+
+    link.target = "_blank";
+
+    link.rel =
+        "external noopener noreferrer";
+
+    link.style.display = "none";
+
+    document.body.appendChild(link);
+
+    link.click();
+
+    document.body.removeChild(link);
+
+}
+
+
+/* =========================
+   OUVRIR URL DU FORMULAIRE
+========================= */
+
+function openSafariFromInput(id){
+
+    const input =
+        document.getElementById(id);
+
+    if(!input){
+        return;
+    }
+
+    openSafari(input.value);
+
+}
+
+
+/* =========================================================
+   AFFICHAGE
+========================================================= */
 
 function renderAccounts(){
 
-    const list =
+    const container =
         document.getElementById("accountsList");
 
     const search =
-        document.getElementById("searchInput")
+        document
+            .getElementById("searchInput")
             .value
             .trim()
             .toLowerCase();
 
+
     let filtered =
         accounts.filter(account => {
-
-            const applicationValues = [
-
-                account.appUrl1,
-                account.appUrl,
-                account.mac,
-                account.mac1,
-                account.mac2,
-                account.appKey,
-                account.key1,
-                account.appKey2,
-                account.key2
-
-            ]
-            .filter(Boolean)
-            .join(" ");
 
             const text = [
 
                 account.name,
                 account.username,
-                account.password,
                 account.url1,
                 account.url2,
                 account.note,
-                applicationValues
+                account.appUrl,
+                account.mac1,
+                account.key1,
+                account.mac2,
+                account.key2
 
             ]
-            .filter(Boolean)
             .join(" ")
             .toLowerCase();
+
 
             return text.includes(search);
 
         });
 
+
+    /*
+       Tri alphabétique Nom / Prénom
+    */
+
+    filtered.sort(function(a,b){
+
+        return String(a.name || "")
+            .localeCompare(
+                String(b.name || ""),
+                "fr",
+                {
+                    sensitivity:"base"
+                }
+            );
+
+    });
+
+
     if(filtered.length === 0){
 
-        list.innerHTML = `
-            <div class="empty">
-                Aucun accès trouvé.
-            </div>
-        `;
+        container.innerHTML =
 
-        updateUserCount(filtered.length);
+            '<div class="empty">' +
+                '<div class="emptyIcon">🔐</div>' +
+                '<div>Aucun accès trouvé.</div>' +
+            '</div>';
+
+        updateUserCount();
 
         return;
 
     }
 
-    list.innerHTML =
-        filtered.map(
-            account => renderAccount(account)
-        ).join("");
 
-    updateUserCount(filtered.length);
+    let html = "";
+
+
+    filtered.forEach(function(account){
+
+        html += renderAccount(account);
+
+    });
+
+
+    container.innerHTML = html;
+
+    updateUserCount();
 
 }
 
-/* =========================
-   RENDER ACCOUNT
-========================= */
+
+/* =========================================================
+   CARTE COMPTE
+========================================================= */
 
 function renderAccount(account){
 
-    /*
-      Compatibilité ancienne structure Application
-    */
+    let html = "";
 
-    const isApplication =
-        account.isApplication ??
-        account.application ??
-        false;
 
-    const appUrl1 =
-        account.appUrl1 ||
-        account.appUrl ||
-        "";
+    /* HEADER */
 
-    const mac1 =
-        account.mac ||
-        account.mac1 ||
-        "";
+    html +=
+        '<div class="accountCard">';
 
-    const mac2 =
-        account.mac2 ||
-        "";
 
-    const key1 =
-        account.appKey ||
-        account.key1 ||
-        "";
+    html +=
+        '<div class="accountHeader">' +
 
-    const key2 =
-        account.appKey2 ||
-        account.key2 ||
-        "";
+            '<div class="accountName">' +
+                escapeHtml(account.name || "") +
+            '</div>' +
 
-    let applicationHtml = "";
+            '<div class="accountActions">' +
 
-    if(isApplication){
+                '<button ' +
+                    'class="iconButton edit" ' +
+                    'onclick="editAccount(\'' +
+                    escapeJs(account.id) +
+                    '\')">' +
+                    '✏️' +
+                '</button>' +
 
-        applicationHtml = `
+                '<button ' +
+                    'class="iconButton delete" ' +
+                    'onclick="deleteAccount(\'' +
+                    escapeJs(account.id) +
+                    '\')">' +
+                    '🗑️' +
+                '</button>' +
 
-            <div class="applicationDisplay">
+            '</div>' +
 
-                <div class="applicationTitle">
-                    📱 Application
-                </div>
+        '</div>';
 
-                <div class="infoLine">
 
-                    <div class="infoLabel">
-                        URL de l'application
-                    </div>
+    /* UTILISATEUR */
 
-                    ${accountUrlLine(appUrl1)}
+    if(account.username){
 
-                </div>
-
-                <div class="infoLine">
-
-                    <div class="infoLabel">
-                        MAC 1
-                    </div>
-
-                    <div class="copyLine">
-
-                        <div class="value">
-                            ${escapeHtml(mac1 || "-")}
-                        </div>
-
-                        <button
-                            class="copySmall"
-                            onclick="copyAccountValue('${escapeJs(mac1)}')"
-                        >
-                            📋
-                        </button>
-
-                    </div>
-
-                </div>
-
-                <div class="infoLine">
-
-                    <div class="infoLabel">
-                        MAC 2
-                    </div>
-
-                    <div class="copyLine">
-
-                        <div class="value">
-                            ${escapeHtml(mac2 || "-")}
-                        </div>
-
-                        <button
-                            class="copySmall"
-                            onclick="copyAccountValue('${escapeJs(mac2)}')"
-                        >
-                            📋
-                        </button>
-
-                    </div>
-
-                </div>
-
-                <div class="infoLine">
-
-                    <div class="infoLabel">
-                        Clé 1
-                    </div>
-
-                    <div class="copyLine">
-
-                        <div class="value">
-                            ${escapeHtml(key1 || "-")}
-                        </div>
-
-                        <button
-                            class="copySmall"
-                            onclick="copyAccountValue('${escapeJs(key1)}')"
-                        >
-                            📋
-                        </button>
-
-                    </div>
-
-                </div>
-
-                <div class="infoLine">
-
-                    <div class="infoLabel">
-                        Clé 2
-                    </div>
-
-                    <div class="copyLine">
-
-                        <div class="value">
-                            ${escapeHtml(key2 || "-")}
-                        </div>
-
-                        <button
-                            class="copySmall"
-                            onclick="copyAccountValue('${escapeJs(key2)}')"
-                        >
-                            📋
-                        </button>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-        `;
+        html += accountLineCopy(
+            "Utilisateur",
+            account.username
+        );
 
     }
 
-    let expirationHtml = "";
 
-    const countdown =
-        getCountdown(account);
+    /* MOT DE PASSE */
 
-    if(countdown){
+    if(account.password){
 
-        let className = "";
+        html +=
+            '<div class="accountLine">' +
 
-        let text = "";
+                '<div class="accountLabel">' +
+                    'MOT DE PASSE' +
+                '</div>' +
 
-        if(countdown.days < 0){
+                '<div class="copyArea">' +
 
-            className = "expired";
+                    '<div ' +
+                        'class="valueText passwordValue" ' +
+                        'data-password="' +
+                        escapeHtml(account.password) +
+                        '">' +
+                        '••••••••' +
+                    '</div>' +
 
-            text =
-                "Expiré depuis " +
-                Math.abs(countdown.days) +
-                " jour(s)";
+                    '<button ' +
+                        'class="iconButton" ' +
+                        'onclick="toggleSavedPassword(this)">' +
+                        '👁️' +
+                    '</button>' +
 
-        }else if(countdown.days <= 2){
+                    '<button ' +
+                        'class="copyBtn" ' +
+                        'onclick="copySavedValue(this)"' +
+                        'data-copy="' +
+                        escapeHtml(account.password) +
+                        '">' +
+                        '📋' +
+                    '</button>' +
 
-            className = "danger";
+                '</div>' +
 
-            text =
-                countdown.days +
-                " jour(s) restant(s)";
+            '</div>';
 
-        }else if(countdown.days <= 7){
+    }
 
-            className = "warning";
 
-            text =
-                countdown.days +
-                " jour(s) restant(s)";
+    /* URL 1 */
 
-        }else{
+    if(account.url1){
 
-            text =
-                countdown.days +
-                " jour(s) restant(s)";
+        html += accountUrlLine(
+            "URL 1",
+            account.url1
+        );
+
+    }
+
+
+    /* URL 2 */
+
+    if(account.url2){
+
+        html += accountUrlLine(
+            "URL 2",
+            account.url2
+        );
+
+    }
+
+
+    /* REMARQUE */
+
+    if(account.note){
+
+        html +=
+            '<div class="accountLine">' +
+
+                '<div class="accountLabel">' +
+                    'REMARQUE' +
+                '</div>' +
+
+                '<div class="copyArea">' +
+
+                    '<div class="valueText remarque">' +
+                        escapeHtml(account.note) +
+                    '</div>' +
+
+                    '<button ' +
+                        'class="copyBtn" ' +
+                        'onclick="copySavedValue(this)" ' +
+                        'data-copy="' +
+                        escapeHtml(account.note) +
+                        '">' +
+                        '📋' +
+                    '</button>' +
+
+                '</div>' +
+
+            '</div>';
+
+    }
+
+
+    /* APPLICATION */
+
+    if(account.application){
+
+        html +=
+            '<div class="applicationSaved">' +
+
+                '<h3>📱 Application</h3>';
+
+
+        if(account.appUrl){
+
+            html += accountUrlLine(
+                "URL application",
+                account.appUrl
+            );
 
         }
 
-        expirationHtml = `
 
-            <div class="expiration ${className}">
+        if(account.mac1){
 
-                <strong>
-                    ⏳ ${escapeHtml(text)}
-                </strong>
+            html += accountLineCopy(
+                "MAC 1",
+                account.mac1
+            );
 
-                <div>
-                    Durée : ${escapeHtml(account.duration)} jour(s)
-                </div>
+        }
 
-                <div>
-                    Expiration :
-                    ${formatDate(countdown.expiration)}
-                </div>
 
-            </div>
+        if(account.key1){
 
-            <button
-                class="calendarButton"
-                onclick="addCalendarReminder('${escapeJs(account.id)}')"
-            >
-                📅 Ajouter un rappel 2 jours avant
-            </button>
+            html += accountLineCopy(
+                "Clé 1",
+                account.key1
+            );
 
-        `;
+        }
+
+
+        if(account.mac2){
+
+            html += accountLineCopy(
+                "MAC 2",
+                account.mac2
+            );
+
+        }
+
+
+        if(account.key2){
+
+            html += accountLineCopy(
+                "Clé 2",
+                account.key2
+            );
+
+        }
+
+
+        html +=
+            '</div>';
 
     }
 
-    let photoHtml = "";
+
+    /* PHOTO */
 
     if(account.photo){
 
-        photoHtml = `
+        html +=
+            '<div class="accountLine">' +
 
-            <div class="photoDisplay">
+                '<div class="accountLabel">' +
+                    'PHOTO' +
+                '</div>' +
 
-                <img
-                    src="${account.photo}"
-                    alt="Document"
-                    onclick="showPhoto('${escapeJs(account.id)}')"
-                >
+                '<img ' +
+                    'class="photoSaved" ' +
+                    'src="' +
+                    account.photo +
+                    '" ' +
+                    'alt="Document" ' +
+                    'onclick="openPhotoModal(\'' +
+                    escapeJs(account.photo) +
+                    '\')" ' +
+                    'style="cursor:pointer;"' +
+                '>' +
 
-            </div>
-
-        `;
+            '</div>';
 
     }
 
-    return `
 
-        <div class="accountCard">
+    /* DUREE */
 
-            <div class="accountHeader">
+    html += renderDuration(account);
 
-                <div class="accountName">
-                    ${escapeHtml(account.name || "Sans nom")}
-                </div>
 
-                <div class="accountActions">
+    html +=
+        '</div>';
 
-                    <button
-                        class="iconButton"
-                        onclick="editAccount('${escapeJs(account.id)}')"
-                    >
-                        ✏️
-                    </button>
 
-                    <button
-                        class="iconButton deleteButton"
-                        onclick="deleteAccount('${escapeJs(account.id)}')"
-                    >
-                        🗑️
-                    </button>
-
-                </div>
-
-            </div>
-
-            <div class="infoLine">
-
-                <div class="infoLabel">
-                    Utilisateur
-                </div>
-
-                <div class="copyLine">
-
-                    <div class="value">
-                        ${escapeHtml(account.username || "-")}
-                    </div>
-
-                    <button
-                        class="copySmall"
-                        onclick="copyAccountValue('${escapeJs(account.username || "")}')"
-                    >
-                        📋
-                    </button>
-
-                </div>
-
-            </div>
-
-            <div class="infoLine">
-
-                <div class="infoLabel">
-                    Mot de passe
-                </div>
-
-                <div class="copyLine">
-
-                    <div
-                        class="value"
-                        id="password-${escapeHtml(account.id)}"
-                    >
-                        ••••••••
-                    </div>
-
-                    <button
-                        class="copySmall"
-                        onclick="toggleSavedPassword('${escapeJs(account.id)}','${escapeJs(account.password || "")}',this)"
-                    >
-                        👁️
-                    </button>
-
-                    <button
-                        class="copySmall"
-                        onclick="copyAccountValue('${escapeJs(account.password || "")}')"
-                    >
-                        📋
-                    </button>
-
-                </div>
-
-            </div>
-
-            <div class="infoLine">
-
-                <div class="infoLabel">
-                    URL 1
-                </div>
-
-                ${accountUrlLine(account.url1)}
-
-            </div>
-
-            <div class="infoLine">
-
-                <div class="infoLabel">
-                    URL 2
-                </div>
-
-                ${accountUrlLine(account.url2)}
-
-            </div>
-
-            ${applicationHtml}
-
-            ${
-                account.note
-                ? `
-                    <div class="infoLine">
-
-                        <div class="infoLabel">
-                            Remarque
-                        </div>
-
-                        <div class="infoValue">
-                            ${escapeHtml(account.note)}
-                        </div>
-
-                    </div>
-                `
-                : ""
-            }
-
-            ${photoHtml}
-
-            ${expirationHtml}
-
-        </div>
-
-    `;
+    return html;
 
 }
 
-/* =========================
-   SAVED PASSWORD
-========================= */
 
-function toggleSavedPassword(id,password,button){
+/* =========================================================
+   LIGNE TEXTE + COPIE
+========================================================= */
 
-    const element =
-        document.getElementById(
-            "password-" + id
+function accountLineCopy(label, value){
+
+    return (
+
+        '<div class="accountLine">' +
+
+            '<div class="accountLabel">' +
+                escapeHtml(label) +
+            '</div>' +
+
+            '<div class="copyArea">' +
+
+                '<div class="valueText">' +
+                    escapeHtml(value) +
+                '</div>' +
+
+                '<button ' +
+                    'class="copyBtn" ' +
+                    'onclick="copySavedValue(this)" ' +
+                    'data-copy="' +
+                    escapeHtml(value) +
+                    '">' +
+                    '📋' +
+                '</button>' +
+
+            '</div>' +
+
+        '</div>'
+
+    );
+
+}
+
+
+/* =========================================================
+   LIGNE URL
+========================================================= */
+
+function accountUrlLine(label, value){
+
+    const normalized =
+        normalizeUrl(value);
+
+
+    return (
+
+        '<div class="accountLine">' +
+
+            '<div class="accountLabel">' +
+                escapeHtml(label) +
+            '</div>' +
+
+            '<div class="copyArea">' +
+
+                '<a ' +
+                    'class="urlLink" ' +
+                    'href="' +
+                    escapeAttribute(normalized) +
+                    '" ' +
+                    'target="_blank" ' +
+                    'rel="external noopener noreferrer" ' +
+                    'onclick="event.preventDefault(); openSafari(this.href);">' +
+
+                    escapeHtml(value) +
+
+                '</a>' +
+
+                '<button ' +
+                    'class="copyBtn" ' +
+                    'onclick="copySavedValue(this)" ' +
+                    'data-copy="' +
+                    escapeHtml(value) +
+                    '">' +
+                    '📋' +
+                '</button>' +
+
+                '<button ' +
+                    'class="safariButton" ' +
+                    'type="button" ' +
+                    'onclick="openSafari(\'' +
+                    escapeJs(normalized) +
+                    '\')">' +
+                    '🌐' +
+                '</button>' +
+
+            '</div>' +
+
+        '</div>'
+
+    );
+
+}
+
+
+/* =========================================================
+   DUREE / EXPIRATION
+========================================================= */
+
+function renderDuration(account){
+
+    if(!account.duration || !account.startDate){
+
+        return "";
+
+    }
+
+
+    const start =
+        new Date(account.startDate);
+
+    const expiration =
+        new Date(start.getTime() +
+        Number(account.duration) *
+        24 *
+        60 *
+        60 *
+        1000);
+
+
+    const now =
+        new Date();
+
+
+    const difference =
+        expiration.getTime() -
+        now.getTime();
+
+
+    const daysRemaining =
+        Math.ceil(
+            difference /
+            (24 * 60 * 60 * 1000)
         );
 
-    if(!element){
+
+    let className =
+        "expGreen";
+
+
+    if(daysRemaining < 0){
+
+        className = "expGray";
+
+    }else if(daysRemaining <= 2){
+
+        className = "expRed";
+
+    }else if(daysRemaining <= 7){
+
+        className = "expOrange";
+
+    }
+
+
+    let remainingText;
+
+
+    if(daysRemaining < 0){
+
+        remainingText =
+            "Expiré";
+
+    }else if(daysRemaining === 0){
+
+        remainingText =
+            "Expire aujourd'hui";
+
+    }else if(daysRemaining === 1){
+
+        remainingText =
+            "Il reste 1 jour";
+
+    }else{
+
+        remainingText =
+            "Il reste " +
+            daysRemaining +
+            " jours";
+
+    }
+
+
+    const expirationDate =
+        expiration.toLocaleDateString(
+            "fr-BE",
+            {
+                day:"2-digit",
+                month:"2-digit",
+                year:"numeric"
+            }
+        );
+
+
+    return (
+
+        '<div class="durationBox">' +
+
+            '<div class="durationText ' +
+                className +
+            '">' +
+
+                '⏳ ' +
+                escapeHtml(remainingText) +
+
+            '</div>' +
+
+            '<div class="expirationText">' +
+
+                'Durée : ' +
+                escapeHtml(String(account.duration)) +
+                ' jour(s) • Expiration : ' +
+                escapeHtml(expirationDate) +
+
+            '</div>' +
+
+            '<button ' +
+                'class="calendarButton" ' +
+                'onclick="addCalendarReminder(\'' +
+                escapeJs(account.id) +
+                '\')">' +
+
+                '📅 Rappel Google Calendar' +
+
+            '</button>' +
+
+        '</div>'
+
+    );
+
+}
+
+
+/* =========================================================
+   MOT DE PASSE SAUVEGARDE
+========================================================= */
+
+function toggleSavedPassword(button){
+
+    const area =
+        button.parentElement;
+
+    const passwordElement =
+        area.querySelector(".passwordValue");
+
+    if(!passwordElement){
         return;
     }
 
-    if(element.textContent === "••••••••"){
 
-        element.textContent =
-            password || "-";
+    const password =
+        passwordElement.getAttribute(
+            "data-password"
+        );
+
+
+    const visible =
+        passwordElement.dataset.visible === "true";
+
+
+    if(visible){
+
+        passwordElement.textContent =
+            "••••••••";
+
+        passwordElement.dataset.visible =
+            "false";
+
+        button.textContent = "👁️";
+
+    }else{
+
+        passwordElement.textContent =
+            password;
+
+        passwordElement.dataset.visible =
+            "true";
+
+        button.textContent = "🙈";
+
+    }
+
+}
+
+
+/* =========================================================
+   COPIER
+========================================================= */
+
+function copyInputValue(id){
+
+    const input =
+        document.getElementById(id);
+
+    if(!input){
+        return;
+    }
+
+    copyText(
+        input.value,
+        null
+    );
+
+}
+
+
+function copySavedValue(button){
+
+    if(!button){
+        return;
+    }
+
+    const value =
+        button.getAttribute("data-copy") || "";
+
+    copyText(
+        value,
+        button
+    );
+
+}
+
+
+function copyText(text, button){
+
+    if(!text){
+
+        return;
+
+    }
+
+
+    if(
+        navigator.clipboard &&
+        navigator.clipboard.writeText
+    ){
+
+        navigator.clipboard
+            .writeText(text)
+            .then(function(){
+
+                copySuccess(button);
+
+            })
+            .catch(function(){
+
+                fallbackCopy(text, button);
+
+            });
+
+    }else{
+
+        fallbackCopy(text, button);
+
+    }
+
+}
+
+
+function fallbackCopy(text, button){
+
+    const textarea =
+        document.createElement("textarea");
+
+    textarea.value = text;
+
+    textarea.style.position = "fixed";
+
+    textarea.style.left = "-9999px";
+
+    document.body.appendChild(textarea);
+
+    textarea.focus();
+
+    textarea.select();
+
+
+    try{
+
+        document.execCommand("copy");
+
+        copySuccess(button);
+
+    }catch(error){
+
+        alert(
+            "Impossible de copier automatiquement. " +
+            "Vous pouvez sélectionner le texte manuellement."
+        );
+
+    }
+
+
+    document.body.removeChild(textarea);
+
+}
+
+
+function copySuccess(button){
+
+    if(!button){
+        return;
+    }
+
+    const old =
+        button.textContent;
+
+    button.textContent =
+        "✅";
+
+
+    setTimeout(function(){
+
+        button.textContent =
+            old;
+
+    },1000);
+
+}
+
+
+/* =========================================================
+   MOT DE PASSE FORMULAIRE
+========================================================= */
+
+function togglePassword(id, button){
+
+    const input =
+        document.getElementById(id);
+
+    if(!input){
+        return;
+    }
+
+
+    if(input.type === "password"){
+
+        input.type = "text";
 
         button.textContent = "🙈";
 
     }else{
 
-        element.textContent =
-            "••••••••";
+        input.type = "password";
 
         button.textContent = "👁️";
 
@@ -2411,60 +2718,163 @@ function toggleSavedPassword(id,password,button){
 
 }
 
-/* =========================
-   PHOTO DISPLAY
-========================= */
 
-function showPhoto(id){
+/* =========================================================
+   PHOTO MODAL
+========================================================= */
 
-    const account =
-        accounts.find(a => a.id === id);
+function openPhotoModal(src){
 
-    if(!account || !account.photo){
-        return;
-    }
+    document
+        .getElementById("modalPhoto")
+        .src = src;
 
-    document.getElementById("modalPhoto").src =
-        account.photo;
-
-    document.getElementById("photoModal")
+    document
+        .getElementById("photoModal")
         .classList.remove("hidden");
 
 }
 
+
 function closePhotoModal(event){
 
-    if(event.target.id === "photoModal"){
+    if(
+        event &&
+        event.target &&
+        event.target.id !== "photoModal"
+    ){
 
-        document.getElementById("photoModal")
-            .classList.add("hidden");
+        return;
 
     }
 
+
+    document
+        .getElementById("photoModal")
+        .classList.add("hidden");
+
 }
 
-/* =========================
-   COUNT
-========================= */
 
-function updateUserCount(count){
+/* =========================================================
+   GOOGLE CALENDAR
+========================================================= */
 
-    if(count === undefined){
-        count = accounts.length;
+function addCalendarReminder(id){
+
+    const account =
+        accounts.find(
+            item => item.id === id
+        );
+
+
+    if(!account){
+
+        return;
+
     }
 
-    document.getElementById("userCount")
-        .textContent =
-        count +
-        (count > 1 ? " accès" : " accès");
+
+    if(!account.duration || !account.startDate){
+
+        alert(
+            "Aucune durée disponible pour cet accès."
+        );
+
+        return;
+
+    }
+
+
+    const start =
+        new Date(account.startDate);
+
+
+    const expiration =
+        new Date(
+            start.getTime() +
+            Number(account.duration) *
+            24 *
+            60 *
+            60 *
+            1000
+        );
+
+
+    const reminder =
+        new Date(
+            expiration.getTime() -
+            2 *
+            24 *
+            60 *
+            60 *
+            1000
+        );
+
+
+    const formatCalendarDate =
+        function(date){
+
+            return date
+                .toISOString()
+                .replace(/[-:]/g,"")
+                .replace(/\.\d{3}/,"");
+
+        };
+
+
+    const dateStart =
+        formatCalendarDate(reminder);
+
+
+    const dateEnd =
+        formatCalendarDate(
+            new Date(
+                reminder.getTime() +
+                60 * 60 * 1000
+            )
+        );
+
+
+    const title =
+        encodeURIComponent(
+            "Expiration accès - " +
+            account.name
+        );
+
+
+    const details =
+        encodeURIComponent(
+            "L'accès de " +
+            account.name +
+            " expire le " +
+            expiration.toLocaleDateString("fr-BE")
+        );
+
+
+    const url =
+        "https://calendar.google.com/calendar/render" +
+        "?action=TEMPLATE" +
+        "&text=" + title +
+        "&dates=" + dateStart +
+        "/" + dateEnd +
+        "&details=" + details;
+
+
+    window.open(
+        url,
+        "_blank",
+        "noopener,noreferrer"
+    );
 
 }
 
-/* =========================
-   BACKUP
-========================= */
 
-function downloadBackup(){
+/* =========================================================
+   SAUVEGARDE JSON
+========================================================= */
+
+function exportData(){
 
     const data =
         JSON.stringify(
@@ -2472,6 +2882,7 @@ function downloadBackup(){
             null,
             2
         );
+
 
     const blob =
         new Blob(
@@ -2481,50 +2892,50 @@ function downloadBackup(){
             }
         );
 
+
     const url =
         URL.createObjectURL(blob);
 
-    const a =
+
+    const link =
         document.createElement("a");
 
-    const date =
-        new Date()
-            .toISOString()
-            .slice(0,10);
+    link.href = url;
 
-    a.href = url;
+    link.download =
+        "mes-acces-sauvegarde.json";
 
-    a.download =
-        "mes-acces-" +
-        date +
-        ".json";
 
-    document.body.appendChild(a);
+    document.body.appendChild(link);
 
-    a.click();
+    link.click();
 
-    document.body.removeChild(a);
+    document.body.removeChild(link);
 
     URL.revokeObjectURL(url);
 
 }
 
-/* =========================
-   RESTORE
-========================= */
 
-function restoreBackup(input){
+/* =========================================================
+   RESTAURATION JSON
+========================================================= */
+
+function importData(event){
 
     const file =
-        input.files &&
-        input.files[0];
+        event.target.files &&
+        event.target.files[0];
+
 
     if(!file){
         return;
     }
 
+
     const reader =
         new FileReader();
+
 
     reader.onload =
         function(e){
@@ -2534,78 +2945,116 @@ function restoreBackup(input){
                 const imported =
                     JSON.parse(e.target.result);
 
+
                 if(!Array.isArray(imported)){
 
-                    alert(
-                        "Le fichier n'est pas valide."
+                    throw new Error(
+                        "Format invalide"
                     );
-
-                    return;
 
                 }
 
+
                 const confirmed =
                     confirm(
-                        "Restaurer cette sauvegarde va remplacer les accès actuellement enregistrés. Continuer ?"
+                        "La restauration va remplacer les accès actuellement enregistrés. Continuer ?"
                     );
+
 
                 if(!confirmed){
                     return;
                 }
 
+
                 accounts =
                     imported;
 
-                saveToStorage();
+
+                saveData();
 
                 renderAccounts();
 
-                updateUserCount();
 
                 alert(
-                    "Sauvegarde restaurée."
+                    "Sauvegarde restaurée avec succès."
                 );
+
 
             }catch(error){
 
                 alert(
-                    "Impossible de lire la sauvegarde."
+                    "Impossible de restaurer cette sauvegarde."
                 );
-
-                console.error(error);
 
             }
 
         };
 
+
     reader.readAsText(file);
 
-    input.value = "";
+
+    event.target.value = "";
 
 }
 
-/* =========================
-   SERVICE WORKER
-========================= */
 
-if(
-    "serviceWorker" in navigator &&
-    location.protocol === "https:"
-){
+/* =========================================================
+   SECURITE AFFICHAGE
+========================================================= */
 
-    window.addEventListener(
-        "load",
-        function(){
+function escapeHtml(value){
 
-            /*
-              Pas de service worker obligatoire
-              pour cette version.
-            */
-
-        }
-    );
+    return String(value ?? "")
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
 
 }
+
+
+function escapeAttribute(value){
+
+    return String(value ?? "")
+        .replace(/&/g,"&amp;")
+        .replace(/"/g,"&quot;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;");
+
+}
+
+
+function escapeJs(value){
+
+    return String(value ?? "")
+        .replace(/\\/g,"\\\\")
+        .replace(/'/g,"\\'")
+        .replace(/"/g,'\\"')
+        .replace(/\n/g,"\\n")
+        .replace(/\r/g,"\\r");
+
+}
+
+
+/* =========================================================
+   ACTUALISATION DU COMPTE A REBOURS
+========================================================= */
+
+setInterval(function(){
+
+    if(
+        !document
+            .getElementById("app")
+            .classList.contains("hidden")
+    ){
+
+        renderAccounts();
+
+    }
+
+},60000);
 
 </script>
 
