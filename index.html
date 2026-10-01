@@ -110,6 +110,7 @@ button{
     font-size:13px;
     margin-left:6px;
     white-space:nowrap;
+    min-width:44px;
 }
 
 .fieldRow{
@@ -876,8 +877,6 @@ hr{
 </div>
 
 
-<!-- FENÊTRE DE SECOURS POUR COPIER SUR IPHONE -->
-
 <div
     id="copyModal"
     class="copyModal hidden"
@@ -890,7 +889,7 @@ hr{
         </h2>
 
         <div class="copyInstruction">
-            Le téléphone bloque parfois la copie automatique.
+            La copie automatique n'a pas été autorisée par l'iPhone.
             <br><br>
             Le texte est sélectionné ci-dessous.
             <br>
@@ -914,7 +913,7 @@ hr{
                 style="margin:0;"
                 onclick="selectFallback()"
             >
-                Sélectionner
+                📋 Sélectionner le texte
             </button>
 
             <button
@@ -1246,28 +1245,132 @@ function togglePassword(){
 
 
 /* =========================
-   NOUVELLE COPIE
+   COPIE IPHONE
 ========================= */
 
-function copyText(text, button){
+/*
+ * IMPORTANT :
+ * La copie est maintenant effectuée
+ * de manière SYNCHRONE pendant l'appui
+ * sur le bouton.
+ *
+ * Cela évite le problème iPhone/Safari
+ * où un fallback lancé après une Promise
+ * n'a plus le droit d'utiliser le presse-papiers.
+ */
 
-    if(
-        text === null ||
-        text === undefined ||
-        String(text) === ""
-    ){
+function copyText(text,button){
+
+    const value =
+        String(
+            text === null ||
+            text === undefined
+                ? ""
+                : text
+        );
+
+    if(!value){
+
+        alert("Rien à copier.");
 
         return;
 
     }
 
-    const value =
-        String(text);
+
+    /*
+     * Première méthode :
+     * sélection directe dans un textarea.
+     *
+     * execCommand("copy") est appelé
+     * immédiatement dans le clic du bouton.
+     */
+
+    let textarea =
+        document.createElement("textarea");
+
+
+    textarea.value =
+        value;
+
+
+    textarea.setAttribute(
+        "readonly",
+        ""
+    );
+
+
+    textarea.style.position =
+        "fixed";
+
+    textarea.style.left =
+        "-9999px";
+
+    textarea.style.top =
+        "0";
+
+    textarea.style.width =
+        "1px";
+
+    textarea.style.height =
+        "1px";
+
+    textarea.style.opacity =
+        "0";
+
+
+    document.body.appendChild(
+        textarea
+    );
+
+
+    textarea.focus();
+
+    textarea.select();
+
+    textarea.setSelectionRange(
+        0,
+        textarea.value.length
+    );
+
+
+    let copied = false;
+
+
+    try{
+
+        copied =
+            document.execCommand(
+                "copy"
+            );
+
+    }catch(error){
+
+        copied = false;
+
+    }
+
+
+    document.body.removeChild(
+        textarea
+    );
+
+
+    if(copied){
+
+        showCopied(button);
+
+        return;
+
+    }
 
 
     /*
-     * On demande directement à l'iPhone
-     * de copier, sans execCommand().
+     * Deuxième méthode :
+     * Clipboard API.
+     *
+     * Elle est tentée directement,
+     * toujours depuis l'action du bouton.
      */
 
     if(
@@ -1292,11 +1395,16 @@ function copyText(text, button){
                 }
             );
 
-    }else{
-
-        showCopyFallback(value);
+        return;
 
     }
+
+
+    /*
+     * Dernier secours.
+     */
+
+    showCopyFallback(value);
 
 }
 
@@ -1315,11 +1423,24 @@ function showCopied(button){
     button.textContent =
         "✅ Copié";
 
+    button.style.background =
+        "#d1f7dc";
+
+    button.style.color =
+        "#16803c";
+
+
     setTimeout(
         function(){
 
             button.textContent =
                 oldText;
+
+            button.style.background =
+                "";
+
+            button.style.color =
+                "";
 
         },
         1200
@@ -1349,8 +1470,7 @@ function copyField(id,button){
 
 
 /*
- * Solution de secours iPhone.
- * Le texte est VISIBLE et sélectionnable.
+ * Solution de secours visible.
  */
 
 function showCopyFallback(text){
@@ -1370,13 +1490,14 @@ function showCopyFallback(text){
         .classList
         .remove("hidden");
 
+
     setTimeout(
         function(){
 
             selectFallback();
 
         },
-        150
+        100
     );
 
 }
@@ -1731,11 +1852,6 @@ function saveAccount(){
 
             password:password,
 
-            /*
-             * Les URL saisies sont enregistrées
-             * telles quelles.
-             */
-
             url1:url1,
 
             url2:url2,
@@ -1765,13 +1881,6 @@ function saveAccount(){
         });
 
     }else{
-
-        /*
-         * IMPORTANT :
-         * on modifie seulement l'accès choisi.
-         * Les autres accès et leurs URL
-         * ne sont jamais touchés.
-         */
 
         const account =
             accounts[editIndex];
@@ -2505,8 +2614,6 @@ function renderAccounts(){
             }
 
 
-            /* UTILISATEUR */
-
             if(account.username){
 
                 html +=
@@ -2546,8 +2653,6 @@ function renderAccounts(){
 
             }
 
-
-            /* MOT DE PASSE */
 
             if(account.password){
 
@@ -2601,8 +2706,6 @@ function renderAccounts(){
 
             }
 
-
-            /* URL 1 */
 
             if(account.url1){
 
@@ -2666,8 +2769,6 @@ function renderAccounts(){
             }
 
 
-            /* URL 2 */
-
             if(account.url2){
 
                 const url2 =
@@ -2730,8 +2831,6 @@ function renderAccounts(){
             }
 
 
-            /* REMARQUE */
-
             if(account.remark){
 
                 html +=
@@ -2772,8 +2871,6 @@ function renderAccounts(){
 
             }
 
-
-            /* APPLICATION */
 
             if(account.isApplication){
 
@@ -2928,8 +3025,6 @@ function renderAccounts(){
 
             }
 
-
-            /* PHOTO */
 
             if(account.photo){
 
