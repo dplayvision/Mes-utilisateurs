@@ -932,14 +932,14 @@ hr{
 
     </div>
 
-    <div id="accountsList"></div>
 
     <!-- =========================
          XTREAM → M3U
+         DIRECTEMENT VISIBLE
     ========================= -->
 
     <div
-        class="card hidden"
+        class="card"
         id="xtreamConverterCard"
     >
 
@@ -1057,17 +1057,13 @@ hr{
 
         </div>
 
-        <button
-            class="secondary"
-            style="width:100%;margin-top:8px;"
-            onclick="hideXtreamConverter()"
-        >
-            Fermer
-        </button>
-
     </div>
 
+
+    <div id="accountsList"></div>
+
 </div>
+
 
 <div
     id="copyModal"
@@ -1118,6 +1114,7 @@ hr{
     </div>
 
 </div>
+
 
 <script>
 
@@ -2646,11 +2643,6 @@ function renderAccounts(){
 
             let html = "";
 
-
-            /*
-               NOM / PRÉNOM VISIBLE
-               UNIQUEMENT
-            */
 
             html +=
                 '<div class="accountHeader" ' +
