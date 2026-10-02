@@ -1262,6 +1262,37 @@ function loadData(){
 
                 accounts = data;
 
+                /* =========================
+                   AJOUT WHATSAPP AUX ANCIENS CONTACTS
+                ========================= */
+
+                let migrated = false;
+
+                accounts.forEach(function(account){
+
+                    if(
+                        typeof account.whatsapp ===
+                        "undefined"
+                    ){
+
+                        account.whatsapp = "";
+
+                        migrated = true;
+
+                    }
+
+                });
+
+                /* =========================
+                   SAUVEGARDE DE LA MIGRATION
+                ========================= */
+
+                if(migrated){
+
+                    saveData();
+
+                }
+
             }else{
 
                 accounts = [];
