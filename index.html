@@ -531,6 +531,22 @@ hr{
         <button
             class="secondary"
             type="button"
+            onclick="openXtreamConverter()"
+        >
+            🔄 Xtream → M3U
+        </button>
+
+        <button
+            class="secondary"
+            type="button"
+            onclick="openNexon()"
+        >
+            🔑 Nexon
+        </button>
+
+        <button
+            class="secondary"
+            type="button"
             onclick="exportData()"
         >
             💾 Sauvegarder
@@ -1127,6 +1143,9 @@ hr{
 const PIN = "1157";
 
 const STORAGE_KEY = "mesAcces";
+
+const NEXON_LOGIN_URL =
+    "https://cms-nexon.org/nexon/login.php?referrer=users.php";
 
 let accounts = [];
 
@@ -3477,6 +3496,20 @@ function importData(event){
     reader.readAsText(file);
 
     event.target.value = "";
+
+}
+
+
+/* ==================================================
+   NEXON
+================================================== */
+
+function openNexon(){
+
+    window.open(
+        NEXON_LOGIN_URL,
+        "_blank"
+    );
 
 }
 
