@@ -427,10 +427,6 @@ hr{
     font-weight:700;
 }
 
-/* =========================
-   FICHE REPLIABLE
-========================= */
-
 .accountHeader{
     cursor:pointer;
     user-select:none;
@@ -526,6 +522,7 @@ hr{
 
         <button
             class="secondary"
+            type="button"
             onclick="showAddForm()"
         >
             ➕ Ajouter
@@ -533,6 +530,7 @@ hr{
 
         <button
             class="secondary"
+            type="button"
             onclick="exportData()"
         >
             💾 Sauvegarder
@@ -540,14 +538,18 @@ hr{
 
         <button
             class="secondary"
+            type="button"
             onclick="document.getElementById('importFile').click()"
         >
             📂 Restaurer
         </button>
 
+        <!-- BOUTON XTREAM CORRIGÉ -->
+
         <button
             class="secondary"
-            onclick="showXtreamConverter()"
+            type="button"
+            onclick="openXtreamConverter()"
         >
             🔄 Xtream → M3U
         </button>
@@ -935,11 +937,10 @@ hr{
 
     <!-- =========================
          XTREAM → M3U
-         DIRECTEMENT VISIBLE
     ========================= -->
 
     <div
-        class="card"
+        class="card hidden"
         id="xtreamConverterCard"
     >
 
@@ -964,6 +965,7 @@ hr{
 
             <button
                 class="copyBtn"
+                type="button"
                 onclick="copyField('xtreamServer',this)"
             >
                 📋 Copier
@@ -984,6 +986,7 @@ hr{
 
             <button
                 class="copyBtn"
+                type="button"
                 onclick="copyField('xtreamUsername',this)"
             >
                 📋 Copier
@@ -1005,6 +1008,7 @@ hr{
 
             <button
                 class="copyBtn"
+                type="button"
                 onclick="toggleXtreamPassword()"
             >
                 👁️
@@ -1012,6 +1016,7 @@ hr{
 
             <button
                 class="copyBtn"
+                type="button"
                 onclick="copyField('xtreamPassword',this)"
             >
                 📋 Copier
@@ -1021,6 +1026,7 @@ hr{
 
         <button
             class="primary"
+            type="button"
             onclick="convertXtreamToM3U()"
         >
             🔄 Convertir en M3U
@@ -1048,6 +1054,7 @@ hr{
 
                 <button
                     class="copyBtn"
+                    type="button"
                     onclick="copyField('m3uUrl',this)"
                 >
                     📋 Copier
@@ -1056,6 +1063,15 @@ hr{
             </div>
 
         </div>
+
+        <button
+            class="secondary"
+            type="button"
+            style="width:100%;margin-top:8px;"
+            onclick="closeXtreamConverter()"
+        >
+            Fermer
+        </button>
 
     </div>
 
@@ -2513,7 +2529,7 @@ function normalizeUrl(url){
 
 
 /* =========================
-   AFFICHAGE + TRI ALPHABÉTIQUE
+   AFFICHAGE
 ========================= */
 
 function renderAccounts(){
@@ -3229,35 +3245,47 @@ function renderAccounts(){
 
 
 /* =========================
-   OUVRIR / FERMER UNE FICHE
+   OUVRIR / FERMER
 ========================= */
 
 function toggleAccount(index){
 
     const list =
-        document.getElementById("accountsList");
+        document.getElementById(
+            "accountsList"
+        );
 
     const cards =
-        list.querySelectorAll(".account");
+        list.querySelectorAll(
+            ".account"
+        );
 
     cards.forEach(function(card){
 
         const header =
-            card.querySelector(".accountHeader");
+            card.querySelector(
+                ".accountHeader"
+            );
 
         if(!header){
             return;
         }
 
         const onclickValue =
-            header.getAttribute("onclick");
+            header.getAttribute(
+                "onclick"
+            );
 
         if(
             onclickValue ===
-            "toggleAccount(" + index + ")"
+            "toggleAccount(" +
+            index +
+            ")"
         ){
 
-            card.classList.toggle("open");
+            card.classList.toggle(
+                "open"
+            );
 
         }
 
@@ -3335,22 +3363,6 @@ function escapeHtml(value){
         /'/g,
         "&#039;"
     );
-
-}
-
-
-function jsString(value){
-
-    return JSON
-        .stringify(
-            String(
-                value ?? ""
-            )
-        )
-        .replace(
-            /</g,
-            "\\u003c"
-        );
 
 }
 
@@ -3483,31 +3495,60 @@ function importData(event){
 }
 
 
-/* =========================
+/* ==================================================
    XTREAM → M3U
-========================= */
+   VERSION CORRIGÉE
+================================================== */
 
-function showXtreamConverter(){
+function openXtreamConverter(){
 
-    document
-        .getElementById("xtreamConverterCard")
-        .classList
-        .remove("hidden");
+    const card =
+        document.getElementById(
+            "xtreamConverterCard"
+        );
 
-    window.scrollTo({
-        top:0,
-        behavior:"smooth"
-    });
+    if(!card){
+
+        alert(
+            "Erreur : fenêtre Xtream introuvable."
+        );
+
+        return;
+
+    }
+
+    card.classList.remove(
+        "hidden"
+    );
+
+    setTimeout(function(){
+
+        card.scrollIntoView({
+            behavior:"smooth",
+            block:"start"
+        });
+
+    },50);
 
 }
 
 
-function hideXtreamConverter(){
+function closeXtreamConverter(){
 
-    document
-        .getElementById("xtreamConverterCard")
-        .classList
-        .add("hidden");
+    const card =
+        document.getElementById(
+            "xtreamConverterCard"
+        );
+
+    if(!card){
+
+        return;
+
+    }
+
+    card.classList.add(
+        "hidden"
+    );
 
 }
 
@@ -3515,10 +3556,15 @@ function hideXtreamConverter(){
 function toggleXtreamPassword(){
 
     const field =
-        document
-            .getElementById(
-                "xtreamPassword"
-            );
+        document.getElementById(
+            "xtreamPassword"
+        );
+
+    if(!field){
+
+        return;
+
+    }
 
     field.type =
         field.type === "password"
@@ -3532,21 +3578,28 @@ function convertXtreamToM3U(){
 
     let server =
         document
-            .getElementById("xtreamServer")
+            .getElementById(
+                "xtreamServer"
+            )
             .value
             .trim();
 
     const username =
         document
-            .getElementById("xtreamUsername")
+            .getElementById(
+                "xtreamUsername"
+            )
             .value
             .trim();
 
     const password =
         document
-            .getElementById("xtreamPassword")
+            .getElementById(
+                "xtreamPassword"
+            )
             .value
             .trim();
+
 
     if(!server){
 
@@ -3558,6 +3611,7 @@ function convertXtreamToM3U(){
 
     }
 
+
     if(!username){
 
         alert(
@@ -3567,6 +3621,7 @@ function convertXtreamToM3U(){
         return;
 
     }
+
 
     if(!password){
 
@@ -3578,15 +3633,21 @@ function convertXtreamToM3U(){
 
     }
 
+
     server =
         server.replace(
             /\/+$/,
             ""
         );
 
+
     if(
-        !server.startsWith("http://") &&
-        !server.startsWith("https://")
+        !server.startsWith(
+            "http://"
+        ) &&
+        !server.startsWith(
+            "https://"
+        )
     ){
 
         server =
@@ -3595,23 +3656,46 @@ function convertXtreamToM3U(){
 
     }
 
+
     const m3uUrl =
         server +
         "/get.php?username=" +
-        encodeURIComponent(username) +
+        encodeURIComponent(
+            username
+        ) +
         "&password=" +
-        encodeURIComponent(password) +
+        encodeURIComponent(
+            password
+        ) +
         "&type=m3u_plus&output=ts";
 
-    document
-        .getElementById("m3uUrl")
-        .value =
-            m3uUrl;
 
-    document
-        .getElementById("m3uResult")
-        .classList
-        .remove("hidden");
+    const result =
+        document.getElementById(
+            "m3uResult"
+        );
+
+    const output =
+        document.getElementById(
+            "m3uUrl"
+        );
+
+
+    output.value =
+        m3uUrl;
+
+
+    result.classList.remove(
+        "hidden"
+    );
+
+
+    setTimeout(function(){
+
+        output.focus();
+        output.select();
+
+    },100);
 
 }
 
