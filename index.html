@@ -638,6 +638,30 @@ hr{
             placeholder="Exemple : Jean Dupont"
         >
 
+        <!-- =========================
+             WHATSAPP
+        ========================= -->
+
+        <label>📱 WhatsApp</label>
+
+        <div class="fieldRow">
+
+            <input
+                id="whatsapp"
+                type="tel"
+                inputmode="tel"
+                placeholder="Exemple : 0470 12 34 56"
+            >
+
+            <button
+                class="copyBtn"
+                onclick="copyField('whatsapp',this)"
+            >
+                📋 Copier
+            </button>
+
+        </div>
+
         <label>Utilisateur</label>
 
         <div class="fieldRow">
@@ -1415,6 +1439,9 @@ function showAddForm(){
 function clearForm(){
 
     document.getElementById("name").value = "";
+
+    document.getElementById("whatsapp").value = "";
+
     document.getElementById("username").value = "";
     document.getElementById("password").value = "";
     document.getElementById("url1").value = "";
@@ -2003,6 +2030,71 @@ document
 
 
 /* =========================
+   WHATSAPP
+========================= */
+
+function openWhatsApp(number){
+
+    if(!number){
+
+        alert(
+            "Aucun numéro WhatsApp enregistré."
+        );
+
+        return;
+
+    }
+
+    let phone =
+        String(number)
+            .trim()
+            .replace(
+                /[\s().-]/g,
+                ""
+            );
+
+    if(phone.startsWith("+")){
+
+        phone =
+            phone.substring(1);
+
+    }else if(
+        phone.startsWith("00")
+    ){
+
+        phone =
+            phone.substring(2);
+
+    }else if(
+        phone.startsWith("0")
+    ){
+
+        phone =
+            "32" +
+            phone.substring(1);
+
+    }
+
+    if(!/^\d+$/.test(phone)){
+
+        alert(
+            "Numéro WhatsApp invalide."
+        );
+
+        return;
+
+    }
+
+    window.open(
+        "https://wa.me/" +
+        phone,
+        "_blank"
+    );
+
+}
+
+
+/* =========================
    ENREGISTRER
 ========================= */
 
@@ -2023,6 +2115,12 @@ function saveAccount(){
         return;
 
     }
+
+    const whatsapp =
+        document
+            .getElementById("whatsapp")
+            .value
+            .trim();
 
     const username =
         document
@@ -2102,6 +2200,9 @@ function saveAccount(){
         accounts.push({
 
             name:name,
+
+            whatsapp:whatsapp,
+
             username:username,
             password:password,
             url1:url1,
@@ -2134,6 +2235,9 @@ function saveAccount(){
 
         account.name =
             name;
+
+        account.whatsapp =
+            whatsapp;
 
         account.username =
             username;
@@ -2217,6 +2321,11 @@ function editAccount(index){
         .getElementById("name")
         .value =
             account.name || "";
+
+    document
+        .getElementById("whatsapp")
+        .value =
+            account.whatsapp || "";
 
     document
         .getElementById("username")
@@ -2680,6 +2789,7 @@ function renderAccounts(){
                 const text = [
 
                     a.name,
+                    a.whatsapp,
                     a.username,
                     a.password,
                     a.url1,
@@ -2816,6 +2926,60 @@ function renderAccounts(){
                     ')">' +
                     "📅 Ajouter au calendrier Google" +
                     "</button>" +
+                    "</div>";
+
+            }
+
+
+            /* =========================
+               WHATSAPP
+            ========================= */
+
+            if(account.whatsapp){
+
+                html +=
+                    '<div class="accountLine">' +
+
+                    '<div class="accountLabel">' +
+                    "📱 WhatsApp" +
+                    "</div>" +
+
+                    '<div class="copyArea">' +
+
+                    '<input ' +
+                    'class="copyValue" ' +
+                    'readonly ' +
+                    'value="' +
+                    escapeHtml(
+                        account.whatsapp
+                    ) +
+                    '" ' +
+                    'onclick="this.select()">' +
+
+                    '<button ' +
+                    'class="copyBtn accountCopy" ' +
+                    'data-index="' +
+                    index +
+                    '" ' +
+                    'data-field="whatsapp">' +
+
+                    "📋" +
+
+                    "</button>" +
+
+                    '<button ' +
+                    'class="copyBtn" ' +
+                    'type="button" ' +
+                    'onclick="openWhatsApp(accounts[' +
+                    index +
+                    '].whatsapp)">' +
+
+                    "🟢 WhatsApp" +
+
+                    "</button>" +
+
+                    "</div>" +
+
                     "</div>";
 
             }
