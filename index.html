@@ -463,6 +463,52 @@ hr{
     display:block;
 }
 
+
+/* =========================
+   FENÊTRE NEXON
+========================= */
+
+.nexonModal{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.55);
+    z-index:250;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+}
+
+.nexonModalBox{
+    width:100%;
+    max-width:400px;
+    background:white;
+    border-radius:20px;
+    padding:22px;
+    box-shadow:0 5px 30px rgba(0,0,0,.25);
+    text-align:center;
+}
+
+.nexonModalBox h2{
+    margin-top:0;
+    font-size:23px;
+}
+
+.nexonModalBox p{
+    color:#666;
+    line-height:1.5;
+    margin-bottom:18px;
+}
+
+.nexonModalButtons{
+    display:flex;
+    gap:8px;
+}
+
+.nexonModalButtons button{
+    flex:1;
+}
+
 </style>
 </head>
 
@@ -585,18 +631,14 @@ hr{
             ➕ Nouvel accès
         </h2>
 
-        <label>
-            Nom / Prénom
-        </label>
+        <label>Nom / Prénom</label>
 
         <input
             id="name"
             placeholder="Exemple : Jean Dupont"
         >
 
-        <label>
-            Utilisateur
-        </label>
+        <label>Utilisateur</label>
 
         <div class="fieldRow">
 
@@ -614,9 +656,7 @@ hr{
 
         </div>
 
-        <label>
-            Mot de passe
-        </label>
+        <label>Mot de passe</label>
 
         <div class="fieldRow">
 
@@ -642,9 +682,7 @@ hr{
 
         </div>
 
-        <label>
-            URL 1
-        </label>
+        <label>URL 1</label>
 
         <div class="fieldRow">
 
@@ -662,9 +700,7 @@ hr{
 
         </div>
 
-        <label>
-            URL 2
-        </label>
+        <label>URL 2</label>
 
         <div class="fieldRow">
 
@@ -682,9 +718,7 @@ hr{
 
         </div>
 
-        <label>
-            Remarque
-        </label>
+        <label>Remarque</label>
 
         <textarea
             id="remark"
@@ -754,9 +788,7 @@ hr{
             class="hidden"
         >
 
-            <label>
-                URL de l'application
-            </label>
+            <label>URL de l'application</label>
 
             <div class="fieldRow">
 
@@ -858,9 +890,7 @@ hr{
 
         <hr>
 
-        <label>
-            📷 Photo
-        </label>
+        <label>📷 Photo</label>
 
         <div class="photoButtons">
 
@@ -940,10 +970,6 @@ hr{
 
     </div>
 
-
-    <!-- =========================
-         XTREAM → M3U
-    ========================= -->
 
     <div
         class="card hidden"
@@ -1129,6 +1155,53 @@ hr{
                 onclick="closeCopyModal()"
             >
                 Fermer
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =========================
+     FENÊTRE NEXON
+========================= -->
+
+<div
+    id="nexonModal"
+    class="nexonModal hidden"
+>
+
+    <div class="nexonModalBox">
+
+        <h2>
+            🔑 Nexon
+        </h2>
+
+        <p>
+            Nexon va s'ouvrir dans une nouvelle page.
+            <br><br>
+            Ton application « Mes accès » reste ouverte.
+        </p>
+
+        <div class="nexonModalButtons">
+
+            <button
+                class="primary"
+                type="button"
+                style="margin:0;"
+                onclick="openNexonPage()"
+            >
+                🌐 Ouvrir Nexon
+            </button>
+
+            <button
+                class="secondary"
+                type="button"
+                onclick="closeNexon()"
+            >
+                ✖ Fermer
             </button>
 
         </div>
@@ -3505,6 +3578,26 @@ function importData(event){
 ================================================== */
 
 function openNexon(){
+
+    document
+        .getElementById("nexonModal")
+        .classList
+        .remove("hidden");
+
+}
+
+
+function closeNexon(){
+
+    document
+        .getElementById("nexonModal")
+        .classList
+        .add("hidden");
+
+}
+
+
+function openNexonPage(){
 
     window.open(
         NEXON_LOGIN_URL,
