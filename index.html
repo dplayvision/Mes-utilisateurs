@@ -538,6 +538,26 @@ hr{
             Se connecter
         </button>
 
+        <button
+            class="primary"
+            id="faceIDButton"
+            type="button"
+            onclick="faceIDLogin()"
+            style="margin-top:10px;"
+        >
+            🔐 Activer Face ID
+        </button>
+
+        <div
+            id="faceIDStatus"
+            style="
+                text-align:center;
+                font-size:13px;
+                color:#666;
+                margin-top:10px;
+            "
+        ></div>
+
         <div
             id="loginError"
             class="loginError hidden"
@@ -637,10 +657,6 @@ hr{
             id="name"
             placeholder="Exemple : Jean Dupont"
         >
-
-        <!-- =========================
-             WHATSAPP
-        ========================= -->
 
         <label>📱 WhatsApp</label>
 
@@ -1232,6 +1248,8 @@ const PIN = "1157";
 
 const STORAGE_KEY = "mesAcces";
 
+const FACE_ID_KEY = "mesAccesFaceID";
+
 const NEXON_LOGIN_URL =
     "https://cms-nexon.org/nexon/login.php?referrer=users.php";
 
@@ -1382,6 +1400,465 @@ function login(){
         document
             .getElementById("pinInput")
             .focus();
+
+    }
+
+}
+
+
+/* =========================
+   FACE ID
+========================= */
+
+function randomBytes(length){
+
+    const bytes =
+        new Uint8Array(length);
+
+    crypto.getRandomValues(bytes);
+
+    return bytes;
+
+}
+
+
+function bufferToBase64Url(buffer){
+
+    const bytes =
+        new Uint8Array(buffer);
+
+    let binary = "";
+
+    for(
+        let i = 0;
+        i < bytes.length;
+        i++
+    ){
+
+        binary +=
+            String.fromCharCode(
+                bytes[i]
+            );
+
+    }
+
+    return btoa(binary)
+        .replace(/\+/g,"-")
+        .replace(/\//g,"_")
+        .replace(/=+$/,"");
+
+}
+
+
+function base64UrlToBuffer(base64url){
+
+    const padding =
+        "=".repeat(
+            (4 - base64url.length % 4) % 4
+        );
+
+    const base64 =
+        (
+            base64url +
+            padding
+        )
+        .replace(/-/g,"+")
+        .replace(/_/g,"/");
+
+    const binary =
+        atob(base64);
+
+    const bytes =
+        new Uint8Array(
+            binary.length
+        );
+
+    for(
+        let i = 0;
+        i < binary.length;
+        i++
+    ){
+
+        bytes[i] =
+            binary.charCodeAt(i);
+
+    }
+
+    return bytes.buffer;
+
+}
+
+
+function faceIDSupported(){
+
+    return (
+        window.isSecureContext &&
+        window.PublicKeyCredential &&
+        navigator.credentials
+    );
+
+}
+
+
+async function activateFaceID(){
+
+    if(!faceIDSupported()){
+
+        alert(
+            "Face ID n'est pas disponible ici.\n\n" +
+            "Vérifie que tu utilises ton site en HTTPS avec Safari."
+        );
+
+        return;
+
+    }
+
+
+    try{
+
+        const credential =
+            await navigator.credentials.create({
+
+                publicKey: {
+
+                    challenge:
+                        randomBytes(32),
+
+                    rp: {
+
+                        name:
+                            "Mes accès",
+
+                        id:
+                            location.hostname
+
+                    },
+
+                    user: {
+
+                        id:
+                            randomBytes(16),
+
+                        name:
+                            "mes-acces",
+
+                        displayName:
+                            "Mes accès"
+
+                    },
+
+                    pubKeyCredParams: [
+
+                        {
+                            type:
+                                "public-key",
+
+                            alg:
+                                -7
+                        },
+
+                        {
+                            type:
+                                "public-key",
+
+                            alg:
+                                -257
+                        }
+
+                    ],
+
+                    authenticatorSelection: {
+
+                        authenticatorAttachment:
+                            "platform",
+
+                        residentKey:
+                            "required",
+
+                        userVerification:
+                            "required"
+
+                    },
+
+                    timeout:
+                        60000,
+
+                    attestation:
+                        "none"
+
+                }
+
+            });
+
+
+        if(!credential){
+
+            alert(
+                "Face ID n'a pas pu être activé."
+            );
+
+            return;
+
+        }
+
+
+        localStorage.setItem(
+            FACE_ID_KEY,
+            bufferToBase64Url(
+                credential.rawId
+            )
+        );
+
+
+        updateFaceIDButton();
+
+
+        alert(
+            "✅ Face ID est maintenant activé."
+        );
+
+
+        document
+            .getElementById("loginScreen")
+            .classList
+            .add("hidden");
+
+
+        loadData();
+
+
+    }catch(error){
+
+        console.error(
+            "Erreur Face ID :",
+            error
+        );
+
+
+        if(
+            error.name ===
+            "NotAllowedError"
+        ){
+
+            alert(
+                "Face ID a été annulé ou refusé.\n\n" +
+                "Tu peux toujours utiliser le PIN 1157."
+            );
+
+        }else{
+
+            alert(
+                "Impossible d'activer Face ID.\n\n" +
+                "Tu peux toujours utiliser le PIN 1157."
+            );
+
+        }
+
+    }
+
+}
+
+
+async function faceIDLogin(){
+
+    if(!faceIDSupported()){
+
+        alert(
+            "Face ID n'est pas disponible ici.\n\n" +
+            "Vérifie que tu utilises ton site en HTTPS avec Safari."
+        );
+
+        return;
+
+    }
+
+
+    const savedCredential =
+        localStorage.getItem(
+            FACE_ID_KEY
+        );
+
+
+    /* =========================
+       PREMIÈRE UTILISATION
+    ========================= */
+
+    if(!savedCredential){
+
+        const pin =
+            document
+                .getElementById("pinInput")
+                .value;
+
+
+        if(pin !== PIN){
+
+            document
+                .getElementById("loginError")
+                .classList
+                .remove("hidden");
+
+
+            document
+                .getElementById("loginError")
+                .textContent =
+                    "Entre d'abord ton PIN 1157 pour activer Face ID";
+
+
+            return;
+
+        }
+
+
+        document
+            .getElementById("loginError")
+            .classList
+            .add("hidden");
+
+
+        await activateFaceID();
+
+        return;
+
+    }
+
+
+    /* =========================
+       CONNEXION AVEC FACE ID
+    ========================= */
+
+    try{
+
+        const credential =
+            await navigator.credentials.get({
+
+                publicKey: {
+
+                    challenge:
+                        randomBytes(32),
+
+                    rpId:
+                        location.hostname,
+
+                    allowCredentials: [
+
+                        {
+
+                            type:
+                                "public-key",
+
+                            id:
+                                base64UrlToBuffer(
+                                    savedCredential
+                                )
+
+                        }
+
+                    ],
+
+                    userVerification:
+                        "required",
+
+                    timeout:
+                        60000
+
+                }
+
+            });
+
+
+        if(credential){
+
+            document
+                .getElementById("loginScreen")
+                .classList
+                .add("hidden");
+
+
+            document
+                .getElementById("loginError")
+                .classList
+                .add("hidden");
+
+
+            loadData();
+
+        }
+
+
+    }catch(error){
+
+        console.error(
+            "Erreur connexion Face ID :",
+            error
+        );
+
+
+        if(
+            error.name ===
+            "NotAllowedError"
+        ){
+
+            alert(
+                "Face ID a été annulé ou refusé.\n\n" +
+                "Tu peux utiliser ton PIN 1157."
+            );
+
+        }else{
+
+            alert(
+                "Face ID n'a pas pu être utilisé.\n\n" +
+                "Tu peux utiliser ton PIN 1157."
+            );
+
+        }
+
+    }
+
+}
+
+
+function updateFaceIDButton(){
+
+    const button =
+        document.getElementById(
+            "faceIDButton"
+        );
+
+    const status =
+        document.getElementById(
+            "faceIDStatus"
+        );
+
+
+    if(!button || !status){
+
+        return;
+
+    }
+
+
+    const enabled =
+        localStorage.getItem(
+            FACE_ID_KEY
+        );
+
+
+    if(enabled){
+
+        button.textContent =
+            "🔐 Se connecter avec Face ID";
+
+        status.textContent =
+            "Face ID activé";
+
+    }else{
+
+        button.textContent =
+            "🔐 Activer Face ID";
+
+        status.textContent =
+            "";
 
     }
 
@@ -2953,10 +3430,6 @@ function renderAccounts(){
             }
 
 
-            /* =========================
-               WHATSAPP
-            ========================= */
-
             if(account.whatsapp){
 
                 html +=
@@ -4027,6 +4500,8 @@ setInterval(
 /* =========================
    DÉMARRAGE
 ========================= */
+
+updateFaceIDButton();
 
 loadData();
 
