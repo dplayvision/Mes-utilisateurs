@@ -463,6 +463,7 @@ hr{
     display:block;
 }
 
+
 /* =========================
    FENÊTRE NEXON
 ========================= */
@@ -1258,6 +1259,7 @@ let editIndex = -1;
 
 let currentPhoto = "";
 
+
 /* =========================
    CHARGEMENT
 ========================= */
@@ -1334,6 +1336,7 @@ function loadData(){
 
 }
 
+
 /* =========================
    SAUVEGARDE
 ========================= */
@@ -1356,6 +1359,7 @@ function saveData(){
     }
 
 }
+
 
 /* =========================
    LOGIN
@@ -1401,6 +1405,7 @@ function login(){
 
 }
 
+
 /* =========================
    FACE ID
 ========================= */
@@ -1415,6 +1420,7 @@ function randomBytes(length){
     return bytes;
 
 }
+
 
 function bufferToBase64Url(buffer){
 
@@ -1442,6 +1448,7 @@ function bufferToBase64Url(buffer){
         .replace(/=+$/,"");
 
 }
+
 
 function base64UrlToBuffer(base64url){
 
@@ -1481,6 +1488,7 @@ function base64UrlToBuffer(base64url){
 
 }
 
+
 function faceIDSupported(){
 
     return (
@@ -1490,6 +1498,7 @@ function faceIDSupported(){
     );
 
 }
+
 
 async function activateFaceID(){
 
@@ -1503,6 +1512,7 @@ async function activateFaceID(){
         return;
 
     }
+
 
     try{
 
@@ -1580,6 +1590,7 @@ async function activateFaceID(){
 
             });
 
+
         if(!credential){
 
             alert(
@@ -1590,6 +1601,7 @@ async function activateFaceID(){
 
         }
 
+
         localStorage.setItem(
             FACE_ID_KEY,
             bufferToBase64Url(
@@ -1597,18 +1609,23 @@ async function activateFaceID(){
             )
         );
 
+
         updateFaceIDButton();
+
 
         alert(
             "✅ Face ID est maintenant activé."
         );
+
 
         document
             .getElementById("loginScreen")
             .classList
             .add("hidden");
 
+
         loadData();
+
 
     }catch(error){
 
@@ -1616,6 +1633,7 @@ async function activateFaceID(){
             "Erreur Face ID :",
             error
         );
+
 
         if(
             error.name ===
@@ -1640,6 +1658,7 @@ async function activateFaceID(){
 
 }
 
+
 async function faceIDLogin(){
 
     if(!faceIDSupported()){
@@ -1653,10 +1672,12 @@ async function faceIDLogin(){
 
     }
 
+
     const savedCredential =
         localStorage.getItem(
             FACE_ID_KEY
         );
+
 
     /* =========================
        PREMIÈRE UTILISATION
@@ -1669,6 +1690,7 @@ async function faceIDLogin(){
                 .getElementById("pinInput")
                 .value;
 
+
         if(pin !== PIN){
 
             document
@@ -1676,25 +1698,30 @@ async function faceIDLogin(){
                 .classList
                 .remove("hidden");
 
+
             document
                 .getElementById("loginError")
                 .textContent =
                     "Entre d'abord ton PIN 1157 pour activer Face ID";
 
+
             return;
 
         }
+
 
         document
             .getElementById("loginError")
             .classList
             .add("hidden");
 
+
         await activateFaceID();
 
         return;
 
     }
+
 
     /* =========================
        CONNEXION AVEC FACE ID
@@ -1739,6 +1766,7 @@ async function faceIDLogin(){
 
             });
 
+
         if(credential){
 
             document
@@ -1746,14 +1774,17 @@ async function faceIDLogin(){
                 .classList
                 .add("hidden");
 
+
             document
                 .getElementById("loginError")
                 .classList
                 .add("hidden");
 
+
             loadData();
 
         }
+
 
     }catch(error){
 
@@ -1761,6 +1792,7 @@ async function faceIDLogin(){
             "Erreur connexion Face ID :",
             error
         );
+
 
         if(
             error.name ===
@@ -1785,6 +1817,7 @@ async function faceIDLogin(){
 
 }
 
+
 function updateFaceIDButton(){
 
     const button =
@@ -1797,16 +1830,19 @@ function updateFaceIDButton(){
             "faceIDStatus"
         );
 
+
     if(!button || !status){
 
         return;
 
     }
 
+
     const enabled =
         localStorage.getItem(
             FACE_ID_KEY
         );
+
 
     if(enabled){
 
@@ -1828,6 +1864,7 @@ function updateFaceIDButton(){
 
 }
 
+
 document
     .getElementById("pinInput")
     .addEventListener(
@@ -1842,6 +1879,7 @@ document
 
         }
     );
+
 
 /* =========================
    COMPTEUR
@@ -1865,6 +1903,7 @@ function updateUserCount(){
             );
 
 }
+
 
 /* =========================
    FORMULAIRE
@@ -1894,6 +1933,7 @@ function showAddForm(){
     });
 
 }
+
 
 function clearForm(){
 
@@ -1954,6 +1994,7 @@ function clearForm(){
 
 }
 
+
 function cancelForm(){
 
     document
@@ -1966,6 +2007,7 @@ function cancelForm(){
     clearForm();
 
 }
+
 
 function toggleApplicationFields(){
 
@@ -1984,6 +2026,7 @@ function toggleApplicationFields(){
 
 }
 
+
 /* =========================
    MOT DE PASSE
 ========================= */
@@ -2000,6 +2043,7 @@ function togglePassword(){
             : "password";
 
 }
+
 
 /* =========================
    COPIE
@@ -2054,6 +2098,7 @@ function copyText(text,button){
     );
 
 }
+
 
 function copyWithFallback(
     value,
@@ -2117,6 +2162,7 @@ function copyWithFallback(
 
 }
 
+
 function showCopied(button){
 
     if(!button){
@@ -2152,6 +2198,7 @@ function showCopied(button){
 
 }
 
+
 function copyField(id,button){
 
     const field =
@@ -2169,6 +2216,7 @@ function copyField(id,button){
     );
 
 }
+
 
 document.addEventListener(
     "click",
@@ -2210,6 +2258,7 @@ document.addEventListener(
     }
 );
 
+
 function showCopyFallback(text){
 
     const modal =
@@ -2230,6 +2279,7 @@ function showCopyFallback(text){
 
 }
 
+
 function selectFallback(){
 
     const input =
@@ -2249,6 +2299,7 @@ function selectFallback(){
 
 }
 
+
 function closeCopyModal(){
 
     document
@@ -2257,6 +2308,7 @@ function closeCopyModal(){
         .add("hidden");
 
 }
+
 
 /* =========================
    PHOTO
@@ -2270,6 +2322,7 @@ function choosePhoto(){
 
 }
 
+
 function takePhoto(){
 
     document
@@ -2277,6 +2330,7 @@ function takePhoto(){
         .click();
 
 }
+
 
 function handlePhoto(event){
 
@@ -2326,6 +2380,7 @@ function handlePhoto(event){
 
 }
 
+
 function removePhoto(){
 
     currentPhoto = "";
@@ -2340,6 +2395,7 @@ function removePhoto(){
         .add("hidden");
 
 }
+
 
 /* =========================
    DATES
@@ -2386,6 +2442,7 @@ function calculateExpiryDate(
 
 }
 
+
 function formatDate(date){
 
     if(!date){
@@ -2399,6 +2456,7 @@ function formatDate(date){
     );
 
 }
+
 
 function updateDatePreview(){
 
@@ -2461,12 +2519,14 @@ function updateDatePreview(){
 
 }
 
+
 document
     .getElementById("duration")
     .addEventListener(
         "input",
         updateDatePreview
     );
+
 
 /* =========================
    WHATSAPP
@@ -2531,6 +2591,7 @@ function openWhatsApp(number){
     );
 
 }
+
 
 /* =========================
    ENREGISTRER
@@ -2632,6 +2693,7 @@ function saveAccount(){
             .value
             .trim();
 
+
     if(editIndex === -1){
 
         accounts.push({
@@ -2730,6 +2792,7 @@ function saveAccount(){
     cancelForm();
 
 }
+
 
 /* =========================
    MODIFIER
@@ -2863,6 +2926,7 @@ function editAccount(index){
 
 }
 
+
 /* =========================
    SUPPRIMER
 ========================= */
@@ -2903,6 +2967,7 @@ function deleteAccount(index){
     renderAccounts();
 
 }
+
 
 /* =========================
    COMPTE À REBOURS
@@ -3023,6 +3088,7 @@ function getCountdown(account){
 
 }
 
+
 /* =========================
    GOOGLE CALENDAR
 ========================= */
@@ -3040,6 +3106,7 @@ function googleDate(date){
     );
 
 }
+
 
 function addToGoogleCalendar(index){
 
@@ -3117,6 +3184,7 @@ function addToGoogleCalendar(index){
 
 }
 
+
 /* =========================
    URL
 ========================= */
@@ -3145,6 +3213,7 @@ function normalizeUrl(url){
 
 }
 
+
 /* =========================
    AFFICHAGE
 ========================= */
@@ -3164,6 +3233,7 @@ function renderAccounts(){
             .value
             .toLowerCase()
             .trim();
+
 
     const sortedAccounts =
         accounts
@@ -3198,7 +3268,9 @@ function renderAccounts(){
 
             });
 
+
     list.innerHTML = "";
+
 
     const filtered =
         sortedAccounts.filter(
@@ -3239,6 +3311,7 @@ function renderAccounts(){
             }
         );
 
+
     if(filtered.length === 0){
 
         list.innerHTML =
@@ -3249,6 +3322,7 @@ function renderAccounts(){
         return;
 
     }
+
 
     filtered.forEach(
         function(item){
@@ -3272,6 +3346,7 @@ function renderAccounts(){
 
             let html = "";
 
+
             html +=
                 '<div class="accountHeader" ' +
                 'onclick="toggleAccount(' +
@@ -3292,6 +3367,7 @@ function renderAccounts(){
 
                 '<div class="accountContent">';
 
+
             html +=
                 '<div class="countdown ' +
                 countdown.className +
@@ -3300,6 +3376,7 @@ function renderAccounts(){
                     countdown.text
                 ) +
                 "</div>";
+
 
             if(account.duration){
 
@@ -3315,6 +3392,7 @@ function renderAccounts(){
                     "</div>";
 
             }
+
 
             if(
                 account.duration &&
@@ -3350,6 +3428,7 @@ function renderAccounts(){
                     "</div>";
 
             }
+
 
             if(account.whatsapp){
 
@@ -3400,6 +3479,7 @@ function renderAccounts(){
 
             }
 
+
             if(account.username){
 
                 html +=
@@ -3437,6 +3517,7 @@ function renderAccounts(){
                     "</div>";
 
             }
+
 
             if(account.password){
 
@@ -3489,6 +3570,7 @@ function renderAccounts(){
 
             }
 
+
             if(account.url1){
 
                 const url1 =
@@ -3535,6 +3617,7 @@ function renderAccounts(){
                     "</div>";
 
             }
+
 
             if(account.url2){
 
@@ -3583,6 +3666,7 @@ function renderAccounts(){
 
             }
 
+
             if(account.remark){
 
                 html +=
@@ -3622,6 +3706,7 @@ function renderAccounts(){
 
             }
 
+
             if(account.isApplication){
 
                 html +=
@@ -3630,6 +3715,7 @@ function renderAccounts(){
                     '<div class="accountLabel">' +
                     "📱 APPLICATION" +
                     "</div>";
+
 
                 if(account.appUrl1){
 
@@ -3678,6 +3764,7 @@ function renderAccounts(){
 
                 }
 
+
                 if(account.mac){
 
                     html +=
@@ -3715,6 +3802,7 @@ function renderAccounts(){
                         "</div>";
 
                 }
+
 
                 if(account.mac2){
 
@@ -3754,6 +3842,7 @@ function renderAccounts(){
 
                 }
 
+
                 if(account.appKey){
 
                     html +=
@@ -3791,6 +3880,7 @@ function renderAccounts(){
                         "</div>";
 
                 }
+
 
                 if(account.appKey2){
 
@@ -3832,6 +3922,7 @@ function renderAccounts(){
 
             }
 
+
             if(account.photo){
 
                 html +=
@@ -3846,6 +3937,7 @@ function renderAccounts(){
                     'class="photoPreview">';
 
             }
+
 
             html +=
                 '<div class="actions">' +
@@ -3872,7 +3964,9 @@ function renderAccounts(){
 
                 "</div>";
 
+
             html += "</div>";
+
 
             div.innerHTML =
                 html;
@@ -3885,6 +3979,7 @@ function renderAccounts(){
     );
 
 }
+
 
 /* =========================
    OUVRIR / FERMER
@@ -3935,6 +4030,7 @@ function toggleAccount(index){
 
 }
 
+
 /* =========================
    MOT DE PASSE AFFICHÉ
 ========================= */
@@ -3974,6 +4070,7 @@ function showAccountPassword(
 
 }
 
+
 /* =========================
    SÉCURITÉ
 ========================= */
@@ -4005,6 +4102,7 @@ function escapeHtml(value){
     );
 
 }
+
 
 /* =========================
    EXPORT
@@ -4052,6 +4150,7 @@ function exportData(){
     URL.revokeObjectURL(url);
 
 }
+
 
 /* =========================
    IMPORT
@@ -4132,6 +4231,7 @@ function importData(event){
 
 }
 
+
 /* ==================================================
    NEXON
 ================================================== */
@@ -4145,6 +4245,7 @@ function openNexon(){
 
 }
 
+
 function closeNexon(){
 
     document
@@ -4154,6 +4255,7 @@ function closeNexon(){
 
 }
 
+
 function openNexonPage(){
 
     window.open(
@@ -4162,6 +4264,7 @@ function openNexonPage(){
     );
 
 }
+
 
 /* ==================================================
    XTREAM → M3U
@@ -4199,6 +4302,7 @@ function openXtreamConverter(){
 
 }
 
+
 function closeXtreamConverter(){
 
     const card =
@@ -4217,6 +4321,7 @@ function closeXtreamConverter(){
     );
 
 }
+
 
 function toggleXtreamPassword(){
 
@@ -4237,6 +4342,7 @@ function toggleXtreamPassword(){
             : "password";
 
 }
+
 
 function convertXtreamToM3U(){
 
@@ -4264,6 +4370,7 @@ function convertXtreamToM3U(){
             .value
             .trim();
 
+
     if(!server){
 
         alert(
@@ -4273,6 +4380,7 @@ function convertXtreamToM3U(){
         return;
 
     }
+
 
     if(!username){
 
@@ -4284,6 +4392,7 @@ function convertXtreamToM3U(){
 
     }
 
+
     if(!password){
 
         alert(
@@ -4294,11 +4403,13 @@ function convertXtreamToM3U(){
 
     }
 
+
     server =
         server.replace(
             /\/+$/,
             ""
         );
+
 
     if(
         !server.startsWith(
@@ -4315,6 +4426,7 @@ function convertXtreamToM3U(){
 
     }
 
+
     const m3uUrl =
         server +
         "/get.php?username=" +
@@ -4327,6 +4439,7 @@ function convertXtreamToM3U(){
         ) +
         "&type=m3u_plus&output=ts";
 
+
     const result =
         document.getElementById(
             "m3uResult"
@@ -4337,12 +4450,15 @@ function convertXtreamToM3U(){
             "m3uUrl"
         );
 
+
     output.value =
         m3uUrl;
+
 
     result.classList.remove(
         "hidden"
     );
+
 
     setTimeout(function(){
 
@@ -4352,6 +4468,7 @@ function convertXtreamToM3U(){
     },100);
 
 }
+
 
 /* =========================
    ACTUALISATION
@@ -4379,6 +4496,7 @@ setInterval(
     60000
 );
 
+
 /* =========================
    DÉMARRAGE
 ========================= */
@@ -4390,4 +4508,4 @@ loadData();
 </script>
 
 </body>
-</html> 
+</html>
