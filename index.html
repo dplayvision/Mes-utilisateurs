@@ -636,6 +636,56 @@ hr{
 
     </div>
 
+
+    <!-- =========================
+         PAIEMENT STRIPE
+    ========================= -->
+
+    <div class="card">
+
+        <h2>
+            💳 Acheter un accès
+        </h2>
+
+        <p style="color:#666;">
+            Choisissez la durée de votre accès :
+        </p>
+
+        <button
+            class="primary"
+            type="button"
+            onclick="window.location.href='TON_LIEN_STRIPE_1_MOIS'"
+        >
+            1 mois — 10 €
+        </button>
+
+        <button
+            class="primary"
+            type="button"
+            onclick="window.location.href='TON_LIEN_STRIPE_6_MOIS'"
+        >
+            6 mois — 25 €
+        </button>
+
+        <button
+            class="primary"
+            type="button"
+            onclick="window.location.href='TON_LIEN_STRIPE_12_MOIS'"
+        >
+            12 mois — 50 €
+        </button>
+
+        <button
+            class="primary"
+            type="button"
+            onclick="window.location.href='TON_LIEN_STRIPE_24_MOIS'"
+        >
+            24 mois — 90 €
+        </button>
+
+    </div>
+
+
     <input
         id="searchInput"
         placeholder="🔎 Rechercher un utilisateur..."
@@ -1280,10 +1330,6 @@ function loadData(){
 
                 accounts = data;
 
-                /* =========================
-                   AJOUT WHATSAPP AUX ANCIENS CONTACTS
-                ========================= */
-
                 let migrated = false;
 
                 accounts.forEach(function(account){
@@ -1300,10 +1346,6 @@ function loadData(){
                     }
 
                 });
-
-                /* =========================
-                   SAUVEGARDE DE LA MIGRATION
-                ========================= */
 
                 if(migrated){
 
@@ -1679,10 +1721,6 @@ async function faceIDLogin(){
         );
 
 
-    /* =========================
-       PREMIÈRE UTILISATION
-    ========================= */
-
     if(!savedCredential){
 
         const pin =
@@ -1722,10 +1760,6 @@ async function faceIDLogin(){
 
     }
 
-
-    /* =========================
-       CONNEXION AVEC FACE ID
-    ========================= */
 
     try{
 
