@@ -1,8 +1,14 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
+
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+<meta name="viewport"
+content="width=device-width,
+initial-scale=1.0,
+maximum-scale=1.0,
+user-scalable=no">
 
 <title>Mes accès</title>
 
@@ -1253,23 +1259,311 @@ const FACE_ID_KEY = "mesAccesFaceID";
 const NEXON_LOGIN_URL =
     "https://cms-nexon.org/nexon/login.php?referrer=users.php";
 
+
+/* ==================================================
+   VARIABLES
+================================================== */
+
 let accounts = [];
 
 let editIndex = -1;
 
 let currentPhoto = "";
 
+let currentPhotoId = "";
 
-/* =========================
+let photoDB = null;
+
+
+/* ==================================================
+   INDEXEDDB PHOTOS
+================================================== */
+
+const PHOTO_DB_NAME =
+    "mesAccesPhotos";
+
+const PHOTO_DB_VERSION =
+    1;
+
+const PHOTO_STORE_NAME =
+    "photos";
+
+
+function openPhotoDB(){
+
+    return new Promise(function(resolve,reject){
+
+        if(photoDB){
+
+            resolve(photoDB);
+
+            return;
+
+        }
+
+        if(!window.indexedDB){
+
+            reject(
+                new Error(
+                    "IndexedDB non disponible."
+                )
+            );
+
+            return;
+
+        }
+
+        const request =
+            indexedDB.open(
+                PHOTO_DB_NAME,
+                PHOTO_DB_VERSION
+            );
+
+        request.onupgradeneeded =
+            function(event){
+
+                const db =
+                    event.target.result;
+
+                if(
+                    !db.objectStoreNames.contains(
+                        PHOTO_STORE_NAME
+                    )
+                ){
+
+                    db.createObjectStore(
+                        PHOTO_STORE_NAME,
+                        {
+                            keyPath:"id"
+                        }
+                    );
+
+                }
+
+            };
+
+        request.onsuccess =
+            function(event){
+
+                photoDB =
+                    event.target.result;
+
+                resolve(photoDB);
+
+            };
+
+        request.onerror =
+            function(){
+
+                reject(
+                    request.error ||
+                    new Error(
+                        "Impossible d'ouvrir IndexedDB."
+                    )
+                );
+
+            };
+
+    });
+
+}
+
+
+function createPhotoId(){
+
+    return (
+        "photo_" +
+        Date.now() +
+        "_" +
+        Math.random()
+            .toString(36)
+            .substring(2,12)
+    );
+
+}
+
+
+function savePhotoToDB(
+    id,
+    data
+){
+
+    return openPhotoDB()
+        .then(function(db){
+
+            return new Promise(
+                function(resolve,reject){
+
+                    const transaction =
+                        db.transaction(
+                            PHOTO_STORE_NAME,
+                            "readwrite"
+                        );
+
+                    const store =
+                        transaction.objectStore(
+                            PHOTO_STORE_NAME
+                        );
+
+                    store.put({
+
+                        id:id,
+
+                        data:data
+
+                    });
+
+                    transaction.oncomplete =
+                        function(){
+
+                            resolve();
+
+                        };
+
+                    transaction.onerror =
+                        function(){
+
+                            reject(
+                                transaction.error
+                            );
+
+                        };
+
+                }
+            );
+
+        });
+
+}
+
+
+function getPhotoFromDB(id){
+
+    if(!id){
+
+        return Promise.resolve("");
+
+    }
+
+    return openPhotoDB()
+        .then(function(db){
+
+            return new Promise(
+                function(resolve,reject){
+
+                    const transaction =
+                        db.transaction(
+                            PHOTO_STORE_NAME,
+                            "readonly"
+                        );
+
+                    const store =
+                        transaction.objectStore(
+                            PHOTO_STORE_NAME
+                        );
+
+                    const request =
+                        store.get(id);
+
+                    request.onsuccess =
+                        function(){
+
+                            if(
+                                request.result
+                            ){
+
+                                resolve(
+                                    request.result.data || ""
+                                );
+
+                            }else{
+
+                                resolve("");
+
+                            }
+
+                        };
+
+                    request.onerror =
+                        function(){
+
+                            reject(
+                                request.error
+                            );
+
+                        };
+
+                }
+            );
+
+        });
+
+}
+
+
+function deletePhotoFromDB(id){
+
+    if(!id){
+
+        return Promise.resolve();
+
+    }
+
+    return openPhotoDB()
+        .then(function(db){
+
+            return new Promise(
+                function(resolve,reject){
+
+                    const transaction =
+                        db.transaction(
+                            PHOTO_STORE_NAME,
+                            "readwrite"
+                        );
+
+                    const store =
+                        transaction.objectStore(
+                            PHOTO_STORE_NAME
+                        );
+
+                    store.delete(id);
+
+                    transaction.oncomplete =
+                        function(){
+
+                            resolve();
+
+                        };
+
+                    transaction.onerror =
+                        function(){
+
+                            reject(
+                                transaction.error
+                            );
+
+                        };
+
+                }
+            );
+
+        });
+
+}
+
+
+/* ==================================================
    CHARGEMENT
-========================= */
+================================================== */
 
-function loadData(){
+async function loadData(){
 
     try{
 
         const saved =
-            localStorage.getItem(STORAGE_KEY);
+            localStorage.getItem(
+                STORAGE_KEY
+            );
 
         if(saved){
 
@@ -1279,37 +1573,6 @@ function loadData(){
             if(Array.isArray(data)){
 
                 accounts = data;
-
-                /* =========================
-                   AJOUT WHATSAPP AUX ANCIENS CONTACTS
-                ========================= */
-
-                let migrated = false;
-
-                accounts.forEach(function(account){
-
-                    if(
-                        typeof account.whatsapp ===
-                        "undefined"
-                    ){
-
-                        account.whatsapp = "";
-
-                        migrated = true;
-
-                    }
-
-                });
-
-                /* =========================
-                   SAUVEGARDE DE LA MIGRATION
-                ========================= */
-
-                if(migrated){
-
-                    saveData();
-
-                }
 
             }else{
 
@@ -1323,47 +1586,199 @@ function loadData(){
 
         }
 
+        /*
+         * Migration des anciens contacts
+         */
+
+        let migrated =
+            false;
+
+        for(
+            let i = 0;
+            i < accounts.length;
+            i++
+        ){
+
+            const account =
+                accounts[i];
+
+            if(
+                typeof account.whatsapp ===
+                "undefined"
+            ){
+
+                account.whatsapp = "";
+
+                migrated = true;
+
+            }
+
+            /*
+             * Les anciennes versions
+             * n'avaient pas forcément d'id.
+             */
+
+            if(!account.id){
+
+                account.id =
+                    "account_" +
+                    Date.now() +
+                    "_" +
+                    Math.random()
+                        .toString(36)
+                        .substring(2,10);
+
+                migrated = true;
+
+            }
+
+            /*
+             * MIGRATION DES ANCIENNES PHOTOS
+             *
+             * Avant :
+             * account.photo = "data:image/..."
+             *
+             * Maintenant :
+             * account.photoId = "photo_..."
+             */
+
+            if(
+                account.photo &&
+                !account.photoId
+            ){
+
+                try{
+
+                    const photoId =
+                        createPhotoId();
+
+                    await savePhotoToDB(
+                        photoId,
+                        account.photo
+                    );
+
+                    account.photoId =
+                        photoId;
+
+                    delete account.photo;
+
+                    migrated = true;
+
+                }catch(photoError){
+
+                    console.error(
+                        "Erreur migration photo :",
+                        photoError
+                    );
+
+                }
+
+            }
+
+            /*
+             * Si une ancienne photo est
+             * encore présente mais qu'un
+             * photoId existe déjà, on supprime
+             * simplement la copie lourde.
+             */
+
+            if(
+                account.photo &&
+                account.photoId
+            ){
+
+                delete account.photo;
+
+                migrated = true;
+
+            }
+
+        }
+
+        if(migrated){
+
+            saveData();
+
+        }
+
     }catch(error){
 
-        console.error(error);
+        console.error(
+            "Erreur chargement :",
+            error
+        );
 
         accounts = [];
 
     }
 
     updateUserCount();
-    renderAccounts();
+
+    await renderAccounts();
 
 }
 
 
-/* =========================
+/* ==================================================
    SAUVEGARDE
-========================= */
+================================================== */
 
 function saveData(){
 
     try{
 
+        /*
+         * On crée une copie sans les photos.
+         *
+         * Les photos sont uniquement
+         * dans IndexedDB.
+         */
+
+        const cleanAccounts =
+            accounts.map(function(account){
+
+                const copy =
+                    Object.assign(
+                        {},
+                        account
+                    );
+
+                delete copy.photo;
+
+                return copy;
+
+            });
+
         localStorage.setItem(
             STORAGE_KEY,
-            JSON.stringify(accounts)
+            JSON.stringify(
+                cleanAccounts
+            )
         );
 
+        return true;
+
     }catch(error){
+
+        console.error(
+            "Erreur sauvegarde :",
+            error
+        );
 
         alert(
             "Impossible de sauvegarder les données."
         );
+
+        return false;
 
     }
 
 }
 
 
-/* =========================
+/* ==================================================
    LOGIN
-========================= */
+================================================== */
 
 function login(){
 
@@ -1406,9 +1821,9 @@ function login(){
 }
 
 
-/* =========================
+/* ==================================================
    FACE ID
-========================= */
+================================================== */
 
 function randomBytes(length){
 
@@ -1512,7 +1927,6 @@ async function activateFaceID(){
         return;
 
     }
-
 
     try{
 
@@ -1679,10 +2093,6 @@ async function faceIDLogin(){
         );
 
 
-    /* =========================
-       PREMIÈRE UTILISATION
-    ========================= */
-
     if(!savedCredential){
 
         const pin =
@@ -1722,10 +2132,6 @@ async function faceIDLogin(){
 
     }
 
-
-    /* =========================
-       CONNEXION AVEC FACE ID
-    ========================= */
 
     try{
 
@@ -1881,9 +2287,9 @@ document
     );
 
 
-/* =========================
+/* ==================================================
    COMPTEUR
-========================= */
+================================================== */
 
 function updateUserCount(){
 
@@ -1905,13 +2311,17 @@ function updateUserCount(){
 }
 
 
-/* =========================
+/* ==================================================
    FORMULAIRE
-========================= */
+================================================== */
 
 function showAddForm(){
 
     editIndex = -1;
+
+    currentPhoto = "";
+
+    currentPhotoId = "";
 
     clearForm();
 
@@ -1942,10 +2352,15 @@ function clearForm(){
     document.getElementById("whatsapp").value = "";
 
     document.getElementById("username").value = "";
+
     document.getElementById("password").value = "";
+
     document.getElementById("url1").value = "";
+
     document.getElementById("url2").value = "";
+
     document.getElementById("remark").value = "";
+
     document.getElementById("duration").value = "";
 
     document
@@ -1953,9 +2368,13 @@ function clearForm(){
         .checked = false;
 
     document.getElementById("appUrl1").value = "";
+
     document.getElementById("mac").value = "";
+
     document.getElementById("mac2").value = "";
+
     document.getElementById("appKey").value = "";
+
     document.getElementById("appKey2").value = "";
 
     document
@@ -1964,6 +2383,8 @@ function clearForm(){
         .add("hidden");
 
     currentPhoto = "";
+
+    currentPhotoId = "";
 
     document
         .getElementById("photoContainer")
@@ -2004,6 +2425,10 @@ function cancelForm(){
 
     editIndex = -1;
 
+    currentPhoto = "";
+
+    currentPhotoId = "";
+
     clearForm();
 
 }
@@ -2027,9 +2452,9 @@ function toggleApplicationFields(){
 }
 
 
-/* =========================
+/* ==================================================
    MOT DE PASSE
-========================= */
+================================================== */
 
 function togglePassword(){
 
@@ -2045,9 +2470,9 @@ function togglePassword(){
 }
 
 
-/* =========================
+/* ==================================================
    COPIE
-========================= */
+================================================== */
 
 function copyText(text,button){
 
@@ -2262,14 +2687,20 @@ document.addEventListener(
 function showCopyFallback(text){
 
     const modal =
-        document.getElementById("copyModal");
+        document.getElementById(
+            "copyModal"
+        );
 
     const input =
-        document.getElementById("copyFallback");
+        document.getElementById(
+            "copyFallback"
+        );
 
     input.value = text;
 
-    modal.classList.remove("hidden");
+    modal.classList.remove(
+        "hidden"
+    );
 
     setTimeout(function(){
 
@@ -2283,9 +2714,12 @@ function showCopyFallback(text){
 function selectFallback(){
 
     const input =
-        document.getElementById("copyFallback");
+        document.getElementById(
+            "copyFallback"
+        );
 
     input.focus();
+
     input.select();
 
     try{
@@ -2310,9 +2744,9 @@ function closeCopyModal(){
 }
 
 
-/* =========================
-   PHOTO
-========================= */
+/* ==================================================
+   PHOTOS
+================================================== */
 
 function choosePhoto(){
 
@@ -2397,9 +2831,9 @@ function removePhoto(){
 }
 
 
-/* =========================
+/* ==================================================
    DATES
-========================= */
+================================================== */
 
 function calculateExpiryDate(
     startDate,
@@ -2528,9 +2962,9 @@ document
     );
 
 
-/* =========================
+/* ==================================================
    WHATSAPP
-========================= */
+================================================== */
 
 function openWhatsApp(number){
 
@@ -2593,11 +3027,11 @@ function openWhatsApp(number){
 }
 
 
-/* =========================
+/* ==================================================
    ENREGISTRER
-========================= */
+================================================== */
 
-function saveAccount(){
+async function saveAccount(){
 
     const name =
         document
@@ -2694,111 +3128,242 @@ function saveAccount(){
             .trim();
 
 
-    if(editIndex === -1){
+    try{
 
-        accounts.push({
+        if(editIndex === -1){
 
-            name:name,
+            const accountId =
+                "account_" +
+                Date.now() +
+                "_" +
+                Math.random()
+                    .toString(36)
+                    .substring(2,10);
 
-            whatsapp:whatsapp,
+            let photoId = "";
 
-            username:username,
-            password:password,
-            url1:url1,
-            url2:url2,
-            remark:remark,
-            duration:duration,
-            startDate:
-                new Date().toISOString(),
-            isApplication:
-                isApplication,
-            appUrl1:
-                appUrl1,
-            mac:
-                mac,
-            mac2:
-                mac2,
-            appKey:
-                appKey,
-            appKey2:
-                appKey2,
-            photo:
-                currentPhoto
+            if(currentPhoto){
 
-        });
+                photoId =
+                    createPhotoId();
 
-    }else{
+                await savePhotoToDB(
+                    photoId,
+                    currentPhoto
+                );
 
-        const account =
-            accounts[editIndex];
+            }
 
-        account.name =
-            name;
+            accounts.push({
 
-        account.whatsapp =
-            whatsapp;
+                id:
+                    accountId,
 
-        account.username =
-            username;
+                name:
+                    name,
 
-        account.password =
-            password;
+                whatsapp:
+                    whatsapp,
 
-        account.url1 =
-            url1;
+                username:
+                    username,
 
-        account.url2 =
-            url2;
+                password:
+                    password,
 
-        account.remark =
-            remark;
+                url1:
+                    url1,
 
-        account.duration =
-            duration;
+                url2:
+                    url2,
 
-        account.isApplication =
-            isApplication;
+                remark:
+                    remark,
 
-        account.appUrl1 =
-            appUrl1;
+                duration:
+                    duration,
 
-        account.mac =
-            mac;
+                startDate:
+                    new Date().toISOString(),
 
-        account.mac2 =
-            mac2;
+                isApplication:
+                    isApplication,
 
-        account.appKey =
-            appKey;
+                appUrl1:
+                    appUrl1,
 
-        account.appKey2 =
-            appKey2;
+                mac:
+                    mac,
 
-        account.photo =
-            currentPhoto;
+                mac2:
+                    mac2,
 
-        if(!account.startDate){
+                appKey:
+                    appKey,
 
-            account.startDate =
-                new Date().toISOString();
+                appKey2:
+                    appKey2,
+
+                photoId:
+                    photoId
+
+            });
+
+        }else{
+
+            const account =
+                accounts[editIndex];
+
+            if(!account){
+
+                return;
+
+            }
+
+            if(!account.id){
+
+                account.id =
+                    "account_" +
+                    Date.now() +
+                    "_" +
+                    Math.random()
+                        .toString(36)
+                        .substring(2,10);
+
+            }
+
+
+            /*
+             * PHOTO MODIFIÉE
+             */
+
+            if(currentPhoto){
+
+                if(!account.photoId){
+
+                    account.photoId =
+                        createPhotoId();
+
+                }
+
+                await savePhotoToDB(
+                    account.photoId,
+                    currentPhoto
+                );
+
+            }else{
+
+                /*
+                 * PHOTO SUPPRIMÉE
+                 */
+
+                if(account.photoId){
+
+                    await deletePhotoFromDB(
+                        account.photoId
+                    );
+
+                }
+
+                account.photoId = "";
+
+            }
+
+
+            account.name =
+                name;
+
+            account.whatsapp =
+                whatsapp;
+
+            account.username =
+                username;
+
+            account.password =
+                password;
+
+            account.url1 =
+                url1;
+
+            account.url2 =
+                url2;
+
+            account.remark =
+                remark;
+
+            account.duration =
+                duration;
+
+            account.isApplication =
+                isApplication;
+
+            account.appUrl1 =
+                appUrl1;
+
+            account.mac =
+                mac;
+
+            account.mac2 =
+                mac2;
+
+            account.appKey =
+                appKey;
+
+            account.appKey2 =
+                appKey2;
+
+
+            if(!account.startDate){
+
+                account.startDate =
+                    new Date().toISOString();
+
+            }
 
         }
 
-    }
 
-    saveData();
-    updateUserCount();
-    renderAccounts();
-    cancelForm();
+        /*
+         * IMPORTANT :
+         * localStorage ne reçoit
+         * jamais la photo.
+         */
+
+        if(!saveData()){
+
+            return;
+
+        }
+
+        updateUserCount();
+
+        await renderAccounts();
+
+        cancelForm();
+
+
+    }catch(error){
+
+        console.error(
+            "Erreur sauvegarde compte :",
+            error
+        );
+
+        alert(
+            "Impossible de sauvegarder cet accès.\n\n" +
+            "La photo ou les données n'ont pas pu être enregistrées."
+        );
+
+    }
 
 }
 
 
-/* =========================
+/* ==================================================
    MODIFIER
-========================= */
+================================================== */
 
-function editAccount(index){
+async function editAccount(index){
 
     const account =
         accounts[index];
@@ -2888,29 +3453,64 @@ function editAccount(index){
 
     toggleApplicationFields();
 
-    currentPhoto =
-        account.photo || "";
 
-    if(currentPhoto){
+    /*
+     * Chargement de la photo
+     */
 
-        document
-            .getElementById("photoPreview")
-            .src =
-                currentPhoto;
+    currentPhoto = "";
 
-        document
-            .getElementById("photoContainer")
-            .classList
-            .remove("hidden");
+    currentPhotoId =
+        account.photoId || "";
 
-    }else{
 
-        document
-            .getElementById("photoContainer")
-            .classList
-            .add("hidden");
+    document
+        .getElementById("photoContainer")
+        .classList
+        .add("hidden");
+
+    document
+        .getElementById("photoPreview")
+        .removeAttribute("src");
+
+
+    if(account.photoId){
+
+        try{
+
+            const photo =
+                await getPhotoFromDB(
+                    account.photoId
+                );
+
+            if(photo){
+
+                currentPhoto =
+                    photo;
+
+                document
+                    .getElementById("photoPreview")
+                    .src =
+                        photo;
+
+                document
+                    .getElementById("photoContainer")
+                    .classList
+                    .remove("hidden");
+
+            }
+
+        }catch(error){
+
+            console.error(
+                "Erreur chargement photo :",
+                error
+            );
+
+        }
 
     }
+
 
     document
         .getElementById("formCard")
@@ -2927,11 +3527,11 @@ function editAccount(index){
 }
 
 
-/* =========================
+/* ==================================================
    SUPPRIMER
-========================= */
+================================================== */
 
-function deleteAccount(index){
+async function deleteAccount(index){
 
     const account =
         accounts[index];
@@ -2957,21 +3557,52 @@ function deleteAccount(index){
 
     }
 
-    accounts.splice(
-        index,
-        1
-    );
 
-    saveData();
-    updateUserCount();
-    renderAccounts();
+    try{
+
+        /*
+         * Supprime également
+         * la photo de IndexedDB.
+         */
+
+        if(account.photoId){
+
+            await deletePhotoFromDB(
+                account.photoId
+            );
+
+        }
+
+        accounts.splice(
+            index,
+            1
+        );
+
+        saveData();
+
+        updateUserCount();
+
+        await renderAccounts();
+
+    }catch(error){
+
+        console.error(
+            "Erreur suppression :",
+            error
+        );
+
+        alert(
+            "Impossible de supprimer complètement cet accès."
+        );
+
+    }
 
 }
 
 
-/* =========================
+/* ==================================================
    COMPTE À REBOURS
-========================= */
+================================================== */
 
 function getCountdown(account){
 
@@ -2981,8 +3612,10 @@ function getCountdown(account){
     ){
 
         return {
-            text:"⏳ Aucune durée définie",
-            className:"none"
+            text:
+                "⏳ Aucune durée définie",
+            className:
+                "none"
         };
 
     }
@@ -2997,8 +3630,10 @@ function getCountdown(account){
     ){
 
         return {
-            text:"⏳ Date invalide",
-            className:"none"
+            text:
+                "⏳ Date invalide",
+            className:
+                "none"
         };
 
     }
@@ -3049,7 +3684,8 @@ function getCountdown(account){
                 "❌ Expiré depuis " +
                 Math.abs(days) +
                 " jour(s)",
-            className:"expired"
+            className:
+                "expired"
         };
 
     }
@@ -3061,7 +3697,8 @@ function getCountdown(account){
                 "🔴 " +
                 days +
                 " jour(s) restant(s)",
-            className:"danger"
+            className:
+                "danger"
         };
 
     }
@@ -3073,7 +3710,8 @@ function getCountdown(account){
                 "🟠 " +
                 days +
                 " jours restants",
-            className:"warning"
+            className:
+                "warning"
         };
 
     }
@@ -3083,15 +3721,16 @@ function getCountdown(account){
             "🟢 " +
             days +
             " jours restants",
-        className:"ok"
+        className:
+            "ok"
     };
 
 }
 
 
-/* =========================
+/* ==================================================
    GOOGLE CALENDAR
-========================= */
+================================================== */
 
 function googleDate(date){
 
@@ -3185,9 +3824,9 @@ function addToGoogleCalendar(index){
 }
 
 
-/* =========================
+/* ==================================================
    URL
-========================= */
+================================================== */
 
 function normalizeUrl(url){
 
@@ -3214,11 +3853,11 @@ function normalizeUrl(url){
 }
 
 
-/* =========================
+/* ==================================================
    AFFICHAGE
-========================= */
+================================================== */
 
-function renderAccounts(){
+async function renderAccounts(){
 
     const list =
         document.getElementById(
@@ -3324,666 +3963,701 @@ function renderAccounts(){
     }
 
 
-    filtered.forEach(
-        function(item){
+    /*
+     * On construit les cartes
+     * une par une afin de pouvoir
+     * récupérer les photos dans
+     * IndexedDB.
+     */
 
-            const account =
-                item.account;
+    for(
+        let itemIndex = 0;
+        itemIndex < filtered.length;
+        itemIndex++
+    ){
 
-            const index =
-                item.index;
+        const item =
+            filtered[itemIndex];
 
-            const countdown =
-                getCountdown(account);
+        const account =
+            item.account;
 
-            const div =
-                document.createElement(
-                    "div"
-                );
+        const index =
+            item.index;
 
-            div.className =
-                "account";
+        const countdown =
+            getCountdown(account);
 
-            let html = "";
+        const div =
+            document.createElement(
+                "div"
+            );
 
+        div.className =
+            "account";
+
+        let html = "";
+
+
+        html +=
+            '<div class="accountHeader" ' +
+            'onclick="toggleAccount(' +
+            index +
+            ')">' +
+
+            "<h2>" +
+            "👤 " +
+            escapeHtml(
+                account.name ||
+                "Sans nom"
+            ) +
+            "</h2>" +
+
+            '<span class="accountArrow">▼</span>' +
+
+            "</div>" +
+
+            '<div class="accountContent">';
+
+
+        html +=
+            '<div class="countdown ' +
+            countdown.className +
+            '">' +
+            escapeHtml(
+                countdown.text
+            ) +
+            "</div>";
+
+
+        if(account.duration){
 
             html +=
-                '<div class="accountHeader" ' +
-                'onclick="toggleAccount(' +
+                '<div class="accountLine">' +
+                '<div class="accountLabel">⏳ Durée</div>' +
+                '<div class="accountValue">' +
+                escapeHtml(
+                    account.duration +
+                    " jours"
+                ) +
+                "</div>" +
+                "</div>";
+
+        }
+
+
+        if(
+            account.duration &&
+            account.startDate
+        ){
+
+            const expiry =
+                calculateExpiryDate(
+                    account.startDate,
+                    account.duration
+                );
+
+            html +=
+                '<div class="accountLine">' +
+                '<div class="accountLabel">📅 Expiration</div>' +
+                '<div class="accountValue">' +
+                escapeHtml(
+                    formatDate(expiry)
+                ) +
+                "</div>" +
+                "</div>";
+
+            html +=
+                '<div class="calendarBox">' +
+                "<strong>📆 Rappel calendrier</strong>" +
+                '<button ' +
+                'class="calendarButton" ' +
+                'onclick="addToGoogleCalendar(' +
                 index +
                 ')">' +
+                "📅 Ajouter au calendrier Google" +
+                "</button>" +
+                "</div>";
 
-                "<h2>" +
-                "👤 " +
+        }
+
+
+        if(account.whatsapp){
+
+            html +=
+                '<div class="accountLine">' +
+
+                '<div class="accountLabel">' +
+                "📱 WhatsApp" +
+                "</div>" +
+
+                '<div class="copyArea">' +
+
+                '<input ' +
+                'class="copyValue" ' +
+                'readonly ' +
+                'value="' +
                 escapeHtml(
-                    account.name ||
-                    "Sans nom"
+                    account.whatsapp
                 ) +
-                "</h2>" +
+                '" ' +
+                'onclick="this.select()">' +
 
-                '<span class="accountArrow">▼</span>' +
+                '<button ' +
+                'class="copyBtn accountCopy" ' +
+                'data-index="' +
+                index +
+                '" ' +
+                'data-field="whatsapp">' +
+
+                "📋" +
+
+                "</button>" +
+
+                '<button ' +
+                'class="copyBtn" ' +
+                'type="button" ' +
+                'onclick="openWhatsApp(accounts[' +
+                index +
+                '].whatsapp)">' +
+
+                "🟢 WhatsApp" +
+
+                "</button>" +
 
                 "</div>" +
 
-                '<div class="accountContent">';
-
-
-            html +=
-                '<div class="countdown ' +
-                countdown.className +
-                '">' +
-                escapeHtml(
-                    countdown.text
-                ) +
                 "</div>";
-
-
-            if(account.duration){
-
-                html +=
-                    '<div class="accountLine">' +
-                    '<div class="accountLabel">⏳ Durée</div>' +
-                    '<div class="accountValue">' +
-                    escapeHtml(
-                        account.duration +
-                        " jours"
-                    ) +
-                    "</div>" +
-                    "</div>";
-
-            }
-
-
-            if(
-                account.duration &&
-                account.startDate
-            ){
-
-                const expiry =
-                    calculateExpiryDate(
-                        account.startDate,
-                        account.duration
-                    );
-
-                html +=
-                    '<div class="accountLine">' +
-                    '<div class="accountLabel">📅 Expiration</div>' +
-                    '<div class="accountValue">' +
-                    escapeHtml(
-                        formatDate(expiry)
-                    ) +
-                    "</div>" +
-                    "</div>";
-
-                html +=
-                    '<div class="calendarBox">' +
-                    "<strong>📆 Rappel calendrier</strong>" +
-                    '<button ' +
-                    'class="calendarButton" ' +
-                    'onclick="addToGoogleCalendar(' +
-                    index +
-                    ')">' +
-                    "📅 Ajouter au calendrier Google" +
-                    "</button>" +
-                    "</div>";
-
-            }
-
-
-            if(account.whatsapp){
-
-                html +=
-                    '<div class="accountLine">' +
-
-                    '<div class="accountLabel">' +
-                    "📱 WhatsApp" +
-                    "</div>" +
-
-                    '<div class="copyArea">' +
-
-                    '<input ' +
-                    'class="copyValue" ' +
-                    'readonly ' +
-                    'value="' +
-                    escapeHtml(
-                        account.whatsapp
-                    ) +
-                    '" ' +
-                    'onclick="this.select()">' +
-
-                    '<button ' +
-                    'class="copyBtn accountCopy" ' +
-                    'data-index="' +
-                    index +
-                    '" ' +
-                    'data-field="whatsapp">' +
-
-                    "📋" +
-
-                    "</button>" +
-
-                    '<button ' +
-                    'class="copyBtn" ' +
-                    'type="button" ' +
-                    'onclick="openWhatsApp(accounts[' +
-                    index +
-                    '].whatsapp)">' +
-
-                    "🟢 WhatsApp" +
-
-                    "</button>" +
-
-                    "</div>" +
-
-                    "</div>";
-
-            }
-
-
-            if(account.username){
-
-                html +=
-                    '<div class="accountLine">' +
-
-                    '<div class="accountLabel">' +
-                    "Utilisateur" +
-                    "</div>" +
-
-                    '<div class="copyArea">' +
-
-                    '<input ' +
-                    'class="copyValue" ' +
-                    'readonly ' +
-                    'value="' +
-                    escapeHtml(
-                        account.username
-                    ) +
-                    '" ' +
-                    'onclick="this.select()">' +
-
-                    '<button ' +
-                    'class="copyBtn accountCopy" ' +
-                    'data-index="' +
-                    index +
-                    '" ' +
-                    'data-field="username">' +
-
-                    "📋" +
-
-                    "</button>" +
-
-                    "</div>" +
-
-                    "</div>";
-
-            }
-
-
-            if(account.password){
-
-                html +=
-                    '<div class="accountLine">' +
-
-                    '<div class="accountLabel">' +
-                    "Mot de passe" +
-                    "</div>" +
-
-                    '<div class="copyArea">' +
-
-                    '<input ' +
-                    'id="password-' +
-                    index +
-                    '" ' +
-                    'class="copyValue" ' +
-                    'type="password" ' +
-                    'readonly ' +
-                    'value="' +
-                    escapeHtml(
-                        account.password
-                    ) +
-                    '">' +
-
-                    '<button ' +
-                    'class="copyBtn" ' +
-                    'onclick="showAccountPassword(' +
-                    index +
-                    ',this)">' +
-
-                    "👁️" +
-
-                    "</button>" +
-
-                    '<button ' +
-                    'class="copyBtn accountCopy" ' +
-                    'data-index="' +
-                    index +
-                    '" ' +
-                    'data-field="password">' +
-
-                    "📋" +
-
-                    "</button>" +
-
-                    "</div>" +
-
-                    "</div>";
-
-            }
-
-
-            if(account.url1){
-
-                const url1 =
-                    normalizeUrl(
-                        account.url1
-                    );
-
-                html +=
-                    '<div class="accountLine">' +
-
-                    '<div class="accountLabel">' +
-                    "URL 1" +
-                    "</div>" +
-
-                    '<div class="copyArea">' +
-
-                    '<a ' +
-                    'class="urlLink" ' +
-                    'href="' +
-                    escapeHtml(url1) +
-                    '" ' +
-                    'target="_blank" ' +
-                    'rel="noopener noreferrer">' +
-
-                    escapeHtml(
-                        account.url1
-                    ) +
-
-                    "</a>" +
-
-                    '<button ' +
-                    'class="copyBtn accountCopy" ' +
-                    'data-index="' +
-                    index +
-                    '" ' +
-                    'data-field="url1">' +
-
-                    "📋" +
-
-                    "</button>" +
-
-                    "</div>" +
-
-                    "</div>";
-
-            }
-
-
-            if(account.url2){
-
-                const url2 =
-                    normalizeUrl(
-                        account.url2
-                    );
-
-                html +=
-                    '<div class="accountLine">' +
-
-                    '<div class="accountLabel">' +
-                    "URL 2" +
-                    "</div>" +
-
-                    '<div class="copyArea">' +
-
-                    '<a ' +
-                    'class="urlLink" ' +
-                    'href="' +
-                    escapeHtml(url2) +
-                    '" ' +
-                    'target="_blank" ' +
-                    'rel="noopener noreferrer">' +
-
-                    escapeHtml(
-                        account.url2
-                    ) +
-
-                    "</a>" +
-
-                    '<button ' +
-                    'class="copyBtn accountCopy" ' +
-                    'data-index="' +
-                    index +
-                    '" ' +
-                    'data-field="url2">' +
-
-                    "📋" +
-
-                    "</button>" +
-
-                    "</div>" +
-
-                    "</div>";
-
-            }
-
-
-            if(account.remark){
-
-                html +=
-                    '<div class="accountLine">' +
-
-                    '<div class="accountLabel">' +
-                    "📝 Remarque" +
-                    "</div>" +
-
-                    '<div class="copyArea">' +
-
-                    '<textarea ' +
-                    'class="copyValue" ' +
-                    'readonly ' +
-                    'onclick="this.select()">' +
-
-                    escapeHtml(
-                        account.remark
-                    ) +
-
-                    '</textarea>' +
-
-                    '<button ' +
-                    'class="copyBtn accountCopy" ' +
-                    'data-index="' +
-                    index +
-                    '" ' +
-                    'data-field="remark">' +
-
-                    "📋" +
-
-                    "</button>" +
-
-                    "</div>" +
-
-                    "</div>";
-
-            }
-
-
-            if(account.isApplication){
-
-                html +=
-                    "<hr>" +
-
-                    '<div class="accountLabel">' +
-                    "📱 APPLICATION" +
-                    "</div>";
-
-
-                if(account.appUrl1){
-
-                    const appUrl =
-                        normalizeUrl(
-                            account.appUrl1
-                        );
-
-                    html +=
-                        '<div class="accountLine">' +
-
-                        '<div class="accountLabel">' +
-                        "URL application" +
-                        "</div>" +
-
-                        '<div class="copyArea">' +
-
-                        '<a ' +
-                        'class="urlLink" ' +
-                        'href="' +
-                        escapeHtml(appUrl) +
-                        '" ' +
-                        'target="_blank" ' +
-                        'rel="noopener noreferrer">' +
-
-                        escapeHtml(
-                            account.appUrl1
-                        ) +
-
-                        "</a>" +
-
-                        '<button ' +
-                        'class="copyBtn accountCopy" ' +
-                        'data-index="' +
-                        index +
-                        '" ' +
-                        'data-field="appUrl1">' +
-
-                        "📋" +
-
-                        "</button>" +
-
-                        "</div>" +
-
-                        "</div>";
-
-                }
-
-
-                if(account.mac){
-
-                    html +=
-                        '<div class="accountLine">' +
-
-                        '<div class="accountLabel">' +
-                        "MAC 1" +
-                        "</div>" +
-
-                        '<div class="copyArea">' +
-
-                        '<input ' +
-                        'class="copyValue" ' +
-                        'readonly ' +
-                        'value="' +
-                        escapeHtml(
-                            account.mac
-                        ) +
-                        '" ' +
-                        'onclick="this.select()">' +
-
-                        '<button ' +
-                        'class="copyBtn accountCopy" ' +
-                        'data-index="' +
-                        index +
-                        '" ' +
-                        'data-field="mac">' +
-
-                        "📋" +
-
-                        "</button>" +
-
-                        "</div>" +
-
-                        "</div>";
-
-                }
-
-
-                if(account.mac2){
-
-                    html +=
-                        '<div class="accountLine">' +
-
-                        '<div class="accountLabel">' +
-                        "MAC 2" +
-                        "</div>" +
-
-                        '<div class="copyArea">' +
-
-                        '<input ' +
-                        'class="copyValue" ' +
-                        'readonly ' +
-                        'value="' +
-                        escapeHtml(
-                            account.mac2
-                        ) +
-                        '" ' +
-                        'onclick="this.select()">' +
-
-                        '<button ' +
-                        'class="copyBtn accountCopy" ' +
-                        'data-index="' +
-                        index +
-                        '" ' +
-                        'data-field="mac2">' +
-
-                        "📋" +
-
-                        "</button>" +
-
-                        "</div>" +
-
-                        "</div>";
-
-                }
-
-
-                if(account.appKey){
-
-                    html +=
-                        '<div class="accountLine">' +
-
-                        '<div class="accountLabel">' +
-                        "Clé 1" +
-                        "</div>" +
-
-                        '<div class="copyArea">' +
-
-                        '<input ' +
-                        'class="copyValue" ' +
-                        'readonly ' +
-                        'value="' +
-                        escapeHtml(
-                            account.appKey
-                        ) +
-                        '" ' +
-                        'onclick="this.select()">' +
-
-                        '<button ' +
-                        'class="copyBtn accountCopy" ' +
-                        'data-index="' +
-                        index +
-                        '" ' +
-                        'data-field="appKey">' +
-
-                        "📋" +
-
-                        "</button>" +
-
-                        "</div>" +
-
-                        "</div>";
-
-                }
-
-
-                if(account.appKey2){
-
-                    html +=
-                        '<div class="accountLine">' +
-
-                        '<div class="accountLabel">' +
-                        "Clé 2" +
-                        "</div>" +
-
-                        '<div class="copyArea">' +
-
-                        '<input ' +
-                        'class="copyValue" ' +
-                        'readonly ' +
-                        'value="' +
-                        escapeHtml(
-                            account.appKey2
-                        ) +
-                        '" ' +
-                        'onclick="this.select()">' +
-
-                        '<button ' +
-                        'class="copyBtn accountCopy" ' +
-                        'data-index="' +
-                        index +
-                        '" ' +
-                        'data-field="appKey2">' +
-
-                        "📋" +
-
-                        "</button>" +
-
-                        "</div>" +
-
-                        "</div>";
-
-                }
-
-            }
-
-
-            if(account.photo){
-
-                html +=
-                    "<hr>" +
-
-                    '<img ' +
-                    'src="' +
-                    escapeHtml(
-                        account.photo
-                    ) +
-                    '" ' +
-                    'class="photoPreview">';
-
-            }
-
-
-            html +=
-                '<div class="actions">' +
-
-                '<button ' +
-                'class="secondary" ' +
-                'onclick="editAccount(' +
-                index +
-                ')">' +
-
-                "✏️ Modifier" +
-
-                "</button>" +
-
-                '<button ' +
-                'class="danger" ' +
-                'onclick="deleteAccount(' +
-                index +
-                ')">' +
-
-                "🗑️ Supprimer" +
-
-                "</button>" +
-
-                "</div>";
-
-
-            html += "</div>";
-
-
-            div.innerHTML =
-                html;
-
-            list.appendChild(
-                div
-            );
 
         }
-    );
+
+
+        if(account.username){
+
+            html +=
+                '<div class="accountLine">' +
+
+                '<div class="accountLabel">' +
+                "Utilisateur" +
+                "</div>" +
+
+                '<div class="copyArea">' +
+
+                '<input ' +
+                'class="copyValue" ' +
+                'readonly ' +
+                'value="' +
+                escapeHtml(
+                    account.username
+                ) +
+                '" ' +
+                'onclick="this.select()">' +
+
+                '<button ' +
+                'class="copyBtn accountCopy" ' +
+                'data-index="' +
+                index +
+                '" ' +
+                'data-field="username">' +
+
+                "📋" +
+
+                "</button>" +
+
+                "</div>" +
+
+                "</div>";
+
+        }
+
+
+        if(account.password){
+
+            html +=
+                '<div class="accountLine">' +
+
+                '<div class="accountLabel">' +
+                "Mot de passe" +
+                "</div>" +
+
+                '<div class="copyArea">' +
+
+                '<input ' +
+                'id="password-' +
+                index +
+                '" ' +
+                'class="copyValue" ' +
+                'type="password" ' +
+                'readonly ' +
+                'value="' +
+                escapeHtml(
+                    account.password
+                ) +
+                '">' +
+
+                '<button ' +
+                'class="copyBtn" ' +
+                'onclick="showAccountPassword(' +
+                index +
+                ',this)">' +
+
+                "👁️" +
+
+                "</button>" +
+
+                '<button ' +
+                'class="copyBtn accountCopy" ' +
+                'data-index="' +
+                index +
+                '" ' +
+                'data-field="password">' +
+
+                "📋" +
+
+                "</button>" +
+
+                "</div>" +
+
+                "</div>";
+
+        }
+
+
+        if(account.url1){
+
+            const url1 =
+                normalizeUrl(
+                    account.url1
+                );
+
+            html +=
+                '<div class="accountLine">' +
+
+                '<div class="accountLabel">' +
+                "URL 1" +
+                "</div>" +
+
+                '<div class="copyArea">' +
+
+                '<a ' +
+                'class="urlLink" ' +
+                'href="' +
+                escapeHtml(url1) +
+                '" ' +
+                'target="_blank" ' +
+                'rel="noopener noreferrer">' +
+
+                escapeHtml(
+                    account.url1
+                ) +
+
+                "</a>" +
+
+                '<button ' +
+                'class="copyBtn accountCopy" ' +
+                'data-index="' +
+                index +
+                '" ' +
+                'data-field="url1">' +
+
+                "📋" +
+
+                "</button>" +
+
+                "</div>" +
+
+                "</div>";
+
+        }
+
+
+        if(account.url2){
+
+            const url2 =
+                normalizeUrl(
+                    account.url2
+                );
+
+            html +=
+                '<div class="accountLine">' +
+
+                '<div class="accountLabel">' +
+                "URL 2" +
+                "</div>" +
+
+                '<div class="copyArea">' +
+
+                '<a ' +
+                'class="urlLink" ' +
+                'href="' +
+                escapeHtml(url2) +
+                '" ' +
+                'target="_blank" ' +
+                'rel="noopener noreferrer">' +
+
+                escapeHtml(
+                    account.url2
+                ) +
+
+                "</a>" +
+
+                '<button ' +
+                'class="copyBtn accountCopy" ' +
+                'data-index="' +
+                index +
+                '" ' +
+                'data-field="url2">' +
+
+                "📋" +
+
+                "</button>" +
+
+                "</div>" +
+
+                "</div>";
+
+        }
+
+
+        if(account.remark){
+
+            html +=
+                '<div class="accountLine">' +
+
+                '<div class="accountLabel">' +
+                "📝 Remarque" +
+                "</div>" +
+
+                '<div class="copyArea">' +
+
+                '<textarea ' +
+                'class="copyValue" ' +
+                'readonly ' +
+                'onclick="this.select()">' +
+
+                escapeHtml(
+                    account.remark
+                ) +
+
+                '</textarea>' +
+
+                '<button ' +
+                'class="copyBtn accountCopy" ' +
+                'data-index="' +
+                index +
+                '" ' +
+                'data-field="remark">' +
+
+                "📋" +
+
+                "</button>" +
+
+                "</div>" +
+
+                "</div>";
+
+        }
+
+
+        if(account.isApplication){
+
+            html +=
+                "<hr>" +
+
+                '<div class="accountLabel">' +
+                "📱 APPLICATION" +
+                "</div>";
+
+
+            if(account.appUrl1){
+
+                const appUrl =
+                    normalizeUrl(
+                        account.appUrl1
+                    );
+
+                html +=
+                    '<div class="accountLine">' +
+
+                    '<div class="accountLabel">' +
+                    "URL application" +
+                    "</div>" +
+
+                    '<div class="copyArea">' +
+
+                    '<a ' +
+                    'class="urlLink" ' +
+                    'href="' +
+                    escapeHtml(appUrl) +
+                    '" ' +
+                    'target="_blank" ' +
+                    'rel="noopener noreferrer">' +
+
+                    escapeHtml(
+                        account.appUrl1
+                    ) +
+
+                    "</a>" +
+
+                    '<button ' +
+                    'class="copyBtn accountCopy" ' +
+                    'data-index="' +
+                    index +
+                    '" ' +
+                    'data-field="appUrl1">' +
+
+                    "📋" +
+
+                    "</button>" +
+
+                    "</div>" +
+
+                    "</div>";
+
+            }
+
+
+            if(account.mac){
+
+                html +=
+                    '<div class="accountLine">' +
+
+                    '<div class="accountLabel">' +
+                    "MAC 1" +
+                    "</div>" +
+
+                    '<div class="copyArea">' +
+
+                    '<input ' +
+                    'class="copyValue" ' +
+                    'readonly ' +
+                    'value="' +
+                    escapeHtml(
+                        account.mac
+                    ) +
+                    '" ' +
+                    'onclick="this.select()">' +
+
+                    '<button ' +
+                    'class="copyBtn accountCopy" ' +
+                    'data-index="' +
+                    index +
+                    '" ' +
+                    'data-field="mac">' +
+
+                    "📋" +
+
+                    "</button>" +
+
+                    "</div>" +
+
+                    "</div>";
+
+            }
+
+
+            if(account.mac2){
+
+                html +=
+                    '<div class="accountLine">' +
+
+                    '<div class="accountLabel">' +
+                    "MAC 2" +
+                    "</div>" +
+
+                    '<div class="copyArea">' +
+
+                    '<input ' +
+                    'class="copyValue" ' +
+                    'readonly ' +
+                    'value="' +
+                    escapeHtml(
+                        account.mac2
+                    ) +
+                    '" ' +
+                    'onclick="this.select()">' +
+
+                    '<button ' +
+                    'class="copyBtn accountCopy" ' +
+                    'data-index="' +
+                    index +
+                    '" ' +
+                    'data-field="mac2">' +
+
+                    "📋" +
+
+                    "</button>" +
+
+                    "</div>" +
+
+                    "</div>";
+
+            }
+
+
+            if(account.appKey){
+
+                html +=
+                    '<div class="accountLine">' +
+
+                    '<div class="accountLabel">' +
+                    "Clé 1" +
+                    "</div>" +
+
+                    '<div class="copyArea">' +
+
+                    '<input ' +
+                    'class="copyValue" ' +
+                    'readonly ' +
+                    'value="' +
+                    escapeHtml(
+                        account.appKey
+                    ) +
+                    '" ' +
+                    'onclick="this.select()">' +
+
+                    '<button ' +
+                    'class="copyBtn accountCopy" ' +
+                    'data-index="' +
+                    index +
+                    '" ' +
+                    'data-field="appKey">' +
+
+                    "📋" +
+
+                    "</button>" +
+
+                    "</div>" +
+
+                    "</div>";
+
+            }
+
+
+            if(account.appKey2){
+
+                html +=
+                    '<div class="accountLine">' +
+
+                    '<div class="accountLabel">' +
+                    "Clé 2" +
+                    "</div>" +
+
+                    '<div class="copyArea">' +
+
+                    '<input ' +
+                    'class="copyValue" ' +
+                    'readonly ' +
+                    'value="' +
+                    escapeHtml(
+                        account.appKey2
+                    ) +
+                    '" ' +
+                    'onclick="this.select()">' +
+
+                    '<button ' +
+                    'class="copyBtn accountCopy" ' +
+                    'data-index="' +
+                    index +
+                    '" ' +
+                    'data-field="appKey2">' +
+
+                    "📋" +
+
+                    "</button>" +
+
+                    "</div>" +
+
+                    "</div>";
+
+            }
+
+        }
+
+
+        /*
+         * PHOTO DEPUIS INDEXEDDB
+         */
+
+        if(account.photoId){
+
+            try{
+
+                const photo =
+                    await getPhotoFromDB(
+                        account.photoId
+                    );
+
+                if(photo){
+
+                    html +=
+                        "<hr>" +
+
+                        '<img ' +
+                        'src="' +
+                        escapeHtml(photo) +
+                        '" ' +
+                        'class="photoPreview">';
+
+                }
+
+            }catch(error){
+
+                console.error(
+                    "Erreur affichage photo :",
+                    error
+                );
+
+            }
+
+        }
+
+
+        html +=
+            '<div class="actions">' +
+
+            '<button ' +
+            'class="secondary" ' +
+            'onclick="editAccount(' +
+            index +
+            ')">' +
+
+            "✏️ Modifier" +
+
+            "</button>" +
+
+            '<button ' +
+            'class="danger" ' +
+            'onclick="deleteAccount(' +
+            index +
+            ')">' +
+
+            "🗑️ Supprimer" +
+
+            "</button>" +
+
+            "</div>";
+
+
+        html +=
+            "</div>";
+
+
+        div.innerHTML =
+            html;
+
+        list.appendChild(
+            div
+        );
+
+    }
 
 }
 
 
-/* =========================
+/* ==================================================
    OUVRIR / FERMER
-========================= */
+================================================== */
 
 function toggleAccount(index){
 
@@ -4005,7 +4679,9 @@ function toggleAccount(index){
             );
 
         if(!header){
+
             return;
+
         }
 
         const onclickValue =
@@ -4031,9 +4707,9 @@ function toggleAccount(index){
 }
 
 
-/* =========================
+/* ==================================================
    MOT DE PASSE AFFICHÉ
-========================= */
+================================================== */
 
 function showAccountPassword(
     index,
@@ -4071,9 +4747,9 @@ function showAccountPassword(
 }
 
 
-/* =========================
+/* ==================================================
    SÉCURITÉ
-========================= */
+================================================== */
 
 function escapeHtml(value){
 
@@ -4104,59 +4780,126 @@ function escapeHtml(value){
 }
 
 
-/* =========================
+/* ==================================================
    EXPORT
-========================= */
+================================================== */
 
-function exportData(){
+/*
+ * L'export contient les photos.
+ * On reconstruit temporairement les
+ * photos depuis IndexedDB.
+ */
 
-    const data =
-        JSON.stringify(
-            accounts,
-            null,
-            2
-        );
+async function exportData(){
 
-    const blob =
-        new Blob(
-            [data],
-            {
-                type:
-                    "application/json"
+    try{
+
+        const exportAccounts = [];
+
+        for(
+            let i = 0;
+            i < accounts.length;
+            i++
+        ){
+
+            const account =
+                Object.assign(
+                    {},
+                    accounts[i]
+                );
+
+            delete account.photo;
+
+            if(account.photoId){
+
+                const photo =
+                    await getPhotoFromDB(
+                        account.photoId
+                    );
+
+                if(photo){
+
+                    account.photo =
+                        photo;
+
+                }
+
             }
+
+            exportAccounts.push(
+                account
+            );
+
+        }
+
+
+        const data =
+            JSON.stringify(
+                exportAccounts,
+                null,
+                2
+            );
+
+        const blob =
+            new Blob(
+                [data],
+                {
+                    type:
+                        "application/json"
+                }
+            );
+
+        const url =
+            URL.createObjectURL(
+                blob
+            );
+
+        const a =
+            document.createElement(
+                "a"
+            );
+
+        a.href =
+            url;
+
+        a.download =
+            "mes-acces-sauvegarde.json";
+
+        document.body.appendChild(
+            a
         );
 
-    const url =
-        URL.createObjectURL(
-            blob
+        a.click();
+
+        document.body.removeChild(
+            a
         );
 
-    const a =
-        document.createElement(
-            "a"
+        URL.revokeObjectURL(
+            url
         );
 
-    a.href = url;
+    }catch(error){
 
-    a.download =
-        "mes-acces-sauvegarde.json";
+        console.error(
+            "Erreur export :",
+            error
+        );
 
-    document.body.appendChild(a);
+        alert(
+            "Impossible de créer la sauvegarde."
+        );
 
-    a.click();
-
-    document.body.removeChild(a);
-
-    URL.revokeObjectURL(url);
+    }
 
 }
 
 
-/* =========================
+/* ==================================================
    IMPORT
-========================= */
+================================================== */
 
-function importData(event){
+async function importData(event){
 
     const file =
         event.target.files[0];
@@ -4171,7 +4914,7 @@ function importData(event){
         new FileReader();
 
     reader.onload =
-        function(e){
+        async function(e){
 
             try{
 
@@ -4204,18 +4947,136 @@ function importData(event){
 
                 }
 
+
+                /*
+                 * Supprime les anciennes
+                 * photos des utilisateurs
+                 * remplacés.
+                 */
+
+                for(
+                    let i = 0;
+                    i < accounts.length;
+                    i++
+                ){
+
+                    if(
+                        accounts[i].photoId
+                    ){
+
+                        try{
+
+                            await deletePhotoFromDB(
+                                accounts[i].photoId
+                            );
+
+                        }catch(error){
+
+                            console.error(
+                                error
+                            );
+
+                        }
+
+                    }
+
+                }
+
+
+                const newAccounts = [];
+
+
+                for(
+                    let i = 0;
+                    i < imported.length;
+                    i++
+                ){
+
+                    const account =
+                        Object.assign(
+                            {},
+                            imported[i]
+                        );
+
+
+                    if(!account.id){
+
+                        account.id =
+                            "account_" +
+                            Date.now() +
+                            "_" +
+                            Math.random()
+                                .toString(36)
+                                .substring(2,10);
+
+                    }
+
+
+                    if(
+                        typeof account.whatsapp ===
+                        "undefined"
+                    ){
+
+                        account.whatsapp =
+                            "";
+
+                    }
+
+
+                    /*
+                     * Ancienne sauvegarde :
+                     * photo = data:image/...
+                     *
+                     * On la place dans
+                     * IndexedDB.
+                     */
+
+                    if(account.photo){
+
+                        const photoId =
+                            createPhotoId();
+
+                        await savePhotoToDB(
+                            photoId,
+                            account.photo
+                        );
+
+                        account.photoId =
+                            photoId;
+
+                        delete account.photo;
+
+                    }
+
+
+                    newAccounts.push(
+                        account
+                    );
+
+                }
+
+
                 accounts =
-                    imported;
+                    newAccounts;
+
 
                 saveData();
+
                 updateUserCount();
-                renderAccounts();
+
+                await renderAccounts();
+
 
                 alert(
                     "✅ Sauvegarde restaurée."
                 );
 
             }catch(error){
+
+                console.error(
+                    "Erreur import :",
+                    error
+                );
 
                 alert(
                     "Impossible de lire cette sauvegarde."
@@ -4224,6 +5085,7 @@ function importData(event){
             }
 
         };
+
 
     reader.readAsText(file);
 
@@ -4463,6 +5325,7 @@ function convertXtreamToM3U(){
     setTimeout(function(){
 
         output.focus();
+
         output.select();
 
     },100);
@@ -4470,9 +5333,9 @@ function convertXtreamToM3U(){
 }
 
 
-/* =========================
+/* ==================================================
    ACTUALISATION
-========================= */
+================================================== */
 
 setInterval(
     function(){
@@ -4497,9 +5360,9 @@ setInterval(
 );
 
 
-/* =========================
+/* ==================================================
    DÉMARRAGE
-========================= */
+================================================== */
 
 updateFaceIDButton();
 
