@@ -3,56 +3,140 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#f3f6fb">
-<title>Mes accès IPTV</title>
+<meta name="theme-color" content="#edf4ff">
+<title>Mes accès IPTV — Premium</title>
 <style>
-:root{--bg:#f3f6fb;--panel:#ffffff;--panel2:#f7f9fc;--line:#d9e1ec;--txt:#1d2939;--muted:#667085;--accent:#1769d2;--danger:#b42332;--good:#137a50}
+:root{
+ --bg:#edf3fb;--panel:rgba(255,255,255,.92);--panel2:#f6f9ff;--line:#dce6f4;
+ --txt:#17243a;--muted:#64748b;--accent:#246bfd;--danger:#c6374b;--good:#12805c;
+ --shadow:0 16px 45px rgba(35,69,120,.09);--radius:22px
+}
 *{box-sizing:border-box}
-body{margin:0;background:linear-gradient(180deg,#f7faff,#edf2f8);color:var(--txt);font:16px/1.45 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;padding:env(safe-area-inset-top) 12px env(safe-area-inset-bottom)}
+html{scroll-behavior:smooth}
+body{
+ margin:0;min-height:100vh;color:var(--txt);
+ background:
+ radial-gradient(ellipse at 8% 0%,rgba(81,150,255,.19),transparent 34rem),
+ radial-gradient(ellipse at 100% 12%,rgba(118,103,255,.12),transparent 30rem),
+ linear-gradient(180deg,#f8fbff 0%,#edf3fb 65%,#f6f8fc 100%);
+ font:16px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif;
+ padding:env(safe-area-inset-top) 14px env(safe-area-inset-bottom)
+}
 button,input,textarea,select{font:inherit}
-button{border:0;border-radius:11px;padding:11px 13px;font-weight:700;cursor:pointer;background:var(--accent);color:#fff}
-button.secondary{background:#eef3f9;color:#253449;border:1px solid #ccd7e5}
-button.danger{background:#fff0f1;color:#9f1d2b;border:1px solid #f0b9bf}
-button.good{background:#e8f8f0;color:#126342;border:1px solid #a9e2c5}
-button.small{padding:7px 9px;font-size:13px}
-input,textarea,select{width:100%;border:1px solid var(--line);background:#fff;color:var(--txt);border-radius:10px;padding:11px;outline:none}
-input:focus,textarea:focus,select:focus{border-color:var(--accent);box-shadow:0 0 0 3px #1769d21c}
-label{display:block;font-size:13px;color:var(--muted);margin:0 0 5px}
-h1{font-size:25px;margin:0}h2{font-size:18px;margin:0 0 12px}p{color:var(--muted)}
-header{max-width:1050px;margin:0 auto;padding:20px 2px 15px;display:flex;align-items:center;justify-content:space-between;gap:12px}
-header .sub{font-size:13px;color:var(--muted)}
-main{max-width:1050px;margin:auto}
-.panel{background:rgba(255,255,255,.97);border:1px solid var(--line);border-radius:16px;padding:15px;margin-bottom:13px;box-shadow:0 8px 28px #263b5510}
-.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:11px}
+button{
+ border:0;border-radius:13px;padding:11px 15px;font-weight:750;cursor:pointer;
+ color:#fff;background:linear-gradient(135deg,#347cff,#2056e8);
+ box-shadow:0 5px 14px rgba(36,107,253,.17);
+ transition:transform .16s ease,box-shadow .16s ease,filter .16s ease
+}
+button:hover{filter:brightness(1.035);box-shadow:0 8px 20px rgba(36,107,253,.2)}
+button:active{transform:scale(.98)}
+button.secondary{background:linear-gradient(180deg,#fff,#f3f7fd);color:#263a58;border:1px solid #d8e3f1;box-shadow:0 3px 9px #263f6510}
+button.danger{background:linear-gradient(135deg,#fff1f2,#ffe4e8);color:#a92136;border:1px solid #f5c4cc;box-shadow:none}
+button.good{background:linear-gradient(135deg,#e7fff4,#d7f8e8);color:#126846;border:1px solid #b5ebd0;box-shadow:none}
+button.small{padding:8px 10px;font-size:13px;border-radius:10px}
+input,textarea,select{
+ width:100%;border:1px solid #d7e1ef;background:rgba(255,255,255,.95);color:var(--txt);
+ border-radius:13px;padding:12px 13px;outline:none;box-shadow:inset 0 1px 2px #1d355708;
+ transition:border-color .16s ease,box-shadow .16s ease
+}
+input:focus,textarea:focus,select:focus{border-color:#6a9cff;box-shadow:0 0 0 4px rgba(36,107,253,.11)}
+input::placeholder,textarea::placeholder{color:#9aa9bc}
+input[type=file]{padding:9px;background:#f8faff}
+label{display:block;font-size:12px;font-weight:750;letter-spacing:.025em;color:#63748c;margin:0 0 6px}
+h1{font-size:clamp(23px,4vw,32px);letter-spacing:-.045em;margin:0;font-weight:850}
+h2{font-size:18px;letter-spacing:-.02em;margin:0 0 13px}
+p{color:var(--muted)}
+header{
+ max-width:1080px;margin:0 auto;padding:24px 2px 20px;display:flex;align-items:center;justify-content:space-between;gap:12px
+}
+header>div:first-child{display:flex;flex-direction:column;gap:5px}
+header h1{
+ background:linear-gradient(100deg,#17243a 5%,#246bfd 55%,#7958e8 100%);
+ -webkit-background-clip:text;background-clip:text;color:transparent
+}
+header .sub{font-size:13px;color:var(--muted);font-weight:550}
+main{max-width:1080px;margin:auto}
+.panel{
+ position:relative;background:var(--panel);border:1px solid rgba(213,225,242,.9);
+ border-radius:var(--radius);padding:19px;margin-bottom:15px;
+ box-shadow:var(--shadow);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)
+}
+.panel>h2,.sectiontitle h2{display:flex;align-items:center;gap:9px}
+.panel>h2:before{content:"";width:5px;height:19px;border-radius:8px;background:linear-gradient(#4c8cff,#7958e8);display:inline-block}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}
 .field.full{grid-column:1/-1}
-.actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
-.toolbar{display:flex;flex-wrap:wrap;gap:8px}
+.actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:13px}
+.toolbar{display:flex;flex-wrap:wrap;gap:9px}
 .toolbar>*{flex:1}
-.stats{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
-.stat{background:#f7f9fc;border:1px solid var(--line);border-radius:12px;padding:9px 12px;color:var(--muted);font-size:13px}
-.stat strong{display:block;font-size:20px;color:var(--txt)}
-#records{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
-.record{min-width:0;background:var(--panel);border:1px solid var(--line);border-radius:15px;overflow:hidden}
-.record summary{list-style:none;cursor:pointer;padding:14px;display:flex;align-items:center;gap:11px}
+.stats{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:15px}
+.stat{
+ min-width:115px;background:linear-gradient(145deg,#fff,#f2f7ff);border:1px solid #dce7f6;
+ border-radius:16px;padding:12px 15px;color:var(--muted);font-size:12px;font-weight:650
+}
+.stat strong{display:block;font-size:25px;letter-spacing:-.04em;color:#1c3970;line-height:1.15;margin-bottom:4px}
+#records{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}
+.record{
+ min-width:0;background:rgba(255,255,255,.96);border:1px solid #dce6f4;
+ border-radius:18px;overflow:hidden;box-shadow:0 7px 22px rgba(38,66,108,.055);
+ transition:transform .18s ease,box-shadow .18s ease,border-color .18s ease
+}
+.record:hover{transform:translateY(-2px);box-shadow:0 12px 28px rgba(38,66,108,.10);border-color:#c3d6f5}
+.record summary{list-style:none;cursor:pointer;padding:15px;display:flex;align-items:center;gap:12px}
 .record summary::-webkit-details-marker{display:none}
-.record .avatar{width:46px;height:46px;border-radius:11px;object-fit:cover;background:#edf2f8;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
+.record summary>span:last-child{color:#6c85a8;font-size:20px;transition:transform .2s ease}
+.record[open] summary>span:last-child{transform:rotate(180deg)}
+.record .avatar{
+ width:49px;height:49px;border-radius:15px;object-fit:cover;background:linear-gradient(145deg,#e4edff,#f4eaff);
+ border:1px solid #dce5f4;display:flex;align-items:center;justify-content:center;font-size:21px;flex-shrink:0
+}
 .record .summarytext{min-width:0;flex:1}
-.record .recordname{font-weight:800;overflow-wrap:anywhere}
-.record .meta{font-size:12px;color:var(--muted);overflow-wrap:anywhere}
-.record .body{padding:0 14px 14px;border-top:1px solid var(--line)}
-.record .body .grid{margin-top:12px}
-.record .fieldvalue{font-size:13px;overflow-wrap:anywhere;background:#f7f9fc;border:1px solid #edf0f5;border-radius:8px;padding:8px;margin-top:4px}
-.record .fieldvalue a{color:#1459a6}
-.record .photo-large{width:100%;max-height:240px;object-fit:contain;background:#f7f9fc;border:1px solid var(--line);border-radius:10px;margin-top:10px}
-.empty{text-align:center;padding:28px;color:var(--muted);border:1px dashed var(--line);border-radius:13px;grid-column:1/-1}
-#lockScreen{position:fixed;inset:0;z-index:10;background:linear-gradient(135deg,#f7faff,#e8eef7);display:flex;align-items:center;justify-content:center;padding:20px}
-.lockbox{max-width:390px;width:100%;background:#fff;padding:24px;border:1px solid var(--line);border-radius:18px;box-shadow:0 18px 50px #263b5518}
+.record .recordname{font-weight:850;letter-spacing:-.015em;overflow-wrap:anywhere}
+.record .meta{font-size:12px;color:var(--muted);overflow-wrap:anywhere;margin-top:2px}
+.record .body{padding:0 15px 15px;border-top:1px solid #edf1f7}
+.record .body .grid{margin-top:13px}
+.record .fieldvalue{font-size:13px;overflow-wrap:anywhere;background:#f7f9fd;border:1px solid #e8eef7;border-radius:10px;padding:9px;margin-top:4px}
+.record .fieldvalue a{color:#155ac2;text-decoration:none;font-weight:650}
+.record .fieldvalue a:hover{text-decoration:underline}
+.record .photo-large{width:100%;max-height:260px;object-fit:contain;background:#f7f9fd;border:1px solid var(--line);border-radius:13px;margin-top:12px}
+.empty{text-align:center;padding:32px 20px;color:var(--muted);background:#ffffff9c;border:1px dashed #cbd9ec;border-radius:16px;grid-column:1/-1}
+#lockScreen{
+ position:fixed;inset:0;z-index:10;background:
+ radial-gradient(ellipse at 15% 10%,rgba(87,151,255,.2),transparent 28rem),
+ radial-gradient(ellipse at 90% 90%,rgba(139,111,255,.15),transparent 28rem),
+ linear-gradient(135deg,#f8fbff,#eaf1fb);
+ display:flex;align-items:center;justify-content:center;padding:20px
+}
+.lockbox{
+ max-width:410px;width:100%;background:rgba(255,255,255,.93);padding:28px;
+ border:1px solid #d8e4f4;border-radius:27px;box-shadow:0 24px 80px rgba(39,68,112,.17);
+ backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px)
+}
+.lockbox h1{margin-bottom:7px}
+.lockbox h1:before{content:"✦";display:inline-flex;align-items:center;justify-content:center;width:38px;height:38px;border-radius:13px;background:linear-gradient(135deg,#3d83ff,#8259eb);color:white;font-size:21px;margin-right:9px;vertical-align:middle}
 #app{display:none}
-.note{font-size:12px;color:var(--muted)}
-.status{font-size:13px;color:var(--good);min-height:18px;margin-top:8px}
-.sectiontitle{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.note{font-size:12px;color:var(--muted);line-height:1.55}
+.status{font-size:13px;color:var(--good);min-height:18px;margin-top:9px;font-weight:650}
+.sectiontitle{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:13px}
+.sectiontitle h2{margin:0}
 .hidden{display:none!important}
-@media(max-width:680px){#records{grid-template-columns:1fr}.grid{grid-template-columns:1fr}.field.full{grid-column:auto}header{align-items:flex-start}h1{font-size:22px}.toolbar>*{min-width:calc(50% - 8px)}}
+#converter{padding:16px;background:#f7f9ff;border:1px solid #e0e9f7;border-radius:16px}
+#converter h2{margin-bottom:8px}
+#converter textarea{font-size:13px}
+#photoPreviewWrap{margin-top:12px}
+@media(max-width:680px){
+ body{padding-left:10px;padding-right:10px}
+ #records{grid-template-columns:1fr}
+ .grid{grid-template-columns:1fr}
+ .field.full{grid-column:auto}
+ header{align-items:center;padding-top:19px}
+ h1{font-size:23px}
+ .panel{padding:15px;border-radius:19px}
+ .toolbar>*{min-width:calc(50% - 8px)}
+ .stat{flex:1}
+ .lockbox{padding:23px;border-radius:23px}
+}
+@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
 </style>
 </head>
 <body>
@@ -65,7 +149,7 @@ main{max-width:1050px;margin:auto}
       <input id="pinInput" type="password" inputmode="numeric" autocomplete="current-password" maxlength="32" required>
       <div class="actions"><button type="submit" style="width:100%">Déverrouiller avec le PIN</button></div>
     </form>
-    <div class="actions"><button type="button" class="secondary" id="faceUnlock" style="width:100%"> Face ID / biométrie</button></div>
+    <div class="actions"><button type="button" class="secondary" id="faceUnlock" style="width:100%"> Face ID</button></div>
     <p class="note">Première utilisation : choisis un PIN, puis confirme-le.</p>
     <div id="firstPin" class="hidden">
       <label for="pinConfirm">Confirmer le PIN</label><input id="pinConfirm" type="password" inputmode="numeric" maxlength="32">
@@ -77,7 +161,7 @@ main{max-width:1050px;margin:auto}
 
 <div id="app">
 <header>
-  <div><h1>🔑 Mes accès IPTV</h1><div class="sub">Accès, applications, photos et sauvegardes • thème clair</div></div>
+  <div><h1>🔑 Mes accès IPTV</h1><div class="sub">Votre espace sécurisé • accès, applications, photos et sauvegardes</div></div>
   <button class="secondary small" id="lockNow">🔒 Verrouiller</button>
 </header>
 <main>
@@ -142,7 +226,7 @@ main{max-width:1050px;margin:auto}
       <button class="secondary" id="openNexon">🌐 Ouvrir Nexon</button>
       <button class="secondary" id="showConverter">🔄 Convertisseur Xtream → M3U</button>
       <button class="secondary" id="changePin">🔐 Changer le PIN</button>
-      <button class="secondary" id="setupFace"> Face ID / biométrie</button>
+      <button class="secondary" id="setupFace"> Face ID</button>
       <button class="danger" id="deleteAll">Supprimer toutes les fiches</button>
     </div>
     <div id="converter" class="hidden" style="margin-top:14px">
