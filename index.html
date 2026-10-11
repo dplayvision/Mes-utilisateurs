@@ -2,348 +2,598 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#101827">
-<title>Mes accès IPTV</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#f3f6fb">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>Congés & Horaires</title>
+<meta name="description" content="Planning, congés, heures supplémentaires et fiches de paie">
 <style>
-:root{--bg:#0b1220;--panel:#131f32;--panel2:#1a2940;--line:#2a3a52;--txt:#f3f6fb;--muted:#a8b5c9;--accent:#57b5ff;--danger:#ff6b75;--good:#4bd6a0}
-*{box-sizing:border-box}
-body{margin:0;background:linear-gradient(180deg,#101b2d,#080d16);color:var(--txt);font:16px/1.45 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;padding:env(safe-area-inset-top) 12px env(safe-area-inset-bottom)}
-button,input,textarea,select{font:inherit}
-button{border:0;border-radius:11px;padding:11px 13px;font-weight:700;cursor:pointer;background:var(--accent);color:#071321}
-button.secondary{background:#293951;color:var(--txt);border:1px solid #3a4c65}
-button.danger{background:#542733;color:#ffdce0;border:1px solid #7b3544}
-button.good{background:#164c42;color:#cffff0;border:1px solid #247966}
-button.small{padding:7px 9px;font-size:13px}
-input,textarea,select{width:100%;border:1px solid var(--line);background:#0d1727;color:var(--txt);border-radius:10px;padding:11px;outline:none}
-input:focus,textarea:focus,select:focus{border-color:var(--accent)}
-label{display:block;font-size:13px;color:var(--muted);margin:0 0 5px}
-h1{font-size:25px;margin:0}h2{font-size:18px;margin:0 0 12px}p{color:var(--muted)}
-header{max-width:1050px;margin:0 auto;padding:20px 2px 15px;display:flex;align-items:center;justify-content:space-between;gap:12px}
-header .sub{font-size:13px;color:var(--muted)}
-main{max-width:1050px;margin:auto}
-.panel{background:rgba(19,31,50,.96);border:1px solid var(--line);border-radius:16px;padding:15px;margin-bottom:13px;box-shadow:0 8px 28px #0002}
-.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:11px}
-.field.full{grid-column:1/-1}
-.actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
-.toolbar{display:flex;flex-wrap:wrap;gap:8px}
-.toolbar>*{flex:1}
-.stats{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
-.stat{background:#0c1727;border:1px solid var(--line);border-radius:12px;padding:9px 12px;color:var(--muted);font-size:13px}
-.stat strong{display:block;font-size:20px;color:var(--txt)}
-#records{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
-.record{min-width:0;background:var(--panel);border:1px solid var(--line);border-radius:15px;overflow:hidden}
-.record summary{list-style:none;cursor:pointer;padding:14px;display:flex;align-items:center;gap:11px}
-.record summary::-webkit-details-marker{display:none}
-.record .avatar{width:46px;height:46px;border-radius:11px;object-fit:cover;background:#263851;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
-.record .summarytext{min-width:0;flex:1}
-.record .recordname{font-weight:800;overflow-wrap:anywhere}
-.record .meta{font-size:12px;color:var(--muted);overflow-wrap:anywhere}
-.record .body{padding:0 14px 14px;border-top:1px solid var(--line)}
-.record .body .grid{margin-top:12px}
-.record .fieldvalue{font-size:13px;overflow-wrap:anywhere;background:#0c1727;border-radius:8px;padding:8px;margin-top:4px}
-.record .fieldvalue a{color:#9bd6ff}
-.record .photo-large{width:100%;max-height:240px;object-fit:contain;background:#07101d;border-radius:10px;margin-top:10px}
-.empty{text-align:center;padding:28px;color:var(--muted);border:1px dashed var(--line);border-radius:13px;grid-column:1/-1}
-#lockScreen{position:fixed;inset:0;z-index:10;background:#080d16;display:flex;align-items:center;justify-content:center;padding:20px}
-.lockbox{max-width:390px;width:100%;background:var(--panel);padding:24px;border:1px solid var(--line);border-radius:18px}
-#app{display:none}
-.note{font-size:12px;color:var(--muted)}
-.status{font-size:13px;color:var(--good);min-height:18px;margin-top:8px}
-.sectiontitle{display:flex;justify-content:space-between;align-items:center;gap:10px}
-.hidden{display:none!important}
-@media(max-width:680px){#records{grid-template-columns:1fr}.grid{grid-template-columns:1fr}.field.full{grid-column:auto}header{align-items:flex-start}h1{font-size:22px}.toolbar>*{min-width:calc(50% - 8px)}}
+:root{--week-a-bg:#DCEBFF;--week-b-bg:#F3DFFF;--leave-bg:#d8f7e8;--holiday-bg:#ffe1e1;--overtime-bg:#fff0d8;--manual-bg:#e8efff;--appointment-bg:#e9e5ff;--sickness-bg:#ffd9dc;--today-color:#356df3;--bg:#f3f6fb;--card:#fff;--ink:#172033;--muted:#6b7280;--line:#e5eaf2;--navy:#101827;--blue:#356df3;--green:#15966a;--red:#d64545;--orange:#dc8618;--purple:#805ad5;--week-a-bg:#DCEBFF;--week-b-bg:#F3DFFF;--leave-bg:#d8f7e8;--holiday-bg:#ffe1e1;--overtime-bg:#fff0d8;--manual-bg:#e8efff;--appointment-bg:#e9e5ff;--today-outline:#356df3;--shadow:0 8px 28px rgba(25,42,70,.07)}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;padding-bottom:calc(86px + env(safe-area-inset-bottom))}button,input,select,textarea{font:inherit}button{cursor:pointer}header{background:linear-gradient(135deg,#ffffff,#eaf2ff);color:#172033;padding:24px 18px 22px;border-radius:0 0 26px 26px;border-bottom:1px solid #dce6f5}header .top{display:flex;align-items:center;justify-content:space-between;gap:12px}header h1{font-size:24px;line-height:1.15;margin:0;font-weight:800;letter-spacing:-.5px}header p{margin:8px 0 0;color:#63718a;font-size:13px}.year-pill{border:1px solid #d5e1f3;background:#ffffff;color:#24416e;border-radius:12px;padding:9px 12px;font-weight:800}.wrap{max-width:980px;margin:auto;padding:16px}.stats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:-4px}.stat{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:15px;box-shadow:var(--shadow);min-width:0}.stat .label{font-size:12px;color:var(--muted);font-weight:650}.stat .value{font-size:26px;font-weight:850;letter-spacing:-.7px;margin-top:6px}.stat .sub{font-size:11px;color:var(--muted);margin-top:3px}.panel{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:16px;margin-top:14px;box-shadow:var(--shadow)}.panel-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:14px}.panel h2{font-size:17px;margin:0;letter-spacing:-.2px}.muted{color:var(--muted)}.small{font-size:12px}.btn{border:0;border-radius:12px;padding:11px 14px;font-weight:750;background:var(--blue);color:white}.btn.secondary{background:#edf2ff;color:#244fc5}.btn.dark{background:#202c42;color:white}.btn.ghost{background:#f3f5f9;color:#344054}.btn.danger{background:#fff0f0;color:#b52e2e}.btn.sm{padding:8px 10px;font-size:12px}.row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.field{display:flex;flex-direction:column;gap:6px;min-width:0}.field label{font-size:12px;color:#596579;font-weight:750}.field input,.field select,.field textarea{width:100%;border:1px solid #d9e0eb;border-radius:12px;background:#fff;color:var(--ink);padding:12px;min-height:44px;outline:none}.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--blue);box-shadow:0 0 0 3px #356df31a}.field input[type="color"]{width:100%;height:54px;min-height:54px;padding:5px;border:2px solid #d9e0eb;border-radius:12px;background:#fff;cursor:pointer;touch-action:manipulation}.field input[type="color"]::-webkit-color-swatch-wrapper{padding:2px}.field input[type="color"]::-webkit-color-swatch{border:1px solid #0002;border-radius:7px}.form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.form-grid .full{grid-column:1/-1}.nav{position:fixed;z-index:20;bottom:0;left:0;right:0;padding:8px 8px calc(8px + env(safe-area-inset-bottom));display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:2px;background:#ffffffed;backdrop-filter:blur(18px);border-top:1px solid #dfe5ef}.nav button{border:0;background:transparent;color:#758096;border-radius:12px;padding:8px 1px 6px;font-size:9px;font-weight:750;display:flex;flex-direction:column;align-items:center;gap:4px}.nav button span{font-size:19px;line-height:1}.nav button.active{color:var(--blue);background:#edf2ff}.view{display:none}.view.active{display:block}.calendar-tools{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:12px}.calendar-tools select{border:1px solid var(--line);border-radius:10px;padding:9px;background:#fff;font-weight:750}.months{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}.month{border:1px solid var(--line);border-radius:15px;padding:10px 8px;background:#fff;min-width:0}.month h3{font-size:13px;margin:0 0 9px;text-align:center}.weekdays,.days{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:2px}.weekdays span{text-align:center;font-size:9px;color:#929bad;padding-bottom:5px;font-weight:700}.day{aspect-ratio:1/1;display:flex;align-items:center;justify-content:center;border:0;border-radius:6px;background:transparent;color:#344054;font-size:10px;position:relative;padding:0;min-width:0}.day.empty{pointer-events:none}.day.today{outline:2px solid var(--today-color);outline-offset:1px;font-weight:900}
+/* Couleurs des semaines A et B */
+.day.week-a{background:var(--week-a-bg);color:#1557B0;font-weight:850}
+.day.week-b{background:var(--week-b-bg);color:#7625A5;font-weight:850}
+.day.leave{background:var(--leave-bg);color:#08764e;font-weight:850}.day.holiday{background:var(--holiday-bg);color:#b42323;font-weight:850}.day.overtime{background:var(--overtime-bg);box-shadow:inset 0 -3px 0 var(--orange)}.day.manual{background:var(--manual-bg);box-shadow:inset 0 0 0 1.5px var(--purple)}.day.appointment{background:var(--appointment-bg);color:#5b35a5;font-weight:850}.day.sickness{background:var(--sickness-bg);color:#a51d35;font-weight:850}.day.selected{background:#356df3!important;color:#fff!important;outline:2px solid #9bb7ff}.legend{display:flex;flex-wrap:wrap;gap:10px;font-size:11px;color:var(--muted);margin-top:12px}.dot{display:inline-block;width:9px;height:9px;border-radius:3px;margin-right:4px}.month-detail{display:grid;grid-template-columns:1fr;gap:8px}.day-row{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:11px 0;border-bottom:1px solid var(--line)}.day-row:last-child{border-bottom:0}.day-row strong{font-size:13px}.tag{font-size:10px;font-weight:800;border-radius:7px;padding:5px 7px;white-space:nowrap}.tag.leave{background:var(--leave-bg);color:#08764e}.tag.holiday{background:var(--holiday-bg);color:#b42323}.tag.overtime{background:var(--overtime-bg);color:#9a5a00}.tag.appointment{background:var(--appointment-bg);color:#5b35a5}.tag.work{background:var(--manual-bg);color:#2854bf}.tag.off{background:#f0f2f6;color:#687386}.list-item{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 0;border-bottom:1px solid var(--line)}.list-item:last-child{border-bottom:0}.list-item .main{min-width:0}.list-item .main strong{display:block;font-size:13px}.list-item .main small{display:block;color:var(--muted);font-size:11px;margin-top:4px}.empty-state{text-align:center;padding:24px 12px;color:var(--muted);font-size:13px}.notice{background:#eef4ff;border:1px solid #d7e4ff;color:#31549b;padding:12px;border-radius:13px;font-size:12px;line-height:1.45}.notice.warn{background:#fff8e8;border-color:#f5e1ad;color:#805b12}.notice.good{background:#e9fbf2;border-color:#c4f0d9;color:#116747}.switchrow{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--line)}.switchrow:last-child{border:0}.switchrow strong{font-size:13px}.switchrow small{display:block;color:var(--muted);font-size:11px;margin-top:3px}.switch{width:46px;height:27px;appearance:none;background:#d5dbe5;border-radius:99px;position:relative;flex-shrink:0;transition:.2s}.switch:checked{background:var(--blue)}.switch:before{content:"";position:absolute;width:21px;height:21px;left:3px;top:3px;background:#fff;border-radius:50%;box-shadow:0 1px 4px #0002;transition:.2s}.switch:checked:before{left:22px}.toast{position:fixed;left:16px;right:16px;bottom:calc(82px + env(safe-area-inset-bottom));background:#142238;color:white;border-radius:13px;padding:13px 15px;z-index:40;box-shadow:var(--shadow);font-size:13px;display:none}.toast.show{display:block;animation:pop .2s ease}@keyframes pop{from{transform:translateY(8px);opacity:.5}to{transform:none;opacity:1}}dialog{border:0;border-radius:22px;padding:0;width:min(540px,calc(100% - 24px));max-height:88vh;overflow:auto;box-shadow:0 20px 80px #10182755}dialog::backdrop{background:#52627a66;backdrop-filter:blur(3px)}.modal-head{padding:18px 18px 12px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;gap:12px}.modal-head h2{font-size:18px;margin:0}.modal-body{padding:18px}.close{border:0;background:#f1f4f8;border-radius:10px;width:36px;height:36px;font-size:20px}.footer-note{font-size:11px;color:var(--muted);line-height:1.5;margin-top:12px}.big-number{font-size:30px;font-weight:850;letter-spacing:-1px}.progress{height:8px;background:#edf0f5;border-radius:20px;overflow:hidden;margin-top:10px}.progress div{height:100%;background:var(--green);border-radius:20px}.hidden{display:none!important}.summary-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}.summary-table{width:100%;min-width:760px;border-collapse:separate;border-spacing:0 4px;font-size:12px;text-align:center}.summary-table th,.summary-table td{padding:10px 8px;border:0}.summary-table th{font-weight:800;white-space:normal}.summary-table td:first-child,.summary-table th:first-child{position:sticky;left:0;background:#f0f2f6;z-index:1}.summary-table tfoot td{font-weight:850;border-top:2px solid #fff}.summary-table .sum-leave{background:var(--leave-bg);color:#08764e}.summary-table .sum-mel{background:var(--leave-bg);color:#08764e}.summary-table .sum-holiday{background:var(--holiday-bg);color:#b42323}.summary-table .sum-overtime{background:var(--overtime-bg);color:#805000}.summary-table .sum-sick{background:var(--sickness-bg);color:#a51d35}.summary-table .sum-rest{background:#f0f2f6;color:#687386}.summary-table .sum-work{background:var(--manual-bg);color:#2854bf}.summary-table .sum-days{background:#eee;color:#344054}.summary-controls{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:12px}.day.multi-selected{outline:3px solid #356df3!important;box-shadow:inset 0 0 0 2px #fff;transform:scale(.94)}.bulk-panel{display:none}.bulk-panel.active{display:block}.bulk-selected-list{font-size:12px;color:var(--muted);line-height:1.6}
+@media(max-width:640px){.wrap{padding:12px}.months{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.month{padding:9px 6px}.day{font-size:10px}.stats{gap:8px}.stat{padding:13px}.stat .value{font-size:24px}.panel{padding:14px;margin-top:12px}header{padding:22px 16px 20px}header h1{font-size:22px}.form-grid{gap:10px}.months .day{border-radius:5px}}
+@media(min-width:800px){.stats{grid-template-columns:repeat(4,minmax(0,1fr))}.months{grid-template-columns:repeat(4,minmax(0,1fr))}.wrap{padding:20px}.nav{left:50%;right:auto;transform:translateX(-50%);width:min(640px,100%);border:1px solid var(--line);border-bottom:0;border-radius:18px 18px 0 0}}
+/* Écran de verrouillage et réglages de sécurité */
+.lock-screen{position:fixed;inset:0;z-index:9999;display:flex;align-items:center;justify-content:center;padding:22px;background:linear-gradient(145deg,#edf4ff,#f8faff);color:#172033}
+.lock-card{width:min(100%,390px);background:#fff;border-radius:24px;padding:25px;box-shadow:0 22px 80px #0005;text-align:center}
+.lock-logo{width:64px;height:64px;border-radius:20px;background:#edf2ff;color:#356df3;display:grid;place-items:center;font-size:30px;margin:0 auto 14px}
+.lock-card h2{font-size:23px;margin:0 0 7px}.lock-card p{font-size:13px;line-height:1.5;color:#667085;margin:0 0 18px}
+.lock-card input{width:100%;padding:14px;border:1px solid #d9e0eb;border-radius:12px;font-size:20px;text-align:center;letter-spacing:5px;margin-bottom:10px}
+.lock-card button{width:100%;margin-top:8px}.lock-error{min-height:18px;color:#b42318;font-size:12px;margin-top:8px}
+.lock-note{font-size:10px!important;margin-top:16px!important;margin-bottom:0!important}
+
+.day{overflow:hidden}
+.day .calendar-photo-thumb{display:none}
+.day .calendar-photo-number{position:absolute;right:1px;bottom:1px;background:#172033eF;color:#fff;border-radius:4px;padding:1px 3px;font-size:10px;line-height:12px;z-index:4;pointer-events:none}
+.day.has-calendar-photo{font-weight:900}
+.day .calendar-photo-open{position:absolute;inset:0;display:block;width:100%;height:100%;padding:0;border:0;background:transparent;cursor:pointer;z-index:3}
+.day-photo-modal{position:fixed;inset:0;background:rgba(30,45,68,.58);z-index:99999;display:flex;align-items:center;justify-content:center;padding:18px}
+.day-photo-modal-card{background:var(--card,#fff);color:var(--text,#111);border-radius:14px;padding:14px;max-width:900px;width:100%;max-height:92vh;overflow:auto;box-shadow:0 20px 60px #0006}
+.day-photo-modal-card img{display:block;max-width:100%;max-height:70vh;object-fit:contain;margin:10px auto;border-radius:8px}
+.day-photo-modal-actions{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
+.calendar-photo-tools{border:1px solid var(--line);border-radius:12px;padding:12px;margin-top:12px;background:var(--card)}
+.calendar-photo-preview{display:block;max-width:100%;max-height:260px;object-fit:contain;border-radius:10px;margin-top:8px}
 </style>
 </head>
 <body>
-<div id="lockScreen">
-  <div class="lockbox">
-    <h1>🔐 Mes accès</h1>
-    <p id="lockMessage">Entre ton code PIN pour ouvrir l’application.</p>
-    <form id="unlockForm">
-      <label for="pinInput">Code PIN</label>
-      <input id="pinInput" type="password" inputmode="numeric" autocomplete="current-password" maxlength="32" required>
-      <div class="actions"><button type="submit" style="width:100%">Déverrouiller</button></div>
-    </form>
-    <p class="note">Première utilisation : choisis un PIN, puis confirme-le.</p>
-    <div id="firstPin" class="hidden">
-      <label for="pinConfirm">Confirmer le PIN</label><input id="pinConfirm" type="password" inputmode="numeric" maxlength="32">
-      <div class="actions"><button id="saveFirstPin" type="button">Créer mon PIN</button></div>
-    </div>
-    <div id="lockStatus" class="status"></div>
-  </div>
+<div id="lockScreen" class="lock-screen" role="dialog" aria-modal="true" aria-labelledby="lockTitle">
+ <div class="lock-card">
+  <div class="lock-logo">🔒</div>
+  <h2 id="lockTitle">Congés &amp; Horaires</h2>
+  <p>Entre ton code pour accéder à ton planning.</p>
+  <form id="unlockForm">
+   <input id="unlockPin" type="password" inputmode="numeric" autocomplete="current-password" maxlength="32" placeholder="Mot de passe" aria-label="Mot de passe" required>
+   <button class="btn" type="submit">Déverrouiller</button>
+  </form>
+  <button class="btn secondary" id="faceIdUnlock" type="button" style="display:none"> Déverrouiller avec Face ID</button>
+  <div id="lockError" class="lock-error" aria-live="polite"></div>
+  <p class="lock-note">Code initial : 1157. Tu pourras le modifier dans Réglages. Face ID nécessite Safari/HTTPS et un appareil compatible.</p>
+ </div>
 </div>
-
-<div id="app">
 <header>
-  <div><h1>🔑 Mes accès IPTV</h1><div class="sub">Accès, applications, photos et sauvegardes</div></div>
-  <button class="secondary small" id="lockNow">🔒 Verrouiller</button>
+ <div class="top"><div><h1>Congés & Horaires</h1><p>Ton planning, tes congés, tes heures — au même endroit.</p></div><select class="year-pill" id="headerYear" aria-label="Année"></select></div>
 </header>
-<main>
-  <section class="panel">
-    <div class="stats">
-      <div class="stat"><strong id="countRecords">0</strong>Fiches</div>
-      <div class="stat"><strong id="countPhotos">0</strong>Photos</div>
+<main class="wrap">
+ <div id="appError" class="notice warn" style="display:none;margin-bottom:12px" role="alert"></div>
+ <section id="view-home" class="view active">
+  <div class="home-tools"><button class="btn secondary sm" id="homeCustomizeBtn" type="button" onclick="toggleHomeOrganizer()">⚙ Organiser l’accueil</button></div><div class="panel home-organizer hidden" id="homeOrganizer"><div class="panel-head"><h2>Personnaliser l’accueil</h2><button class="btn ghost sm" type="button" onclick="toggleHomeOrganizer(false)">Fermer</button></div><p class="small muted">Déplace les cartes avec les flèches et coche celles que tu veux afficher.</p><div id="homeOrganizerList"></div><button class="btn secondary sm" type="button" onclick="resetHomeCards()" style="margin-top:12px">Réinitialiser l’accueil</button></div><div class="stats" id="homeStats">
+   <div class="stat" data-card-id="balance"><div class="label">Congés disponibles</div><div class="value" id="statBalance">27 j</div><div class="sub" id="statLeaveSub">sur 27 jours au départ</div></div>
+   <div class="stat" data-card-id="overtime"><div class="label">Heures supplémentaires</div><div class="value" id="statOvertime">0 h</div><div class="sub">Total enregistré</div></div>
+   <div class="stat" data-card-id="holiday"><div class="label">Prochain jour férié</div><div class="value" style="font-size:18px" id="statHoliday">—</div><div class="sub" id="statHolidaySub">Luxembourg</div></div>
+   <div class="stat" data-card-id="shift"><div class="label">Prochain horaire</div><div class="value" id="statShift">6 h–14 h</div><div class="sub" id="statShiftSub">Semaine A</div></div>
+  </div>
+  <div class="panel"><div class="panel-head"><h2>À venir</h2><button class="btn secondary sm" onclick="go('calendar')">Voir le calendrier</button></div><div id="upcoming"></div></div>
+  <div class="panel">
+   <div class="panel-head"><h2>Cette semaine</h2><span class="muted small" id="weekLabel"></span></div>
+   <div class="row" style="align-items:stretch">
+    <div style="flex:1;min-width:130px;background:#f3f6fc;border-radius:14px;padding:13px"><div class="muted small">Horaire prévu</div><div style="font-size:20px;font-weight:850;margin-top:5px" id="weekHours">40 h</div></div>
+    <div style="flex:1;min-width:130px;background:#f3f6fc;border-radius:14px;padding:13px"><div class="muted small">Heures supp. cette année</div><div style="font-size:20px;font-weight:850;margin-top:5px" id="weekOvertime">0 h</div></div>
+   </div>
+   <p class="footer-note">Les horaires sont calculés sur une alternance de semaines A/B. Tu peux changer la semaine de départ dans Configuration.</p>
+  </div>
+  <div class="panel"><div class="panel-head"><h2>Raccourcis</h2></div><div class="row"><button class="btn" onclick="openEntry(null,'leave')">＋ Ajouter un congé</button><button class="btn secondary" onclick="openEntry(null,'overtime')">＋ Heures supp.</button><button class="btn ghost" onclick="go('settings')">⚙ Configuration</button></div></div>
+ </section>
+ <section id="view-calendar" class="view">
+  <div class="panel">
+   <div class="panel-head"><h2>Calendrier annuel</h2><button class="btn secondary sm" onclick="openEntry(null,'leave')">＋ Congé</button></div>
+   <div class="calendar-tools"><button class="btn ghost sm" onclick="changeYear(-1)">‹ Année</button><strong id="calendarYearLabel"></strong><button class="btn ghost sm" onclick="changeYear(1)">Année ›</button></div>
+   <div class="panel bulk-panel" id="bulkPanel" style="margin:0 0 12px;padding:12px;background:#f6f8ff;border-color:#cddaff">
+    <div class="panel-head" style="margin-bottom:8px"><h2>📅 Sélection de plusieurs dates</h2><button class="btn ghost sm" onclick="clearMultiSelection()">Annuler la sélection</button></div>
+    <p class="small muted">Active la sélection, puis touche chaque date à inclure. Tu peux sélectionner plusieurs jours, même sur plusieurs mois.</p>
+    <div class="row" style="margin-bottom:10px"><button class="btn secondary sm" id="toggleMultiSelect" onclick="toggleMultiSelection()">☑ Sélection multiple : désactivée</button><span class="tag work" id="multiCount">0 date</span></div>
+    <div class="field"><label for="bulkType">Action à appliquer aux dates sélectionnées</label><select id="bulkType"><option value="leave">Congé</option><option value="absence">Absence</option><option value="sickness">Maladie</option><option value="mel_leave">Congé Mel</option><option value="overtime">Heures supplémentaires</option><option value="appointment">Rendez-vous</option><option value="shift">Horaire exceptionnel</option><option value="holiday">Jour férié personnalisé</option></select></div>
+    <div class="form-grid" style="margin-top:10px">
+     <div class="field" id="bulkLeaveWrap"><label for="bulkLeaveAmount">Durée par date</label><select id="bulkLeaveAmount"><option value="1">Journée complète (1 j)</option><option value="0.5">Demi-journée (0,5 j)</option></select></div>
+     <div class="field hidden" id="bulkOvertimeWrap"><label for="bulkOvertimeHours">Heures par date</label><input id="bulkOvertimeHours" type="number" min="0.25" max="100" step="0.25" value="1"></div>
+     <div class="field hidden" id="bulkTimeWrap"><label for="bulkTime">Heure (rendez-vous)</label><input id="bulkTime" type="time" value="09:00"></div>
+     <div class="field full"><label for="bulkNote">Note commune (facultatif)</label><input id="bulkNote" placeholder="Ex. vacances, médecin…"></div>
+     <div class="field full"><button class="btn" onclick="applyMultiSelection()">Appliquer à toutes les dates sélectionnées</button></div>
     </div>
-    <div class="toolbar">
-      <button id="newRecord">＋ Ajouter une fiche</button>
-      <button class="secondary" id="importButton">📥 Importer une sauvegarde</button>
-      <button class="secondary" id="exportButton">📤 Exporter JSON</button>
-      <button class="secondary" id="exportTxtButton">💾 Télécharger TXT/JSON</button>
-      <input type="file" id="importFile" accept=".json,application/json" class="hidden">
-    </div>
-    <p class="note">Les fiches sont enregistrées dans ce navigateur. Exporte régulièrement une sauvegarde JSON et garde-la dans un endroit sûr. Le PIN protège l’écran, mais ne chiffre pas les données enregistrées dans le navigateur.</p>
-    <div id="globalStatus" class="status"></div>
-  </section>
+    <div class="bulk-selected-list" id="multiSelectedList">Aucune date sélectionnée.</div>
+   </div>
+   <div class="months" id="months"></div>
+   <div class="legend">
+    <span><i class="dot" id="calendarLegendA" style="background:#DCEBFF"></i>Semaine A</span>
+    <span><i class="dot" id="calendarLegendB" style="background:#F3DFFF"></i>Semaine B</span>
+    <span><i class="dot" id="calendarLegendLeave" style="background:#d8f7e8"></i>Congé</span><span><i class="dot" id="calendarLegendHoliday" style="background:#ffe1e1"></i>Jour férié</span><span><i class="dot" id="calendarLegendOvertime" style="background:#fff0d8"></i>Heures supp.</span><span><i class="dot" id="calendarLegendManual" style="background:#e8efff"></i>Horaire modifié</span><span><i class="dot" id="calendarLegendAppointment" style="background:#e9e5ff"></i>Rendez-vous</span><span><i class="dot" style="background:#fff;border:1px solid #356df3"></i>Aujourd'hui</span>
+   </div>
+   <p class="footer-note">Appuie sur une date pour consulter ou modifier ta journée. Les jours fériés luxembourgeois sont intégrés au calendrier et peuvent être actualisés dans Configuration.</p>
+  </div>
+  <div class="panel"><div class="panel-head"><h2>Journée sélectionnée</h2><span class="muted small" id="selectedDateLabel">Choisis une date</span></div><div id="selectedDay"><div class="empty-state">Appuie sur un jour du calendrier pour voir les détails.</div></div></div>
+ </section>
+ <section id="view-summary" class="view">
+  <div class="panel">
+   <div class="panel-head"><h2>📊 Synthèse annuelle</h2><span class="muted small">Vue par mois</span></div>
+   <div class="summary-controls"><label for="summaryYear" class="small muted">Année</label><select id="summaryYear" onchange="currentYear=Number(this.value);document.getElementById('headerYear').value=String(currentYear);renderSummary();renderCalendar();renderHome();renderHours();renderHolidaySettings()"></select><button class="btn ghost sm" onclick="exportCalendarCSV()">Exporter CSV</button></div>
+   <p class="small muted">Tableau récapitulatif des congés, jours fériés, heures supplémentaires, maladies, repos et jours travaillés. Les couleurs des colonnes Congé, Férié, Heures supp. et Maladie suivent automatiquement celles que tu choisis dans Réglages → Couleurs du calendrier.</p>
+   <div class="summary-wrap" id="summaryTable"><div class="empty-state">Chargement de la synthèse…</div></div>
+  </div>
+ </section>
+ <section id="view-leave" class="view">
+  <div class="panel">
+   <div class="panel-head"><h2>Mon solde de congés</h2></div>
+   <div class="row" style="align-items:center;gap:18px"><div><div class="big-number" id="leaveBalanceBig">27 j</div><div class="muted small">disponibles</div></div><div style="flex:1;min-width:130px"><div class="row" style="justify-content:space-between"><span class="small muted">Jours consommés</span><strong id="leaveUsed">0 j</strong></div><div class="progress"><div id="leaveProgress" style="width:0%"></div></div><div class="small muted" style="margin-top:6px" id="leaveEntitlement">Droit initial : 27 jours</div></div></div>
+   <div class="row" style="margin-top:15px"><button class="btn" onclick="openEntry(null,'leave')">＋ Encoder un congé</button><button class="btn secondary" onclick="openEntry(null,'absence')">＋ Absence</button></div>
+  </div>
+  <div class="panel"><div class="panel-head"><h2>Congés et absences enregistrés</h2><select id="leaveFilter" onchange="renderLeave()"><option value="all">Tout</option><option value="leave">Congés</option><option value="absence">Absences</option></select></div><div id="leaveList"></div></div>
+ </section>
+ <section id="view-hours" class="view">
+  <div class="panel"><div class="panel-head"><h2>Heures supplémentaires</h2><button class="btn sm" onclick="openEntry(null,'overtime')">＋ Ajouter</button></div>
+   <div class="stats" style="margin:0"><div class="stat"><div class="label">Total enregistré</div><div class="value" id="hoursTotal">0 h</div></div><div class="stat"><div class="label">À récupérer</div><div class="value" id="hoursRecover">0 h</div></div><div class="stat"><div class="label">Payées</div><div class="value" id="hoursPaid">0 h</div></div><div class="stat"><div class="label">Cette année</div><div class="value" id="hoursYear">0 h</div></div></div>
+   <p class="footer-note">Encode les heures réellement effectuées. L'application les suit sans appliquer automatiquement de majoration salariale.</p>
+  </div>
+  <div class="panel"><div class="panel-head"><h2>Historique</h2><select id="hoursFilter" onchange="renderHours()"><option value="all">Toutes les années</option><option value="year">Année affichée</option></select></div><div id="hoursList"></div></div>
+ </section>
+ <section id="view-pay" class="view">
+  <div class="panel">
+   <div class="panel-head"><h2>💶 Mes fiches de paie</h2></div>
+   <p class="small muted">Enregistre une fiche par mois, en photo ou en PDF. Les documents sont conservés dans le stockage local de cet appareil.</p>
+   <div class="form-grid">
+    <div class="field"><label for="payMonth">Mois</label><select id="payMonth"><option value="1">Janvier</option><option value="2">Février</option><option value="3">Mars</option><option value="4">Avril</option><option value="5">Mai</option><option value="6">Juin</option><option value="7">Juillet</option><option value="8">Août</option><option value="9">Septembre</option><option value="10">Octobre</option><option value="11">Novembre</option><option value="12">Décembre</option></select></div>
+    <div class="field"><label for="payYear">Année</label><input id="payYear" type="number" min="2000" max="2100" step="1"></div>
+    <div class="field full"><label for="payTitle">Titre (facultatif)</label><input id="payTitle" maxlength="120" placeholder="Ex. Fiche de paie octobre 2026"></div>
+    <div class="field full"><label for="payFile">Photo ou PDF de la fiche</label><input id="payFile" type="file" accept="image/*,application/pdf,.pdf"></div>
+    <div class="field full"><label for="payNote">Note (facultatif)</label><textarea id="payNote" rows="2" maxlength="500" placeholder="Ex. prime, heures supplémentaires…"></textarea></div>
+    <div class="field full"><button class="btn" type="button" onclick="savePaySlip()">💾 Enregistrer la fiche de paie</button></div>
+   </div>
+   <div id="payStatus" class="notice" style="margin-top:12px">Choisis un mois et un document.</div>
+  </div>
+  <div class="panel"><div class="panel-head"><h2>📁 Fiches enregistrées</h2><select id="payFilterYear" onchange="renderPaySlips()"><option value="all">Toutes les années</option></select></div><div id="payList"><div class="empty-state">Aucune fiche de paie enregistrée.</div></div></div>
+  <p class="footer-note">Les fiches restent sur cet appareil et ne sont pas envoyées sur GitHub. Pense à conserver une copie des documents importants.</p>
+ </section>
+ <section id="view-settings" class="view">
+  <div class="panel"><div class="panel-head"><h2>🎨 Couleurs du calendrier</h2></div><p class="small muted">Touche directement le grand carré coloré sous chaque élément pour ouvrir le sélecteur de couleurs de ton téléphone. Choisis la couleur que tu veux : elle est enregistrée automatiquement sur cet appareil et appliquée au calendrier.</p><div class="form-grid" id="calendarColorFields">
+   <div class="field"><label for="colorWeekA">Semaine A</label><input id="colorWeekA" type="color" value="#DCEBFF" oninput="saveCalendarColors()" onchange="saveCalendarColors()"></div>
+   <div class="field"><label for="colorWeekB">Semaine B</label><input id="colorWeekB" type="color" value="#F3DFFF" oninput="saveCalendarColors()" onchange="saveCalendarColors()"></div>
+   <div class="field"><label for="colorLeave">Congé</label><input id="colorLeave" type="color" value="#d8f7e8" oninput="saveCalendarColors()" onchange="saveCalendarColors()"></div>
+   <div class="field"><label for="colorHoliday">Jour férié</label><input id="colorHoliday" type="color" value="#ffe1e1" oninput="saveCalendarColors()" onchange="saveCalendarColors()"></div>
+   <div class="field"><label for="colorOvertime">Heures supp.</label><input id="colorOvertime" type="color" value="#fff0d8" oninput="saveCalendarColors()" onchange="saveCalendarColors()"></div>
+   <div class="field"><label for="colorManual">Horaire modifié</label><input id="colorManual" type="color" value="#e8efff" oninput="saveCalendarColors()" onchange="saveCalendarColors()"></div>
+   <div class="field"><label for="colorAppointment">Rendez-vous</label><input id="colorAppointment" type="color" value="#e9e5ff" oninput="saveCalendarColors()" onchange="saveCalendarColors()"></div>
+   <div class="field"><label for="colorSickness">Maladie</label><input id="colorSickness" type="color" value="#ffd9dc" oninput="saveCalendarColors()" onchange="saveCalendarColors()"></div>
+   <div class="field"><label for="colorToday">Aujourd’hui (contour)</label><input id="colorToday" type="color" value="#356df3" oninput="saveCalendarColors()" onchange="saveCalendarColors()"></div>
+   </div><button class="btn secondary sm" type="button" onclick="resetCalendarColors()" style="margin-top:12px">Restaurer les couleurs par défaut</button></div>
+  <div class="panel">
+   <div class="panel-head"><h2>Configuration des horaires</h2></div>
+   <div class="notice">Par défaut, les semaines alternent du lundi au vendredi : semaine A de 6 h à 14 h, puis semaine B de 8 h à 16 h. La semaine A de référence commence le lundi 5 octobre 2026, pour que la semaine du 5 octobre soit bien en 6 h–14 h.</div>
+   <div class="form-grid" style="margin-top:14px">
+    <div class="field"><label for="anchorDate">Lundi de référence (semaine A)</label><input type="date" id="anchorDate" value="2026-10-05"></div>
+    <div class="field"><label for="weekStart">Première semaine affichée</label><select id="weekStart"><option value="A">Semaine A · 6 h–14 h</option><option value="B">Semaine B · 8 h–16 h</option></select></div>
+    <div class="field"><label for="shiftAStart">Semaine A — début</label><input id="shiftAStart" type="time" value="06:00"></div><div class="field"><label for="shiftAEnd">Semaine A — fin</label><input id="shiftAEnd" type="time" value="14:00"></div>
+    <div class="field"><label for="shiftBStart">Semaine B — début</label><input id="shiftBStart" type="time" value="08:00"></div><div class="field"><label for="shiftBEnd">Semaine B — fin</label><input id="shiftBEnd" type="time" value="16:00"></div>
+    <div class="field"><label for="workDays">Jours de travail</label><input value="Lundi au vendredi" disabled></div><div class="field"><label for="weeklyHours">Heures prévues par semaine</label><input id="weeklyHours" type="number" min="0" max="80" step="0.5" value="40"></div>
+    <div class="field full"><button class="btn" onclick="saveSettings()">Enregistrer les horaires</button></div>
+   </div>
+  </div>
+  <div class="panel"><div class="panel-head"><h2>🗓️ Modifier un horaire pour une période</h2></div>
+   <p class="small muted">Si ton planning change pendant une semaine ou plusieurs semaines, définis un horaire exceptionnel sur toute la période. Cela ne modifie pas l’alternance A/B habituelle en dehors des dates choisies.</p>
+   <div class="form-grid">
+    <div class="field"><label for="periodStart">Du</label><input type="date" id="periodStart"></div>
+    <div class="field"><label for="periodEnd">Au</label><input type="date" id="periodEnd"></div>
+    <div class="field"><label for="periodShiftStart">Début du travail</label><input type="time" id="periodShiftStart" value="06:00"></div>
+    <div class="field"><label for="periodShiftEnd">Fin du travail</label><input type="time" id="periodShiftEnd" value="14:00"></div>
+    <div class="field full"><label for="periodNote">Note (facultatif)</label><input id="periodNote" maxlength="200" placeholder="Ex. semaine en horaire du matin"></div>
+    <div class="field full"><button class="btn" type="button" onclick="applyShiftPeriod()">Appliquer à tous les jours ouvrables de la période</button></div>
+   </div>
+   <div id="periodShiftList"></div>
+  </div>
 
-  <section class="panel">
-    <h2 id="formTitle">Ajouter une fiche</h2>
-    <form id="recordForm">
-      <input type="hidden" id="editId">
-      <div class="grid">
-        <div class="field"><label for="name">Nom de la fiche *</label><input id="name" required placeholder="Ex. Salon, Chambre…"></div>
-        <div class="field"><label for="personName">Nom de la personne</label><input id="personName" placeholder="Nom / client"></div>
-        <div class="field"><label for="application">Application / fournisseur</label><input id="application" placeholder="Ex. IPTV, Nexon…"></div>
-        <div class="field"><label for="url1">URL / serveur principal</label><input id="url1" type="text" placeholder="https://…"></div>
-        <div class="field"><label for="username">Nom d’utilisateur</label><input id="username" autocomplete="off"></div>
-        <div class="field"><label for="password">Mot de passe</label><input id="password" autocomplete="new-password"></div>
-        <div class="field"><label for="url2">URL secondaire</label><input id="url2" type="text"></div>
-        <div class="field"><label for="appUrl1">URL de l’application / portail</label><input id="appUrl1" type="text"></div>
-        <div class="field"><label for="key">Clé / code</label><input id="key" autocomplete="off"></div>
-        <div class="field"><label for="appKey">Clé application</label><input id="appKey" autocomplete="off"></div>
-        <div class="field"><label for="appKey2">Clé application 2</label><input id="appKey2" autocomplete="off"></div>
-        <div class="field"><label for="mac">Adresse MAC</label><input id="mac" autocomplete="off"></div>
-        <div class="field"><label for="mac2">Adresse MAC 2</label><input id="mac2" autocomplete="off"></div>
-        <div class="field"><label for="startDate">Date de début</label><input id="startDate" type="date"></div>
-        <div class="field"><label for="duration">Durée / échéance</label><input id="duration" placeholder="Ex. 12 mois"></div>
-        <div class="field"><label for="whatsapp">Téléphone / WhatsApp</label><input id="whatsapp" type="tel"></div>
-        <div class="field"><label for="photo">Photo / capture</label><input id="photo" type="file" accept="image/*"></div>
-        <div class="field full"><label for="remark">Remarques</label><textarea id="remark" rows="3" placeholder="Notes utiles…"></textarea></div>
-      </div>
-      <div id="photoPreviewWrap" class="hidden"><img id="photoPreview" class="photo-large" alt="Aperçu de la photo"><button type="button" id="removePhoto" class="secondary small">Retirer la photo</button></div>
-      <div class="actions"><button type="submit" id="saveRecord">💾 Enregistrer la fiche</button><button type="button" class="secondary" id="cancelEdit">Annuler</button></div>
-      <div id="formStatus" class="status"></div>
-    </form>
-  </section>
+  <div class="panel"><div class="panel-head"><h2>Congés</h2></div><div class="form-grid"><div class="field"><label for="initialLeave">Solde initial (jours)</label><input id="initialLeave" type="number" min="0" max="365" step="0.5" value="27"></div><div class="field"><label for="leaveYear">Année du solde</label><select id="leaveYear"></select></div><div class="field full"><button class="btn" onclick="saveLeaveSettings()">Enregistrer le solde</button></div></div></div>
+  <div class="panel"><div class="panel-head"><h2>Jours fériés du Luxembourg</h2><span class="tag holiday">Luxembourg</span></div><p class="small muted">Les 11 jours fériés légaux du Luxembourg sont calculés automatiquement pour chaque année affichée, y compris les années futures. Les dates mobiles (Pâques, Ascension et Pentecôte) sont recalculées chaque année. Les congés compensatoires et jours propres à ton entreprise peuvent être ajoutés manuellement.</p><div id="holidaySettingsList"></div><div class="row" style="margin-top:12px"><button class="btn secondary" onclick="addHoliday()">＋ Ajouter un jour férié</button><button class="btn ghost" onclick="resetHolidays()">Restaurer les jours fériés intégrés</button></div></div>
 
-  <section class="panel">
-    <div class="sectiontitle"><h2>Mes fiches</h2><span class="note">Appuie sur une fiche pour l’ouvrir</span></div>
-    <div class="grid" style="margin-bottom:12px">
-      <div class="field"><label for="search">Rechercher</label><input id="search" placeholder="Nom, application, utilisateur…"></div>
-      <div class="field"><label for="sort">Trier</label><select id="sort"><option value="name">Nom A → Z</option><option value="newest">Plus récentes</option><option value="oldest">Plus anciennes</option></select></div>
-    </div>
-    <div id="records"></div>
-  </section>
+  <div class="panel"><div class="panel-head"><h2>🔐 Sécurité de l’application</h2></div><div class="notice">Le code protège l’ouverture de l’application sur cet appareil. Pour une protection plus forte des données, il faut un serveur sécurisé. Face ID est proposé si ton iPhone et ton navigateur prennent en charge les clés d’accès.</div>
+   <div class="form-grid" style="margin-top:12px"><div class="field"><label for="newPin">Nouveau mot de passe / code</label><input id="newPin" type="password" autocomplete="new-password" minlength="4" maxlength="32" placeholder="4 caractères minimum"></div><div class="field"><label for="confirmPin">Confirmer</label><input id="confirmPin" type="password" autocomplete="new-password" minlength="4" maxlength="32" placeholder="Confirmer le code"></div><div class="field full"><button type="button" class="btn" onclick="changePin()">Enregistrer le mot de passe</button></div><div class="field full"><button type="button" class="btn secondary" id="setupFaceId" onclick="setupFaceID()">Configurer Face ID</button></div><div class="field full"><button type="button" class="btn ghost" onclick="lockApp()">Verrouiller maintenant</button></div></div>
+   <div class="footer-note">Le mot de passe et l’activation Face ID sont enregistrés dans le stockage local de ce navigateur. Ne les considère pas comme une sécurité serveur.</div>
+  </div>
+  <div class="panel"><div class="panel-head"><h2>📷 Photos de mes congés</h2></div>
+   <p class="small muted">Ajoute une photo ou un scan de ta feuille de congés pris. Les images sont enregistrées dans IndexedDB sur cet appareil, séparément du stockage local des réglages.</p>
+   <div class="form-grid">
+    <div class="field full"><label for="leavePhotoTitle">Nom de la feuille</label><input id="leavePhotoTitle" maxlength="100" placeholder="Ex. Congés pris 2026"></div>
+    <div class="field full"><label for="leavePhotoDate">Date à associer au calendrier</label><input id="leavePhotoDate" type="date" required><small class="muted">Cette date sera marquée 📷 dans le calendrier. En touchant le jour, tu pourras ouvrir la photo.</small></div>
+    <div class="field full"><label for="leavePhotoInput">Choisir une photo ou un scan depuis le GSM</label><input id="leavePhotoInput" type="file" accept="image/*"></div>
+    <div class="field full"><label for="leavePhotoNote">Note (facultatif)</label><input id="leavePhotoNote" maxlength="300" placeholder="Ex. document signé par l'employeur"></div>
+    <div class="field full"><button class="btn" type="button" onclick="saveLeavePhoto()">💾 Enregistrer la photo</button></div>
+   </div>
+   <div id="leavePhotoStatus" class="notice" style="margin-top:12px">Aucune photo chargée.</div>
+   <div id="leavePhotoList"></div>
+   <p class="footer-note">Les photos restent sur cet appareil et ne sont pas automatiquement envoyées sur GitHub. Exporte aussi une sauvegarde de tes données. Pour conserver les photos lors d’un changement de téléphone, il faudra les exporter séparément ou utiliser une sauvegarde avec photos.</p>
+  </div>
 
-  <section class="panel">
-    <h2>Outils</h2>
-    <div class="actions">
-      <button class="secondary" id="openNexon">🌐 Ouvrir Nexon</button>
-      <button class="secondary" id="showConverter">🔄 Convertisseur Xtream → M3U</button>
-      <button class="secondary" id="changePin">🔐 Changer le PIN</button>
-      <button class="danger" id="deleteAll">Supprimer toutes les fiches</button>
-    </div>
-    <div id="converter" class="hidden" style="margin-top:14px">
-      <h2>Convertisseur Xtream vers M3U</h2>
-      <p class="note">Les identifiants sont traités uniquement dans cette page. Attention : le lien généré contient le nom d’utilisateur et le mot de passe.</p>
-      <div class="grid">
-        <div class="field full"><label for="xtreamUrl">URL du serveur (sans /player_api.php)</label><input id="xtreamUrl" placeholder="http://serveur:port"></div>
-        <div class="field"><label for="xtreamUser">Utilisateur</label><input id="xtreamUser"></div>
-        <div class="field"><label for="xtreamPass">Mot de passe</label><input id="xtreamPass"></div>
-      </div>
-      <div class="actions"><button id="makeM3u">Générer le lien M3U</button><button class="secondary" id="copyM3u">Copier le lien</button></div>
-      <div class="field" style="margin-top:10px"><label for="m3uOutput">Lien M3U généré</label><textarea id="m3uOutput" rows="3" readonly></textarea></div>
-    </div>
-    <p class="note">Le bouton Nexon ouvre la page de connexion configurée ci-dessous. Tu peux la modifier si l’adresse change.</p>
-    <div class="grid">
-      <div class="field full"><label for="nexonUrl">Adresse du portail Nexon</label><input id="nexonUrl" placeholder="https://…"></div>
-    </div>
-    <div class="actions"><button class="secondary small" id="saveNexon">Enregistrer l’adresse Nexon</button></div>
-    <div id="toolsStatus" class="status"></div>
-  </section>
+  <div class="panel"><div class="panel-head"><h2>💾 Sauvegarde, importation et exportation</h2></div>
+   <div class="notice good">Les données sont enregistrées automatiquement sur cet appareil. Pour éviter de les perdre, exporte régulièrement une sauvegarde JSON. Tu peux ensuite importer ce fichier pour restaurer tes congés, horaires, rendez-vous, heures supplémentaires, jours fériés personnalisés et réglages.</div>
+   <div class="row" style="margin-top:14px">
+    <button class="btn" type="button" onclick="exportBackup()">⬇ Exporter / sauvegarder</button>
+    <button class="btn secondary" type="button" onclick="document.getElementById('importFile').click()">⬆ Importer / restaurer</button>
+    <input type="file" id="importFile" accept=".json,application/json" class="hidden" onchange="importBackup(event)">
+   </div>
+   <p class="footer-note">L’export crée un fichier JSON que tu peux garder dans Fichiers sur ton iPhone ou sur ton ordinateur. L’import remplace les données actuelles : exporte une sauvegarde avant de restaurer un ancien fichier.</p>
+  </div>
+ </section>
 </main>
-</div>
-
+<nav class="nav" aria-label="Navigation principale"><button class="active" data-view="home" onclick="go('home')"><span>⌂</span>Accueil</button><button data-view="calendar" onclick="go('calendar')"><span>▦</span>Calendrier</button><button data-view="summary" onclick="go('summary')"><span>▤</span>Synthèse</button><button data-view="leave" onclick="go('leave')"><span>☑</span>Congés</button><button data-view="hours" onclick="go('hours')"><span>◷</span>Heures</button><button data-view="pay" onclick="go('pay')"><span>€</span>Paie</button><button data-view="settings" onclick="go('settings')"><span>⚙</span>Réglages</button></nav>
+<div class="toast" id="toast" role="status"></div>
+<dialog id="entryDialog"><div class="modal-head"><h2 id="entryTitle">Ajouter une entrée</h2><button class="close" onclick="closeEntry()" aria-label="Fermer">×</button></div><div class="modal-body">
+<form id="entryForm" onsubmit="saveEntry(event)"><input type="hidden" id="entryId"><div class="form-grid">
+<div class="field full"><label for="entryDate">Date</label><input id="entryDate" type="date" required onchange="if(document.getElementById('entryType').value==='leave')renderCalendarDayPhoto(this.value)"></div>
+<div class="field full"><label for="entryType">Type d'entrée</label><select id="entryType" onchange="updateEntryFields()"><option value="leave">Congé</option><option value="absence">Absence</option><option value="overtime">Heures supplémentaires</option><option value="shift">Horaire exceptionnel</option><option value="appointment">Rendez-vous</option><option value="mel_leave">Congé Mel</option><option value="sickness">Maladie</option><option value="holiday">Jour férié personnalisé</option></select></div>
+<div class="field" id="leaveAmountWrap"><label for="leaveAmount">Durée du congé</label><select id="leaveAmount"><option value="1">Journée complète (1 j)</option><option value="0.5">Demi-journée (0,5 j)</option></select></div><div class="field" id="leavePeriodWrap"><label for="leavePeriod">Demi-journée</label><select id="leavePeriod"><option value="morning">Matin</option><option value="afternoon">Après-midi</option></select></div><div class="calendar-photo-tools hidden" id="leaveCalendarPhotoTools" style="grid-column:1/-1"><strong>📷 Photo du congé</strong><p class="small muted">Choisis une photo dans la photothèque de ton iPhone. Elle sera liée à cette date et visible dans le calendrier. Pour la modifier, choisis une autre photo ; pour la supprimer, utilise le bouton sous la photo.</p><input id="calendarDayPhotoInput" type="file" accept="image/*" aria-label="Choisir une photo depuis la photothèque" onchange="saveCalendarDayPhoto()"><div id="calendarDayPhotoStatus" class="small muted" style="margin-top:6px"></div><div id="calendarDayPhotoPreview"></div></div>
+<div class="field" id="overtimeAmountWrap"><label for="overtimeAmount">Nombre d'heures</label><input id="overtimeAmount" type="number" min="0.25" max="100" step="0.25" value="1"></div><div class="field" id="overtimeStatusWrap"><label for="overtimeStatus">Statut</label><select id="overtimeStatus"><option value="recover">À récupérer</option><option value="paid">Payées</option><option value="done">Enregistrées</option></select></div>
+<div class="field" id="shiftStartWrap"><label for="entryShiftStart">Début</label><input id="entryShiftStart" type="time" value="06:00"></div><div class="field" id="shiftEndWrap"><label for="entryShiftEnd">Fin</label><input id="entryShiftEnd" type="time" value="14:00"></div><div class="field full hidden" id="appointmentTimeWrap"><label for="appointmentTime">Heure du rendez-vous (facultatif)</label><input id="appointmentTime" type="time"></div>
+<div class="field full"><label for="entryNote">Note (facultatif)</label><textarea id="entryNote" rows="2" placeholder="Ex. rendez-vous, récupération…"></textarea></div><div class="field full"><label class="row" style="justify-content:flex-start"><input type="checkbox" id="entryUseHoliday" style="width:18px;min-height:18px"> Marquer aussi comme jour férié</label></div>
+</div><div class="row" style="margin-top:16px;justify-content:space-between"><button type="button" class="btn danger" id="deleteEntryBtn" onclick="deleteCurrentEntry()" style="display:none">Supprimer</button><div class="row" style="margin-left:auto"><button type="button" class="btn ghost" onclick="closeEntry()">Annuler</button><button type="submit" class="btn">Enregistrer</button></div></div></form>
+</div></dialog>
 <script>
-'use strict';
-const STORAGE_KEY='mes-acces-iptv-v3-data';
-const PIN_KEY='mes-acces-iptv-v3-pin';
-const NEXON_KEY='mes-acces-iptv-v3-nexon';
-let records=[];
-let currentPhoto='';
-let firstPinMode=false;
-const $=id=>document.getElementById(id);
-const fields=['name','personName','application','url1','username','password','url2','appUrl1','key','appKey','appKey2','mac','mac2','startDate','duration','whatsapp','remark'];
-function uid(){return 'acc-'+Date.now().toString(36)+'-'+Math.random().toString(36).slice(2,9)}
-function setStatus(id,msg,good=true){$(id).textContent=msg;$(id).style.color=good?'var(--good)':'#ff9ca4'}
-function safeText(v){return String(v??'')}
-function escapeHtml(s){return safeText(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
-function validUrl(raw){const v=safeText(raw).trim();if(!v)return '';try{const u=new URL(v);return ['http:','https:'].includes(u.protocol)?u.href:''}catch{return ''}}
-function normalizeRecord(r){
-  const x={};
-  fields.forEach(k=>x[k]=safeText(r[k]));
-  ['id','createdAt','photo','photoId','isApplication','reminder0Sent','reminder1Sent','reminder2Sent'].forEach(k=>{if(r[k]!==undefined)x[k]=r[k]});
-  if(!x.id)x.id=uid();
-  if(!x.createdAt)x.createdAt=Date.now();
-  return x;
+"use strict";
+const STORAGE_KEY='conges_horaires_lux_v1';
+const MONTHS=['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
+const DAYS=['L','M','M','J','V','S','D'];
+const TYPES={leave:'Congé',absence:'Absence / maladie',overtime:'Heures supplémentaires',shift:'Horaire exceptionnel',holiday:'Jour férié personnalisé',appointment:'Rendez-vous',mel_leave:'Congé Mel',sickness:'Maladie'};
+function easterSunday(year){let a=year%19,b=Math.floor(year/100),c=year%100,d=Math.floor(b/4),e=b%4,f=Math.floor((b+8)/25),g=Math.floor((b-f+1)/3),h=(19*a+b-d-g+15)%30,i=Math.floor(c/4),k=c%4,l=(32+2*e+2*i-h-k)%7,m=Math.floor((a+11*h+22*l)/451),month=Math.floor((h+l-7*m+114)/31),day=((h+l-7*m+114)%31)+1;return new Date(year,month-1,day)}
+function iso(d){return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`}
+function addDays(date,n){let d=new Date(date+'T12:00:00');d.setDate(d.getDate()+n);return d}
+function luxHolidays(year){let easter=easterSunday(year), easterMonday=new Date(easter);easterMonday.setDate(easter.getDate()+1);let ascension=new Date(easter);ascension.setDate(easter.getDate()+39);let whitMonday=new Date(easter);whitMonday.setDate(easter.getDate()+50);return [{date:`${year}-01-01`,name:"Nouvel An"},{date:iso(easterMonday),name:"Lundi de Pâques"},{date:`${year}-05-01`,name:"Fête du Travail"},{date:`${year}-05-09`,name:"Journée de l’Europe"},{date:iso(ascension),name:"Ascension"},{date:iso(whitMonday),name:"Lundi de Pentecôte"},{date:`${year}-06-23`,name:"Fête nationale"},{date:`${year}-08-15`,name:"Assomption"},{date:`${year}-11-01`,name:"Toussaint"},{date:`${year}-12-25`,name:"Noël"},{date:`${year}-12-26`,name:"Saint-Étienne"}]}
+function defaultData(){let holidays={};[2026,2027].forEach(y=>holidays[y]=luxHolidays(y));return {version:1,settings:{anchorDate:'2026-10-05',weekStart:'A',shiftAStart:'06:00',shiftAEnd:'14:00',shiftBStart:'08:00',shiftBEnd:'16:00',weeklyHours:40,initialLeave:27,leaveYear:2026,calendarColors:{weekA:'#DCEBFF',weekB:'#F3DFFF',leave:'#d8f7e8',holiday:'#ffe1e1',overtime:'#fff0d8',manual:'#e8efff',appointment:'#e9e5ff',sickness:'#ffd9dc',today:'#356df3'}},entries:[],holidays,customHolidays:[]}}
+let data=loadData(), currentYear=2026, selectedDate=iso(new Date()), selectedEntryDate=null;
+function loadData(){try{let raw=localStorage.getItem(STORAGE_KEY);if(raw){let x=JSON.parse(raw);if(x&&x.settings&&Array.isArray(x.entries))return {...defaultData(),...x,settings:{...defaultData().settings,...x.settings}}}}catch(e){}return defaultData()}
+function persist(){try{localStorage.setItem(STORAGE_KEY,JSON.stringify(data));return true}catch(e){toast('Sauvegarde impossible : espace de stockage insuffisant. Exporte tes données.');return false}}
+function toast(msg){let t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');clearTimeout(toast.timer);toast.timer=setTimeout(()=>t.classList.remove('show'),2600)}
+function fmtDate(s,opts={weekday:'short',day:'numeric',month:'short',year:undefined}){if(!s)return'';return new Date(s+'T12:00:00').toLocaleDateString('fr-FR',opts)}
+function fmtNum(n){return Number(n||0).toLocaleString('fr-FR',{maximumFractionDigits:2})}
+function dateYear(s){return Number((s||'').slice(0,4))}
+function entryFor(date){return data.entries.filter(e=>e.date===date)}
+function allHolidays(year){let base=luxHolidays(year).map(h=>({...h,source:'official'}));return base.concat((data.customHolidays||[]).filter(h=>dateYear(h.date)===year).map(h=>({...h,source:'custom'})))}
+function holidayFor(date){return allHolidays(dateYear(date)).find(h=>h.date===date)}
+function isWorkday(date){let d=new Date(date+'T12:00:00').getDay();return d>=1&&d<=5}
+function shiftFor(date){let s=data.settings;let d=new Date(date+'T12:00:00'), anchor=new Date((s.anchorDate||'2026-10-05')+'T12:00:00');let day=d.getDay(), offset=(day+6)%7;d.setDate(d.getDate()-offset);anchor.setDate(anchor.getDate()-((anchor.getDay()+6)%7));let weeks=Math.floor((d-anchor)/604800000);let isA=((weeks%2)+2)%2===0;if(s.weekStart==='B')isA=!isA;return {label:isA?'A':'B',start:isA?s.shiftAStart:s.shiftBStart,end:isA?s.shiftAEnd:s.shiftBEnd}}
+function shiftHours(start,end){if(!start||!end)return 0;let [a,b]=start.split(':').map(Number),[c,d]=end.split(':').map(Number);let mins=c*60+d-(a*60+b);if(mins<0)mins+=1440;return mins/60}
+function dayEntries(date){return entryFor(date)}
+function dayLeave(date){return dayEntries(date).filter(e=>e.type==='leave').reduce((a,e)=>a+Number(e.amount||1),0)}
+function leaveUsed(year){return data.entries.filter(e=>e.type==='leave'&&dateYear(e.date)===year).reduce((a,e)=>a+Number(e.amount||1),0)}
+function balance(){let y=Number(data.settings.leaveYear||currentYear);return Number(data.settings.initialLeave||0)-leaveUsed(y)}
+function overtimeTotal(year=null,status=null){return data.entries.filter(e=>e.type==='overtime'&&(year===null||dateYear(e.date)===year)&&(!status||e.status===status)).reduce((a,e)=>a+Number(e.hours||0),0)}
+function go(view){document.querySelectorAll('.view').forEach(v=>v.classList.toggle('active',v.id==='view-'+view));document.querySelectorAll('.nav button').forEach(b=>b.classList.toggle('active',b.dataset.view===view));if(view==='calendar')renderCalendar();if(view==='summary')renderSummary();if(view==='leave')renderLeave();if(view==='hours')renderHours();if(view==='pay')renderPaySlips();window.scrollTo({top:0,behavior:'smooth'})}
+function changeYear(n){currentYear+=n;document.getElementById('headerYear').value=String(currentYear);renderAll()}
+function renderYearSelects(){let header=document.getElementById('headerYear'),leave=document.getElementById('leaveYear');let years=[];for(let y=2024;y<=2100;y++)years.push(y);header.innerHTML=years.map(y=>`<option value="${y}">${y}</option>`).join('');leave.innerHTML=years.map(y=>`<option value="${y}">${y}</option>`).join('');header.value=String(currentYear);leave.value=String(data.settings.leaveYear||2026);header.onchange=()=>{currentYear=Number(header.value);renderAll()}}
+function renderHome(){document.getElementById('statBalance').textContent=fmtNum(balance())+' j';document.getElementById('statLeaveSub').textContent=`${fmtNum(balance())} j restants · sur ${fmtNum(data.settings.initialLeave)} j au départ`;document.getElementById('statOvertime').textContent=fmtNum(overtimeTotal())+' h';let today=iso(new Date());let upcoming=allHolidays(currentYear).filter(h=>h.date>=today).sort((a,b)=>a.date.localeCompare(b.date))[0];document.getElementById('statHoliday').textContent=upcoming?fmtDate(upcoming.date,{day:'numeric',month:'short'}):'—';document.getElementById('statHolidaySub').textContent=upcoming?upcoming.name:'Aucun autre jour férié cette année';let sh=periodShiftFor(today)||shiftFor(today);document.getElementById('statShift').textContent=sh.start+'–'+sh.end;document.getElementById('statShiftSub').textContent='Semaine '+sh.label;let d=new Date();let monday=new Date(d);monday.setDate(d.getDate()-((d.getDay()+6)%7));let sunday=new Date(monday);sunday.setDate(monday.getDate()+6);document.getElementById('weekLabel').textContent=fmtDate(iso(monday),{day:'numeric',month:'short'})+' – '+fmtDate(iso(sunday),{day:'numeric',month:'short'});let hours=0;for(let i=0;i<5;i++){let day=iso(addDays(iso(monday),i));if(!dayLeave(day)&&!holidayFor(day)&&!dayEntries(day).some(e=>e.type==='absence')){let custom=dayEntries(day).find(e=>e.type==='shift');let period=periodShiftFor(day);let s=custom?{start:custom.start,end:custom.end}:(period||shiftFor(day));hours+=shiftHours(s.start,s.end)}}document.getElementById('weekHours').textContent=fmtNum(hours)+' h';document.getElementById('weekOvertime').textContent=fmtNum(overtimeTotal(currentYear))+' h';let upcomingItems=[];for(let i=0;i<90&&upcomingItems.length<5;i++){let date=iso(addDays(today,i));let hol=holidayFor(date),entries=dayEntries(date);if(hol||entries.some(e=>['leave','absence','overtime','appointment'].includes(e.type))){upcomingItems.push({date,hol,entries})}}document.getElementById('upcoming').innerHTML=upcomingItems.length?upcomingItems.map(x=>`<div class="list-item"><div class="main"><strong>${escapeHtml(fmtDate(x.date))}</strong><small>${escapeHtml(x.hol?x.hol.name:x.entries.map(e=>TYPES[e.type]||e.type).join(', '))}</small></div><span class="tag ${x.hol?'holiday':x.entries.some(e=>e.type==='leave')?'leave':x.entries.some(e=>e.type==='overtime')?'overtime':x.entries.some(e=>e.type==='appointment')?'appointment':'off'}">${x.hol?'Férié':x.entries.some(e=>e.type==='leave')?'Congé':x.entries.some(e=>e.type==='overtime')?'Heures supp.':x.entries.some(e=>e.type==='appointment')?'Rendez-vous':'Absence'}</span></div>`).join(''):'<div class="empty-state">Rien de particulier à signaler dans les 90 prochains jours.</div>'}
+
+let multiSelectionEnabled=false;
+let multiSelectedDates=new Set();
+function toggleMultiSelection(){
+ multiSelectionEnabled=!multiSelectionEnabled;
+ document.getElementById('bulkPanel').classList.toggle('active',multiSelectionEnabled);
+ document.getElementById('toggleMultiSelect').textContent='☑ Sélection multiple : '+(multiSelectionEnabled?'activée':'désactivée');
+ if(!multiSelectionEnabled){multiSelectedDates.clear();updateMultiSelectionUI();renderCalendar()}
 }
-function loadData(){
-  try{const raw=localStorage.getItem(STORAGE_KEY);if(raw){const parsed=JSON.parse(raw);if(Array.isArray(parsed))records=parsed.map(normalizeRecord)}}catch(e){setStatus('globalStatus','Lecture impossible. Importe ta sauvegarde JSON.',false)}
+function clearMultiSelection(){multiSelectedDates.clear();updateMultiSelectionUI();renderCalendar()}
+function updateMultiSelectionUI(){
+ const count=multiSelectedDates.size;
+ document.getElementById('multiCount').textContent=count+' date'+(count>1?'s':'');
+ document.getElementById('multiSelectedList').textContent=count?[...multiSelectedDates].sort().map(d=>fmtDate(d,{day:'numeric',month:'short',year:'numeric'})).join(' · '):'Aucune date sélectionnée.';
 }
-function saveData(){
-  try{localStorage.setItem(STORAGE_KEY,JSON.stringify(records));setStatus('globalStatus','Sauvegarde locale enregistrée.');renderRecords();return true}
-  catch(e){setStatus('globalStatus','Sauvegarde impossible : stockage du navigateur plein. Exporte la sauvegarde et retire des photos trop lourdes.',false);return false}
+function updateBulkFields(){
+ const t=document.getElementById('bulkType').value;
+ document.getElementById('bulkLeaveWrap').classList.toggle('hidden',!['leave','mel_leave'].includes(t));
+ document.getElementById('bulkOvertimeWrap').classList.toggle('hidden',t!=='overtime');
+ document.getElementById('bulkTimeWrap').classList.toggle('hidden',t!=='appointment');
 }
-function showApp(){ $('lockScreen').style.display='none';$('app').style.display='block';renderRecords() }
-function pinHash(pin){let h=2166136261;for(let i=0;i<pin.length;i++){h^=pin.charCodeAt(i);h=Math.imul(h,16777619)}return 'fnv1a-'+(h>>>0).toString(16)}
-function initLock(){
-  const saved=localStorage.getItem(PIN_KEY);
-  if(!saved){firstPinMode=true;$('firstPin').classList.remove('hidden');$('lockMessage').textContent='Première utilisation : crée un code PIN.'}
+function applyMultiSelection(){
+ const dates=[...multiSelectedDates].sort();
+ if(!dates.length){toast('Sélectionne d’abord une ou plusieurs dates dans le calendrier.');return}
+ const type=document.getElementById('bulkType').value,note=document.getElementById('bulkNote').value.trim();
+ if(!confirm('Appliquer « '+(TYPES[type]||type)+' » à '+dates.length+' date(s) ?'))return;
+ dates.forEach(date=>{
+  const entry={id:'e'+Date.now().toString(36)+Math.random().toString(36).slice(2,8),date,type,note};
+  if(type==='leave'||type==='mel_leave')entry.amount=Number(document.getElementById('bulkLeaveAmount').value)||1;
+  if(type==='absence'||type==='sickness')entry.amount=1;
+  if(type==='overtime'){entry.hours=Number(document.getElementById('bulkOvertimeHours').value)||1;entry.status='done'}
+  if(type==='appointment')entry.time=document.getElementById('bulkTime').value||'';
+  if(type==='shift'){const s=shiftFor(date);entry.start=s.start;entry.end=s.end}
+  if(type==='holiday'){if(!data.customHolidays)data.customHolidays=[];data.customHolidays.push({date,name:note||'Jour férié personnalisé'})}
+  data.entries.push(entry);
+ });
+ persist();multiSelectedDates.clear();multiSelectionEnabled=false;
+ document.getElementById('bulkPanel').classList.remove('active');
+ document.getElementById('toggleMultiSelect').textContent='☑ Sélection multiple : désactivée';
+ updateMultiSelectionUI();renderAll();toast((TYPES[type]||type)+' ajouté pour '+dates.length+' date(s).');
 }
-$('unlockForm').addEventListener('submit',e=>{
-  e.preventDefault();const pin=$('pinInput').value;
-  const saved=localStorage.getItem(PIN_KEY);
-  if(!saved){$('firstPin').classList.remove('hidden');setStatus('lockStatus','Choisis puis confirme un PIN ci-dessous.',false);return}
-  if(pinHash(pin)===saved){$('pinInput').value='';showApp()}else setStatus('lockStatus','PIN incorrect.',false)
-});
-$('saveFirstPin').addEventListener('click',()=>{
-  const p=$('pinInput').value,c=$('pinConfirm').value;
-  if(p.length<4){setStatus('lockStatus','Choisis un PIN d’au moins 4 caractères.',false);return}
-  if(p!==c){setStatus('lockStatus','Les deux PIN ne correspondent pas.',false);return}
-  localStorage.setItem(PIN_KEY,pinHash(p));firstPinMode=false;$('pinConfirm').value='';$('lockMessage').textContent='PIN créé. Déverrouille l’application.';$('firstPin').classList.add('hidden');setStatus('lockStatus','PIN créé. Tu peux maintenant déverrouiller.')
-});
-$('lockNow').addEventListener('click',()=>{ $('app').style.display='none';$('lockScreen').style.display='flex';$('pinInput').value='';$('pinConfirm').value='';setStatus('lockStatus','Application verrouillée.') });
-function resetForm(){
-  $('recordForm').reset();$('editId').value='';currentPhoto='';$('formTitle').textContent='Ajouter une fiche';$('saveRecord').textContent='💾 Enregistrer la fiche';$('photoPreviewWrap').classList.add('hidden');$('formStatus').textContent='';
+document.getElementById('bulkType')?.addEventListener('change',updateBulkFields);
+
+function renderCalendar(){document.getElementById('calendarYearLabel').textContent=currentYear;let out='';for(let m=0;m<12;m++){let first=new Date(currentYear,m,1,12),days=new Date(currentYear,m+1,0,12).getDate(),offset=(first.getDay()+6)%7;out+=`<div class="month"><h3>${MONTHS[m]}</h3><div class="weekdays">${DAYS.map(x=>`<span>${x}</span>`).join('')}</div><div class="days">`;for(let i=0;i<offset;i++)out+='<span class="day empty"></span>';for(let day=1;day<=days;day++){let date=iso(new Date(currentYear,m,day,12)),hol=holidayFor(date),entries=dayEntries(date),cl=[],shift=shiftFor(date);if(isWorkday(date)&&!hol&&!entries.some(e=>e.type==='leave'))cl.push(shift.label==='A'?'week-a':'week-b');if(hol)cl.push('holiday');else if(entries.some(e=>e.type==='leave'))cl.push('leave');if(entries.some(e=>e.type==='overtime'))cl.push('overtime');if(entries.some(e=>e.type==='shift'))cl.push('manual');if(entries.some(e=>e.type==='appointment'))cl.push('appointment');if(entries.some(e=>e.type==='sickness'||e.type==='absence'))cl.push('sickness');if(date===iso(new Date()))cl.push('today');if(date===selectedDate)cl.push('selected');if(multiSelectionEnabled&&multiSelectedDates.has(date))cl.push('multi-selected');let effectiveShift=periodShiftFor(date)||shift;let title=hol?hol.name:entries.map(e=>TYPES[e.type]).join(', ');if(!title)title=(effectiveShift.label==='Exceptionnel'?'Horaire exceptionnel':'Semaine '+effectiveShift.label)+' · '+effectiveShift.start+'–'+effectiveShift.end;out+=`<button class="day ${cl.join(' ')}" data-date="${date}" title="${escapeHtml(title)}" aria-label="${escapeHtml(fmtDate(date))}${title?', '+escapeHtml(title):''}" onclick="handleCalendarDateClick('${date}')">${day}</button>`}out+='</div></div>'}document.getElementById('months').innerHTML=out;renderSelectedDay();refreshCalendarPhotoThumbnails()}
+async function handleCalendarDateClick(date){if(multiSelectionEnabled){if(multiSelectedDates.has(date))multiSelectedDates.delete(date);else multiSelectedDates.add(date);selectedDate=date;updateMultiSelectionUI();renderCalendar();return}selectedDate=date;currentYear=dateYear(date);const yearSelect=document.getElementById('headerYear');if(yearSelect)yearSelect.value=String(currentYear);renderCalendar();try{const photos=await getCalendarPhotosForDate(date);if(photos.length){await openCalendarPhoto(photos[0].id)}}catch(e){toast('Impossible de charger la photo de cette journée.')}}
+function selectDate(date){selectedDate=date;currentYear=dateYear(date);document.getElementById('headerYear').value=String(currentYear);renderCalendar()}
+function renderSelectedDay(){document.getElementById('selectedDateLabel').textContent=fmtDate(selectedDate,{weekday:'long',day:'numeric',month:'long',year:'numeric'});let hol=holidayFor(selectedDate),entries=dayEntries(selectedDate),sh=shiftFor(selectedDate),custom=entries.find(e=>e.type==='shift');let html=`<div class="notice" style="margin-bottom:8px"><strong>${escapeHtml(fmtDate(selectedDate,{weekday:'long',day:'numeric',month:'long',year:'numeric'}))}</strong><br>${hol?'🎉 Jour férié : '+escapeHtml(hol.name):(!isWorkday(selectedDate)?'Jour de repos (week-end)':'Journée de travail prévue')} · Semaine ${sh.label}${isWorkday(selectedDate)?' · '+(custom?custom.start+'–'+custom.end:sh.start+'–'+sh.end):''}</div>`;if(hol)html+=`<div class="day-row"><div><strong>🎉 ${escapeHtml(hol.name)}</strong><div class="small muted">Jour férié légal luxembourgeois${hol.source==='custom'?' personnalisé':''}</div></div><span class="tag holiday">Férié</span></div>`;if(isWorkday(selectedDate)){let s=custom?{start:custom.start,end:custom.end}:(periodShiftFor(selectedDate)||sh);html+=`<div class="day-row"><div><strong>Horaire prévu · semaine ${sh.label}</strong><div class="small muted">${custom?'Horaire exceptionnel':'Alternance automatique'}</div></div><strong>${s.start}–${s.end}</strong></div>`}if(entries.length)entries.forEach(e=>{html+=`<div class="day-row"><div><strong>${escapeHtml(TYPES[e.type]||e.type)}${e.type==='leave'?' · '+fmtNum(e.amount||1)+' j':''}${e.type==='overtime'?' · '+fmtNum(e.hours)+' h':''}${e.type==='appointment'&&e.time?' · '+escapeHtml(e.time):''}</strong><div class="small muted">${escapeHtml(e.note|| (e.type==='overtime'?({recover:'À récupérer',paid:'Payées',done:'Enregistrées'}[e.status]||''):''))}</div></div><button class="btn secondary sm" onclick="openEntry('${e.id}')">Modifier</button></div>`});if(!html)html='<div class="empty-state">Aucun événement enregistré pour cette journée.</div>';html+=`<div class="row" style="margin-top:12px"><button class="btn" onclick="openEntry(null,'leave','${selectedDate}')">＋ Congé</button><button class="btn secondary" onclick="openEntry(null,'overtime','${selectedDate}')">＋ Heures supp.</button><button class="btn ghost" onclick="openEntry(null,'shift','${selectedDate}')">Modifier horaire</button><button class="btn secondary" onclick="openEntry(null,'appointment','${selectedDate}')">＋ Rendez-vous</button></div>`;document.getElementById('selectedDay').innerHTML=html}
+
+
+const PHOTO_DB_NAME='conges_horaires_photos_db_v1';
+const PHOTO_STORE='leavePhotos';
+let leavePhotoDb=null;
+function openPhotoDB(){
+ return new Promise((resolve,reject)=>{
+  if(!('indexedDB' in window)){reject(new Error('IndexedDB indisponible'));return}
+  const req=indexedDB.open(PHOTO_DB_NAME,1);
+  req.onupgradeneeded=()=>{const db=req.result;if(!db.objectStoreNames.contains(PHOTO_STORE))db.createObjectStore(PHOTO_STORE,{keyPath:'id'})};
+  req.onsuccess=()=>{leavePhotoDb=req.result;resolve(leavePhotoDb)};
+  req.onerror=()=>reject(req.error||new Error('Ouverture IndexedDB impossible'));
+ });
 }
-function editRecord(id){
-  const r=records.find(x=>String(x.id)===String(id));if(!r)return;
-  fields.forEach(k=>$(k).value=safeText(r[k]));
-  $('editId').value=r.id;currentPhoto=r.photo||'';$('formTitle').textContent='Modifier la fiche';$('saveRecord').textContent='💾 Enregistrer les modifications';
-  if(currentPhoto){$('photoPreview').src=currentPhoto;$('photoPreviewWrap').classList.remove('hidden')}else $('photoPreviewWrap').classList.add('hidden');
-  $('recordForm').scrollIntoView({behavior:'smooth',block:'start'});
+function photoTransaction(mode,action){
+ return openPhotoDB().then(db=>new Promise((resolve,reject)=>{
+  const tx=db.transaction(PHOTO_STORE,mode),store=tx.objectStore(PHOTO_STORE);
+  let result;
+  try{result=action(store)}catch(e){reject(e);return}
+  tx.oncomplete=()=>resolve(result&&result.result!==undefined?result.result:result);
+  tx.onerror=()=>reject(tx.error||new Error('Erreur IndexedDB'));
+  tx.onabort=()=>reject(tx.error||new Error('Transaction annulée'));
+ }));
 }
-$('photo').addEventListener('change',()=>{
-  const file=$('photo').files[0];if(!file)return;
-  if(!file.type.startsWith('image/')){setStatus('formStatus','Choisis un fichier image.',false);return}
-  if(file.size>5*1024*1024){setStatus('formStatus','Image trop lourde (maximum 5 Mo).',false);$('photo').value='';return}
-  const reader=new FileReader();reader.onload=()=>{currentPhoto=reader.result;$('photoPreview').src=currentPhoto;$('photoPreviewWrap').classList.remove('hidden')};reader.readAsDataURL(file);
-});
-$('removePhoto').addEventListener('click',()=>{currentPhoto='';$('photo').value='';$('photoPreviewWrap').classList.add('hidden')});
-$('cancelEdit').addEventListener('click',resetForm);
-$('newRecord').addEventListener('click',()=>{resetForm();$('name').focus();$('recordForm').scrollIntoView({behavior:'smooth',block:'start'})});
-$('recordForm').addEventListener('submit',e=>{
-  e.preventDefault();const oldId=$('editId').value;
-  const obj={};fields.forEach(k=>obj[k]=$(k).value.trim());
-  obj.photo=currentPhoto;
-  if(oldId){const idx=records.findIndex(r=>String(r.id)===String(oldId));if(idx>=0){obj.id=records[idx].id;obj.createdAt=records[idx].createdAt;records[idx]=normalizeRecord(obj)}}
-  else {obj.id=uid();obj.createdAt=Date.now();records.unshift(normalizeRecord(obj))}
-  if(saveData()){setStatus('formStatus','Fiche enregistrée.');resetForm()}
-});
-function displayValue(label,value,kind='text'){
-  if(!value)return '';
-  if(kind==='url'){const u=validUrl(value);return `<div><label>${label}</label><div class="fieldvalue">${u?`<a href="${escapeHtml(u)}" target="_blank" rel="noopener noreferrer">${escapeHtml(value)}</a>`:escapeHtml(value)}</div></div>`}
-  return `<div><label>${label}</label><div class="fieldvalue">${escapeHtml(value)}</div><div class="actions"><button class="secondary small" data-copy="${escapeHtml(value)}">📋 Copier</button></div></div>`;
+async function listLeavePhotos(){
+ try{
+  const db=await openPhotoDB();
+  const items=await new Promise((resolve,reject)=>{const tx=db.transaction(PHOTO_STORE,'readonly'),req=tx.objectStore(PHOTO_STORE).getAll();req.onsuccess=()=>resolve(req.result||[]);req.onerror=()=>reject(req.error)});
+  renderLeavePhotos(items.filter(p=>p.category!=='pay').sort((a,b)=>b.createdAt-a.createdAt));
+ }catch(e){const s=document.getElementById('leavePhotoStatus');if(s)s.textContent='Stockage photo indisponible dans ce navigateur.'}
 }
-function renderRecords(){
-  $('countRecords').textContent=records.length;
-  $('countPhotos').textContent=records.filter(r=>!!r.photo).length;
-  const query=$('search').value.toLowerCase().trim(),sort=$('sort').value;
-  let list=records.filter(r=>fields.some(k=>safeText(r[k]).toLowerCase().includes(query)));
-  list.sort((a,b)=>sort==='newest'?(Number(b.createdAt)||0)-(Number(a.createdAt)||0):sort==='oldest'?(Number(a.createdAt)||0)-(Number(b.createdAt)||0):safeText(a.name).localeCompare(safeText(b.name),'fr'));
-  const container=$('records');
-  if(!list.length){container.innerHTML='<div class="empty">Aucune fiche trouvée. Ajoute une fiche ou importe ton fichier de sauvegarde JSON.</div>';return}
-  container.innerHTML=list.map(r=>{
-    const title=escapeHtml(r.name||'Fiche sans nom'),meta=escapeHtml([r.application,r.personName].filter(Boolean).join(' • '));
-    const avatar=r.photo?`<img class="avatar" src="${escapeHtml(r.photo)}" alt="">`:'<div class="avatar">🔑</div>';
-    let content='';
-    content+=displayValue('Nom de la personne',r.personName);
-    content+=displayValue('Application / fournisseur',r.application);
-    content+=displayValue('Serveur principal',r.url1,'url');
-    content+=displayValue('Utilisateur',r.username);
-    content+=displayValue('Mot de passe',r.password);
-    content+=displayValue('URL secondaire',r.url2,'url');
-    content+=displayValue('URL application / portail',r.appUrl1,'url');
-    content+=displayValue('Clé / code',r.key);
-    content+=displayValue('Clé application',r.appKey);
-    content+=displayValue('Clé application 2',r.appKey2);
-    content+=displayValue('Adresse MAC',r.mac);
-    content+=displayValue('Adresse MAC 2',r.mac2);
-    content+=displayValue('Date de début',r.startDate);
-    content+=displayValue('Durée / échéance',r.duration);
-    content+=displayValue('Téléphone / WhatsApp',r.whatsapp);
-    content+=displayValue('Remarques',r.remark);
-    if(r.photo)content+=`<img class="photo-large" src="${escapeHtml(r.photo)}" alt="Photo de ${title}">`;
-    return `<details class="record"><summary>${avatar}<div class="summarytext"><div class="recordname">${title}</div><div class="meta">${meta||'Appuyer pour afficher les détails'}</div></div><span>⌄</span></summary><div class="body"><div class="grid">${content}</div><div class="actions"><button class="small" data-edit="${escapeHtml(r.id)}">✏️ Modifier</button><button class="secondary small" data-open="${escapeHtml(r.id)}">🌐 Ouvrir le serveur</button><button class="danger small" data-delete="${escapeHtml(r.id)}">🗑️ Supprimer</button></div></div></details>`
-  }).join('');
+function renderLeavePhotos(items){
+ const list=document.getElementById('leavePhotoList');if(!list)return;
+ if(!items.length){list.innerHTML='<div class="empty-state">Aucune feuille de congés enregistrée.</div>';return}
+ list.innerHTML=items.map(p=>`<div class="list-item"><div class="main"><strong>${escapeHtml(p.title||'Feuille de congés')}</strong><small>${escapeHtml(fmtDate(p.calendarDate||p.date,{day:'numeric',month:'short',year:'numeric'}))}${p.note?' · '+escapeHtml(p.note):''}${p.calendarDate?' · 📅 Liée au calendrier':''}</small><div style="margin-top:8px"><img src="${p.dataUrl}" alt="${escapeHtml(p.title||'Photo de congés')}" style="display:block;max-width:100%;max-height:220px;object-fit:contain;border:1px solid var(--line);border-radius:10px;cursor:zoom-in" onclick="openCalendarPhoto('${p.id}')"></div></div><div class="row">${p.calendarDate?`<button class="btn secondary sm" onclick="openCalendarPhoto('${p.id}')">👁 Ouvrir</button>`:''}<button class="btn secondary sm" onclick="editLeavePhoto('${p.id}')">✏️ Modifier</button><button class="btn secondary sm" onclick="downloadLeavePhoto('${p.id}')">Exporter</button><button class="btn danger sm" onclick="deleteLeavePhoto('${p.id}')">Supprimer</button></div></div>`).join('');
 }
-$('records').addEventListener('click',async e=>{
-  const copy=e.target.closest('[data-copy]');if(copy){try{await navigator.clipboard.writeText(copy.dataset.copy);setStatus('globalStatus','Copié dans le presse-papiers.')}catch{const t=document.createElement('textarea');t.value=copy.dataset.copy;document.body.appendChild(t);t.select();document.execCommand('copy');t.remove();setStatus('globalStatus','Copié.')}return}
-  const ed=e.target.closest('[data-edit]');if(ed){editRecord(ed.dataset.edit);return}
-  const del=e.target.closest('[data-delete]');if(del){const r=records.find(x=>String(x.id)===String(del.dataset.delete));if(r&&confirm('Supprimer la fiche « '+(r.name||'sans nom')+' » ?')){records=records.filter(x=>String(x.id)!==String(del.dataset.delete));saveData()}return}
-  const op=e.target.closest('[data-open]');if(op){const r=records.find(x=>String(x.id)===String(op.dataset.open));const u=validUrl(r?.url1)||validUrl(r?.url2)||validUrl(r?.appUrl1);if(u)window.open(u,'_blank','noopener,noreferrer');else alert('Aucune URL valide enregistrée dans cette fiche.')}
-});
-$('search').addEventListener('input',renderRecords);$('sort').addEventListener('change',renderRecords);
-function downloadFile(filename,content,type){
-  const blob=new Blob([content],{type});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download=filename;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1500)
+
+function initLeavePhotoDate(){const el=document.getElementById('leavePhotoDate');if(el&&!el.value)el.value=(typeof selectedDate!=='undefined'&&selectedDate)||iso(new Date());}
+async function saveLeavePhoto(){
+ const input=document.getElementById('leavePhotoInput'),file=input.files&&input.files[0];
+ const dateInput=document.getElementById('leavePhotoDate');
+ const calendarDate=dateInput&&dateInput.value?dateInput.value:'';
+ if(!calendarDate){toast('Choisis la date à laquelle afficher la photo dans le calendrier.');if(dateInput)dateInput.focus();return;}
+ if(!file){toast('Choisis d’abord une photo depuis ton GSM.');return}
+ if(!file.type.startsWith('image/')){toast('Choisis un fichier image.');return}
+ const status=document.getElementById('leavePhotoStatus');
+ try{
+  const dataUrl=await new Promise((resolve,reject)=>{const r=new FileReader();r.onload=()=>resolve(r.result);r.onerror=()=>reject(r.error);r.readAsDataURL(file)});
+  const item={id:'p'+Date.now().toString(36)+Math.random().toString(36).slice(2,7),category:'leave',title:document.getElementById('leavePhotoTitle').value.trim()||file.name,date:calendarDate,calendarDate,note:document.getElementById('leavePhotoNote').value.trim(),dataUrl,mime:file.type,createdAt:Date.now()};
+  await new Promise((resolve,reject)=>openPhotoDB().then(db=>{const tx=db.transaction(PHOTO_STORE,'readwrite');tx.objectStore(PHOTO_STORE).put(item);tx.oncomplete=resolve;tx.onerror=()=>reject(tx.error);tx.onabort=()=>reject(tx.error)}).catch(reject));
+  input.value='';document.getElementById('leavePhotoTitle').value='';document.getElementById('leavePhotoNote').value='';
+  status.textContent='Photo enregistrée et liée au '+fmtDate(calendarDate)+'. Le jour du calendrier affichera 📷 ; touche cette date pour ouvrir la photo.';
+  await listLeavePhotos();await refreshCalendarPhotoThumbnails();renderCalendar();toast('Photo enregistrée et ajoutée au calendrier.');
+ }catch(e){status.textContent='Stockage photo indisponible : '+(e&&e.message?e.message:'erreur inconnue')+'. Ouvre l’application depuis son adresse GitHub Pages dans Safari (pas dans un aperçu) et vérifie que le stockage du site est autorisé.';toast('Enregistrement photo impossible.')}
 }
-$('exportButton').addEventListener('click',()=>downloadFile('mes-acces-sauvegarde.json',JSON.stringify(records,null,2),'application/json;charset=utf-8'));
-$('exportTxtButton').addEventListener('click',()=>downloadFile('mes-acces-sauvegarde.txt',JSON.stringify(records,null,2),'text/plain;charset=utf-8'));
-$('importButton').addEventListener('click',()=>$('importFile').click());
-$('importFile').addEventListener('change',async()=>{
-  const file=$('importFile').files[0];if(!file)return;
-  try{
-    const parsed=JSON.parse(await file.text());
-    const incoming=Array.isArray(parsed)?parsed:(Array.isArray(parsed.records)?parsed.records:null);
-    if(!incoming)throw new Error('Le fichier ne contient pas une liste de fiches.');
-    const normalized=incoming.map(normalizeRecord);
-    const choice=confirm(`Le fichier contient ${normalized.length} fiche(s).\\nOK = remplacer les fiches actuelles.\\nAnnuler = ajouter les fiches à la suite.`);
-    if(choice)records=normalized;
-    else{
-      const existing=new Set(records.map(r=>String(r.id)));
-      normalized.forEach(r=>{if(existing.has(String(r.id)))r.id=uid();records.push(r)});
-    }
-    if(saveData())setStatus('globalStatus',`${normalized.length} fiche(s) importée(s).`);
-  }catch(err){setStatus('globalStatus','Import impossible : '+err.message,false)}
-  $('importFile').value='';
-});
-$('openNexon').addEventListener('click',()=>{
-  const u=validUrl(localStorage.getItem(NEXON_KEY)||$('nexonUrl').value);
-  if(u)window.open(u,'_blank','noopener,noreferrer');else{setStatus('toolsStatus','Renseigne d’abord l’adresse Nexon, puis enregistre-la.',false);$('nexonUrl').focus()}
-});
-$('saveNexon').addEventListener('click',()=>{
-  const v=$('nexonUrl').value.trim();if(v&&!validUrl(v)){setStatus('toolsStatus','Adresse invalide : utilise une adresse http:// ou https://.',false);return}
-  localStorage.setItem(NEXON_KEY,v);setStatus('toolsStatus','Adresse Nexon enregistrée.')
-});
-$('showConverter').addEventListener('click',()=>$('converter').classList.toggle('hidden'));
-$('makeM3u').addEventListener('click',()=>{
-  let base=$('xtreamUrl').value.trim().replace(/\/+$/,'');
-  const user=$('xtreamUser').value.trim(),pass=$('xtreamPass').value.trim();
-  if(!base||!user||!pass){setStatus('toolsStatus','Remplis le serveur, l’utilisateur et le mot de passe.',false);return}
-  if(!/^https?:\/\//i.test(base)){setStatus('toolsStatus','Le serveur doit commencer par http:// ou https://.',false);return}
-  const link=base+'/get.php?username='+encodeURIComponent(user)+'&password='+encodeURIComponent(pass)+'&type=m3u_plus&output=ts';
-  $('m3uOutput').value=link;setStatus('toolsStatus','Lien M3U généré.')
-});
-$('copyM3u').addEventListener('click',async()=>{
-  const val=$('m3uOutput').value;if(!val){setStatus('toolsStatus','Génère d’abord un lien M3U.',false);return}
-  try{await navigator.clipboard.writeText(val);setStatus('toolsStatus','Lien M3U copié.')}catch{$('m3uOutput').select();document.execCommand('copy');setStatus('toolsStatus','Lien M3U copié.')}
-});
-$('changePin').addEventListener('click',()=>{
-  const old=prompt('Entre le PIN actuel :');if(old===null)return;
-  if(pinHash(old)!==localStorage.getItem(PIN_KEY)){alert('PIN incorrect.');return}
-  const p=prompt('Nouveau PIN (au moins 4 caractères) :');if(p===null)return;
-  if(p.length<4){alert('Le PIN doit contenir au moins 4 caractères.');return}
-  const c=prompt('Confirme le nouveau PIN :');if(c!==p){alert('Les PIN ne correspondent pas.');return}
-  localStorage.setItem(PIN_KEY,pinHash(p));setStatus('toolsStatus','PIN modifié.')
-});
-$('deleteAll').addEventListener('click',()=>{
-  if(!confirm('Supprimer définitivement toutes les fiches de ce navigateur ? Exporte une sauvegarde avant si nécessaire.'))return;
-  if(!confirm('Dernière confirmation : supprimer toutes les fiches ?'))return;
-  records=[];saveData();resetForm()
-});
-loadData();
-$('nexonUrl').value=localStorage.getItem(NEXON_KEY)||'';
-initLock();
+async function editLeavePhoto(id){
+ try{
+  const db=await openPhotoDB();
+  const photo=await new Promise((resolve,reject)=>{const req=db.transaction(PHOTO_STORE,'readonly').objectStore(PHOTO_STORE).get(id);req.onsuccess=()=>resolve(req.result);req.onerror=()=>reject(req.error)});
+  if(!photo){toast('Photo introuvable.');return}
+  const title=prompt('Nom de la photo :',photo.title||'Feuille de congés');if(title===null)return;
+  const date=prompt('Date à associer au calendrier (AAAA-MM-JJ) :',photo.calendarDate||photo.date||iso(new Date()));if(date===null)return;
+  if(!/^\d{4}-\d{2}-\d{2}$/.test(date)||Number.isNaN(new Date(date+'T12:00:00').getTime())){toast('Date invalide. Utilise le format AAAA-MM-JJ.');return}
+  const note=prompt('Note (facultatif) :',photo.note||'');if(note===null)return;
+  photo.title=title.trim()||'Feuille de congés';photo.date=date;photo.calendarDate=date;photo.note=note.trim();
+  if(confirm('Veux-tu aussi remplacer l’image par une autre photo de ton GSM ?')){
+   const picker=document.createElement('input');picker.type='file';picker.accept='image/*';
+   picker.onchange=async()=>{const file=picker.files&&picker.files[0];if(!file)return;if(!file.type.startsWith('image/')){toast('Choisis un fichier image.');return}try{photo.dataUrl=await readFileAsDataURL(file);photo.mime=file.type;await storeEditedLeavePhoto(photo);toast('Photo et informations modifiées.')}catch(e){toast('Impossible d’enregistrer la modification.')}};
+   picker.click();
+  }else{await storeEditedLeavePhoto(photo);toast('Informations de la photo modifiées.')}
+ }catch(e){toast('Impossible de modifier cette photo.')}
+}
+async function storeEditedLeavePhoto(photo){
+ const db=await openPhotoDB();
+ await new Promise((resolve,reject)=>{const tx=db.transaction(PHOTO_STORE,'readwrite');tx.objectStore(PHOTO_STORE).put(photo);tx.oncomplete=resolve;tx.onerror=()=>reject(tx.error||new Error('Modification impossible'));tx.onabort=()=>reject(tx.error||new Error('Modification annulée'))});
+ await listLeavePhotos();await refreshCalendarPhotoThumbnails();renderCalendar();if(typeof renderLeave==='function')renderLeave();
+}
+async function deleteLeavePhoto(id){
+ if(!confirm('Supprimer définitivement cette photo de congés ?'))return;
+ try{const db=await openPhotoDB();await new Promise((resolve,reject)=>{const tx=db.transaction(PHOTO_STORE,'readwrite');tx.objectStore(PHOTO_STORE).delete(id);tx.oncomplete=resolve;tx.onerror=()=>reject(tx.error||new Error('Suppression impossible'));tx.onabort=()=>reject(tx.error||new Error('Suppression annulée'))});await listLeavePhotos();await refreshCalendarPhotoThumbnails();if(typeof renderLeave==='function')renderLeave();const modal=document.getElementById('calendarPhotoModal');if(modal)modal.remove();toast('Photo supprimée du stockage et du calendrier.')}catch(e){toast('Impossible de supprimer cette photo.')}
+}
+async function downloadLeavePhoto(id){
+ try{const db=await openPhotoDB();const p=await new Promise((resolve,reject)=>{const req=db.transaction(PHOTO_STORE,'readonly').objectStore(PHOTO_STORE).get(id);req.onsuccess=()=>resolve(req.result);req.onerror=()=>reject(req.error)});if(!p)return;const a=document.createElement('a');a.href=p.dataUrl;a.download=(p.title||'feuille-conges').replace(/[^\w\-]+/g,'_')+'.'+((p.mime||'image/jpeg').split('/')[1]||'jpg');document.body.appendChild(a);a.click();a.remove();toast('Photo exportée dans les téléchargements.')}catch(e){toast('Export de la photo impossible.')}
+}
+
+
+const PAY_MONTHS=['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
+function readFileAsDataURL(file){return new Promise((resolve,reject)=>{const r=new FileReader();r.onload=()=>resolve(r.result);r.onerror=()=>reject(r.error||new Error('Lecture impossible'));r.readAsDataURL(file)})}
+async function getAllPhotoRecords(){const db=await openPhotoDB();return await new Promise((resolve,reject)=>{const req=db.transaction(PHOTO_STORE,'readonly').objectStore(PHOTO_STORE).getAll();req.onsuccess=()=>resolve(req.result||[]);req.onerror=()=>reject(req.error)})}
+async function savePaySlip(){
+ const file=document.getElementById('payFile').files?.[0];if(!file){toast('Choisis une photo ou un PDF de fiche de paie.');return}
+ if(!(file.type.startsWith('image/')||file.type==='application/pdf'||file.name.toLowerCase().endsWith('.pdf'))){toast('Format non pris en charge : choisis une image ou un PDF.');return}
+ const month=Number(document.getElementById('payMonth').value),year=Number(document.getElementById('payYear').value);if(!month||year<2000||year>2100){toast('Vérifie le mois et l’année.');return}
+ const status=document.getElementById('payStatus');
+ try{const dataUrl=await readFileAsDataURL(file);const db=await openPhotoDB();const all=await getAllPhotoRecords();const old=all.find(p=>p.category==='pay'&&p.payMonth===month&&p.payYear===year);const item={id:old?old.id:'pay'+Date.now().toString(36)+Math.random().toString(36).slice(2,7),category:'pay',payMonth:month,payYear:year,title:document.getElementById('payTitle').value.trim()||`Fiche de paie ${PAY_MONTHS[month-1]} ${year}`,note:document.getElementById('payNote').value.trim(),date:`${year}-${String(month).padStart(2,'0')}-01`,dataUrl,mime:file.type|| (file.name.toLowerCase().endsWith('.pdf')?'application/pdf':'image/jpeg'),fileName:file.name,createdAt:Date.now()};
+ await new Promise((resolve,reject)=>{const tx=db.transaction(PHOTO_STORE,'readwrite');tx.objectStore(PHOTO_STORE).put(item);tx.oncomplete=resolve;tx.onerror=()=>reject(tx.error||new Error('Écriture impossible'));tx.onabort=()=>reject(tx.error||new Error('Écriture annulée'))});
+ document.getElementById('payFile').value='';document.getElementById('payTitle').value='';document.getElementById('payNote').value='';status.textContent=`Fiche de ${PAY_MONTHS[month-1]} ${year} enregistrée${old?' et remplacée pour ce mois':''}.`;await renderPaySlips();toast(old?'Fiche de paie remplacée.':'Fiche de paie enregistrée.');
+ }catch(e){status.textContent='Impossible d’enregistrer la fiche. Le document est peut-être trop volumineux ou le stockage indisponible.';toast('Enregistrement de la fiche impossible.')}
+}
+async function renderPaySlips(){
+ const list=document.getElementById('payList');if(!list)return;
+ try{const all=(await getAllPhotoRecords()).filter(p=>p.category==='pay');const years=[...new Set(all.map(p=>Number(p.payYear)).filter(Boolean))].sort((a,b)=>b-a);const yf=document.getElementById('payFilterYear');const current=yf.value||'all';yf.innerHTML='<option value="all">Toutes les années</option>'+years.map(y=>`<option value="${y}">${y}</option>`).join('');yf.value=years.includes(Number(current))?current:'all';const filter=yf.value;const rows=all.filter(p=>filter==='all'||Number(p.payYear)===Number(filter)).sort((a,b)=>b.payYear-a.payYear||b.payMonth-a.payMonth);
+ if(!rows.length){list.innerHTML='<div class="empty-state">Aucune fiche de paie enregistrée pour cette sélection.</div>';return}
+ list.innerHTML=rows.map(p=>{const isPdf=(p.mime||'').includes('pdf')||(p.fileName||'').toLowerCase().endsWith('.pdf');const preview=isPdf?`<div class="notice" style="margin-top:8px">📄 Document PDF enregistré</div>`:`<div style="margin-top:8px"><img src="${p.dataUrl}" alt="${escapeHtml(p.title||'Fiche de paie')}" style="display:block;max-width:100%;max-height:260px;object-fit:contain;border:1px solid var(--line);border-radius:10px;cursor:zoom-in" onclick="openPaySlip('${p.id}')"></div>`;return `<div class="list-item" style="align-items:flex-start"><div class="main" style="flex:1"><strong>${escapeHtml(p.title||`Fiche de paie ${PAY_MONTHS[(p.payMonth||1)-1]} ${p.payYear||''}`)}</strong><small>${PAY_MONTHS[(p.payMonth||1)-1]} ${p.payYear||''}${p.note?' · '+escapeHtml(p.note):''}</small>${preview}<div class="row" style="margin-top:8px"><button class="btn secondary sm" onclick="openPaySlip('${p.id}')">👁 Voir</button><button class="btn secondary sm" onclick="editPaySlip('${p.id}')">✏️ Modifier</button><button class="btn secondary sm" onclick="exportPaySlip('${p.id}')">⬇ Exporter</button><button class="btn danger sm" onclick="deletePaySlip('${p.id}')">Supprimer</button></div></div></div>`}).join('');
+ }catch(e){list.innerHTML='<div class="empty-state">Impossible de lire les fiches enregistrées.</div>'}
+}
+async function getPaySlip(id){return (await getAllPhotoRecords()).find(p=>p.id===id&&p.category==='pay')}
+async function openPaySlip(id){try{const p=await getPaySlip(id);if(!p)return;const win=window.open();if(!win){toast('Autorise les fenêtres surgissantes pour afficher le document.');return}if((p.mime||'').includes('pdf')||(p.fileName||'').toLowerCase().endsWith('.pdf')){win.document.write(`<title>${escapeHtml(p.title||'Fiche de paie')}</title><iframe src="${p.dataUrl}" style="border:0;width:100%;height:100vh" title="Fiche de paie"></iframe>`)}else{win.document.write(`<title>${escapeHtml(p.title||'Fiche de paie')}</title><meta name="viewport" content="width=device-width,initial-scale=1"><body style="margin:0;background:#222;display:grid;place-items:center"><img src="${p.dataUrl}" style="max-width:100%;max-height:100vh;object-fit:contain"></body>`)}win.document.close()}catch(e){toast('Impossible d’ouvrir ce document.')}}
+async function editPaySlip(id){try{const p=await getPaySlip(id);if(!p)return;const title=prompt('Titre de la fiche :',p.title||'');if(title===null)return;const note=prompt('Note (facultatif) :',p.note||'');if(note===null)return;const db=await openPhotoDB();p.title=title.trim()||`Fiche de paie ${PAY_MONTHS[(p.payMonth||1)-1]} ${p.payYear}`;p.note=note.trim();await new Promise((resolve,reject)=>{const tx=db.transaction(PHOTO_STORE,'readwrite');tx.objectStore(PHOTO_STORE).put(p);tx.oncomplete=resolve;tx.onerror=()=>reject(tx.error)});renderPaySlips();toast('Fiche modifiée.')}catch(e){toast('Impossible de modifier cette fiche.')}}
+async function exportPaySlip(id){try{const p=await getPaySlip(id);if(!p)return;const a=document.createElement('a');a.href=p.dataUrl;a.download=(p.fileName||`${(p.title||'fiche-paie').replace(/[^\w-]+/g,'_')}.${(p.mime||'image/jpeg').includes('pdf')?'pdf':((p.mime||'image/jpeg').split('/')[1]||'jpg')}`);document.body.appendChild(a);a.click();a.remove()}catch(e){toast('Export impossible.')}}
+async function deletePaySlip(id){if(!confirm('Supprimer cette fiche de paie ?'))return;try{const db=await openPhotoDB();await new Promise((resolve,reject)=>{const tx=db.transaction(PHOTO_STORE,'readwrite');tx.objectStore(PHOTO_STORE).delete(id);tx.oncomplete=resolve;tx.onerror=()=>reject(tx.error)});renderPaySlips();toast('Fiche supprimée.')}catch(e){toast('Suppression impossible.')}}
+
+async function getCalendarPhotosForDate(date){
+ const db=await openPhotoDB();
+ return await new Promise((resolve,reject)=>{
+  const req=db.transaction(PHOTO_STORE,'readonly').objectStore(PHOTO_STORE).getAll();
+  req.onsuccess=()=>resolve((req.result||[]).filter(p=>p.calendarDate===date).sort((a,b)=>b.createdAt-a.createdAt));
+  req.onerror=()=>reject(req.error||new Error('Lecture photo impossible'));
+ });
+}
+async function renderCalendarDayPhoto(date){
+ const preview=document.getElementById('calendarDayPhotoPreview'),status=document.getElementById('calendarDayPhotoStatus');
+ if(!preview)return;
+ try{
+  const photos=await getCalendarPhotosForDate(date);
+  if(status)status.textContent=photos.length?`${photos.length} photo(s) liée(s) à cette journée.`:'Aucune photo liée à cette journée.';
+  preview.innerHTML=photos.map(p=>`<div style="margin-top:8px"><button class="btn secondary sm" type="button" onclick="openCalendarPhoto('${p.id}')" style="display:block;text-align:left">🔍 Ouvrir la photo en grand</button><img class="calendar-photo-preview" src="${p.dataUrl}" alt="Photo du ${escapeHtml(fmtDate(date))}" onclick="openCalendarPhoto('${p.id}')" style="cursor:zoom-in"><div class="row" style="margin-top:6px"><button class="btn secondary sm" type="button" onclick="downloadLeavePhoto('${p.id}')">Exporter</button><button class="btn danger sm" type="button" onclick="deleteCalendarDayPhoto('${p.id}','${date}')">Supprimer la photo</button></div></div>`).join('');
+ }catch(e){if(status)status.textContent='Lecture des photos impossible dans ce navigateur.'}
+}
+async function saveCalendarDayPhoto(){
+ const input=document.getElementById('calendarDayPhotoInput'),file=input&&input.files&&input.files[0];
+ if(!file)return;
+ if(!file.type.startsWith('image/')){toast('Choisis une image depuis la photothèque.');return}
+ try{
+  const dataUrl=await new Promise((resolve,reject)=>{const r=new FileReader();r.onload=()=>resolve(r.result);r.onerror=()=>reject(r.error);r.readAsDataURL(file)});
+  const date=(document.getElementById('entryType')&&document.getElementById('entryType').value==='leave'&&document.getElementById('entryDate').value)||selectedDate;
+  const db=await openPhotoDB();
+  const existing=await new Promise((resolve,reject)=>{const req=db.transaction(PHOTO_STORE,'readonly').objectStore(PHOTO_STORE).getAll();req.onsuccess=()=>resolve((req.result||[]).filter(p=>p.calendarDate===date));req.onerror=()=>reject(req.error)});
+  const item={id:existing.length?existing[0].id:'p'+Date.now().toString(36)+Math.random().toString(36).slice(2,7),title:'Photo du '+date,date,calendarDate:date,note:'Photo liée au jour de congé',dataUrl,mime:file.type,createdAt:Date.now()};
+  await new Promise((resolve,reject)=>{const tx=db.transaction(PHOTO_STORE,'readwrite');const store=tx.objectStore(PHOTO_STORE);existing.slice(1).forEach(p=>store.delete(p.id));store.put(item);tx.oncomplete=resolve;tx.onerror=()=>reject(tx.error||new Error('Écriture impossible'));tx.onabort=()=>reject(tx.error||new Error('Écriture annulée'))});
+  input.value='';await renderCalendarDayPhoto(date);await refreshCalendarPhotoThumbnails();listLeavePhotos();toast(existing.length?'Photo remplacée pour cette journée.':'Photo ajoutée à la journée du calendrier.');
+ }catch(e){toast('Impossible d’enregistrer la photo. Vérifie le stockage disponible.')}
+}
+async function deleteCalendarDayPhoto(id,date){
+ if(!confirm('Retirer cette photo de cette journée ?'))return;
+ try{
+  const db=await openPhotoDB();
+  await new Promise((resolve,reject)=>{const tx=db.transaction(PHOTO_STORE,'readwrite');tx.objectStore(PHOTO_STORE).delete(id);tx.oncomplete=resolve;tx.onerror=()=>reject(tx.error)});
+  await renderCalendarDayPhoto(date);await refreshCalendarPhotoThumbnails();listLeavePhotos();toast('Photo retirée du calendrier.');
+ }catch(e){toast('Impossible de retirer la photo.')}
+}
+
+async function openCalendarPhoto(id){
+ try{
+  const db=await openPhotoDB();
+  const photo=await new Promise((resolve,reject)=>{const req=db.transaction(PHOTO_STORE,'readonly').objectStore(PHOTO_STORE).get(id);req.onsuccess=()=>resolve(req.result);req.onerror=()=>reject(req.error)});
+  if(!photo){toast('Photo introuvable.');return}
+  const prior=document.getElementById('calendarPhotoModal');if(prior)prior.remove();
+  const modal=document.createElement('div');modal.id='calendarPhotoModal';modal.className='day-photo-modal';
+  modal.innerHTML=`<div class="day-photo-modal-card" role="dialog" aria-modal="true" aria-label="Photo du jour de congé"><div class="row" style="align-items:center;justify-content:space-between"><strong>📷 Photo du ${escapeHtml(fmtDate(photo.calendarDate||photo.date))}</strong><button type="button" class="btn secondary sm" onclick="closeCalendarPhoto()">✕ Fermer</button></div><img src="${photo.dataUrl}" alt="Photo du jour de congé"><div class="day-photo-modal-actions"><button type="button" class="btn secondary" onclick="downloadLeavePhoto('${photo.id}')">Exporter</button><button type="button" class="btn danger" onclick="deleteCalendarDayPhoto('${photo.id}','${photo.calendarDate||photo.date}').then(()=>closeCalendarPhoto())">Supprimer</button></div></div>`;
+  modal.addEventListener('click',ev=>{if(ev.target===modal)closeCalendarPhoto()});
+  document.body.appendChild(modal);
+ }catch(e){toast('Impossible d’ouvrir la photo.')}
+}
+function closeCalendarPhoto(){const modal=document.getElementById('calendarPhotoModal');if(modal)modal.remove()}
+
+async function refreshCalendarPhotoThumbnails(){
+ try{
+  const db=await openPhotoDB();
+  const photos=await new Promise((resolve,reject)=>{const req=db.transaction(PHOTO_STORE,'readonly').objectStore(PHOTO_STORE).getAll();req.onsuccess=()=>resolve(req.result||[]);req.onerror=()=>reject(req.error)});
+  const byDate={};photos.filter(p=>p.calendarDate&&p.dataUrl).forEach(p=>{if(!byDate[p.calendarDate])byDate[p.calendarDate]=p});
+  document.querySelectorAll('.day[data-date]').forEach(btn=>{
+   const p=byDate[btn.dataset.date],old=btn.querySelector('.calendar-photo-thumb'),badge=btn.querySelector('.calendar-photo-number'),open=btn.querySelector('.calendar-photo-open');
+   if(old)old.remove();if(badge)badge.remove();if(open)open.remove();btn.classList.toggle('has-calendar-photo',!!p);
+   if(p){const num=document.createElement('span');num.className='calendar-photo-number';num.textContent='📷';num.setAttribute('aria-label','Photo disponible');btn.appendChild(num);
+    const target=document.createElement('button');target.type='button';target.className='calendar-photo-open';target.title='Ouvrir la photo du '+btn.dataset.date;target.setAttribute('aria-label','Ouvrir la photo du '+btn.dataset.date);target.onclick=(ev)=>{ev.stopPropagation();openCalendarPhoto(p.id)};btn.appendChild(target);}
+  });
+ }catch(e){}
+}
+
+function renderSummary(){
+ const sel=document.getElementById('summaryYear');
+ if(sel){
+  if(!sel.options.length){let years=[];for(let y=2024;y<=2100;y++)years.push(y);sel.innerHTML=years.map(y=>`<option value="${y}">${y}</option>`).join('')}
+  sel.value=String(currentYear);
+ }
+ const names=['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
+ const totals={days:0,leave:0,holiday:0,overtime:0,sick:0,rest:0,work:0};
+ let rows='';
+ for(let m=0;m<12;m++){
+  const days=new Date(currentYear,m+1,0).getDate();
+  const sums={days,leave:0,holiday:0,overtime:0,sick:0,rest:0,work:0};
+  for(let n=1;n<=days;n++){
+   const date=iso(new Date(currentYear,m,n,12)), dow=new Date(date+'T12:00:00').getDay();
+   const entries=dayEntries(date), hol=holidayFor(date);
+   sums.leave+=entries.filter(e=>e.type==='leave'||e.type==='mel_leave').reduce((a,e)=>a+Number(e.amount||1),0);
+   sums.sick+=entries.filter(e=>e.type==='sickness'||e.type==='absence').reduce((a,e)=>a+Number(e.amount||1),0);
+   sums.overtime+=entries.filter(e=>e.type==='overtime').reduce((a,e)=>a+Number(e.hours||0),0);
+   if(hol)sums.holiday+=1;
+   if(dow===0||dow===6) sums.rest++;
+   else if(!hol&&!entries.some(e=>['leave','mel_leave','sickness','absence'].includes(e.type))) sums.work++;
+  }
+  Object.keys(totals).forEach(k=>totals[k]+=sums[k]);
+  rows+=`<tr><td>${names[m]}</td><td class="sum-days">${sums.days}</td><td class="sum-leave">${fmtNum(sums.leave)}${sums.leave?' j':''}</td><td class="sum-holiday">${fmtNum(sums.holiday)}${sums.holiday?' j':''}</td><td class="sum-overtime">${fmtNum(sums.overtime)}${sums.overtime?' h':''}</td><td class="sum-sick">${fmtNum(sums.sick)}${sums.sick?' j':''}</td><td class="sum-rest">${sums.rest}</td><td class="sum-work">${sums.work} j</td></tr>`;
+ }
+ Object.keys(totals).forEach(k=>{if(k!=='days')totals[k]=Math.round(totals[k]*100)/100});
+ document.getElementById('summaryTable').innerHTML=`<table class="summary-table"><thead><tr><th>Mois</th><th>Jours</th><th class="sum-leave">Congé</th><th class="sum-holiday">Férié</th><th class="sum-overtime">Heures supp.</th><th class="sum-sick">Maladie</th><th class="sum-rest">Repos</th><th>Jours travaillés</th></tr></thead><tbody>${rows}</tbody><tfoot><tr><td>Total</td><td class="sum-days">${totals.days}</td><td class="sum-leave">${fmtNum(totals.leave)} j</td><td class="sum-holiday">${fmtNum(totals.holiday)} j</td><td class="sum-overtime">${fmtNum(totals.overtime)} h</td><td class="sum-sick">${fmtNum(totals.sick)} j</td><td class="sum-rest">${totals.rest}</td><td>${totals.work} j</td></tr></tfoot></table>`;
+}
+
+async function renderLeave(){let y=Number(data.settings.leaveYear||currentYear),used=leaveUsed(y),bal=Number(data.settings.initialLeave||0)-used;document.getElementById('leaveBalanceBig').textContent=fmtNum(bal)+' j';document.getElementById('leaveUsed').textContent=fmtNum(used)+' j';document.getElementById('leaveEntitlement').textContent=`Droit initial : ${fmtNum(data.settings.initialLeave)} jours · année ${y}`;document.getElementById('leaveProgress').style.width=Math.max(0,Math.min(100,data.settings.initialLeave?used/data.settings.initialLeave*100:0))+'%';let filter=document.getElementById('leaveFilter').value;let list=data.entries.filter(e=>['leave','absence','mel_leave','sickness'].includes(e.type)&&(filter==='all'||(filter==='leave'?['leave','mel_leave'].includes(e.type):e.type===filter))).sort((a,b)=>a.date.localeCompare(b.date));let photos=[];try{const db=await openPhotoDB();photos=await new Promise((resolve,reject)=>{const req=db.transaction(PHOTO_STORE,'readonly').objectStore(PHOTO_STORE).getAll();req.onsuccess=()=>resolve(req.result||[]);req.onerror=()=>reject(req.error)})}catch(e){}document.getElementById('leaveList').innerHTML=list.length?list.map(e=>{const photo=photos.find(p=>(p.calendarDate===e.date||(!p.calendarDate&&p.category==='leave'&&p.date===e.date))&&p.dataUrl);return `<div class="list-item"><div class="main"><strong>${escapeHtml(fmtDate(e.date,{weekday:'long',day:'numeric',month:'long',year:'numeric'}))}</strong><small>${TYPES[e.type]}${e.type==='leave'?' · '+fmtNum(e.amount||1)+' jour(s)':''}${e.note?' · '+escapeHtml(e.note):''}</small>${photo?`<div style="margin-top:8px"><img src="${photo.dataUrl}" alt="Photo du congé du ${escapeHtml(e.date)}" onclick="openCalendarPhoto('${photo.id}')" style="display:block;max-width:100%;max-height:180px;object-fit:contain;border-radius:10px;cursor:zoom-in;border:1px solid var(--line)"><div class="row" style="margin-top:6px"><button class="btn secondary sm" onclick="openCalendarPhoto('${photo.id}')">👁 Voir la photo</button><button class="btn secondary sm" onclick="openEntry('${e.id}')">📷 Modifier la photo</button></div></div>`:''}</div><div class="row"><button class="btn secondary sm" onclick="openEntry('${e.id}')">Modifier</button><button class="btn danger sm" onclick="deleteEntry('${e.id}')">×</button></div></div>`}).join(''):'<div class="empty-state">Aucun congé ou absence encodé pour le moment.</div>'}
+
+function renderHours(){document.getElementById('hoursTotal').textContent=fmtNum(overtimeTotal())+' h';document.getElementById('hoursRecover').textContent=fmtNum(overtimeTotal(null,'recover'))+' h';document.getElementById('hoursPaid').textContent=fmtNum(overtimeTotal(null,'paid'))+' h';document.getElementById('hoursYear').textContent=fmtNum(overtimeTotal(currentYear))+' h';let f=document.getElementById('hoursFilter').value;let list=data.entries.filter(e=>e.type==='overtime'&&(f==='all'||dateYear(e.date)===currentYear)).sort((a,b)=>b.date.localeCompare(a.date));document.getElementById('hoursList').innerHTML=list.length?list.map(e=>`<div class="list-item"><div class="main"><strong>${escapeHtml(fmtDate(e.date,{weekday:'short',day:'numeric',month:'long',year:'numeric'}))} · ${fmtNum(e.hours)} h</strong><small>${escapeHtml(({recover:'À récupérer',paid:'Payées',done:'Enregistrées'}[e.status]||'Enregistrées'))}${e.note?' · '+escapeHtml(e.note):''}</small></div><div class="row"><button class="btn secondary sm" onclick="openEntry('${e.id}')">Modifier</button><button class="btn danger sm" onclick="deleteEntry('${e.id}')">×</button></div></div>`).join(''):'<div class="empty-state">Aucune heure supplémentaire enregistrée.</div>'}
+function renderHolidaySettings(){let hs=allHolidays(currentYear).sort((a,b)=>a.date.localeCompare(b.date));document.getElementById('holidaySettingsList').innerHTML=hs.map(h=>`<div class="list-item"><div class="main"><strong>${escapeHtml(fmtDate(h.date,{weekday:'short',day:'numeric',month:'long',year:'numeric'}))}</strong><small>${escapeHtml(h.name)}${h.source==='custom'?' · personnalisé':''}</small></div>${h.source==='custom'?`<button class="btn danger sm" onclick="removeHoliday('${h.date}','${escapeHtml(h.name)}')">Supprimer</button>`:'<span class="tag holiday">Intégré</span>'}</div>`).join('')}
+function applyCalendarColors(){let c={weekA:'#DCEBFF',weekB:'#F3DFFF',leave:'#d8f7e8',holiday:'#ffe1e1',overtime:'#fff0d8',manual:'#e8efff',appointment:'#e9e5ff',sickness:'#ffd9dc',today:'#356df3',...(data.settings.calendarColors||{})};let root=document.documentElement;for(let [key,css] of Object.entries({'weekA':'--week-a-bg','weekB':'--week-b-bg','leave':'--leave-bg','holiday':'--holiday-bg','overtime':'--overtime-bg','manual':'--manual-bg','appointment':'--appointment-bg','sickness':'--sickness-bg','today':'--today-color'}))root.style.setProperty(css,c[key]);for(let [id,key] of [['colorWeekA','weekA'],['colorWeekB','weekB'],['colorLeave','leave'],['colorHoliday','holiday'],['colorOvertime','overtime'],['colorManual','manual'],['colorAppointment','appointment'],['colorSickness','sickness'],['colorToday','today']]){let el=document.getElementById(id);if(el)el.value=c[key];let lid=({colorWeekA:'calendarLegendA',colorWeekB:'calendarLegendB',colorLeave:'calendarLegendLeave',colorHoliday:'calendarLegendHoliday',colorOvertime:'calendarLegendOvertime',colorManual:'calendarLegendManual',colorAppointment:'calendarLegendAppointment',colorToday:null})[id];let legend=lid&&document.getElementById(lid);if(legend)legend.style.background=c[key];if(id==='colorToday'){let todayDot=document.getElementById('calendarLegendToday');if(todayDot)todayDot.style.borderColor=c[key]}}}
+function saveCalendarColors(){let map={colorWeekA:'weekA',colorWeekB:'weekB',colorLeave:'leave',colorHoliday:'holiday',colorOvertime:'overtime',colorManual:'manual',colorAppointment:'appointment',colorSickness:'sickness',colorToday:'today'};data.settings.calendarColors=data.settings.calendarColors||{};for(let [id,key] of Object.entries(map)){let el=document.getElementById(id);if(el)data.settings.calendarColors[key]=el.value}persist();applyCalendarColors();renderCalendar();toast('Couleurs du calendrier enregistrées.')}
+function resetCalendarColors(){data.settings.calendarColors={weekA:'#DCEBFF',weekB:'#F3DFFF',leave:'#d8f7e8',holiday:'#ffe1e1',overtime:'#fff0d8',manual:'#e8efff',appointment:'#e9e5ff',sickness:'#ffd9dc',today:'#356df3'};persist();applyCalendarColors();renderCalendar();toast('Couleurs par défaut restaurées.')}
+const HOME_CARD_INFO={balance:'Congés disponibles',overtime:'Heures supplémentaires',holiday:'Prochain jour férié',shift:'Prochain horaire'};
+function homeCardOrder(){let a=data.settings.homeCardOrder;return [...(Array.isArray(a)?a.filter(x=>HOME_CARD_INFO[x]):[]),...Object.keys(HOME_CARD_INFO).filter(x=>!(Array.isArray(a)?a:[]).includes(x))]}
+function homeCardHidden(){return Array.isArray(data.settings.homeHiddenCards)?data.settings.homeHiddenCards:[]}
+function applyHomeCards(){let grid=document.getElementById('homeStats');if(!grid)return;let cards={};grid.querySelectorAll('[data-card-id]').forEach(el=>cards[el.dataset.cardId]=el);homeCardOrder().forEach(id=>{if(cards[id])grid.appendChild(cards[id])});let hidden=homeCardHidden();Object.entries(cards).forEach(([id,el])=>el.classList.toggle('card-hidden',hidden.includes(id)));renderHomeOrganizer()}
+function renderHomeOrganizer(){let list=document.getElementById('homeOrganizerList');if(!list)return;let order=homeCardOrder(),hidden=homeCardHidden();list.innerHTML=order.map((id,i)=>`<div class="switchrow"><div style="flex:1;min-width:0"><strong>${HOME_CARD_INFO[id]}</strong><small>${hidden.includes(id)?'Masquée sur l’accueil':'Visible sur l’accueil'}</small></div><div class="row"><button class="btn secondary sm" type="button" ${i===0?'disabled':''} onclick="moveHomeCard('${id}',-1)">↑</button><button class="btn secondary sm" type="button" ${i===order.length-1?'disabled':''} onclick="moveHomeCard('${id}',1)">↓</button><label style="display:flex;align-items:center;gap:5px;font-size:11px"><input type="checkbox" ${hidden.includes(id)?'':'checked'} onchange="toggleHomeCardVisibility('${id}',this.checked)">Afficher</label></div></div>`).join('')}
+function toggleHomeOrganizer(force){let panel=document.getElementById('homeOrganizer');if(!panel)return;let open=typeof force==='boolean'?force:panel.classList.contains('hidden');panel.classList.toggle('hidden',!open);let btn=document.getElementById('homeCustomizeBtn');if(btn)btn.textContent=open?'✓ Fermer l’organisation':'⚙ Organiser l’accueil';if(open)renderHomeOrganizer()}
+function moveHomeCard(id,delta){let a=homeCardOrder(),from=a.indexOf(id),to=from+delta;if(to<0||to>=a.length)return;[a[from],a[to]]=[a[to],a[from]];data.settings.homeCardOrder=a;persist();applyHomeCards()}
+function toggleHomeCardVisibility(id,visible){let a=homeCardHidden().filter(x=>x!==id);if(!visible)a.push(id);data.settings.homeHiddenCards=a;persist();applyHomeCards()}
+function resetHomeCards(){data.settings.homeCardOrder=['balance','overtime','holiday','shift'];data.settings.homeHiddenCards=[];persist();applyHomeCards();toast('Accueil réinitialisé.')}
+
+function renderAll(){applyCalendarColors();applyHomeCards();renderHome();renderCalendar();renderSummary();renderLeave();renderHours();renderHolidaySettings();renderShiftPeriods();document.getElementById('calendarYearLabel').textContent=currentYear}
+function updateEntryFields(){let t=document.getElementById('entryType').value;document.getElementById('leaveAmountWrap').classList.toggle('hidden',t!=='leave');document.getElementById('leavePeriodWrap').classList.toggle('hidden',t!=='leave'||document.getElementById('leaveAmount').value!=='0.5');document.getElementById('overtimeAmountWrap').classList.toggle('hidden',t!=='overtime');document.getElementById('overtimeStatusWrap').classList.toggle('hidden',t!=='overtime');document.getElementById('shiftStartWrap').classList.toggle('hidden',t!=='shift');document.getElementById('shiftEndWrap').classList.toggle('hidden',t!=='shift');document.getElementById('appointmentTimeWrap').classList.toggle('hidden',t!=='appointment');document.getElementById('entryUseHoliday').closest('label').classList.toggle('hidden',t==='holiday');const photoTools=document.getElementById('leaveCalendarPhotoTools');if(photoTools)photoTools.classList.toggle('hidden',t!=='leave')}
+document.getElementById('leaveAmount').addEventListener('change',updateEntryFields);
+function openEntry(id=null,type='leave',date=null){let e=id?data.entries.find(x=>x.id===id):null;document.getElementById('entryForm').reset();document.getElementById('entryId').value=e?e.id:'';document.getElementById('entryDate').value=e?e.date:(date||selectedDate||iso(new Date()));document.getElementById('entryType').value=e?e.type:type;document.getElementById('entryTitle').textContent=e?'Modifier une entrée':'Ajouter une entrée';document.getElementById('deleteEntryBtn').style.display=e?'inline-block':'none';document.getElementById('entryNote').value=e?.note||'';document.getElementById('appointmentTime').value=e?.time||'';document.getElementById('entryUseHoliday').checked=!!e?.alsoHoliday;if(e?.type==='leave'){document.getElementById('leaveAmount').value=String(e.amount||1);document.getElementById('leavePeriod').value=e.period||'morning'}if(e?.type==='overtime'){document.getElementById('overtimeAmount').value=e.hours;document.getElementById('overtimeStatus').value=e.status||'done'}if(e?.type==='shift'){document.getElementById('entryShiftStart').value=e.start;document.getElementById('entryShiftEnd').value=e.end}if(!e&&type==='shift'){let s=shiftFor(date||selectedDate);document.getElementById('entryShiftStart').value=s.start;document.getElementById('entryShiftEnd').value=s.end}updateEntryFields();document.getElementById('entryDialog').showModal();if(document.getElementById('entryType').value==='leave')renderCalendarDayPhoto(document.getElementById('entryDate').value)}
+function closeEntry(){document.getElementById('entryDialog').close()}
+function saveEntry(ev){ev.preventDefault();let id=document.getElementById('entryId').value,date=document.getElementById('entryDate').value,type=document.getElementById('entryType').value;if(!date)return;let entry={id:id||('e'+Date.now().toString(36)+Math.random().toString(36).slice(2,7)),date,type,note:document.getElementById('entryNote').value.trim(),alsoHoliday:document.getElementById('entryUseHoliday').checked};if(type==='appointment')entry.time=document.getElementById('appointmentTime').value;if(type==='leave'){entry.amount=Number(document.getElementById('leaveAmount').value);entry.period=entry.amount===0.5?document.getElementById('leavePeriod').value:''}if(type==='overtime'){entry.hours=Number(document.getElementById('overtimeAmount').value);entry.status=document.getElementById('overtimeStatus').value;if(!(entry.hours>0)){toast('Indique un nombre d’heures valide.');return}}if(type==='shift'){entry.start=document.getElementById('entryShiftStart').value;entry.end=document.getElementById('entryShiftEnd').value;if(!entry.start||!entry.end||shiftHours(entry.start,entry.end)<=0){toast('Vérifie les heures de début et de fin.');return}}let idx=data.entries.findIndex(x=>x.id===entry.id);if(idx>=0)data.entries[idx]=entry;else data.entries.push(entry);if(entry.alsoHoliday&&type!=='holiday'&&!holidayFor(date)){data.customHolidays.push({date,name:entry.note||'Jour férié personnalisé'})}if(type==='holiday'&&!holidayFor(date)){data.customHolidays.push({date,name:entry.note||'Jour férié personnalisé'})}persist();closeEntry();selectedDate=date;currentYear=dateYear(date);document.getElementById('headerYear').value=String(currentYear);renderAll();toast(idx>=0?'Entrée modifiée.':'Entrée enregistrée.')}
+function deleteCurrentEntry(){let id=document.getElementById('entryId').value;if(id)deleteEntry(id);closeEntry()}
+function deleteEntry(id){if(!confirm('Supprimer cette entrée ?'))return;data.entries=data.entries.filter(e=>e.id!==id);persist();renderAll();toast('Entrée supprimée.')}
+function saveSettings(){let s=data.settings;s.anchorDate=document.getElementById('anchorDate').value||'2026-10-05';s.weekStart=document.getElementById('weekStart').value;s.shiftAStart=document.getElementById('shiftAStart').value;s.shiftAEnd=document.getElementById('shiftAEnd').value;s.shiftBStart=document.getElementById('shiftBStart').value;s.shiftBEnd=document.getElementById('shiftBEnd').value;s.weeklyHours=Number(document.getElementById('weeklyHours').value)||40;if(shiftHours(s.shiftAStart,s.shiftAEnd)<=0||shiftHours(s.shiftBStart,s.shiftBEnd)<=0){toast('Vérifie les horaires de début et de fin.');return}persist();renderAll();toast('Horaires enregistrés.')}
+function saveLeaveSettings(){let n=Number(document.getElementById('initialLeave').value),y=Number(document.getElementById('leaveYear').value);if(n<0||n>365){toast('Le solde doit être compris entre 0 et 365 jours.');return}data.settings.initialLeave=n;data.settings.leaveYear=y;persist();renderAll();toast('Solde de congés enregistré.')}
+function addHoliday(){let date=prompt('Date du jour férié (AAAA-MM-JJ)');if(!date||!/^\d{4}-\d{2}-\d{2}$/.test(date)){if(date)toast('Format de date invalide.');return}let name=prompt('Nom du jour férié');if(!name)return;if(!data.customHolidays)data.customHolidays=[];data.customHolidays.push({date,name});persist();currentYear=dateYear(date);document.getElementById('headerYear').value=String(currentYear);renderAll();toast('Jour férié ajouté.')}
+function removeHoliday(date,name){if(!confirm('Supprimer ce jour férié personnalisé ?'))return;data.customHolidays=data.customHolidays.filter(h=>!(h.date===date&&h.name===name));persist();renderAll();toast('Jour férié supprimé.')}
+function resetHolidays(){if(!confirm('Restaurer les 11 jours fériés légaux calculés automatiquement pour toutes les années ? Les jours fériés personnalisés seront conservés.'))return;data.holidays={};persist();renderAll();toast('Jours fériés légaux recalculés pour toutes les années.')}
+function exportBackup(){try{persist();let blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=`sauvegarde-conges-horaires-${iso(new Date())}.json`;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1000);toast('Sauvegarde exportée. Garde le fichier JSON dans Fichiers.')}catch(e){toast('Impossible de créer la sauvegarde. Réessaie.')}}
+function importBackup(ev){let file=ev.target.files?.[0];if(!file)return;let r=new FileReader();r.onload=()=>{try{let x=JSON.parse(r.result);if(!x||!x.settings||!Array.isArray(x.entries))throw new Error('invalid');if(!confirm('Restaurer cette sauvegarde remplacera les données actuelles. Continuer ?'))return;data={...defaultData(),...x,settings:{...defaultData().settings,...x.settings},entries:x.entries,holidays:x.holidays||defaultData().holidays,customHolidays:x.customHolidays||[]};persist();renderSettingsForm();renderAll();toast('Sauvegarde restaurée.')}catch(e){toast('Fichier de sauvegarde invalide.')}finally{ev.target.value=''}};r.readAsText(file)}
+function exportCalendarCSV(){let rows=[['Date','Jour','Type','Détail','Début','Fin','Heures supp.','Statut','Note']];let start=new Date(currentYear,0,1,12),end=new Date(currentYear+1,0,1,12);for(let d=new Date(start);d<end;d.setDate(d.getDate()+1)){let date=iso(d),hol=holidayFor(date),entries=dayEntries(date);if(hol)rows.push([date,fmtDate(date,{weekday:'long'}),'Jour férié',hol.name,'','','','','']);if(isWorkday(date)){let e=entries.find(x=>x.type==='shift'),s=e?{start:e.start,end:e.end}:shiftFor(date);rows.push([date,fmtDate(date,{weekday:'long'}),e?'Horaire exceptionnel':'Horaire prévu',`Semaine ${shiftFor(date).label}`,s.start,s.end,'','',''])}entries.forEach(e=>rows.push([date,fmtDate(date,{weekday:'long'}),TYPES[e.type],e.type==='leave'?`${e.amount} jour(s)`:e.type==='overtime'?`${e.hours} h`:'',e.start||(e.type==='appointment'?e.time||'':''),e.end||'',e.hours||'',e.status||'',e.note||'']))}let csv='\ufeff'+rows.map(r=>r.map(v=>'"'+String(v).replace(/"/g,'""')+'"').join(';')).join('\r\n'),blob=new Blob([csv],{type:'text/csv;charset=utf-8;'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=`calendrier-conges-${currentYear}.csv`;a.click();URL.revokeObjectURL(url);toast('Calendrier CSV exporté.')}
+function resetAll(){if(!confirm('Cela effacera toutes les entrées et réglages enregistrés sur cet appareil. As-tu exporté une sauvegarde ?'))return;data=defaultData();persist();currentYear=2026;selectedDate=iso(new Date());renderSettingsForm();renderYearSelects();renderAll();toast('Application réinitialisée.')}
+
+function applyShiftPeriod(){
+ const start=document.getElementById('periodStart').value,end=document.getElementById('periodEnd').value;
+ const begin=document.getElementById('periodShiftStart').value,finish=document.getElementById('periodShiftEnd').value;
+ const note=document.getElementById('periodNote').value.trim();
+ if(!start||!end||start>end){toast('Choisis une période valide.');return}
+ if(!begin||!finish||shiftHours(begin,finish)<=0){toast('Vérifie les heures de début et de fin.');return}
+ const count=Math.round((new Date(end+'T12:00:00')-new Date(start+'T12:00:00'))/86400000)+1;
+ if(count>366){toast('Choisis une période de 366 jours maximum à la fois.');return}
+ if(!confirm('Appliquer '+begin+'–'+finish+' à tous les jours ouvrables du '+fmtDate(start)+' au '+fmtDate(end)+' ? Les horaires exceptionnels déjà présents à ces dates seront remplacés.'))return;
+ if(!Array.isArray(data.settings.shiftPeriods))data.settings.shiftPeriods=[];
+ data.settings.shiftPeriods.push({id:'sp'+Date.now().toString(36),start,end,begin,finish,note});
+ persist();renderAll();renderShiftPeriods();toast('Horaire appliqué à la période.');
+}
+function renderShiftPeriods(){
+ const el=document.getElementById('periodShiftList');if(!el)return;
+ const items=(data.settings.shiftPeriods||[]).slice().sort((a,b)=>a.start.localeCompare(b.start));
+ el.innerHTML=items.length?'<h3 style="font-size:13px;margin-top:16px">Périodes configurées</h3>'+items.map(p=>`<div class="list-item"><div class="main"><strong>${escapeHtml(fmtDate(p.start))} – ${escapeHtml(fmtDate(p.end))}</strong><small>${escapeHtml(p.begin)}–${escapeHtml(p.finish)}${p.note?' · '+escapeHtml(p.note):''}</small></div><button class="btn danger sm" onclick="removeShiftPeriod('${p.id}')">Supprimer</button></div>`).join(''):'<div class="empty-state">Aucune période d’horaire exceptionnel.</div>';
+}
+function removeShiftPeriod(id){if(!confirm('Supprimer cette période et rétablir l’alternance A/B à ces dates ?'))return;data.settings.shiftPeriods=(data.settings.shiftPeriods||[]).filter(p=>p.id!==id);persist();renderAll();renderShiftPeriods();toast('Période supprimée.')}
+function periodShiftFor(date){
+ const p=(data.settings.shiftPeriods||[]).slice().reverse().find(x=>date>=x.start&&date<=x.end);
+ return p?{start:p.begin,end:p.finish,label:'Exceptionnel'}:null;
+}
+
+function renderSettingsForm(){let s=data.settings;for(let [id,key] of [['anchorDate','anchorDate'],['weekStart','weekStart'],['shiftAStart','shiftAStart'],['shiftAEnd','shiftAEnd'],['shiftBStart','shiftBStart'],['shiftBEnd','shiftBEnd'],['weeklyHours','weeklyHours'],['initialLeave','initialLeave'],['leaveYear','leaveYear']]){let el=document.getElementById(id);if(el)el.value=s[key]??''}}
+function escapeHtml(str){return String(str??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+const PIN_KEY='conges_horaires_pin_v1';
+const FACE_KEY='conges_horaires_face_credential_v1';
+function getPin(){try{return localStorage.getItem(PIN_KEY)||'1157'}catch(e){return '1157'}}
+function b64url(bytes){let s='';for(const b of new Uint8Array(bytes))s+=String.fromCharCode(b);return btoa(s).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'')}
+function fromB64url(s){s=s.replace(/-/g,'+').replace(/_/g,'/');while(s.length%4)s+='=';let raw=atob(s),out=new Uint8Array(raw.length);for(let i=0;i<raw.length;i++)out[i]=raw.charCodeAt(i);return out}
+function randomBytes(n=32){let a=new Uint8Array(n);crypto.getRandomValues(a);return a}
+function lockApp(){document.getElementById('lockScreen').style.display='flex';document.getElementById('unlockPin').value='';document.getElementById('lockError').textContent='';document.getElementById('unlockPin').focus()}
+function unlockApp(){document.getElementById('lockScreen').style.display='none';document.getElementById('lockError').textContent=''}
+document.getElementById('unlockForm').addEventListener('submit',function(ev){ev.preventDefault();if(document.getElementById('unlockPin').value===getPin()){unlockApp()}else{document.getElementById('lockError').textContent='Mot de passe incorrect.';document.getElementById('unlockPin').select()}});
+async function setupFaceID(){const msg=document.getElementById('lockError');if(!window.isSecureContext||!navigator.credentials||!window.PublicKeyCredential){toast('Face ID / clé d’accès n’est pas pris en charge ici. Ouvre le site HTTPS dans Safari sur ton iPhone.');return}try{const host=location.hostname;const cred=await navigator.credentials.create({publicKey:{challenge:randomBytes(),rp:{name:'Congés & Horaires',id:host},user:{id:randomBytes(16),name:'utilisateur',displayName:'Utilisateur Congés & Horaires'},pubKeyCredParams:[{type:'public-key',alg:-7},{type:'public-key',alg:-257}],authenticatorSelection:{authenticatorAttachment:'platform',residentKey:'preferred',userVerification:'required'},timeout:60000,attestation:'none'}});if(!cred)throw new Error('Annulé');localStorage.setItem(FACE_KEY,b64url(cred.rawId));document.getElementById('faceIdUnlock').style.display='block';toast('Face ID / clé d’accès configuré sur cet appareil.')}catch(e){toast('Configuration Face ID impossible ou annulée. Vérifie que le site est en HTTPS et réessaie dans Safari.')}}
+async function unlockWithFaceID(){try{const saved=localStorage.getItem(FACE_KEY);if(!saved){toast('Configure d’abord Face ID dans Réglages.');return}const assertion=await navigator.credentials.get({publicKey:{challenge:randomBytes(),rpId:location.hostname,allowCredentials:[{type:'public-key',id:fromB64url(saved)}],userVerification:'required',timeout:60000}});if(assertion&&b64url(assertion.rawId)===saved)unlockApp();else document.getElementById('lockError').textContent='Face ID n’a pas confirmé l’accès.'}catch(e){document.getElementById('lockError').textContent='Face ID annulé ou indisponible. Utilise ton mot de passe.'}}
+document.getElementById('faceIdUnlock').addEventListener('click',unlockWithFaceID);
+function updateFaceButton(){try{document.getElementById('faceIdUnlock').style.display=localStorage.getItem(FACE_KEY)?'block':'none'}catch(e){}}
+function changePin(){let a=document.getElementById('newPin').value,b=document.getElementById('confirmPin').value;if(a.length<4){toast('Choisis un mot de passe d’au moins 4 caractères.');return}if(a!==b){toast('Les deux mots de passe ne correspondent pas.');return}try{localStorage.setItem(PIN_KEY,a);document.getElementById('newPin').value='';document.getElementById('confirmPin').value='';toast('Mot de passe modifié.')}catch(e){toast('Impossible d’enregistrer le mot de passe sur cet appareil.')}}
+window.addEventListener('error',function(e){const box=document.getElementById('appError');if(box){box.style.display='block';box.textContent='Une erreur JavaScript empêche certaines fonctions de marcher : '+(e.message||'erreur inconnue')}});
+function init(){updateFaceButton();renderYearSelects();renderSettingsForm();document.getElementById('payMonth').value=String(new Date().getMonth()+1);document.getElementById('payYear').value=String(new Date().getFullYear());document.getElementById('periodStart').value=iso(new Date());document.getElementById('periodEnd').value=iso(addDays(iso(new Date()),6));renderAll();listLeavePhotos();document.getElementById('headerYear').value=String(currentYear);document.getElementById('entryDialog').addEventListener('click',e=>{if(e.target.id==='entryDialog')closeEntry()})}
+try{init()}catch(err){const box=document.getElementById("appError");if(box){box.style.display="block";box.textContent="Erreur au démarrage : "+(err.message||err)}else alert("Erreur au démarrage de l’application.")}
+document.addEventListener('DOMContentLoaded',initLeavePhotoDate);
 </script>
 </body>
 </html>
