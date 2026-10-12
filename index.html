@@ -2,499 +2,3262 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#edf4ff">
-<title>Mes accès IPTV — Premium</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+<title>Mes accès</title>
+
 <style>
-:root{
- --bg:#edf3fb;--panel:rgba(255,255,255,.92);--panel2:#f6f9ff;--line:#dce6f4;
- --txt:#17243a;--muted:#64748b;--accent:#246bfd;--danger:#c6374b;--good:#12805c;
- --shadow:0 16px 45px rgba(35,69,120,.09);--radius:22px
+
+*{
+    box-sizing:border-box;
+    -webkit-tap-highlight-color:transparent;
 }
-*{box-sizing:border-box}
-html{scroll-behavior:smooth}
+
 body{
- margin:0;min-height:100vh;color:var(--txt);
- background:
- radial-gradient(ellipse at 8% 0%,rgba(81,150,255,.19),transparent 34rem),
- radial-gradient(ellipse at 100% 12%,rgba(118,103,255,.12),transparent 30rem),
- linear-gradient(180deg,#f8fbff 0%,#edf3fb 65%,#f6f8fc 100%);
- font:16px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif;
- padding:env(safe-area-inset-top) 14px env(safe-area-inset-bottom)
+    margin:0;
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;
+    background:#f2f2f7;
+    color:#111;
 }
-button,input,textarea,select{font:inherit}
-button{
- border:0;border-radius:13px;padding:11px 15px;font-weight:750;cursor:pointer;
- color:#fff;background:linear-gradient(135deg,#347cff,#2056e8);
- box-shadow:0 5px 14px rgba(36,107,253,.17);
- transition:transform .16s ease,box-shadow .16s ease,filter .16s ease
-}
-button:hover{filter:brightness(1.035);box-shadow:0 8px 20px rgba(36,107,253,.2)}
-button:active{transform:scale(.98)}
-button.secondary{background:linear-gradient(180deg,#fff,#f3f7fd);color:#263a58;border:1px solid #d8e3f1;box-shadow:0 3px 9px #263f6510}
-button.danger{background:linear-gradient(135deg,#fff1f2,#ffe4e8);color:#a92136;border:1px solid #f5c4cc;box-shadow:none}
-button.good{background:linear-gradient(135deg,#e7fff4,#d7f8e8);color:#126846;border:1px solid #b5ebd0;box-shadow:none}
-button.small{padding:8px 10px;font-size:13px;border-radius:10px}
-input,textarea,select{
- width:100%;border:1px solid #d7e1ef;background:rgba(255,255,255,.95);color:var(--txt);
- border-radius:13px;padding:12px 13px;outline:none;box-shadow:inset 0 1px 2px #1d355708;
- transition:border-color .16s ease,box-shadow .16s ease
-}
-input:focus,textarea:focus,select:focus{border-color:#6a9cff;box-shadow:0 0 0 4px rgba(36,107,253,.11)}
-input::placeholder,textarea::placeholder{color:#9aa9bc}
-input[type=file]{padding:9px;background:#f8faff}
-label{display:block;font-size:12px;font-weight:750;letter-spacing:.025em;color:#63748c;margin:0 0 6px}
-h1{font-size:clamp(23px,4vw,32px);letter-spacing:-.045em;margin:0;font-weight:850}
-h2{font-size:18px;letter-spacing:-.02em;margin:0 0 13px}
-p{color:var(--muted)}
+
 header{
- max-width:1080px;margin:0 auto;padding:24px 2px 20px;display:flex;align-items:center;justify-content:space-between;gap:12px
+    background:#007aff;
+    color:white;
+    padding:18px 15px 16px;
+    text-align:center;
+    position:sticky;
+    top:0;
+    z-index:20;
 }
-header>div:first-child{display:flex;flex-direction:column;gap:5px}
+
 header h1{
- background:linear-gradient(100deg,#17243a 5%,#246bfd 55%,#7958e8 100%);
- -webkit-background-clip:text;background-clip:text;color:transparent
+    margin:0 0 10px;
+    font-size:25px;
 }
-header .sub{font-size:13px;color:var(--muted);font-weight:550}
-main{max-width:1080px;margin:auto}
-.panel{
- position:relative;background:var(--panel);border:1px solid rgba(213,225,242,.9);
- border-radius:var(--radius);padding:19px;margin-bottom:15px;
- box-shadow:var(--shadow);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)
+
+.userCount{
+    font-size:32px;
+    font-weight:900;
+    line-height:1.15;
 }
-.panel>h2,.sectiontitle h2{display:flex;align-items:center;gap:9px}
-.panel>h2:before{content:"";width:5px;height:19px;border-radius:8px;background:linear-gradient(#4c8cff,#7958e8);display:inline-block}
-.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}
-.field.full{grid-column:1/-1}
-.actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:13px}
-.toolbar{display:flex;flex-wrap:wrap;gap:9px}
-.toolbar>*{flex:1}
-.stats{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:15px}
-.stat{
- min-width:115px;background:linear-gradient(145deg,#fff,#f2f7ff);border:1px solid #dce7f6;
- border-radius:16px;padding:12px 15px;color:var(--muted);font-size:12px;font-weight:650
+
+.container{
+    max-width:700px;
+    margin:auto;
+    padding:15px;
 }
-.stat strong{display:block;font-size:25px;letter-spacing:-.04em;color:#1c3970;line-height:1.15;margin-bottom:4px}
-#records{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}
-.record{
- min-width:0;background:rgba(255,255,255,.96);border:1px solid #dce6f4;
- border-radius:18px;overflow:hidden;box-shadow:0 7px 22px rgba(38,66,108,.055);
- transition:transform .18s ease,box-shadow .18s ease,border-color .18s ease
+
+.card,
+.account{
+    background:white;
+    border-radius:16px;
+    padding:16px;
+    margin-bottom:15px;
+    box-shadow:0 2px 8px rgba(0,0,0,.08);
 }
-.record:hover{transform:translateY(-2px);box-shadow:0 12px 28px rgba(38,66,108,.10);border-color:#c3d6f5}
-.record summary{list-style:none;cursor:pointer;padding:15px;display:flex;align-items:center;gap:12px}
-.record summary::-webkit-details-marker{display:none}
-.record summary>span:last-child{color:#6c85a8;font-size:20px;transition:transform .2s ease}
-.record[open] summary>span:last-child{transform:rotate(180deg)}
-.record .avatar{
- width:49px;height:49px;border-radius:15px;object-fit:cover;background:linear-gradient(145deg,#e4edff,#f4eaff);
- border:1px solid #dce5f4;display:flex;align-items:center;justify-content:center;font-size:21px;flex-shrink:0
+
+input,
+textarea{
+    width:100%;
+    border:1px solid #d1d1d6;
+    border-radius:10px;
+    padding:12px;
+    font-size:16px;
+    background:#fff;
+    margin-top:6px;
 }
-.record .summarytext{min-width:0;flex:1}
-.record .recordname{font-weight:850;letter-spacing:-.015em;overflow-wrap:anywhere}
-.record .meta{font-size:12px;color:var(--muted);overflow-wrap:anywhere;margin-top:2px}
-.record .body{padding:0 15px 15px;border-top:1px solid #edf1f7}
-.record .body .grid{margin-top:13px}
-.record .fieldvalue{font-size:13px;overflow-wrap:anywhere;background:#f7f9fd;border:1px solid #e8eef7;border-radius:10px;padding:9px;margin-top:4px}
-.record .fieldvalue a{color:#155ac2;text-decoration:none;font-weight:650}
-.record .fieldvalue a:hover{text-decoration:underline}
-.record .photo-large{width:100%;max-height:260px;object-fit:contain;background:#f7f9fd;border:1px solid var(--line);border-radius:13px;margin-top:12px}
-.empty{text-align:center;padding:32px 20px;color:var(--muted);background:#ffffff9c;border:1px dashed #cbd9ec;border-radius:16px;grid-column:1/-1}
-#lockScreen{
- position:fixed;inset:0;z-index:10;background:
- radial-gradient(ellipse at 15% 10%,rgba(87,151,255,.2),transparent 28rem),
- radial-gradient(ellipse at 90% 90%,rgba(139,111,255,.15),transparent 28rem),
- linear-gradient(135deg,#f8fbff,#eaf1fb);
- display:flex;align-items:center;justify-content:center;padding:20px
+
+textarea{
+    min-height:80px;
+    resize:vertical;
 }
-.lockbox{
- max-width:410px;width:100%;background:rgba(255,255,255,.93);padding:28px;
- border:1px solid #d8e4f4;border-radius:27px;box-shadow:0 24px 80px rgba(39,68,112,.17);
- backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px)
+
+label{
+    display:block;
+    font-weight:600;
+    margin-top:12px;
 }
-.lockbox h1{margin-bottom:7px}
-.lockbox h1:before{content:"✦";display:inline-flex;align-items:center;justify-content:center;width:38px;height:38px;border-radius:13px;background:linear-gradient(135deg,#3d83ff,#8259eb);color:white;font-size:21px;margin-right:9px;vertical-align:middle}
-#app{display:none}
-.note{font-size:12px;color:var(--muted);line-height:1.55}
-.status{font-size:13px;color:var(--good);min-height:18px;margin-top:9px;font-weight:650}
-.sectiontitle{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:13px}
-.sectiontitle h2{margin:0}
-.hidden{display:none!important}
-#converter{padding:16px;background:#f7f9ff;border:1px solid #e0e9f7;border-radius:16px}
-#converter h2{margin-bottom:8px}
-#converter textarea{font-size:13px}
-#photoPreviewWrap{margin-top:12px}
-@media(max-width:680px){
- body{padding-left:10px;padding-right:10px}
- #records{grid-template-columns:1fr}
- .grid{grid-template-columns:1fr}
- .field.full{grid-column:auto}
- header{align-items:center;padding-top:19px}
- h1{font-size:23px}
- .panel{padding:15px;border-radius:19px}
- .toolbar>*{min-width:calc(50% - 8px)}
- .stat{flex:1}
- .lockbox{padding:23px;border-radius:23px}
+
+button{
+    border:0;
+    border-radius:10px;
+    padding:11px 14px;
+    font-size:15px;
+    font-weight:600;
+    cursor:pointer;
 }
-@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
+
+.primary{
+    background:#007aff;
+    color:white;
+    width:100%;
+    margin-top:15px;
+}
+
+.secondary{
+    background:#e5e5ea;
+    color:#111;
+}
+
+.danger{
+    background:#ff3b30;
+    color:white;
+}
+
+.copyBtn{
+    background:#e5e5ea;
+    padding:8px 10px;
+    font-size:13px;
+    margin-left:6px;
+    white-space:nowrap;
+    min-width:44px;
+}
+
+.fieldRow{
+    display:flex;
+    align-items:center;
+    gap:5px;
+}
+
+.fieldRow input,
+.fieldRow textarea{
+    flex:1;
+}
+
+.copyArea{
+    display:flex;
+    align-items:center;
+    gap:6px;
+    margin-top:6px;
+}
+
+.copyArea input,
+.copyArea textarea{
+    flex:1;
+    margin-top:0;
+    min-width:0;
+}
+
+.copyValue{
+    user-select:text;
+    -webkit-user-select:text;
+    cursor:text;
+}
+
+.urlLink{
+    display:block;
+    flex:1;
+    min-width:0;
+    color:#007aff;
+    text-decoration:underline;
+    word-break:break-all;
+    padding:12px 4px;
+    cursor:pointer;
+    font-size:16px;
+}
+
+.urlLink:active{
+    opacity:.6;
+}
+
+.hidden{
+    display:none !important;
+}
+
+.checkRow{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin-top:15px;
+}
+
+.checkRow input{
+    width:auto;
+    margin:0;
+}
+
+.countdown{
+    margin:12px 0;
+    padding:14px;
+    border-radius:12px;
+    font-weight:800;
+    text-align:center;
+    font-size:17px;
+}
+
+.countdown.ok{
+    background:#e8f8ed;
+    color:#16803c;
+}
+
+.countdown.warning{
+    background:#fff3cd;
+    color:#9a6700;
+}
+
+.countdown.danger{
+    background:#ffe5e5;
+    color:#c62828;
+}
+
+.countdown.expired{
+    background:#e5e5ea;
+    color:#555;
+}
+
+.countdown.none{
+    background:#f2f2f7;
+    color:#777;
+}
+
+.login{
+    position:fixed;
+    inset:0;
+    background:#f2f2f7;
+    z-index:100;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:20px;
+}
+
+.loginBox{
+    background:white;
+    width:100%;
+    max-width:360px;
+    border-radius:20px;
+    padding:25px;
+    box-shadow:0 5px 25px rgba(0,0,0,.15);
+    text-align:center;
+}
+
+.loginBox h1{
+    margin-top:0;
+}
+
+.loginError{
+    color:#ff3b30;
+    font-weight:600;
+    margin-top:10px;
+}
+
+.topButtons{
+    display:flex;
+    gap:8px;
+    flex-wrap:wrap;
+    margin-bottom:15px;
+}
+
+.topButtons button{
+    flex:1;
+    min-width:130px;
+}
+
+.photoPreview{
+    width:100%;
+    max-height:250px;
+    object-fit:contain;
+    border-radius:12px;
+    margin-top:10px;
+    background:#f2f2f7;
+}
+
+.empty{
+    text-align:center;
+    color:#777;
+    padding:30px 10px;
+}
+
+hr{
+    border:0;
+    border-top:1px solid #e5e5ea;
+    margin:18px 0;
+}
+
+.account h2{
+    margin:0 0 12px;
+    font-size:20px;
+}
+
+.accountLine{
+    margin:12px 0;
+    word-break:break-word;
+}
+
+.accountLabel{
+    font-size:13px;
+    color:#666;
+    font-weight:600;
+}
+
+.accountValue{
+    margin-top:4px;
+}
+
+.durationBox{
+    background:#f2f2f7;
+    border-radius:14px;
+    padding:14px;
+    margin-top:12px;
+}
+
+.durationBoxTitle{
+    font-weight:800;
+    font-size:16px;
+    margin-bottom:8px;
+}
+
+.durationRow{
+    display:flex;
+    align-items:center;
+    gap:8px;
+}
+
+.durationRow input{
+    margin:0;
+    flex:1;
+}
+
+.durationUnit{
+    font-weight:700;
+    white-space:nowrap;
+}
+
+.dateInfo{
+    margin-top:8px;
+    font-size:14px;
+    color:#555;
+}
+
+.calendarBox{
+    margin-top:10px;
+    padding:12px;
+    border-radius:12px;
+    background:#eef6ff;
+    color:#075ca8;
+}
+
+.calendarButton{
+    background:#007aff;
+    color:white;
+    width:100%;
+    margin-top:8px;
+}
+
+.photoButtons{
+    display:flex;
+    gap:8px;
+    margin-top:8px;
+}
+
+.photoButtons button{
+    flex:1;
+}
+
+.photoButtonText{
+    display:block;
+    margin-top:8px;
+    color:#666;
+    font-size:14px;
+}
+
+.copyModal{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.55);
+    z-index:200;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+}
+
+.copyModalBox{
+    width:100%;
+    max-width:500px;
+    background:white;
+    border-radius:18px;
+    padding:20px;
+    box-shadow:0 5px 30px rgba(0,0,0,.25);
+}
+
+.copyModalBox h2{
+    margin-top:0;
+}
+
+.copyInstruction{
+    color:#555;
+    line-height:1.4;
+    margin-bottom:12px;
+}
+
+.copyFallback{
+    width:100%;
+    font-size:18px;
+    padding:14px;
+    margin:0;
+    border:2px solid #007aff;
+    border-radius:10px;
+    user-select:text;
+    -webkit-user-select:text;
+}
+
+.modalButtons{
+    display:flex;
+    gap:8px;
+    margin-top:12px;
+}
+
+.modalButtons button{
+    flex:1;
+}
+
+.actions{
+    display:flex;
+    gap:8px;
+    margin-top:15px;
+}
+
+.actions button{
+    flex:1;
+}
+
+.applicationFieldTitle{
+    margin-top:14px;
+    font-weight:700;
+}
+
+/* =========================
+   FICHE REPLIABLE
+========================= */
+
+.accountHeader{
+    cursor:pointer;
+    user-select:none;
+    -webkit-user-select:none;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+}
+
+.accountHeader:active{
+    opacity:.6;
+}
+
+.accountHeader h2{
+    margin:0;
+}
+
+.accountArrow{
+    font-size:18px;
+    color:#777;
+    transition:transform .2s;
+}
+
+.account.open .accountArrow{
+    transform:rotate(180deg);
+}
+
+.accountContent{
+    display:none;
+}
+
+.account.open .accountContent{
+    display:block;
+}
+
 </style>
 </head>
+
 <body>
-<div id="lockScreen">
-  <div class="lockbox">
-    <h1>🔐 Mes accès</h1>
-    <p id="lockMessage">Entre ton code PIN pour ouvrir l’application.</p>
-    <form id="unlockForm">
-      <label for="pinInput">Code PIN</label>
-      <input id="pinInput" type="password" inputmode="numeric" autocomplete="current-password" maxlength="32" required>
-      <div class="actions"><button type="submit" style="width:100%">Déverrouiller avec le PIN</button></div>
-    </form>
-    <div class="actions"><button type="button" class="secondary" id="faceUnlock" style="width:100%"> Face ID</button></div>
-    <p class="note">Première utilisation : choisis un PIN, puis confirme-le.</p>
-    <div id="firstPin" class="hidden">
-      <label for="pinConfirm">Confirmer le PIN</label><input id="pinConfirm" type="password" inputmode="numeric" maxlength="32">
-      <div class="actions"><button id="saveFirstPin" type="button">Créer mon PIN</button></div>
+
+<div class="login" id="loginScreen">
+
+    <div class="loginBox">
+
+        <h1>🔐 Mes accès</h1>
+
+        <p>Entrez votre code PIN</p>
+
+        <input
+            type="password"
+            id="pinInput"
+            inputmode="numeric"
+            maxlength="4"
+            placeholder="PIN"
+            autocomplete="off"
+        >
+
+        <button
+            class="primary"
+            onclick="login()"
+        >
+            Se connecter
+        </button>
+
+        <div
+            id="loginError"
+            class="loginError hidden"
+        >
+            Code incorrect
+        </div>
+
     </div>
-    <div id="lockStatus" class="status"></div>
-  </div>
+
 </div>
 
-<div id="app">
 <header>
-  <div><h1>🔑 Mes accès IPTV</h1><div class="sub">Votre espace sécurisé • accès, applications, photos et sauvegardes</div></div>
-  <button class="secondary small" id="lockNow">🔒 Verrouiller</button>
+
+    <h1>🔐 Mes accès</h1>
+
+    <div
+        class="userCount"
+        id="userCount"
+    >
+        👥 0 utilisateurs
+    </div>
+
 </header>
-<main>
-  <section class="panel">
-    <div class="stats">
-      <div class="stat"><strong id="countRecords">0</strong>Fiches</div>
-      <div class="stat"><strong id="countPhotos">0</strong>Photos</div>
-    </div>
-    <div class="toolbar">
-      <button id="newRecord">＋ Ajouter une fiche</button>
-      <button class="secondary" id="importButton">📥 Importer une sauvegarde</button>
-      <button class="secondary" id="exportButton">📤 Exporter JSON</button>
-      <button class="secondary" id="exportTxtButton">💾 Télécharger TXT/JSON</button>
-      <input type="file" id="importFile" accept=".json,application/json" class="hidden">
-    </div>
-    <p class="note">Les fiches sont enregistrées dans ce navigateur. Exporte régulièrement une sauvegarde JSON et garde-la dans un endroit sûr. Le PIN protège l’écran, mais ne chiffre pas les données enregistrées dans le navigateur. La biométrie du navigateur est une option de confort, pas un chiffrement des données.</p>
-    <div id="globalStatus" class="status"></div>
-  </section>
 
-  <section class="panel">
-    <h2 id="formTitle">Ajouter une fiche</h2>
-    <form id="recordForm">
-      <input type="hidden" id="editId">
-      <div class="grid">
-        <div class="field"><label for="name">Nom de la fiche *</label><input id="name" required placeholder="Ex. Salon, Chambre…"></div>
-        <div class="field"><label for="personName">Nom de la personne</label><input id="personName" placeholder="Nom / client"></div>
-        <div class="field"><label for="application">Application / fournisseur</label><input id="application" placeholder="Ex. IPTV, Nexon…"></div>
-        <div class="field"><label for="url1">URL / serveur principal</label><input id="url1" type="text" placeholder="https://…"></div>
-        <div class="field"><label for="username">Nom d’utilisateur</label><input id="username" autocomplete="off"></div>
-        <div class="field"><label for="password">Mot de passe</label><input id="password" autocomplete="new-password"></div>
-        <div class="field"><label for="url2">URL secondaire</label><input id="url2" type="text"></div>
-        <div class="field"><label for="appUrl1">URL de l’application / portail</label><input id="appUrl1" type="text"></div>
-        <div class="field"><label for="key">Clé / code</label><input id="key" autocomplete="off"></div>
-        <div class="field"><label for="appKey">Clé application</label><input id="appKey" autocomplete="off"></div>
-        <div class="field"><label for="appKey2">Clé application 2</label><input id="appKey2" autocomplete="off"></div>
-        <div class="field"><label for="mac">Adresse MAC</label><input id="mac" autocomplete="off"></div>
-        <div class="field"><label for="mac2">Adresse MAC 2</label><input id="mac2" autocomplete="off"></div>
-        <div class="field"><label for="startDate">Date de début</label><input id="startDate" type="date"></div>
-        <div class="field"><label for="duration">Durée / échéance</label><input id="duration" placeholder="Ex. 12 mois"></div>
-        <div class="field"><label for="whatsapp">Téléphone / WhatsApp</label><input id="whatsapp" type="tel"></div>
-        <div class="field"><label for="photo">Photo / capture</label><input id="photo" type="file" accept="image/*"></div>
-        <div class="field full"><label for="remark">Remarques</label><textarea id="remark" rows="3" placeholder="Notes utiles…"></textarea></div>
-      </div>
-      <div id="photoPreviewWrap" class="hidden"><img id="photoPreview" class="photo-large" alt="Aperçu de la photo"><button type="button" id="removePhoto" class="secondary small">Retirer la photo</button></div>
-      <div class="actions"><button type="submit" id="saveRecord">💾 Enregistrer la fiche</button><button type="button" class="secondary" id="cancelEdit">Annuler</button></div>
-      <div id="formStatus" class="status"></div>
-    </form>
-  </section>
+<div class="container">
 
-  <section class="panel">
-    <div class="sectiontitle"><h2>Mes fiches</h2><span class="note">Appuie sur une fiche pour l’ouvrir</span></div>
-    <div class="grid" style="margin-bottom:12px">
-      <div class="field"><label for="search">Rechercher</label><input id="search" placeholder="Nom, application, utilisateur…"></div>
-      <div class="field"><label for="sort">Trier</label><select id="sort"><option value="name">Nom A → Z</option><option value="newest">Plus récentes</option><option value="oldest">Plus anciennes</option></select></div>
-    </div>
-    <div id="records"></div>
-  </section>
+    <div class="topButtons">
 
-  <section class="panel">
-    <h2>Outils</h2>
-    <div class="actions">
-      <button class="secondary" id="openNexon">🌐 Ouvrir Nexon</button>
-      <button class="secondary" id="showConverter">🔄 Convertisseur Xtream → M3U</button>
-      <button class="secondary" id="changePin">🔐 Changer le PIN</button>
-      <button class="secondary" id="setupFace"> Face ID</button>
-      <button class="danger" id="deleteAll">Supprimer toutes les fiches</button>
+        <button
+            class="secondary"
+            onclick="showAddForm()"
+        >
+            ➕ Ajouter
+        </button>
+
+        <button
+            class="secondary"
+            onclick="exportData()"
+        >
+            💾 Sauvegarder
+        </button>
+
+        <button
+            class="secondary"
+            onclick="document.getElementById('importFile').click()"
+        >
+            📂 Restaurer
+        </button>
+
+        <input
+            type="file"
+            id="importFile"
+            accept=".json,application/json"
+            class="hidden"
+            onchange="importData(event)"
+        >
+
     </div>
-    <div id="converter" class="hidden" style="margin-top:14px">
-      <h2>Convertisseur Xtream vers M3U</h2>
-      <p class="note">Les identifiants sont traités uniquement dans cette page. Attention : le lien généré contient le nom d’utilisateur et le mot de passe.</p>
-      <div class="grid">
-        <div class="field full"><label for="xtreamUrl">URL du serveur (sans /player_api.php)</label><input id="xtreamUrl" placeholder="http://serveur:port"></div>
-        <div class="field"><label for="xtreamUser">Utilisateur</label><input id="xtreamUser"></div>
-        <div class="field"><label for="xtreamPass">Mot de passe</label><input id="xtreamPass"></div>
-      </div>
-      <div class="actions"><button id="makeM3u">Générer le lien M3U</button><button class="secondary" id="copyM3u">Copier le lien</button></div>
-      <div class="field" style="margin-top:10px"><label for="m3uOutput">Lien M3U généré</label><textarea id="m3uOutput" rows="3" readonly></textarea></div>
+
+    <input
+        id="searchInput"
+        placeholder="🔎 Rechercher un utilisateur..."
+        oninput="renderAccounts()"
+    >
+
+    <div
+        class="card hidden"
+        id="formCard"
+    >
+
+        <h2 id="formTitle">
+            ➕ Nouvel accès
+        </h2>
+
+        <label>
+            Nom / Prénom
+        </label>
+
+        <input
+            id="name"
+            placeholder="Exemple : Jean Dupont"
+        >
+
+        <label>
+            Utilisateur
+        </label>
+
+        <div class="fieldRow">
+
+            <input
+                id="username"
+                placeholder="Utilisateur"
+            >
+
+            <button
+                class="copyBtn"
+                onclick="copyField('username',this)"
+            >
+                📋 Copier
+            </button>
+
+        </div>
+
+        <label>
+            Mot de passe
+        </label>
+
+        <div class="fieldRow">
+
+            <input
+                id="password"
+                type="password"
+                placeholder="Mot de passe"
+            >
+
+            <button
+                class="copyBtn"
+                onclick="togglePassword()"
+            >
+                👁️
+            </button>
+
+            <button
+                class="copyBtn"
+                onclick="copyField('password',this)"
+            >
+                📋 Copier
+            </button>
+
+        </div>
+
+        <label>
+            URL 1
+        </label>
+
+        <div class="fieldRow">
+
+            <input
+                id="url1"
+                placeholder="https://..."
+            >
+
+            <button
+                class="copyBtn"
+                onclick="copyField('url1',this)"
+            >
+                📋 Copier
+            </button>
+
+        </div>
+
+        <label>
+            URL 2
+        </label>
+
+        <div class="fieldRow">
+
+            <input
+                id="url2"
+                placeholder="https://..."
+            >
+
+            <button
+                class="copyBtn"
+                onclick="copyField('url2',this)"
+            >
+                📋 Copier
+            </button>
+
+        </div>
+
+        <label>
+            Remarque
+        </label>
+
+        <textarea
+            id="remark"
+            placeholder="Remarque..."
+        ></textarea>
+
+        <hr>
+
+        <div class="durationBox">
+
+            <div class="durationBoxTitle">
+                ⏳ Durée de l'accès
+            </div>
+
+            <div class="durationRow">
+
+                <input
+                    id="duration"
+                    type="number"
+                    min="1"
+                    step="1"
+                    inputmode="numeric"
+                    placeholder="Exemple : 365"
+                >
+
+                <span class="durationUnit">
+                    jours
+                </span>
+
+            </div>
+
+            <div
+                class="dateInfo"
+                id="startDateInfo"
+            >
+                📅 La date de début sera enregistrée à l'ajout.
+            </div>
+
+            <div
+                class="dateInfo"
+                id="expiryPreview"
+            >
+                📅 La date d'expiration sera calculée automatiquement.
+            </div>
+
+        </div>
+
+        <div class="checkRow">
+
+            <input
+                type="checkbox"
+                id="isApplication"
+                onchange="toggleApplicationFields()"
+            >
+
+            <label
+                for="isApplication"
+                style="margin:0;"
+            >
+                📱 Application
+            </label>
+
+        </div>
+
+        <div
+            id="applicationFields"
+            class="hidden"
+        >
+
+            <label>
+                URL de l'application
+            </label>
+
+            <div class="fieldRow">
+
+                <input
+                    id="appUrl1"
+                    placeholder="https://..."
+                >
+
+                <button
+                    class="copyBtn"
+                    onclick="copyField('appUrl1',this)"
+                >
+                    📋 Copier
+                </button>
+
+            </div>
+
+            <div class="applicationFieldTitle">
+                MAC 1
+            </div>
+
+            <div class="fieldRow">
+
+                <input
+                    id="mac"
+                    placeholder="MAC 1"
+                >
+
+                <button
+                    class="copyBtn"
+                    onclick="copyField('mac',this)"
+                >
+                    📋 Copier
+                </button>
+
+            </div>
+
+            <div class="applicationFieldTitle">
+                MAC 2
+            </div>
+
+            <div class="fieldRow">
+
+                <input
+                    id="mac2"
+                    placeholder="MAC 2"
+                >
+
+                <button
+                    class="copyBtn"
+                    onclick="copyField('mac2',this)"
+                >
+                    📋 Copier
+                </button>
+
+            </div>
+
+            <div class="applicationFieldTitle">
+                Clé 1
+            </div>
+
+            <div class="fieldRow">
+
+                <input
+                    id="appKey"
+                    placeholder="Clé 1"
+                >
+
+                <button
+                    class="copyBtn"
+                    onclick="copyField('appKey',this)"
+                >
+                    📋 Copier
+                </button>
+
+            </div>
+
+            <div class="applicationFieldTitle">
+                Clé 2
+            </div>
+
+            <div class="fieldRow">
+
+                <input
+                    id="appKey2"
+                    placeholder="Clé 2"
+                >
+
+                <button
+                    class="copyBtn"
+                    onclick="copyField('appKey2',this)"
+                >
+                    📋 Copier
+                </button>
+
+            </div>
+
+        </div>
+
+        <hr>
+
+        <label>
+            📷 Photo
+        </label>
+
+        <div class="photoButtons">
+
+            <button
+                type="button"
+                class="secondary"
+                onclick="choosePhoto()"
+            >
+                🖼️ Choisir dans les Photos
+            </button>
+
+            <button
+                type="button"
+                class="secondary"
+                onclick="takePhoto()"
+            >
+                📷 Prendre une photo
+            </button>
+
+        </div>
+
+        <input
+            type="file"
+            id="photoLibraryInput"
+            accept="image/*"
+            class="hidden"
+            onchange="handlePhoto(event)"
+        >
+
+        <input
+            type="file"
+            id="cameraInput"
+            accept="image/*"
+            capture="environment"
+            class="hidden"
+            onchange="handlePhoto(event)"
+        >
+
+        <span class="photoButtonText">
+            Choisis une photo existante ou prends-en une nouvelle.
+        </span>
+
+        <div
+            id="photoContainer"
+            class="hidden"
+        >
+
+            <img
+                id="photoPreview"
+                class="photoPreview"
+            >
+
+            <button
+                class="danger"
+                style="width:100%;margin-top:8px;"
+                onclick="removePhoto()"
+            >
+                🗑️ Supprimer la photo
+            </button>
+
+        </div>
+
+        <button
+            class="primary"
+            onclick="saveAccount()"
+        >
+            💾 Enregistrer
+        </button>
+
+        <button
+            class="secondary"
+            style="width:100%;margin-top:8px;"
+            onclick="cancelForm()"
+        >
+            Annuler
+        </button>
+
     </div>
-    <p class="note">Le bouton Nexon ouvre la page de connexion configurée ci-dessous. Tu peux la modifier si l’adresse change.</p>
-    <div class="grid">
-      <div class="field full"><label for="nexonUrl">Adresse du portail Nexon</label><input id="nexonUrl" placeholder="https://…"></div>
+
+    <div id="accountsList"></div>
+
+</div>
+
+<div
+    id="copyModal"
+    class="copyModal hidden"
+>
+
+    <div class="copyModalBox">
+
+        <h2>
+            📋 Copier
+        </h2>
+
+        <div class="copyInstruction">
+            La copie automatique n'a pas été autorisée par l'iPhone.
+            <br><br>
+            Le texte est sélectionné ci-dessous.
+            <br>
+            Fais un appui long dessus puis choisis
+            <b>Copier</b>.
+        </div>
+
+        <input
+            id="copyFallback"
+            class="copyFallback"
+            readonly
+            onclick="selectFallback()"
+        >
+
+        <div class="modalButtons">
+
+            <button
+                class="primary"
+                style="margin:0;"
+                onclick="selectFallback()"
+            >
+                📋 Sélectionner le texte
+            </button>
+
+            <button
+                class="secondary"
+                onclick="closeCopyModal()"
+            >
+                Fermer
+            </button>
+
+        </div>
+
     </div>
-    <div class="actions"><button class="secondary small" id="saveNexon">Enregistrer l’adresse Nexon</button></div>
-    <div id="toolsStatus" class="status"></div>
-  </section>
-</main>
+
 </div>
 
 <script>
-'use strict';
-const STORAGE_KEY='mes-acces-iptv-v3-data';
-const PIN_KEY='mes-acces-iptv-v3-pin';
-const NEXON_KEY='mes-acces-iptv-v3-nexon';
-let records=[];
-let currentPhoto='';
-let firstPinMode=false;
-const $=id=>document.getElementById(id);
-const fields=['name','personName','application','url1','username','password','url2','appUrl1','key','appKey','appKey2','mac','mac2','startDate','duration','whatsapp','remark'];
-function uid(){return 'acc-'+Date.now().toString(36)+'-'+Math.random().toString(36).slice(2,9)}
-function setStatus(id,msg,good=true){$(id).textContent=msg;$(id).style.color=good?'var(--good)':'#ff9ca4'}
-function safeText(v){return String(v??'')}
-function escapeHtml(s){return safeText(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
-function validUrl(raw){const v=safeText(raw).trim();if(!v)return '';try{const u=new URL(v);return ['http:','https:'].includes(u.protocol)?u.href:''}catch{return ''}}
-function normalizeRecord(r){
-  const x={};
-  fields.forEach(k=>x[k]=safeText(r[k]));
-  ['id','createdAt','photo','photoId','isApplication','reminder0Sent','reminder1Sent','reminder2Sent'].forEach(k=>{if(r[k]!==undefined)x[k]=r[k]});
-  if(!x.id)x.id=uid();
-  if(!x.createdAt)x.createdAt=Date.now();
-  return x;
-}
-function loadData(){
-  try{const raw=localStorage.getItem(STORAGE_KEY);if(raw){const parsed=JSON.parse(raw);if(Array.isArray(parsed))records=parsed.map(normalizeRecord)}}catch(e){setStatus('globalStatus','Lecture impossible. Importe ta sauvegarde JSON.',false)}
-}
-function saveData(){
-  try{localStorage.setItem(STORAGE_KEY,JSON.stringify(records));setStatus('globalStatus','Sauvegarde locale enregistrée.');renderRecords();return true}
-  catch(e){setStatus('globalStatus','Sauvegarde impossible : stockage du navigateur plein. Exporte la sauvegarde et retire des photos trop lourdes.',false);return false}
-}
-function showApp(){ $('lockScreen').style.display='none';$('app').style.display='block';renderRecords() }
-function pinHash(pin){let h=2166136261;for(let i=0;i<pin.length;i++){h^=pin.charCodeAt(i);h=Math.imul(h,16777619)}return 'fnv1a-'+(h>>>0).toString(16)}
-function initLock(){
-  const saved=localStorage.getItem(PIN_KEY);
-  if(!saved){firstPinMode=true;$('firstPin').classList.remove('hidden');$('lockMessage').textContent='Première utilisation : crée un code PIN.'}
-}
-$('unlockForm').addEventListener('submit',e=>{
-  e.preventDefault();const pin=$('pinInput').value;
-  const saved=localStorage.getItem(PIN_KEY);
-  if(!saved){$('firstPin').classList.remove('hidden');setStatus('lockStatus','Choisis puis confirme un PIN ci-dessous.',false);return}
-  if(pinHash(pin)===saved){$('pinInput').value='';showApp()}else setStatus('lockStatus','PIN incorrect.',false)
-});
-$('saveFirstPin').addEventListener('click',()=>{
-  const p=$('pinInput').value,c=$('pinConfirm').value;
-  if(p.length<4){setStatus('lockStatus','Choisis un PIN d’au moins 4 caractères.',false);return}
-  if(p!==c){setStatus('lockStatus','Les deux PIN ne correspondent pas.',false);return}
-  localStorage.setItem(PIN_KEY,pinHash(p));firstPinMode=false;$('pinConfirm').value='';$('lockMessage').textContent='PIN créé. Déverrouille l’application.';$('firstPin').classList.add('hidden');setStatus('lockStatus','PIN créé. Tu peux maintenant déverrouiller.')
-});
-$('lockNow').addEventListener('click',()=>{ $('app').style.display='none';$('lockScreen').style.display='flex';$('pinInput').value='';$('pinConfirm').value='';setStatus('lockStatus','Application verrouillée.') });
-function resetForm(){
-  $('recordForm').reset();$('editId').value='';currentPhoto='';$('formTitle').textContent='Ajouter une fiche';$('saveRecord').textContent='💾 Enregistrer la fiche';$('photoPreviewWrap').classList.add('hidden');$('formStatus').textContent='';
-}
-function editRecord(id){
-  const r=records.find(x=>String(x.id)===String(id));if(!r)return;
-  fields.forEach(k=>$(k).value=safeText(r[k]));
-  $('editId').value=r.id;currentPhoto=r.photo||'';$('formTitle').textContent='Modifier la fiche';$('saveRecord').textContent='💾 Enregistrer les modifications';
-  if(currentPhoto){$('photoPreview').src=currentPhoto;$('photoPreviewWrap').classList.remove('hidden')}else $('photoPreviewWrap').classList.add('hidden');
-  $('recordForm').scrollIntoView({behavior:'smooth',block:'start'});
-}
-$('photo').addEventListener('change',()=>{
-  const file=$('photo').files[0];if(!file)return;
-  if(!file.type.startsWith('image/')){setStatus('formStatus','Choisis un fichier image.',false);return}
-  if(file.size>5*1024*1024){setStatus('formStatus','Image trop lourde (maximum 5 Mo).',false);$('photo').value='';return}
-  const reader=new FileReader();reader.onload=()=>{currentPhoto=reader.result;$('photoPreview').src=currentPhoto;$('photoPreviewWrap').classList.remove('hidden')};reader.readAsDataURL(file);
-});
-$('removePhoto').addEventListener('click',()=>{currentPhoto='';$('photo').value='';$('photoPreviewWrap').classList.add('hidden')});
-$('cancelEdit').addEventListener('click',resetForm);
-$('newRecord').addEventListener('click',()=>{resetForm();$('name').focus();$('recordForm').scrollIntoView({behavior:'smooth',block:'start'})});
-$('recordForm').addEventListener('submit',e=>{
-  e.preventDefault();const oldId=$('editId').value;
-  const obj={};fields.forEach(k=>obj[k]=$(k).value.trim());
-  obj.photo=currentPhoto;
-  if(oldId){const idx=records.findIndex(r=>String(r.id)===String(oldId));if(idx>=0){obj.id=records[idx].id;obj.createdAt=records[idx].createdAt;records[idx]=normalizeRecord(obj)}}
-  else {obj.id=uid();obj.createdAt=Date.now();records.unshift(normalizeRecord(obj))}
-  if(saveData()){setStatus('formStatus','Fiche enregistrée.');resetForm()}
-});
-function displayValue(label,value,kind='text'){
-  if(!value)return '';
-  if(kind==='url'){const u=validUrl(value);return `<div><label>${label}</label><div class="fieldvalue">${u?`<a href="${escapeHtml(u)}" target="_blank" rel="noopener noreferrer">${escapeHtml(value)}</a>`:escapeHtml(value)}</div></div>`}
-  return `<div><label>${label}</label><div class="fieldvalue">${escapeHtml(value)}</div><div class="actions"><button class="secondary small" data-copy="${escapeHtml(value)}">📋 Copier</button></div></div>`;
-}
-function renderRecords(){
-  $('countRecords').textContent=records.length;
-  $('countPhotos').textContent=records.filter(r=>!!r.photo).length;
-  const query=$('search').value.toLowerCase().trim(),sort=$('sort').value;
-  let list=records.filter(r=>fields.some(k=>safeText(r[k]).toLowerCase().includes(query)));
-  list.sort((a,b)=>sort==='newest'?(Number(b.createdAt)||0)-(Number(a.createdAt)||0):sort==='oldest'?(Number(a.createdAt)||0)-(Number(b.createdAt)||0):safeText(a.name).localeCompare(safeText(b.name),'fr'));
-  const container=$('records');
-  if(!list.length){container.innerHTML='<div class="empty">Aucune fiche trouvée. Ajoute une fiche ou importe ton fichier de sauvegarde JSON.</div>';return}
-  container.innerHTML=list.map(r=>{
-    const title=escapeHtml(r.name||'Fiche sans nom'),meta=escapeHtml([r.application,r.personName].filter(Boolean).join(' • '));
-    const avatar=r.photo?`<img class="avatar" src="${escapeHtml(r.photo)}" alt="">`:'<div class="avatar">🔑</div>';
-    let content='';
-    content+=displayValue('Nom de la personne',r.personName);
-    content+=displayValue('Application / fournisseur',r.application);
-    content+=displayValue('Serveur principal',r.url1,'url');
-    content+=displayValue('Utilisateur',r.username);
-    content+=displayValue('Mot de passe',r.password);
-    content+=displayValue('URL secondaire',r.url2,'url');
-    content+=displayValue('URL application / portail',r.appUrl1,'url');
-    content+=displayValue('Clé / code',r.key);
-    content+=displayValue('Clé application',r.appKey);
-    content+=displayValue('Clé application 2',r.appKey2);
-    content+=displayValue('Adresse MAC',r.mac);
-    content+=displayValue('Adresse MAC 2',r.mac2);
-    content+=displayValue('Date de début',r.startDate);
-    content+=displayValue('Durée / échéance',r.duration);
-    content+=displayValue('Téléphone / WhatsApp',r.whatsapp);
-    content+=displayValue('Remarques',r.remark);
-    if(r.photo)content+=`<img class="photo-large" src="${escapeHtml(r.photo)}" alt="Photo de ${title}">`;
-    return `<details class="record"><summary>${avatar}<div class="summarytext"><div class="recordname">${title}</div><div class="meta">${meta||'Appuyer pour afficher les détails'}</div></div><span>⌄</span></summary><div class="body"><div class="grid">${content}</div><div class="actions"><button class="small" data-edit="${escapeHtml(r.id)}">✏️ Modifier</button><button class="secondary small" data-open="${escapeHtml(r.id)}">🌐 Ouvrir le serveur</button><button class="danger small" data-delete="${escapeHtml(r.id)}">🗑️ Supprimer</button></div></div></details>`
-  }).join('');
-}
-$('records').addEventListener('click',async e=>{
-  const copy=e.target.closest('[data-copy]');if(copy){try{await navigator.clipboard.writeText(copy.dataset.copy);setStatus('globalStatus','Copié dans le presse-papiers.')}catch{const t=document.createElement('textarea');t.value=copy.dataset.copy;document.body.appendChild(t);t.select();document.execCommand('copy');t.remove();setStatus('globalStatus','Copié.')}return}
-  const ed=e.target.closest('[data-edit]');if(ed){editRecord(ed.dataset.edit);return}
-  const del=e.target.closest('[data-delete]');if(del){const r=records.find(x=>String(x.id)===String(del.dataset.delete));if(r&&confirm('Supprimer la fiche « '+(r.name||'sans nom')+' » ?')){records=records.filter(x=>String(x.id)!==String(del.dataset.delete));saveData()}return}
-  const op=e.target.closest('[data-open]');if(op){const r=records.find(x=>String(x.id)===String(op.dataset.open));const u=validUrl(r?.url1)||validUrl(r?.url2)||validUrl(r?.appUrl1);if(u)window.open(u,'_blank','noopener,noreferrer');else alert('Aucune URL valide enregistrée dans cette fiche.')}
-});
-$('search').addEventListener('input',renderRecords);$('sort').addEventListener('change',renderRecords);
-function downloadFile(filename,content,type){
-  const blob=new Blob([content],{type});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download=filename;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1500)
-}
-$('exportButton').addEventListener('click',()=>downloadFile('mes-acces-sauvegarde.json',JSON.stringify(records,null,2),'application/json;charset=utf-8'));
-$('exportTxtButton').addEventListener('click',()=>downloadFile('mes-acces-sauvegarde.txt',JSON.stringify(records,null,2),'text/plain;charset=utf-8'));
-$('importButton').addEventListener('click',()=>$('importFile').click());
-$('importFile').addEventListener('change',async()=>{
-  const file=$('importFile').files[0];if(!file)return;
-  try{
-    const parsed=JSON.parse(await file.text());
-    const incoming=Array.isArray(parsed)?parsed:(Array.isArray(parsed.records)?parsed.records:null);
-    if(!incoming)throw new Error('Le fichier ne contient pas une liste de fiches.');
-    const normalized=incoming.map(normalizeRecord);
-    const choice=confirm(`Le fichier contient ${normalized.length} fiche(s).\\nOK = remplacer les fiches actuelles.\\nAnnuler = ajouter les fiches à la suite.`);
-    if(choice)records=normalized;
-    else{
-      const existing=new Set(records.map(r=>String(r.id)));
-      normalized.forEach(r=>{if(existing.has(String(r.id)))r.id=uid();records.push(r)});
-    }
-    if(saveData())setStatus('globalStatus',`${normalized.length} fiche(s) importée(s).`);
-  }catch(err){setStatus('globalStatus','Import impossible : '+err.message,false)}
-  $('importFile').value='';
-});
-$('openNexon').addEventListener('click',()=>{
-  const u=validUrl(localStorage.getItem(NEXON_KEY)||$('nexonUrl').value);
-  if(u)window.open(u,'_blank','noopener,noreferrer');else{setStatus('toolsStatus','Renseigne d’abord l’adresse Nexon, puis enregistre-la.',false);$('nexonUrl').focus()}
-});
-$('saveNexon').addEventListener('click',()=>{
-  const v=$('nexonUrl').value.trim();if(v&&!validUrl(v)){setStatus('toolsStatus','Adresse invalide : utilise une adresse http:// ou https://.',false);return}
-  localStorage.setItem(NEXON_KEY,v);setStatus('toolsStatus','Adresse Nexon enregistrée.')
-});
-$('showConverter').addEventListener('click',()=>$('converter').classList.toggle('hidden'));
-$('makeM3u').addEventListener('click',()=>{
-  let base=$('xtreamUrl').value.trim().replace(/\/+$/,'');
-  const user=$('xtreamUser').value.trim(),pass=$('xtreamPass').value.trim();
-  if(!base||!user||!pass){setStatus('toolsStatus','Remplis le serveur, l’utilisateur et le mot de passe.',false);return}
-  if(!/^https?:\/\//i.test(base)){setStatus('toolsStatus','Le serveur doit commencer par http:// ou https://.',false);return}
-  const link=base+'/get.php?username='+encodeURIComponent(user)+'&password='+encodeURIComponent(pass)+'&type=m3u_plus&output=ts';
-  $('m3uOutput').value=link;setStatus('toolsStatus','Lien M3U généré.')
-});
-$('copyM3u').addEventListener('click',async()=>{
-  const val=$('m3uOutput').value;if(!val){setStatus('toolsStatus','Génère d’abord un lien M3U.',false);return}
-  try{await navigator.clipboard.writeText(val);setStatus('toolsStatus','Lien M3U copié.')}catch{$('m3uOutput').select();document.execCommand('copy');setStatus('toolsStatus','Lien M3U copié.')}
-});
-$('changePin').addEventListener('click',()=>{
-  const old=prompt('Entre le PIN actuel :');if(old===null)return;
-  if(pinHash(old)!==localStorage.getItem(PIN_KEY)){alert('PIN incorrect.');return}
-  const p=prompt('Nouveau PIN (au moins 4 caractères) :');if(p===null)return;
-  if(p.length<4){alert('Le PIN doit contenir au moins 4 caractères.');return}
-  const c=prompt('Confirme le nouveau PIN :');if(c!==p){alert('Les PIN ne correspondent pas.');return}
-  localStorage.setItem(PIN_KEY,pinHash(p));setStatus('toolsStatus','PIN modifié.')
-});
-$('deleteAll').addEventListener('click',()=>{
-  if(!confirm('Supprimer définitivement toutes les fiches de ce navigateur ? Exporte une sauvegarde avant si nécessaire.'))return;
-  if(!confirm('Dernière confirmation : supprimer toutes les fiches ?'))return;
-  records=[];saveData();resetForm()
-});
 
-const FACE_KEY='mes-acces-iptv-v3-face-credential';
-function bytesToBase64Url(bytes){
-  let binary='';for(const b of new Uint8Array(bytes))binary+=String.fromCharCode(b);
-  return btoa(binary).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'');
+const PIN = "1157";
+
+const STORAGE_KEY = "mesAcces";
+
+let accounts = [];
+
+let editIndex = -1;
+
+let currentPhoto = "";
+
+/* =========================
+   CHARGEMENT
+========================= */
+
+function loadData(){
+
+    try{
+
+        const saved =
+            localStorage.getItem(STORAGE_KEY);
+
+        if(saved){
+
+            const data =
+                JSON.parse(saved);
+
+            if(Array.isArray(data)){
+
+                accounts = data;
+
+            }else{
+
+                accounts = [];
+
+            }
+
+        }else{
+
+            accounts = [];
+
+        }
+
+    }catch(error){
+
+        console.error(error);
+
+        accounts = [];
+
+    }
+
+    updateUserCount();
+    renderAccounts();
+
 }
-function base64UrlToBytes(value){
-  const padded=value.replace(/-/g,'+').replace(/_/g,'/')+'==='.slice((value.length+3)%4);
-  const binary=atob(padded);return Uint8Array.from(binary,c=>c.charCodeAt(0));
+
+/* =========================
+   SAUVEGARDE
+========================= */
+
+function saveData(){
+
+    try{
+
+        localStorage.setItem(
+            STORAGE_KEY,
+            JSON.stringify(accounts)
+        );
+
+    }catch(error){
+
+        alert(
+            "Impossible de sauvegarder les données."
+        );
+
+    }
+
 }
-function randomBytes(length=32){
-  const bytes=new Uint8Array(length);crypto.getRandomValues(bytes);return bytes;
+
+/* =========================
+   LOGIN
+========================= */
+
+function login(){
+
+    const pin =
+        document
+            .getElementById("pinInput")
+            .value;
+
+    if(pin === PIN){
+
+        document
+            .getElementById("loginScreen")
+            .classList
+            .add("hidden");
+
+        document
+            .getElementById("loginError")
+            .classList
+            .add("hidden");
+
+        loadData();
+
+    }else{
+
+        document
+            .getElementById("loginError")
+            .classList
+            .remove("hidden");
+
+        document
+            .getElementById("pinInput")
+            .value = "";
+
+        document
+            .getElementById("pinInput")
+            .focus();
+
+    }
+
 }
-async function setupFaceId(){
-  if(!window.PublicKeyCredential||!navigator.credentials){
-    alert('La biométrie n’est pas disponible dans ce navigateur. Essaie Safari sur iPhone, avec le site publié en HTTPS.');
-    return;
-  }
-  if(!window.isSecureContext){
-    alert('La fonction Face ID nécessite une page sécurisée en HTTPS.');
-    return;
-  }
-  try{
-    const userId=randomBytes(16);
-    const credential=await navigator.credentials.create({publicKey:{
-      challenge:randomBytes(),
-      rp:{name:'Mes accès IPTV',id:location.hostname},
-      user:{id:userId,name:'utilisateur-mes-acces',displayName:'Mes accès IPTV'},
-      pubKeyCredParams:[{type:'public-key',alg:-7},{type:'public-key',alg:-257}],
-      authenticatorSelection:{authenticatorAttachment:'platform',residentKey:'preferred',userVerification:'required'},
-      timeout:60000,
-      attestation:'none'
-    }});
-    if(!credential)throw new Error('Aucune clé biométrique créée.');
-    localStorage.setItem(FACE_KEY,bytesToBase64Url(credential.rawId));
-    alert('Configuration biométrique enregistrée sur cet appareil. Tu pourras essayer le bouton Face ID sur l’écran de verrouillage.');
-    setStatus('toolsStatus','Biométrie configurée sur cet appareil.');
-  }catch(err){
-    alert('Configuration Face ID annulée ou impossible : '+(err.message||err));
-  }
+
+document
+    .getElementById("pinInput")
+    .addEventListener(
+        "keydown",
+        function(event){
+
+            if(event.key === "Enter"){
+
+                login();
+
+            }
+
+        }
+    );
+
+/* =========================
+   COMPTEUR
+========================= */
+
+function updateUserCount(){
+
+    const count =
+        accounts.length;
+
+    document
+        .getElementById("userCount")
+        .textContent =
+            "👥 " +
+            count +
+            " utilisateur" +
+            (
+                count > 1
+                    ? "s"
+                    : ""
+            );
+
 }
-async function unlockWithFaceId(){
-  const saved=localStorage.getItem(FACE_KEY);
-  if(!saved){alert('Configure d’abord Face ID depuis Outils, après avoir déverrouillé avec ton PIN.');return}
-  if(!window.PublicKeyCredential||!navigator.credentials||!window.isSecureContext){
-    alert('Face ID nécessite un navigateur compatible et une page HTTPS.');return;
-  }
-  try{
-    const credential=await navigator.credentials.get({publicKey:{
-      challenge:randomBytes(),
-      allowCredentials:[{type:'public-key',id:base64UrlToBytes(saved)}],
-      userVerification:'required',
-      timeout:60000
-    }});
-    if(credential&&bytesToBase64Url(credential.rawId)===saved){
-      showApp();
-      setStatus('globalStatus','Déverrouillé avec la biométrie.');
-    }else alert('La vérification biométrique n’a pas abouti.');
-  }catch(err){
-    alert('Face ID n’a pas pu déverrouiller l’application : '+(err.message||err));
-  }
+
+/* =========================
+   FORMULAIRE
+========================= */
+
+function showAddForm(){
+
+    editIndex = -1;
+
+    clearForm();
+
+    document
+        .getElementById("formTitle")
+        .textContent =
+            "➕ Nouvel accès";
+
+    document
+        .getElementById("formCard")
+        .classList
+        .remove("hidden");
+
+    updateDatePreview();
+
+    window.scrollTo({
+        top:0,
+        behavior:"smooth"
+    });
+
 }
-$('faceUnlock').addEventListener('click',unlockWithFaceId);
-$('setupFace').addEventListener('click',setupFaceId);
+
+function clearForm(){
+
+    document.getElementById("name").value = "";
+    document.getElementById("username").value = "";
+    document.getElementById("password").value = "";
+    document.getElementById("url1").value = "";
+    document.getElementById("url2").value = "";
+    document.getElementById("remark").value = "";
+    document.getElementById("duration").value = "";
+
+    document
+        .getElementById("isApplication")
+        .checked = false;
+
+    document.getElementById("appUrl1").value = "";
+    document.getElementById("mac").value = "";
+    document.getElementById("mac2").value = "";
+    document.getElementById("appKey").value = "";
+    document.getElementById("appKey2").value = "";
+
+    document
+        .getElementById("applicationFields")
+        .classList
+        .add("hidden");
+
+    currentPhoto = "";
+
+    document
+        .getElementById("photoContainer")
+        .classList
+        .add("hidden");
+
+    document
+        .getElementById("photoPreview")
+        .removeAttribute("src");
+
+    document
+        .getElementById("photoLibraryInput")
+        .value = "";
+
+    document
+        .getElementById("cameraInput")
+        .value = "";
+
+    document
+        .getElementById("startDateInfo")
+        .textContent =
+            "📅 La date de début sera enregistrée à l'ajout.";
+
+    document
+        .getElementById("expiryPreview")
+        .textContent =
+            "📅 La date d'expiration sera calculée automatiquement.";
+
+}
+
+function cancelForm(){
+
+    document
+        .getElementById("formCard")
+        .classList
+        .add("hidden");
+
+    editIndex = -1;
+
+    clearForm();
+
+}
+
+function toggleApplicationFields(){
+
+    const checked =
+        document
+            .getElementById("isApplication")
+            .checked;
+
+    document
+        .getElementById("applicationFields")
+        .classList
+        .toggle(
+            "hidden",
+            !checked
+        );
+
+}
+
+/* =========================
+   MOT DE PASSE
+========================= */
+
+function togglePassword(){
+
+    const field =
+        document
+            .getElementById("password");
+
+    field.type =
+        field.type === "password"
+            ? "text"
+            : "password";
+
+}
+
+/* =========================
+   COPIE
+========================= */
+
+function copyText(text,button){
+
+    const value =
+        String(
+            text === null ||
+            text === undefined
+                ? ""
+                : text
+        );
+
+    if(!value){
+
+        alert("Rien à copier.");
+
+        return;
+
+    }
+
+    let copied = false;
+
+    const textarea =
+        document.createElement("textarea");
+
+    textarea.value = value;
+    textarea.setAttribute("readonly","");
+    textarea.style.position = "fixed";
+    textarea.style.left = "-9999px";
+    textarea.style.top = "0";
+    textarea.style.opacity = "0";
+
+    document.body.appendChild(textarea);
+
+    textarea.focus();
+    textarea.select();
+    textarea.setSelectionRange(
+        0,
+        textarea.value.length
+    );
+
+    try{
+
+        copied =
+            document.execCommand("copy");
+
+    }catch(error){
+
+        copied = false;
+
+    }
+
+    document.body.removeChild(textarea);
+
+    if(copied){
+
+        showCopied(button);
+
+        return;
+
+    }
+
+    if(
+        navigator.clipboard &&
+        window.isSecureContext
+    ){
+
+        navigator.clipboard
+            .writeText(value)
+            .then(function(){
+
+                showCopied(button);
+
+            })
+            .catch(function(){
+
+                showCopyFallback(value);
+
+            });
+
+        return;
+
+    }
+
+    showCopyFallback(value);
+
+}
+
+function showCopied(button){
+
+    if(!button){
+
+        return;
+
+    }
+
+    const oldText =
+        button.textContent;
+
+    button.textContent =
+        "✅ Copié";
+
+    button.style.background =
+        "#d1f7dc";
+
+    button.style.color =
+        "#16803c";
+
+    setTimeout(function(){
+
+        button.textContent =
+            oldText;
+
+        button.style.background =
+            "";
+
+        button.style.color =
+            "";
+
+    },1200);
+
+}
+
+function copyField(id,button){
+
+    const field =
+        document.getElementById(id);
+
+    if(!field){
+
+        return;
+
+    }
+
+    copyText(
+        field.value,
+        button
+    );
+
+}
+
+function showCopyFallback(text){
+
+    const modal =
+        document.getElementById("copyModal");
+
+    const input =
+        document.getElementById("copyFallback");
+
+    input.value = text;
+
+    modal.classList.remove("hidden");
+
+    setTimeout(function(){
+
+        selectFallback();
+
+    },100);
+
+}
+
+function selectFallback(){
+
+    const input =
+        document.getElementById("copyFallback");
+
+    input.focus();
+    input.select();
+
+    try{
+
+        input.setSelectionRange(
+            0,
+            input.value.length
+        );
+
+    }catch(error){}
+
+}
+
+function closeCopyModal(){
+
+    document
+        .getElementById("copyModal")
+        .classList
+        .add("hidden");
+
+}
+
+/* =========================
+   PHOTO
+========================= */
+
+function choosePhoto(){
+
+    document
+        .getElementById("photoLibraryInput")
+        .click();
+
+}
+
+function takePhoto(){
+
+    document
+        .getElementById("cameraInput")
+        .click();
+
+}
+
+function handlePhoto(event){
+
+    const file =
+        event.target.files[0];
+
+    if(!file){
+
+        return;
+
+    }
+
+    if(
+        !file.type.startsWith("image/")
+    ){
+
+        alert(
+            "Veuillez sélectionner une image."
+        );
+
+        return;
+
+    }
+
+    const reader =
+        new FileReader();
+
+    reader.onload =
+        function(e){
+
+            currentPhoto =
+                e.target.result;
+
+            document
+                .getElementById("photoPreview")
+                .src =
+                    currentPhoto;
+
+            document
+                .getElementById("photoContainer")
+                .classList
+                .remove("hidden");
+
+        };
+
+    reader.readAsDataURL(file);
+
+}
+
+function removePhoto(){
+
+    currentPhoto = "";
+
+    document
+        .getElementById("photoPreview")
+        .removeAttribute("src");
+
+    document
+        .getElementById("photoContainer")
+        .classList
+        .add("hidden");
+
+}
+
+/* =========================
+   DATES
+========================= */
+
+function calculateExpiryDate(
+    startDate,
+    duration
+){
+
+    if(
+        !startDate ||
+        !duration
+    ){
+
+        return null;
+
+    }
+
+    const date =
+        new Date(startDate);
+
+    if(
+        isNaN(date.getTime())
+    ){
+
+        return null;
+
+    }
+
+    date.setHours(
+        0,
+        0,
+        0,
+        0
+    );
+
+    date.setDate(
+        date.getDate() +
+        Number(duration)
+    );
+
+    return date;
+
+}
+
+function formatDate(date){
+
+    if(!date){
+
+        return "";
+
+    }
+
+    return date.toLocaleDateString(
+        "fr-BE"
+    );
+
+}
+
+function updateDatePreview(){
+
+    const duration =
+        parseInt(
+            document
+                .getElementById("duration")
+                .value,
+            10
+        );
+
+    if(
+        !Number.isInteger(duration) ||
+        duration < 1
+    ){
+
+        return;
+
+    }
+
+    let startDate;
+
+    if(editIndex === -1){
+
+        startDate =
+            new Date();
+
+        document
+            .getElementById("startDateInfo")
+            .textContent =
+                "📅 Début : aujourd'hui";
+
+    }else{
+
+        startDate =
+            new Date(
+                accounts[editIndex]
+                    .startDate
+            );
+
+        document
+            .getElementById("startDateInfo")
+            .textContent =
+                "📅 Début : " +
+                formatDate(startDate);
+
+    }
+
+    const expiry =
+        calculateExpiryDate(
+            startDate,
+            duration
+        );
+
+    document
+        .getElementById("expiryPreview")
+        .textContent =
+            "📅 Expiration : " +
+            formatDate(expiry);
+
+}
+
+document
+    .getElementById("duration")
+    .addEventListener(
+        "input",
+        updateDatePreview
+    );
+
+/* =========================
+   ENREGISTRER
+========================= */
+
+function saveAccount(){
+
+    const name =
+        document
+            .getElementById("name")
+            .value
+            .trim();
+
+    if(!name){
+
+        alert(
+            "Veuillez mettre un Nom / Prénom."
+        );
+
+        return;
+
+    }
+
+    const username =
+        document
+            .getElementById("username")
+            .value
+            .trim();
+
+    const password =
+        document
+            .getElementById("password")
+            .value;
+
+    const url1 =
+        document
+            .getElementById("url1")
+            .value
+            .trim();
+
+    const url2 =
+        document
+            .getElementById("url2")
+            .value
+            .trim();
+
+    const remark =
+        document
+            .getElementById("remark")
+            .value
+            .trim();
+
+    const duration =
+        parseInt(
+            document
+                .getElementById("duration")
+                .value,
+            10
+        ) || 0;
+
+    const isApplication =
+        document
+            .getElementById("isApplication")
+            .checked;
+
+    const appUrl1 =
+        document
+            .getElementById("appUrl1")
+            .value
+            .trim();
+
+    const mac =
+        document
+            .getElementById("mac")
+            .value
+            .trim();
+
+    const mac2 =
+        document
+            .getElementById("mac2")
+            .value
+            .trim();
+
+    const appKey =
+        document
+            .getElementById("appKey")
+            .value
+            .trim();
+
+    const appKey2 =
+        document
+            .getElementById("appKey2")
+            .value
+            .trim();
+
+    if(editIndex === -1){
+
+        accounts.push({
+
+            name:name,
+            username:username,
+            password:password,
+            url1:url1,
+            url2:url2,
+            remark:remark,
+            duration:duration,
+            startDate:
+                new Date().toISOString(),
+            isApplication:
+                isApplication,
+            appUrl1:
+                appUrl1,
+            mac:
+                mac,
+            mac2:
+                mac2,
+            appKey:
+                appKey,
+            appKey2:
+                appKey2,
+            photo:
+                currentPhoto
+
+        });
+
+    }else{
+
+        const account =
+            accounts[editIndex];
+
+        account.name =
+            name;
+
+        account.username =
+            username;
+
+        account.password =
+            password;
+
+        account.url1 =
+            url1;
+
+        account.url2 =
+            url2;
+
+        account.remark =
+            remark;
+
+        account.duration =
+            duration;
+
+        account.isApplication =
+            isApplication;
+
+        account.appUrl1 =
+            appUrl1;
+
+        account.mac =
+            mac;
+
+        account.mac2 =
+            mac2;
+
+        account.appKey =
+            appKey;
+
+        account.appKey2 =
+            appKey2;
+
+        account.photo =
+            currentPhoto;
+
+        if(!account.startDate){
+
+            account.startDate =
+                new Date().toISOString();
+
+        }
+
+    }
+
+    saveData();
+    updateUserCount();
+    renderAccounts();
+    cancelForm();
+
+}
+
+/* =========================
+   MODIFIER
+========================= */
+
+function editAccount(index){
+
+    const account =
+        accounts[index];
+
+    if(!account){
+
+        return;
+
+    }
+
+    editIndex = index;
+
+    document
+        .getElementById("formTitle")
+        .textContent =
+            "✏️ Modifier l'accès";
+
+    document
+        .getElementById("name")
+        .value =
+            account.name || "";
+
+    document
+        .getElementById("username")
+        .value =
+            account.username || "";
+
+    document
+        .getElementById("password")
+        .value =
+            account.password || "";
+
+    document
+        .getElementById("url1")
+        .value =
+            account.url1 || "";
+
+    document
+        .getElementById("url2")
+        .value =
+            account.url2 || "";
+
+    document
+        .getElementById("remark")
+        .value =
+            account.remark || "";
+
+    document
+        .getElementById("duration")
+        .value =
+            account.duration || "";
+
+    document
+        .getElementById("isApplication")
+        .checked =
+            !!account.isApplication;
+
+    document
+        .getElementById("appUrl1")
+        .value =
+            account.appUrl1 || "";
+
+    document
+        .getElementById("mac")
+        .value =
+            account.mac || "";
+
+    document
+        .getElementById("mac2")
+        .value =
+            account.mac2 || "";
+
+    document
+        .getElementById("appKey")
+        .value =
+            account.appKey || "";
+
+    document
+        .getElementById("appKey2")
+        .value =
+            account.appKey2 || "";
+
+    toggleApplicationFields();
+
+    currentPhoto =
+        account.photo || "";
+
+    if(currentPhoto){
+
+        document
+            .getElementById("photoPreview")
+            .src =
+                currentPhoto;
+
+        document
+            .getElementById("photoContainer")
+            .classList
+            .remove("hidden");
+
+    }else{
+
+        document
+            .getElementById("photoContainer")
+            .classList
+            .add("hidden");
+
+    }
+
+    document
+        .getElementById("formCard")
+        .classList
+        .remove("hidden");
+
+    updateDatePreview();
+
+    window.scrollTo({
+        top:0,
+        behavior:"smooth"
+    });
+
+}
+
+/* =========================
+   SUPPRIMER
+========================= */
+
+function deleteAccount(index){
+
+    const account =
+        accounts[index];
+
+    if(!account){
+
+        return;
+
+    }
+
+    if(
+        !confirm(
+            "Supprimer l'accès de " +
+            (
+                account.name ||
+                "cet utilisateur"
+            ) +
+            " ?"
+        )
+    ){
+
+        return;
+
+    }
+
+    accounts.splice(
+        index,
+        1
+    );
+
+    saveData();
+    updateUserCount();
+    renderAccounts();
+
+}
+
+/* =========================
+   COMPTE À REBOURS
+========================= */
+
+function getCountdown(account){
+
+    if(
+        !account.duration ||
+        !account.startDate
+    ){
+
+        return {
+            text:"⏳ Aucune durée définie",
+            className:"none"
+        };
+
+    }
+
+    const start =
+        new Date(
+            account.startDate
+        );
+
+    if(
+        isNaN(start.getTime())
+    ){
+
+        return {
+            text:"⏳ Date invalide",
+            className:"none"
+        };
+
+    }
+
+    start.setHours(
+        0,
+        0,
+        0,
+        0
+    );
+
+    const expiry =
+        new Date(start);
+
+    expiry.setDate(
+        expiry.getDate() +
+        Number(account.duration)
+    );
+
+    const today =
+        new Date();
+
+    today.setHours(
+        0,
+        0,
+        0,
+        0
+    );
+
+    const days =
+        Math.ceil(
+            (
+                expiry -
+                today
+            ) /
+            (
+                1000 *
+                60 *
+                60 *
+                24
+            )
+        );
+
+    if(days < 0){
+
+        return {
+            text:
+                "❌ Expiré depuis " +
+                Math.abs(days) +
+                " jour(s)",
+            className:"expired"
+        };
+
+    }
+
+    if(days <= 2){
+
+        return {
+            text:
+                "🔴 " +
+                days +
+                " jour(s) restant(s)",
+            className:"danger"
+        };
+
+    }
+
+    if(days <= 7){
+
+        return {
+            text:
+                "🟠 " +
+                days +
+                " jours restants",
+            className:"warning"
+        };
+
+    }
+
+    return {
+        text:
+            "🟢 " +
+            days +
+            " jours restants",
+        className:"ok"
+    };
+
+}
+
+/* =========================
+   GOOGLE CALENDAR
+========================= */
+
+function googleDate(date){
+
+    return (
+        date.getFullYear() +
+        String(
+            date.getMonth() + 1
+        ).padStart(2,"0") +
+        String(
+            date.getDate()
+        ).padStart(2,"0")
+    );
+
+}
+
+function addToGoogleCalendar(index){
+
+    const account =
+        accounts[index];
+
+    if(!account){
+
+        return;
+
+    }
+
+    const expiry =
+        calculateExpiryDate(
+            account.startDate,
+            account.duration
+        );
+
+    if(!expiry){
+
+        alert(
+            "Il faut définir une durée."
+        );
+
+        return;
+
+    }
+
+    const reminder =
+        new Date(expiry);
+
+    reminder.setDate(
+        reminder.getDate() - 2
+    );
+
+    const start =
+        googleDate(reminder);
+
+    const endDate =
+        new Date(reminder);
+
+    endDate.setDate(
+        endDate.getDate() + 1
+    );
+
+    const end =
+        googleDate(endDate);
+
+    const title =
+        "🔔 Rappel accès - " +
+        (
+            account.name ||
+            "Utilisateur"
+        );
+
+    const details =
+        "Rappel 2 jours avant l'expiration." +
+        "\nExpiration : " +
+        formatDate(expiry);
+
+    const url =
+        "https://calendar.google.com/calendar/render" +
+        "?action=TEMPLATE" +
+        "&text=" +
+        encodeURIComponent(title) +
+        "&dates=" +
+        start +
+        "/" +
+        end +
+        "&details=" +
+        encodeURIComponent(details);
+
+    window.location.href =
+        url;
+
+}
+
+/* =========================
+   URL
+========================= */
+
+function normalizeUrl(url){
+
+    if(!url){
+
+        return "";
+
+    }
+
+    const value =
+        url.trim();
+
+    if(
+        value.startsWith("http://") ||
+        value.startsWith("https://")
+    ){
+
+        return value;
+
+    }
+
+    return "https://" + value;
+
+}
+
+/* =========================
+   AFFICHAGE + TRI ALPHABÉTIQUE
+========================= */
+
+function renderAccounts(){
+
+    const list =
+        document.getElementById(
+            "accountsList"
+        );
+
+    const search =
+        document
+            .getElementById(
+                "searchInput"
+            )
+            .value
+            .toLowerCase()
+            .trim();
+
+    const sortedAccounts =
+        accounts
+            .map(function(account,index){
+
+                return {
+                    account:account,
+                    index:index
+                };
+
+            })
+            .sort(function(a,b){
+
+                const nameA =
+                    String(
+                        a.account.name || ""
+                    ).trim();
+
+                const nameB =
+                    String(
+                        b.account.name || ""
+                    ).trim();
+
+                return nameA.localeCompare(
+                    nameB,
+                    "fr",
+                    {
+                        sensitivity:"base",
+                        numeric:true
+                    }
+                );
+
+            });
+
+    list.innerHTML = "";
+
+    const filtered =
+        sortedAccounts.filter(
+            function(item){
+
+                if(!search){
+
+                    return true;
+
+                }
+
+                const a =
+                    item.account;
+
+                const text = [
+
+                    a.name,
+                    a.username,
+                    a.password,
+                    a.url1,
+                    a.url2,
+                    a.remark,
+                    a.appUrl1,
+                    a.mac,
+                    a.mac2,
+                    a.appKey,
+                    a.appKey2
+
+                ]
+                .join(" ")
+                .toLowerCase();
+
+                return text.includes(
+                    search
+                );
+
+            }
+        );
+
+    if(filtered.length === 0){
+
+        list.innerHTML =
+            '<div class="card empty">' +
+            "Aucun accès trouvé." +
+            "</div>";
+
+        return;
+
+    }
+
+    filtered.forEach(
+        function(item){
+
+            const account =
+                item.account;
+
+            const index =
+                item.index;
+
+            const countdown =
+                getCountdown(account);
+
+            const div =
+                document.createElement(
+                    "div"
+                );
+
+            div.className =
+                "account";
+
+            let html = "";
+
+            /*
+               NOM / PRÉNOM VISIBLE
+               UNIQUEMENT
+            */
+
+            html +=
+                '<div class="accountHeader" ' +
+                'onclick="toggleAccount(' +
+                index +
+                ')">' +
+
+                "<h2>" +
+                "👤 " +
+                escapeHtml(
+                    account.name ||
+                    "Sans nom"
+                ) +
+                "</h2>" +
+
+                '<span class="accountArrow">▼</span>' +
+
+                "</div>" +
+
+                '<div class="accountContent">';
+
+            html +=
+                '<div class="countdown ' +
+                countdown.className +
+                '">' +
+                escapeHtml(
+                    countdown.text
+                ) +
+                "</div>";
+
+            if(account.duration){
+
+                html +=
+                    '<div class="accountLine">' +
+                    '<div class="accountLabel">⏳ Durée</div>' +
+                    '<div class="accountValue">' +
+                    escapeHtml(
+                        account.duration +
+                        " jours"
+                    ) +
+                    "</div>" +
+                    "</div>";
+
+            }
+
+            if(
+                account.duration &&
+                account.startDate
+            ){
+
+                const expiry =
+                    calculateExpiryDate(
+                        account.startDate,
+                        account.duration
+                    );
+
+                html +=
+                    '<div class="accountLine">' +
+                    '<div class="accountLabel">📅 Expiration</div>' +
+                    '<div class="accountValue">' +
+                    escapeHtml(
+                        formatDate(expiry)
+                    ) +
+                    "</div>" +
+                    "</div>";
+
+                html +=
+                    '<div class="calendarBox">' +
+                    "<strong>📆 Rappel calendrier</strong>" +
+                    '<button ' +
+                    'class="calendarButton" ' +
+                    'onclick="addToGoogleCalendar(' +
+                    index +
+                    ')">' +
+                    "📅 Ajouter au calendrier Google" +
+                    "</button>" +
+                    "</div>";
+
+            }
+
+            if(account.username){
+
+                html +=
+                    '<div class="accountLine">' +
+
+                    '<div class="accountLabel">' +
+                    "Utilisateur" +
+                    "</div>" +
+
+                    '<div class="copyArea">' +
+
+                    '<input ' +
+                    'class="copyValue" ' +
+                    'readonly ' +
+                    'value="' +
+                    escapeHtml(
+                        account.username
+                    ) +
+                    '" ' +
+                    'onclick="this.select()">' +
+
+                    '<button ' +
+                    'class="copyBtn" ' +
+                    'onclick="copyText(' +
+                    jsString(
+                        account.username
+                    ) +
+                    ',this)">' +
+
+                    "📋" +
+
+                    "</button>" +
+
+                    "</div>" +
+
+                    "</div>";
+
+            }
+
+            if(account.password){
+
+                html +=
+                    '<div class="accountLine">' +
+
+                    '<div class="accountLabel">' +
+                    "Mot de passe" +
+                    "</div>" +
+
+                    '<div class="copyArea">' +
+
+                    '<input ' +
+                    'id="password-' +
+                    index +
+                    '" ' +
+                    'class="copyValue" ' +
+                    'type="password" ' +
+                    'readonly ' +
+                    'value="' +
+                    escapeHtml(
+                        account.password
+                    ) +
+                    '">' +
+
+                    '<button ' +
+                    'class="copyBtn" ' +
+                    'onclick="showAccountPassword(' +
+                    index +
+                    ',this)">' +
+
+                    "👁️" +
+
+                    "</button>" +
+
+                    '<button ' +
+                    'class="copyBtn" ' +
+                    'onclick="copyText(' +
+                    jsString(
+                        account.password
+                    ) +
+                    ',this)">' +
+
+                    "📋" +
+
+                    "</button>" +
+
+                    "</div>" +
+
+                    "</div>";
+
+            }
+
+            if(account.url1){
+
+                const url1 =
+                    normalizeUrl(
+                        account.url1
+                    );
+
+                html +=
+                    '<div class="accountLine">' +
+
+                    '<div class="accountLabel">' +
+                    "URL 1" +
+                    "</div>" +
+
+                    '<div class="copyArea">' +
+
+                    '<a ' +
+                    'class="urlLink" ' +
+                    'href="' +
+                    escapeHtml(url1) +
+                    '" ' +
+                    'target="_blank" ' +
+                    'rel="noopener noreferrer">' +
+
+                    escapeHtml(
+                        account.url1
+                    ) +
+
+                    "</a>" +
+
+                    '<button ' +
+                    'class="copyBtn" ' +
+                    'onclick="copyText(' +
+                    jsString(
+                        account.url1
+                    ) +
+                    ',this)">' +
+
+                    "📋" +
+
+                    "</button>" +
+
+                    "</div>" +
+
+                    "</div>";
+
+            }
+
+            if(account.url2){
+
+                const url2 =
+                    normalizeUrl(
+                        account.url2
+                    );
+
+                html +=
+                    '<div class="accountLine">' +
+
+                    '<div class="accountLabel">' +
+                    "URL 2" +
+                    "</div>" +
+
+                    '<div class="copyArea">' +
+
+                    '<a ' +
+                    'class="urlLink" ' +
+                    'href="' +
+                    escapeHtml(url2) +
+                    '" ' +
+                    'target="_blank" ' +
+                    'rel="noopener noreferrer">' +
+
+                    escapeHtml(
+                        account.url2
+                    ) +
+
+                    "</a>" +
+
+                    '<button ' +
+                    'class="copyBtn" ' +
+                    'onclick="copyText(' +
+                    jsString(
+                        account.url2
+                    ) +
+                    ',this)">' +
+
+                    "📋" +
+
+                    "</button>" +
+
+                    "</div>" +
+
+                    "</div>";
+
+            }
+
+            if(account.remark){
+
+                html +=
+                    '<div class="accountLine">' +
+
+                    '<div class="accountLabel">' +
+                    "📝 Remarque" +
+                    "</div>" +
+
+                    '<div class="copyArea">' +
+
+                    '<textarea ' +
+                    'class="copyValue" ' +
+                    'readonly ' +
+                    'onclick="this.select()">' +
+
+                    escapeHtml(
+                        account.remark
+                    ) +
+
+                    '</textarea>' +
+
+                    '<button ' +
+                    'class="copyBtn" ' +
+                    'onclick="copyText(' +
+                    jsString(
+                        account.remark
+                    ) +
+                    ',this)">' +
+
+                    "📋" +
+
+                    "</button>" +
+
+                    "</div>" +
+
+                    "</div>";
+
+            }
+
+            if(account.isApplication){
+
+                html +=
+                    "<hr>" +
+
+                    '<div class="accountLabel">' +
+                    "📱 APPLICATION" +
+                    "</div>";
+
+                if(account.appUrl1){
+
+                    const appUrl =
+                        normalizeUrl(
+                            account.appUrl1
+                        );
+
+                    html +=
+                        '<div class="accountLine">' +
+
+                        '<div class="accountLabel">' +
+                        "URL application" +
+                        "</div>" +
+
+                        '<div class="copyArea">' +
+
+                        '<a ' +
+                        'class="urlLink" ' +
+                        'href="' +
+                        escapeHtml(appUrl) +
+                        '" ' +
+                        'target="_blank" ' +
+                        'rel="noopener noreferrer">' +
+
+                        escapeHtml(
+                            account.appUrl1
+                        ) +
+
+                        "</a>" +
+
+                        '<button ' +
+                        'class="copyBtn" ' +
+                        'onclick="copyText(' +
+                        jsString(
+                            account.appUrl1
+                        ) +
+                        ',this)">' +
+
+                        "📋" +
+
+                        "</button>" +
+
+                        "</div>" +
+
+                        "</div>";
+
+                }
+
+                if(account.mac){
+
+                    html +=
+                        '<div class="accountLine">' +
+
+                        '<div class="accountLabel">' +
+                        "MAC 1" +
+                        "</div>" +
+
+                        '<div class="copyArea">' +
+
+                        '<input ' +
+                        'class="copyValue" ' +
+                        'readonly ' +
+                        'value="' +
+                        escapeHtml(
+                            account.mac
+                        ) +
+                        '" ' +
+                        'onclick="this.select()">' +
+
+                        '<button ' +
+                        'class="copyBtn" ' +
+                        'onclick="copyText(' +
+                        jsString(
+                            account.mac
+                        ) +
+                        ',this)">' +
+
+                        "📋" +
+
+                        "</button>" +
+
+                        "</div>" +
+
+                        "</div>";
+
+                }
+
+                if(account.mac2){
+
+                    html +=
+                        '<div class="accountLine">' +
+
+                        '<div class="accountLabel">' +
+                        "MAC 2" +
+                        "</div>" +
+
+                        '<div class="copyArea">' +
+
+                        '<input ' +
+                        'class="copyValue" ' +
+                        'readonly ' +
+                        'value="' +
+                        escapeHtml(
+                            account.mac2
+                        ) +
+                        '" ' +
+                        'onclick="this.select()">' +
+
+                        '<button ' +
+                        'class="copyBtn" ' +
+                        'onclick="copyText(' +
+                        jsString(
+                            account.mac2
+                        ) +
+                        ',this)">' +
+
+                        "📋" +
+
+                        "</button>" +
+
+                        "</div>" +
+
+                        "</div>";
+
+                }
+
+                if(account.appKey){
+
+                    html +=
+                        '<div class="accountLine">' +
+
+                        '<div class="accountLabel">' +
+                        "Clé 1" +
+                        "</div>" +
+
+                        '<div class="copyArea">' +
+
+                        '<input ' +
+                        'class="copyValue" ' +
+                        'readonly ' +
+                        'value="' +
+                        escapeHtml(
+                            account.appKey
+                        ) +
+                        '" ' +
+                        'onclick="this.select()">' +
+
+                        '<button ' +
+                        'class="copyBtn" ' +
+                        'onclick="copyText(' +
+                        jsString(
+                            account.appKey
+                        ) +
+                        ',this)">' +
+
+                        "📋" +
+
+                        "</button>" +
+
+                        "</div>" +
+
+                        "</div>";
+
+                }
+
+                if(account.appKey2){
+
+                    html +=
+                        '<div class="accountLine">' +
+
+                        '<div class="accountLabel">' +
+                        "Clé 2" +
+                        "</div>" +
+
+                        '<div class="copyArea">' +
+
+                        '<input ' +
+                        'class="copyValue" ' +
+                        'readonly ' +
+                        'value="' +
+                        escapeHtml(
+                            account.appKey2
+                        ) +
+                        '" ' +
+                        'onclick="this.select()">' +
+
+                        '<button ' +
+                        'class="copyBtn" ' +
+                        'onclick="copyText(' +
+                        jsString(
+                            account.appKey2
+                        ) +
+                        ',this)">' +
+
+                        "📋" +
+
+                        "</button>" +
+
+                        "</div>" +
+
+                        "</div>";
+
+                }
+
+            }
+
+            if(account.photo){
+
+                html +=
+                    "<hr>" +
+
+                    '<img ' +
+                    'src="' +
+                    escapeHtml(
+                        account.photo
+                    ) +
+                    '" ' +
+                    'class="photoPreview">';
+
+            }
+
+            html +=
+                '<div class="actions">' +
+
+                '<button ' +
+                'class="secondary" ' +
+                'onclick="editAccount(' +
+                index +
+                ')">' +
+
+                "✏️ Modifier" +
+
+                "</button>" +
+
+                '<button ' +
+                'class="danger" ' +
+                'onclick="deleteAccount(' +
+                index +
+                ')">' +
+
+                "🗑️ Supprimer" +
+
+                "</button>" +
+
+                "</div>";
+
+            html += "</div>";
+
+            div.innerHTML =
+                html;
+
+            list.appendChild(
+                div
+            );
+
+        }
+    );
+
+}
+
+/* =========================
+   OUVRIR / FERMER UNE FICHE
+========================= */
+
+function toggleAccount(index){
+
+    const list =
+        document.getElementById("accountsList");
+
+    const cards =
+        list.querySelectorAll(".account");
+
+    cards.forEach(function(card){
+
+        const header =
+            card.querySelector(".accountHeader");
+
+        if(!header){
+            return;
+        }
+
+        const onclickValue =
+            header.getAttribute("onclick");
+
+        if(
+            onclickValue ===
+            "toggleAccount(" + index + ")"
+        ){
+
+            card.classList.toggle("open");
+
+        }
+
+    });
+
+}
+
+/* =========================
+   MOT DE PASSE AFFICHÉ
+========================= */
+
+function showAccountPassword(
+    index,
+    button
+){
+
+    const input =
+        document.getElementById(
+            "password-" +
+            index
+        );
+
+    if(!input){
+
+        return;
+
+    }
+
+    if(input.type === "password"){
+
+        input.type = "text";
+
+        button.textContent =
+            "🙈";
+
+    }else{
+
+        input.type = "password";
+
+        button.textContent =
+            "👁️";
+
+    }
+
+}
+
+/* =========================
+   SÉCURITÉ
+========================= */
+
+function escapeHtml(value){
+
+    return String(
+        value ?? ""
+    )
+    .replace(
+        /&/g,
+        "&amp;"
+    )
+    .replace(
+        /</g,
+        "&lt;"
+    )
+    .replace(
+        />/g,
+        "&gt;"
+    )
+    .replace(
+        /"/g,
+        "&quot;"
+    )
+    .replace(
+        /'/g,
+        "&#039;"
+    );
+
+}
+
+function jsString(value){
+
+    return JSON
+        .stringify(
+            String(
+                value ?? ""
+            )
+        )
+        .replace(
+            /</g,
+            "\\u003c"
+        );
+
+}
+
+/* =========================
+   EXPORT
+========================= */
+
+function exportData(){
+
+    const data =
+        JSON.stringify(
+            accounts,
+            null,
+            2
+        );
+
+    const blob =
+        new Blob(
+            [data],
+            {
+                type:
+                    "application/json"
+            }
+        );
+
+    const url =
+        URL.createObjectURL(
+            blob
+        );
+
+    const a =
+        document.createElement(
+            "a"
+        );
+
+    a.href = url;
+
+    a.download =
+        "mes-acces-sauvegarde.json";
+
+    document.body.appendChild(a);
+
+    a.click();
+
+    document.body.removeChild(a);
+
+    URL.revokeObjectURL(url);
+
+}
+
+/* =========================
+   IMPORT
+========================= */
+
+function importData(event){
+
+    const file =
+        event.target.files[0];
+
+    if(!file){
+
+        return;
+
+    }
+
+    const reader =
+        new FileReader();
+
+    reader.onload =
+        function(e){
+
+            try{
+
+                const imported =
+                    JSON.parse(
+                        e.target.result
+                    );
+
+                if(
+                    !Array.isArray(
+                        imported
+                    )
+                ){
+
+                    alert(
+                        "Fichier invalide."
+                    );
+
+                    return;
+
+                }
+
+                if(
+                    !confirm(
+                        "Remplacer les accès actuels par cette sauvegarde ?"
+                    )
+                ){
+
+                    return;
+
+                }
+
+                accounts =
+                    imported;
+
+                saveData();
+                updateUserCount();
+                renderAccounts();
+
+                alert(
+                    "✅ Sauvegarde restaurée."
+                );
+
+            }catch(error){
+
+                alert(
+                    "Impossible de lire cette sauvegarde."
+                );
+
+            }
+
+        };
+
+    reader.readAsText(file);
+
+    event.target.value = "";
+
+}
+
+/* =========================
+   ACTUALISATION
+========================= */
+
+setInterval(
+    function(){
+
+        const loginScreen =
+            document.getElementById(
+                "loginScreen"
+            );
+
+        if(
+            loginScreen.classList.contains(
+                "hidden"
+            )
+        ){
+
+            renderAccounts();
+
+        }
+
+    },
+    60000
+);
+
+/* =========================
+   DÉMARRAGE
+========================= */
 
 loadData();
-$('nexonUrl').value=localStorage.getItem(NEXON_KEY)||'';
-initLock();
+
 </script>
+
 </body>
 </html>
