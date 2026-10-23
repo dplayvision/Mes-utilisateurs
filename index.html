@@ -3682,7 +3682,12 @@ async function connectGoogleSync() {
 }
 function cloudDocument() {
   if (!cloudUser || !cloudDb) throw new Error("Connecte-toi d’abord avec Google.");
-  return cloudDb.collection("mesAccesSync").doc(cloudUser.uid);
+  // Chemin correspondant aux règles Firestore :
+  // /users/{uid}/apps/{appId}
+  return cloudDb.collection("users")
+    .doc(cloudUser.uid)
+    .collection("apps")
+    .doc("mesAcces");
 }
 async function uploadCloudData(silent) {
   if (!cloudUser) { if (!silent) alert("Connecte-toi avec Google d’abord."); return; }
