@@ -518,6 +518,9 @@ hr{
 }
 
 </style>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
 </head>
 
 <body>
@@ -591,6 +594,16 @@ hr{
 </header>
 
 <div class="container">
+
+    <div class="card" id="cloudSyncCard">
+        <strong>☁️ Synchronisation entre tes GSM</strong>
+        <p id="cloudSyncStatus" style="font-size:14px;line-height:1.4;">Connecte-toi avec Google pour synchroniser tes accès sur ce site.</p>
+        <button class="secondary" type="button" id="googleSyncLogin" onclick="connectGoogleSync()">🔑 Connecter Google</button>
+        <button class="secondary hidden" type="button" id="googleSyncUpload" onclick="uploadCloudData()">⬆️ Envoyer ces données vers Google</button>
+        <button class="secondary hidden" type="button" id="googleSyncDownload" onclick="downloadCloudData()">⬇️ Récupérer les données Google</button>
+        <button class="secondary hidden" type="button" id="googleSyncLogout" onclick="disconnectGoogleSync()">Déconnecter Google</button>
+        <div style="font-size:12px;color:#666;margin-top:8px;">Les données synchronisées sont associées à ton compte Google. Les mots de passe sont enregistrés dans Firebase : utilise uniquement un compte personnel sécurisé.</div>
+    </div>
 
     <div class="topButtons">
 
@@ -1127,6 +1140,11 @@ function saveData(){
             "Impossible de sauvegarder les données."
         );
 
+    }
+
+    if (cloudUser && !cloudLoading) {
+        clearTimeout(cloudSaveTimer);
+        cloudSaveTimer = setTimeout(function(){ uploadCloudData(true); }, 700);
     }
 
 }
@@ -3600,6 +3618,120 @@ async function loginWithFaceID(){
 
 
 /* =========================
+   SYNCHRONISATION GOOGLE / FIRESTORE
+========================= */
+const mesAccesFirebaseConfig = {
+  apiKey: "AIzaSyD8FfX9uljCWJi1fg3hE5poocXOCAH-H9A",
+  authDomain: "mes-paiements-jeremy.firebaseapp.com",
+  projectId: "mes-paiements-jeremy",
+  storageBucket: "mes-paiements-jeremy.firebasestorage.app",
+  messagingSenderId: "1085958529684",
+  appId: "1:108595852968:web:99e5514798cf0b8f098a81"
+};
+let cloudAuth = null;
+let cloudDb = null;
+let cloudUser = null;
+let cloudLoading = false;
+let cloudSaveTimer = null;
+let cloudReady = false;
+
+function setCloudStatus(message) {
+  const el = document.getElementById("cloudSyncStatus");
+  if (el) el.textContent = message;
+}
+function updateCloudButtons() {
+  document.getElementById("googleSyncLogin").classList.toggle("hidden", !!cloudUser);
+  document.getElementById("googleSyncUpload").classList.toggle("hidden", !cloudUser);
+  document.getElementById("googleSyncDownload").classList.toggle("hidden", !cloudUser);
+  document.getElementById("googleSyncLogout").classList.toggle("hidden", !cloudUser);
+}
+function initCloudSync() {
+  try {
+    if (!firebase.apps.length) firebase.initializeApp(mesAccesFirebaseConfig);
+    cloudAuth = firebase.auth();
+    cloudDb = firebase.firestore();
+    cloudAuth.setPersistence(firebase.auth.Auth.Persistence.LOCAL).catch(()=>{});
+    cloudAuth.onAuthStateChanged(user => {
+      cloudUser = user || null;
+      updateCloudButtons();
+      if (user) setCloudStatus("Connecté : " + (user.email || "compte Google") + ". Choisis d’envoyer les données de ce GSM ou de récupérer celles du cloud.");
+      else setCloudStatus("Non connecté. Connecte-toi avec le même compte Google sur tes deux GSM.");
+    });
+    cloudReady = true;
+  } catch (e) {
+    setCloudStatus("Synchronisation indisponible. Vérifie la configuration Firebase et Firestore.");
+  }
+}
+async function connectGoogleSync() {
+  if (!cloudReady || !cloudAuth) {
+    alert("Firebase n'est pas initialisé. Vérifie la configuration du projet.");
+    return;
+  }
+  try {
+    const provider = new firebase.auth.GoogleAuthProvider();
+    await cloudAuth.signInWithPopup(provider);
+  } catch (e) {
+    if (e.code === "auth/popup-blocked" || e.code === "auth/operation-not-supported-in-this-environment") {
+      try {
+        await cloudAuth.signInWithRedirect(new firebase.auth.GoogleAuthProvider());
+      } catch (err) { alert("Connexion Google impossible : " + (err.message || err)); }
+    } else {
+      alert("Connexion Google impossible : " + (e.message || e));
+    }
+  }
+}
+function cloudDocument() {
+  if (!cloudUser || !cloudDb) throw new Error("Connecte-toi d’abord avec Google.");
+  return cloudDb.collection("mesAccesSync").doc(cloudUser.uid);
+}
+async function uploadCloudData(silent) {
+  if (!cloudUser) { if (!silent) alert("Connecte-toi avec Google d’abord."); return; }
+  try {
+    cloudLoading = true;
+    await cloudDocument().set({
+      accounts: accounts,
+      updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
+      schemaVersion: 1
+    });
+    setCloudStatus("✅ Synchronisation envoyée. Tes données sont disponibles avec ce même compte Google sur l’autre GSM.");
+    if (!silent) alert("Données envoyées vers Google.");
+  } catch (e) {
+    setCloudStatus("Échec de synchronisation : " + (e.message || e));
+    if (!silent) alert("Impossible d’envoyer les données. Vérifie les règles Firestore et la taille des photos. " + (e.message || e));
+  } finally {
+    cloudLoading = false;
+  }
+}
+async function downloadCloudData() {
+  if (!cloudUser) { alert("Connecte-toi avec Google d’abord."); return; }
+  if (!confirm("Remplacer les accès enregistrés sur ce GSM par ceux du cloud Google ? Fais une sauvegarde avant si nécessaire.")) return;
+  try {
+    cloudLoading = true;
+    const snap = await cloudDocument().get();
+    if (!snap.exists || !Array.isArray(snap.data().accounts)) {
+      alert("Aucune sauvegarde Google trouvée pour ce compte.");
+      return;
+    }
+    accounts = snap.data().accounts;
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(accounts));
+    updateUserCount();
+    renderAccounts();
+    setCloudStatus("✅ Données récupérées depuis Google.");
+    alert("Données récupérées.");
+  } catch (e) {
+    setCloudStatus("Échec de récupération : " + (e.message || e));
+    alert("Impossible de récupérer les données. Vérifie les règles Firestore. " + (e.message || e));
+  } finally {
+    cloudLoading = false;
+  }
+}
+async function disconnectGoogleSync() {
+  if (!cloudAuth) return;
+  try { await cloudAuth.signOut(); }
+  catch(e) { alert("Déconnexion impossible : " + (e.message || e)); }
+}
+
+/* =========================
    ACTUALISATION
 ========================= */
 
@@ -3630,6 +3762,7 @@ setInterval(
    DÉMARRAGE
 ========================= */
 
+initCloudSync();
 loadData();
 
 </script>
