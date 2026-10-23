@@ -3689,20 +3689,87 @@ function cloudDocument() {
     .collection("apps")
     .doc("mesAcces");
 }
+// Chaque accès est stocké dans son propre document Firestore : le total peut dépasser 1 Mo.
+function cloudAccountsCollection() {
+  if (!cloudUser || !cloudDb) throw new Error("Connecte-toi d’abord avec Google.");
+  return cloudDb.collection("users").doc(cloudUser.uid)
+    .collection("apps").doc("mesAcces")
+    .collection("accounts");
+}
+function makeCloudId(account, index) {
+  if (account && account._cloudId) return String(account._cloudId);
+  // Identifiant stable conservé dans la fiche après la première synchronisation.
+  return "acc_" + Date.now().toString(36) + "_" + index.toString(36) + "_" +
+    Math.random().toString(36).slice(2, 8);
+}
+function compressPhotoForCloud(dataUrl) {
+  return new Promise((resolve, reject) => {
+    if (!dataUrl || !String(dataUrl).startsWith("data:image/")) return resolve(dataUrl || "");
+    const img = new Image();
+    img.onload = () => {
+      try {
+        const maxSide = 1000;
+        const scale = Math.min(1, maxSide / Math.max(img.naturalWidth || img.width, img.naturalHeight || img.height));
+        const canvas = document.createElement("canvas");
+        canvas.width = Math.max(1, Math.round((img.naturalWidth || img.width) * scale));
+        canvas.height = Math.max(1, Math.round((img.naturalHeight || img.height) * scale));
+        const ctx = canvas.getContext("2d");
+        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+        resolve(canvas.toDataURL("image/jpeg", 0.68));
+      } catch (e) { reject(e); }
+    };
+    img.onerror = () => reject(new Error("Une photo n’a pas pu être compressée."));
+    img.src = dataUrl;
+  });
+}
 async function uploadCloudData(silent) {
   if (!cloudUser) { if (!silent) alert("Connecte-toi avec Google d’abord."); return; }
   try {
     cloudLoading = true;
-    await cloudDocument().set({
-      accounts: accounts,
-      updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
-      schemaVersion: 1
+    setCloudStatus("Préparation des accès et compression des photos…");
+    const col = cloudAccountsCollection();
+    const current = [];
+    for (let i = 0; i < accounts.length; i++) {
+      const account = { ...accounts[i] };
+      account._cloudId = makeCloudId(account, i);
+      if (account.photo) account.photo = await compressPhotoForCloud(account.photo);
+      const json = JSON.stringify(account);
+      if (new Blob([json]).size > 850000) {
+        throw new Error("La fiche « " + (account.name || "sans nom") + " » est encore trop volumineuse. Supprime ou réduis sa photo puis réessaie.");
+      }
+      current.push(account);
+    }
+    // Écrit chaque fiche séparément, sans dépasser la limite de 1 Mo par document.
+    for (const account of current) {
+      const id = String(account._cloudId);
+      const data = { ...account };
+      delete data._cloudId;
+      await col.doc(id).set({
+        account: data,
+        updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
+        schemaVersion: 2
+      });
+    }
+    // Supprime du cloud les fiches qui ont été supprimées localement.
+    const existing = await col.get();
+    const wanted = new Set(current.map(a => String(a._cloudId)));
+    const batch = cloudDb.batch();
+    let deletes = 0;
+    existing.forEach(doc => {
+      if (!wanted.has(doc.id)) { batch.delete(doc.ref); deletes++; }
     });
-    setCloudStatus("✅ Synchronisation envoyée. Tes données sont disponibles avec ce même compte Google sur l’autre GSM.");
-    if (!silent) alert("Données envoyées vers Google.");
+    if (deletes) await batch.commit();
+    // Conserve les identifiants et les photos compressées localement.
+    accounts = current;
+    saveData();
+    updateUserCount();
+    renderAccounts();
+    setCloudStatus("✅ " + current.length + " accès synchronisé(s) avec Google.");
+    if (!silent) alert("Données envoyées vers Google. Tu peux maintenant les récupérer sur l’autre GSM.");
   } catch (e) {
+    console.error("Mes accès — synchronisation", e);
     setCloudStatus("Échec de synchronisation : " + (e.message || e));
-    if (!silent) alert("Impossible d’envoyer les données. Vérifie les règles Firestore et la taille des photos. " + (e.message || e));
+    if (!silent) alert("Impossible d’envoyer les données : " + (e.message || e));
   } finally {
     cloudLoading = false;
   }
@@ -3712,20 +3779,29 @@ async function downloadCloudData() {
   if (!confirm("Remplacer les accès enregistrés sur ce GSM par ceux du cloud Google ? Fais une sauvegarde avant si nécessaire.")) return;
   try {
     cloudLoading = true;
-    const snap = await cloudDocument().get();
-    if (!snap.exists || !Array.isArray(snap.data().accounts)) {
+    const snap = await cloudAccountsCollection().get();
+    if (snap.empty) {
       alert("Aucune sauvegarde Google trouvée pour ce compte.");
       return;
     }
-    accounts = snap.data().accounts;
+    const downloaded = [];
+    snap.forEach(doc => {
+      const value = doc.data();
+      if (value && value.account && typeof value.account === "object") {
+        downloaded.push({ ...value.account, _cloudId: doc.id });
+      }
+    });
+    downloaded.sort((a,b) => String(a.name || "").localeCompare(String(b.name || ""), "fr", { sensitivity:"base", numeric:true }));
+    accounts = downloaded;
     localStorage.setItem(STORAGE_KEY, JSON.stringify(accounts));
     updateUserCount();
     renderAccounts();
-    setCloudStatus("✅ Données récupérées depuis Google.");
-    alert("Données récupérées.");
+    setCloudStatus("✅ " + accounts.length + " accès récupéré(s) depuis Google.");
+    alert("Données récupérées sur ce GSM.");
   } catch (e) {
+    console.error("Mes accès — récupération", e);
     setCloudStatus("Échec de récupération : " + (e.message || e));
-    alert("Impossible de récupérer les données. Vérifie les règles Firestore. " + (e.message || e));
+    alert("Impossible de récupérer les données : " + (e.message || e));
   } finally {
     cloudLoading = false;
   }
