@@ -605,6 +605,29 @@ hr{
         <div style="font-size:12px;color:#666;margin-top:8px;">Les données synchronisées sont associées à ton compte Google. Les mots de passe sont enregistrés dans Firebase : utilise uniquement un compte personnel sécurisé.</div>
     </div>
 
+    <div class="card" id="xtreamConverterCard">
+        <h2>🔄 Convertir Xtream vers M3U</h2>
+        <p style="color:#666;font-size:14px;">Xtream to M3U Converter</p>
+
+        <label for="xtreamServer">URL du serveur</label>
+        <input id="xtreamServer" type="url" placeholder="http://serveur:port" autocomplete="url">
+
+        <label for="xtreamUsername">Utilisateur Xtream</label>
+        <input id="xtreamUsername" autocomplete="off" placeholder="Nom d'utilisateur">
+
+        <label for="xtreamPassword">Mot de passe Xtream</label>
+        <input id="xtreamPassword" type="password" autocomplete="new-password" placeholder="Mot de passe">
+
+        <button class="secondary" type="button" style="width:100%;margin-top:15px;" onclick="toggleXtreamPassword()">👁️ Afficher / masquer le mot de passe</button>
+        <button class="primary" type="button" onclick="convertXtreamToM3U()">🔄 Générer le lien M3U</button>
+
+        <label for="xtreamM3uOutput">Lien M3U généré</label>
+        <textarea id="xtreamM3uOutput" class="copyValue" readonly placeholder="Le lien généré apparaîtra ici."></textarea>
+
+        <button class="secondary" type="button" style="width:100%;margin-top:10px;" onclick="copyXtreamM3U(this)">📋 Copier le lien M3U</button>
+        <p style="font-size:12px;color:#666;line-height:1.4;">Les informations saisies ne sont pas enregistrées par ce convertisseur. Le lien généré contient toutefois tes identifiants.</p>
+    </div>
+
     <div class="topButtons">
 
         <button
@@ -2495,6 +2518,67 @@ function normalizeUrl(url){
 
     return "https://" + value;
 
+}
+
+
+/* =========================
+   CONVERTISSEUR XTREAM VERS M3U
+========================= */
+
+function toggleXtreamPassword(){
+    const field = document.getElementById("xtreamPassword");
+    field.type = field.type === "password" ? "text" : "password";
+}
+
+function convertXtreamToM3U(){
+    const serverField = document.getElementById("xtreamServer");
+    const usernameField = document.getElementById("xtreamUsername");
+    const passwordField = document.getElementById("xtreamPassword");
+    const output = document.getElementById("xtreamM3uOutput");
+
+    const server = serverField.value.trim().replace(/\/+$/, "");
+    const username = usernameField.value.trim();
+    const password = passwordField.value;
+
+    if(!server || !username || !password){
+        alert("Remplis l'URL du serveur, l'utilisateur et le mot de passe.");
+        return;
+    }
+
+    let parsed;
+    try{
+        parsed = new URL(server);
+    }catch(error){
+        alert("L'URL du serveur est invalide.");
+        return;
+    }
+
+    if(!["http:", "https:"].includes(parsed.protocol)){
+        alert("Utilise une adresse de serveur HTTP ou HTTPS.");
+        return;
+    }
+
+    // Accepte également une adresse se terminant par player_api.php.
+    parsed.pathname = parsed.pathname.replace(/\/player_api\.php\/?$/i, "");
+    parsed.search = "";
+    parsed.hash = "";
+
+    const base = parsed.href.replace(/\/+$/, "");
+    const m3u = base + "/get.php" +
+        "?username=" + encodeURIComponent(username) +
+        "&password=" + encodeURIComponent(password) +
+        "&type=m3u_plus&output=ts";
+
+    output.value = m3u;
+}
+
+function copyXtreamM3U(button){
+    const output = document.getElementById("xtreamM3uOutput");
+    if(!output.value.trim()){
+        alert("Génère d'abord le lien M3U.");
+        return;
+    }
+    copyText(output.value, button);
 }
 
 
