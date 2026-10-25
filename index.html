@@ -678,6 +678,14 @@ body { padding-bottom: calc(76px + env(safe-area-inset-bottom, 0px)) !important;
             📂 Restaurer
         </button>
 
+        <button
+            class="secondary"
+            type="button"
+            onclick="lockMesAcces()"
+        >
+            🔒 Verrouiller
+        </button>
+
         <input
             type="file"
             id="importFile"
@@ -1201,6 +1209,56 @@ function saveData(){
 
 
 /* =========================
+   SESSION DEVERROUILLEE 30 MINUTES
+========================= */
+const SESSION_KEY = "mesAccesUnlockedAt_v1";
+const SESSION_DURATION_MS = 30 * 60 * 1000;
+
+function startUnlockedSession(){
+    try { localStorage.setItem(SESSION_KEY, String(Date.now())); } catch(error) {}
+}
+
+function isUnlockedSessionValid(){
+    try {
+        const raw = localStorage.getItem(SESSION_KEY);
+        if(!raw) return false;
+        const started = Number(raw);
+        return Number.isFinite(started) && started > 0 &&
+            Date.now() - started < SESSION_DURATION_MS &&
+            Date.now() >= started;
+    } catch(error) {
+        return false;
+    }
+}
+
+function showLoginScreen(){
+    try { localStorage.removeItem(SESSION_KEY); } catch(error) {}
+    document.getElementById("loginScreen").classList.remove("hidden");
+    document.getElementById("pinInput").value = "";
+    document.getElementById("loginError").classList.add("hidden");
+}
+
+function lockIfSessionExpired(){
+    const loginScreen = document.getElementById("loginScreen");
+    if(!loginScreen.classList.contains("hidden")) return;
+    if(!isUnlockedSessionValid()) showLoginScreen();
+}
+
+function lockMesAcces(){
+    showLoginScreen();
+    document.getElementById("pinInput").focus();
+}
+
+window.addEventListener("pageshow", lockIfSessionExpired);
+window.addEventListener("focus", lockIfSessionExpired);
+document.addEventListener("visibilitychange", function(){
+    if(document.visibilityState === "visible") lockIfSessionExpired();
+});
+
+setInterval(lockIfSessionExpired, 15000);
+
+
+/* =========================
    LOGIN
 ========================= */
 
@@ -1212,6 +1270,8 @@ function login(){
             .value;
 
     if(pin === PIN){
+
+        startUnlockedSession();
 
         document
             .getElementById("loginScreen")
@@ -3718,6 +3778,7 @@ async function loginWithFaceID(){
             return;
         }
 
+        startUnlockedSession();
         document.getElementById("loginScreen").classList.add("hidden");
         document.getElementById("loginError").classList.add("hidden");
         loadData();
@@ -3956,6 +4017,13 @@ setInterval(
 
 initCloudSync();
 loadData();
+
+/* Réutilise la session en cours uniquement si les 30 minutes ne sont pas écoulées. */
+if(isUnlockedSessionValid()){
+    document.getElementById("loginScreen").classList.add("hidden");
+}else{
+    showLoginScreen();
+}
 
 </script>
 
